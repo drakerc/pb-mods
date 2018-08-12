@@ -16,7 +16,10 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('categories/{category}', function(\App\Category $category) {
-    return $category->toJson();
-});
-Route::get('/listing/{listing}', 'CategoryController@get_category_api');
+//Route::get('categories/{category}', function(\App\Category $category) {
+//    return $category->toJson();
+//});
+Route::get('/categories/', 'CategoryController@getCategoriesApi');
+Route::get('/categories/{category}', 'CategoryController@getCategoryApi');
+
+Route::get('/categories/{category}/subcategories', 'CategoryController@getSubcategoriesApi');

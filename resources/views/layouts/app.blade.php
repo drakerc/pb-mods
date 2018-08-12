@@ -17,6 +17,10 @@
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Raleway:300,400,600" rel="stylesheet" type="text/css">
 
+    <script type="text/javascript">
+        window.mods_model = "{!! addslashes(json_encode($model)) !!}"
+    </script>
+
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -34,7 +38,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-
+                        <li><a class="nav-link" href="{{ route('categories') }}">{{ __('Categories') }}</a></li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
@@ -67,8 +71,10 @@
             </div>
         </nav>
 
+        <script src="{{ asset('js/app.js') }}"></script>
+
         <main class="py-4">
-            @yield('content')
+            {{--@yield('content')--}}
         </main>
     </div>
 </body>

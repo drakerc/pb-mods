@@ -26,7 +26,7 @@ class CreateCategoriesTable extends Migration
 
 
         Schema::table('categories', function($table) {
-            $table->foreign('parent')->references('id')->on('users');
+            $table->foreign('parent')->references('id')->on('categories');
             $table->foreign('author')->references('id')->on('users');
             $table->foreign('image')->references('id')->on('files');
         });
