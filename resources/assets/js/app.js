@@ -18,6 +18,9 @@ import Category from './components/Category';
  */
 
 
+// Vue.component('secret-tree-view', require('./components/SecretTreeView'));
+// Vue.component('secret-tree-view-item', require('./components/SecretTreeViewItem'));
+
 const app = new Vue({
     el: '#app',
     render: h => h(Category)
