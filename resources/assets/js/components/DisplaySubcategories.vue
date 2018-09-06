@@ -1,19 +1,19 @@
 <template>
     <div>
-        <div v-for="(value, index) in subcategories">
-            <p>tytuł: {{ value.title }}</p>
-            <p>opis: {{ value.description }}</p>
+        <ul v-for="(value, index) in subcategories">
+            <li>
+                <a :href="'/categories/' + value.id">{{ value.title }} ({{ value.subcategoriesCount }} podkategorie)</a>
+                <a href="#" v-if="value.subcategories === undefined && value.subcategoriesCount > 0" @click="getSubcategories(index, value.id)">
+                    [+]
+            </a>
+            </li>
 
-            <div v-if="value.subcategories === undefined">
-                <div @click="getSubcategories(index, value.id)">Rozwiń podkategorie tej podkategorii</div>
-            </div>
-
-            <div v-for="child in value.children">
-                <display-subcategories :categories="[child]"></display-subcategories>
-            </div>
-
-            <hr>
-        </div>
+            <ul v-if="value.children">
+                <div v-for="child in value.children">
+                    <display-subcategories :categories="[child]"></display-subcategories>
+                </div>
+            </ul>
+        </ul>
     </div>
 </template>
 

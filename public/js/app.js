@@ -48010,41 +48010,50 @@ var render = function() {
   return _c(
     "div",
     _vm._l(_vm.subcategories, function(value, index) {
-      return _c(
-        "div",
-        [
-          _c("p", [_vm._v("tytuł: " + _vm._s(value.title))]),
-          _vm._v(" "),
-          _c("p", [_vm._v("opis: " + _vm._s(value.description))]),
-          _vm._v(" "),
-          value.subcategories === undefined
-            ? _c("div", [
-                _c(
-                  "div",
-                  {
-                    on: {
-                      click: function($event) {
-                        _vm.getSubcategories(index, value.id)
-                      }
-                    }
-                  },
-                  [_vm._v("Rozwiń podkategorie tej podkategorii")]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm._l(value.children, function(child) {
-            return _c(
-              "div",
-              [_c("display-subcategories", { attrs: { categories: [child] } })],
-              1
+      return _c("ul", [
+        _c("li", [
+          _c("a", { attrs: { href: "/categories/" + value.id } }, [
+            _vm._v(
+              _vm._s(value.title) +
+                " (" +
+                _vm._s(value.subcategoriesCount) +
+                " podkategorie)"
             )
-          }),
+          ]),
           _vm._v(" "),
-          _c("hr")
-        ],
-        2
-      )
+          value.subcategories === undefined && value.subcategoriesCount > 0
+            ? _c(
+                "a",
+                {
+                  attrs: { href: "#" },
+                  on: {
+                    click: function($event) {
+                      _vm.getSubcategories(index, value.id)
+                    }
+                  }
+                },
+                [_vm._v("\n                [+]\n        ")]
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        value.children
+          ? _c(
+              "ul",
+              _vm._l(value.children, function(child) {
+                return _c(
+                  "div",
+                  [
+                    _c("display-subcategories", {
+                      attrs: { categories: [child] }
+                    })
+                  ],
+                  1
+                )
+              })
+            )
+          : _vm._e()
+      ])
     })
   )
 }

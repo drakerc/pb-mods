@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
+    public $subCount;
+
+    protected $appends = ['subcategoriesCount'];
     /**
      * Fetches subcategories of a category.
      *
-     * @param $category
      * @return array
      */
     public function getSubcategories()
     {
-//        $category = $id === null ? $this : Category::where('id', $id)->one();
         $categories = [];
         $subCategories = Category::where('parent', $this->id)->get();
 
@@ -22,5 +23,10 @@ class Category extends Model
             $categories[] = $subCategory;
         }
         return $categories;
+    }
+
+    public function getSubcategoriesCountAttribute()
+    {
+        return Category::where('parent', $this->id)->count();
     }
 }
