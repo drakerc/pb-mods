@@ -13179,7 +13179,7 @@ jQuery.offset = {
 
 		if ( isFunction( options ) ) {
 
-			// Use jQuery.extend here to allow modification of coordinates argument (gh-1848)
+			// Use jQuery.extend here to allow modificationController of coordinates argument (gh-1848)
 			options = options.call( elem, i, jQuery.extend( {}, curOffset ) );
 		}
 

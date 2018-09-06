@@ -21,5 +21,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //});
 Route::get('/categories/', 'CategoryController@getCategoriesApi');
 Route::get('/categories/{category}', 'CategoryController@getCategoryApi');
-
 Route::get('/categories/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
+
+Route::get('/modifications/{mod}', 'ModificationController@getModificationApi');

@@ -22,3 +22,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
 Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');
+
+
+Route::get('/modifications/{mod}', 'ModificationController@getModificationWeb');
+Route::get('/modifications/create', 'ModificationController@getModificationWeb');

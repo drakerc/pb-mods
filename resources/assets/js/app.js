@@ -16,11 +16,6 @@ import Category from './components/Category';
  * the page. Then, you may begin adding components to this application
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
-
-
-// Vue.component('secret-tree-view', require('./components/SecretTreeView'));
-// Vue.component('secret-tree-view-item', require('./components/SecretTreeViewItem'));
-
 const app = new Vue({
     el: '#app',
     render: h => h(Category)
