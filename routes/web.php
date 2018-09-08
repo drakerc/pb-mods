@@ -17,12 +17,14 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/', 'HomeController@index')->name('home');
+//Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/', 'HomeController@index')->name('home');
 
-Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
-Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');
-
+Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesWeb')->name('GameModsCategories');
+Route::get('/mods/category/{category}', 'CategoryController@getCategoryWeb');
 
 Route::get('/modifications/{mod}', 'ModificationController@getModificationWeb');
 Route::get('/modifications/create', 'ModificationController@getModificationWeb');
+
+//Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
+//Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');

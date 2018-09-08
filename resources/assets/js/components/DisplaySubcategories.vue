@@ -2,10 +2,12 @@
     <div>
         <ul v-for="(value, index) in subcategories">
             <li>
-                <a :href="'/categories/' + value.id">{{ value.title }} ({{ value.subcategoriesCount }} podkategorie)</a>
+                <router-link :to="{ name: 'mods_category', params: { category: value.id } }">
+                    {{ value.title }} ({{ value.subcategoriesCount }} podkategorie)
+                </router-link>
                 <a href="#" v-if="value.subcategories === undefined && value.subcategoriesCount > 0" @click="getSubcategories(index, value.id)">
                     [+]
-            </a>
+                </a>
             </li>
 
             <ul v-if="value.children">
@@ -42,7 +44,7 @@
         },
         methods: {
             getSubcategories: function (id, categoryId) {
-                axios.get('/api/categories/' + categoryId + '/subcategories').then(response => {
+                axios.get('/api/mods/category/' + categoryId + '/subcategories').then(response => {
                     this.subcategories[id].children = response.data;
                     this.subcategories[id].updated_at = 'now';
                     var newVal = Object.assign({}, this.subcategories[id], {subcategories: true});

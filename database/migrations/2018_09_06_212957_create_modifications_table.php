@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Modification extends Migration
+class CreateModificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -28,7 +28,6 @@ class Modification extends Migration
             $table->string('font_color');
             $table->integer('development_studio')->unsigned()->nullable();
             $table->boolean('use_game_background')->default(true);
-            $table->timestamps();
         });
 
 

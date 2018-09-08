@@ -21,7 +21,12 @@ class CreateCategoriesTable extends Migration
             $table->integer('author')->unsigned()->nullable();;
             $table->integer('image')->unsigned()->nullable();;
             $table->boolean('game_category')->default(true);
+            $table->integer('game')->unsigned()->nullable();;
             $table->timestamps();
+            $table->string('thumbnail')->nullable();
+            $table->string('background')->nullable();
+            // if game_category is false and parent is null, that means that a category is selected game's main mods category
+            // however, game foreign key is needed in such cases so it's faster to find a suitable category
         });
 
 
@@ -29,6 +34,7 @@ class CreateCategoriesTable extends Migration
             $table->foreign('parent')->references('id')->on('categories');
             $table->foreign('author')->references('id')->on('users');
             $table->foreign('image')->references('id')->on('files');
+            $table->foreign('game')->references('id')->on('games');
         });
     }
 

@@ -16,13 +16,7 @@ class Category extends Model
      */
     public function getSubcategories()
     {
-        $categories = [];
-        $subCategories = Category::where('parent', $this->id)->get();
-
-        foreach ($subCategories as $subCategory) {
-            $categories[] = $subCategory;
-        }
-        return $categories;
+        return Category::where('parent', $this->id)->get();
     }
 
     public function getSubcategoriesCountAttribute()

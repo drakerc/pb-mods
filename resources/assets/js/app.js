@@ -9,7 +9,8 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-import Category from './components/Category';
+import router from './router';
+import App from './components/App';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -18,5 +19,9 @@ import Category from './components/Category';
  */
 const app = new Vue({
     el: '#app',
-    render: h => h(Category)
+    render: h => h(App),
+    router
 });
+
+var VueTruncate = require('vue-truncate-filter')
+Vue.use(VueTruncate)
