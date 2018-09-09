@@ -17,4 +17,9 @@ class Post extends Model
     {
         return $this->belongsToMany('App\File', 'posts_files', 'file_id', 'post_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'comment_id', 'id');
+    }
 }

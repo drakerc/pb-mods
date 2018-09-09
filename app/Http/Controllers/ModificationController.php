@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modification;
+use App\Modification;
 
 class modificationController extends Controller
 {

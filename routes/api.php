@@ -29,3 +29,5 @@ Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryAp
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 
 Route::get('/modifications/{mod}', 'ModificationController@getModificationApi');
+
+Route::get('/post/{id}/comments', 'CommentController@getForPostId');

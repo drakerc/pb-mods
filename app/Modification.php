@@ -4,6 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class modification extends Model
+class Modification extends Model
 {
 }
