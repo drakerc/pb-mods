@@ -32,18 +32,20 @@
         data() {
             return {
                 category: [],
+                testString: '',
             }
-        },
-        beforeRouteUpdate (to, from, next) {
-            axios.get(`/api/mods/category/` + to.params['category'] ).then(({ data }) => {
-                this.category = data['category'];
-            });
-            // TODO: subcategories don't reload, fix
-            next()
         },
         components: {
             DisplayTimestamps,
             DisplaySubcategories,
+        },
+        mounted() {
+            if (this.category.length === 0) {
+                // This is a really stupid hack that will fetch data when a route's param (ID) changes, as Vue does not reload anything then
+                axios.get(`/api/mods/category/` + this.$route.params['category']).then(({data}) => {
+                    this.category = data['category'];
+                });
+            }
         },
         methods: {
             assignData({category}) {

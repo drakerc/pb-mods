@@ -6,7 +6,7 @@
                 <!--<h1>Mods</h1>-->
             <!--</router-link>-->
         </div>
-        <router-view></router-view>
+        <router-view :key="$route.fullPath"></router-view>
         <vue-footer></vue-footer>
     </div>
 </template>

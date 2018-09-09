@@ -18,5 +18,5 @@ export default {
         getData(to).then((data) => {
             next(component => component.assignData(data));
         });
-    }
+    },
 };
