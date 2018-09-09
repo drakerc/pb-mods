@@ -23,5 +23,5 @@ const app = new Vue({
     router
 });
 
-var VueTruncate = require('vue-truncate-filter')
-Vue.use(VueTruncate)
+var VueTruncate = require('vue-truncate-filter');
+Vue.use(VueTruncate);
