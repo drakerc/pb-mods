@@ -20,7 +20,7 @@ class CreateFilesTable extends Migration
             $table->integer('file_size');
             $table->integer('downloads')->default(0);
             $table->boolean('availability')->default(true);
-            $table->integer('uploader_id')->unsigned()->nullable();;
+            $table->integer('uploader_id')->unsigned()->nullable();
             $table->timestamps();
         });
 
