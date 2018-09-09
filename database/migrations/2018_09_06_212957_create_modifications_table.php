@@ -19,20 +19,20 @@ class CreateModificationsTable extends Migration
             $table->text('description');
             $table->integer('development_status')->default(0); // 0 - not yet started, 1 - in progress, 2 - testing, 3 - released, 4 - paused
             $table->integer('size')->default(0); // 0 - small (replaces something), 1 - medium - adds significant changes, 2 - big - completely rehauls a game
-            $table->string('replaces'); // replaces what
-            $table->string('version');
+            $table->string('replaces')->nullable(); // replaces what
+            $table->string('version')->default('0.1');
             $table->timestamps();
-            $table->date('release_date');
+            $table->date('release_date')->nullable()->default(date('Y-m-d'));
             $table->integer('game_id')->unsigned()->nullable();
             $table->integer('category_id')->unsigned()->nullable();
-            $table->string('font_color');
+            $table->string('font_color')->nullable();
             $table->integer('development_studio')->unsigned()->nullable();
             $table->boolean('use_game_background')->default(true);
         });
 
 
         Schema::table('modifications', function($table) {
-//            $table->foreign('game_id')->references('id')->on('games'); // not yet created
+            $table->foreign('game_id')->references('id')->on('games');
             $table->foreign('category_id')->references('id')->on('categories');
 //            $table->foreign('development_studio')->references('id')->on('development_studios'); // not yet created
         });

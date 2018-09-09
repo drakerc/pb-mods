@@ -23,4 +23,15 @@ class Category extends Model
     {
         return Category::where('parent', $this->id)->count();
     }
+
+    public function getModificationsInCategory()
+    {
+        $mods = Modification::where(['category_id' => $this->id])->get();
+        $mods->transform(function($mod) {
+            $mod->size = $mod->getModificationSizeName();
+            $mod->development_status = $mod->getModificationDevStatus();
+            return $mod;
+        });
+        return $mods;
+    }
 }
