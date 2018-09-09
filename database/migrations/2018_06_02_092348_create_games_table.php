@@ -16,7 +16,14 @@ class CreateGamesTable extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
+            $table->timestamps();
+            $table->text('description');
+            $table->integer('logo_id')->unsigned()->nullable();
             // TODO: Błażej reszta
+        });
+
+        Schema::table('games', function (Blueprint $table) {
+            $table->foreign('logo_id')->references('id')->on('files');
         });
     }
 
@@ -27,6 +34,6 @@ class CreateGamesTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('games');
     }
 }
