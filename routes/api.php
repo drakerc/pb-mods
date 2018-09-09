@@ -24,8 +24,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::get('/categories/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 
 
-Route::get('/mods/:game', 'CategoryController@getGameModsCategoriesApi');
-Route::get('/mods/category/{category}', 'CategoryController@getCategoryApi');
+Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesApi');
+Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryApi');
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 
 Route::get('/modifications/{mod}', 'ModificationController@getModificationApi');

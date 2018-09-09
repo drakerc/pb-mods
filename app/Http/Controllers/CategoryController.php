@@ -14,13 +14,13 @@ class CategoryController extends Controller
         if ($request !== null) {
             return [
                 'categories' => $categories->toArray(),
-                'game' => $game->title,
+                'game' => $game->toArray(),
                 'path' => $request->getPathInfo()
             ];
         }
         return [
             'categories' => $categories->toArray(),
-            'game' => $game->title,
+            'game' => $game->toArray(),
         ];
     }
 
@@ -48,12 +48,12 @@ class CategoryController extends Controller
         return ['category' => $model];
     }
 
-    public function getCategoryApi(Category $category)
+    public function getCategoryApi(Game $game, Category $category)
     {
         return response()->json($this->setSubcategories($category));
     }
 
-    public function getCategoryWeb(Category $category)
+    public function getCategoryWeb(Game $game, Category $category)
     {
         return view('start', ['model' => $this->setSubcategories($category)]);
     }

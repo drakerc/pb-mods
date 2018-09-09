@@ -2,7 +2,7 @@
     <div>
         <ul v-for="(value, index) in subcategories">
             <li>
-                <router-link :to="{ name: 'mods_category', params: { category: value.id } }">
+                <router-link :to="{ name: 'mods_category', params: { game: gameid, category: value.id } }">
                     {{ value.title }} ({{ value.subcategoriesCount }} podkategorie)
                 </router-link>
                 <a href="#" v-if="value.subcategories === undefined && value.subcategoriesCount > 0" @click="getSubcategories(index, value.id)">
@@ -12,7 +12,7 @@
 
             <ul v-if="value.children">
                 <div v-for="child in value.children">
-                    <display-subcategories :categories="[child]"></display-subcategories>
+                    <display-subcategories :categories="[child]" :gameid="gameid"></display-subcategories>
                 </div>
             </ul>
         </ul>
@@ -24,7 +24,7 @@
     import axios from "axios";
 
     export default {
-        props: ['categories'],
+        props: ['categories', 'gameid'],
         components: {
             DisplaySubcategories,
         },
