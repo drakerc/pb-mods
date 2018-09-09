@@ -30,4 +30,7 @@ Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSub
 
 Route::get('/modifications/{mod}', 'ModificationController@getModificationApi');
 
+Route::resource('post','PostController');
+Route::resource('comment', 'CommentController');
+
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
