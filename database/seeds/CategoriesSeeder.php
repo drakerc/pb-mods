@@ -25,11 +25,11 @@ class CategoriesSeeder extends Seeder
             ['id' => 5, 'title' => 'Samochody osobowe', 'description' => 'Nowe osobówki, którymi może poruszać się CJ', 'parent' => 1, 'game_category' => false],
             ['id' => 6, 'title' => 'Samochody ciężarowe', 'description' => 'Nowe ciężarówki, którymi może poruszać się CJ', 'parent' => 1, 'game_category' => false],
         ]);
-        // Additional mods without a specified ID
+        // Additional mods categories without descriptions
         DB::table('categories')->insert([
-            ['title' => 'Audi', 'parent' => 5, 'game_category' => false],
-            ['title' => 'BMW', 'parent' => 5, 'game_category' => false],
-            ['title' => 'Scania', 'parent' => 6, 'game_category' => false],
+            ['id' => 7, 'title' => 'Audi', 'parent' => 5, 'game_category' => false],
+            ['id' => 8, 'title' => 'BMW', 'parent' => 5, 'game_category' => false],
+            ['id' => 9, 'title' => 'Scania', 'parent' => 6, 'game_category' => false],
         ]);
     }
 }

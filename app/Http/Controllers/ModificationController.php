@@ -2,18 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\Game;
+use App\Modification;
 use Illuminate\Http\Request;
-use Modification;
 
-class modificationController extends Controller
+class ModificationController extends Controller
 {
-    public function getModificationApi(Modification $modification)
+    private function prepareModificationArray(Modification $modification, Request $request = null)
     {
-        return response()->json($modification->toArray());
+        $modification->size = $modification->getModificationSizeName();
+        $modification->development_status = $modification->getModificationDevStatus();
+        if ($request !== null) {
+            return [
+                'mod' => $modification->toArray(),
+                'path' => $request->getPathInfo()
+            ];
+        }
+        return [
+            'mod' => $modification->toArray(),
+        ];
+    }
+    public function getModificationApi(Modification $mod)
+    {
+        return response()->json($this->prepareModificationArray($mod));
     }
 
-    public function getModificationWeb(Modification $modification)
+    public function getModificationWeb(Modification $mod, Request $request)
     {
-        return view('start', ['model' => $modification->toArray()]);
+        return view('start', ['model' => $this->prepareModificationArray($mod, $request)]);
+    }
+
+    public function getModificationsInCategoryApi(Category $category)
+    {
+        return response()->json(($category->getModificationsInCategory())->toArray());
     }
 }

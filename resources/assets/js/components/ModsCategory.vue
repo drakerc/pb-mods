@@ -21,7 +21,7 @@
             </div>
 
             <div class="mods">
-                <!--TODO: display mods-->
+                <category-mods :category="category.id"></category-mods>
             </div>
         </div>
     </div>
@@ -29,6 +29,7 @@
 <script>
     import DisplayTimestamps from './DisplayTimestamps';
     import DisplaySubcategories from './DisplaySubcategories';
+    import CategoryMods from './CategoryMods';
     import routeMixin from '../route-mixin.js';
 
     export default {
@@ -42,6 +43,7 @@
         components: {
             DisplayTimestamps,
             DisplaySubcategories,
+            CategoryMods,
         },
         mounted() {
             if (this.category.length === 0) {
