@@ -21,7 +21,7 @@ Auth::routes();
 //Route::get('/', 'HomeController@index')->name('home');
 
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesWeb')->name('GameModsCategories');
-Route::get('/mods/category/{category}', 'CategoryController@getCategoryWeb');
+Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryWeb');
 
 Route::get('/modifications/{mod}', 'ModificationController@getModificationWeb');
 Route::get('/modifications/create', 'ModificationController@getModificationWeb');

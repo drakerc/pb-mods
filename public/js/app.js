@@ -47711,7 +47711,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
     mode: 'history',
-    routes: [{ path: '/mods/:game', component: __WEBPACK_IMPORTED_MODULE_3__components_GameModsCategories_vue___default.a, name: 'game_mods' }, { path: '/mods/category/:category', component: __WEBPACK_IMPORTED_MODULE_2__components_ModsCategory_vue___default.a, name: 'mods_category' }],
+    routes: [{ path: '/mods/:game', component: __WEBPACK_IMPORTED_MODULE_3__components_GameModsCategories_vue___default.a, name: 'game_mods' }, { path: '/mods/:game/category/:category', component: __WEBPACK_IMPORTED_MODULE_2__components_ModsCategory_vue___default.a, name: 'mods_category' }],
     scrollBehavior: function scrollBehavior(to, from, savedPosition) {
         return { x: 0, y: 0 };
     }
@@ -50506,6 +50506,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -50529,7 +50533,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         if (this.category.length === 0) {
             // This is a really stupid hack that will fetch data when a route's param (ID) changes, as Vue does not reload anything then
-            axios.get('/api/mods/category/' + this.$route.params['category']).then(function (_ref) {
+            axios.get('/api/mods/' + this.$route.params['game'] + '/category/' + this.$route.params['category']).then(function (_ref) {
                 var data = _ref.data;
 
                 _this.category = data['category'];
@@ -50685,7 +50689,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['categories'],
+    props: ['categories', 'gameid'],
     components: {
         DisplaySubcategories: __WEBPACK_IMPORTED_MODULE_0__DisplaySubcategories___default.a
     },
@@ -50709,7 +50713,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getSubcategories: function getSubcategories(id, categoryId) {
             var _this = this;
 
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/mods/category/' + categoryId + '/subcategories').then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/mods/' + this.gameid + 'category/' + categoryId + '/subcategories').then(function (response) {
                 _this.subcategories[id].children = response.data;
                 _this.subcategories[id].updated_at = 'now';
                 var newVal = Object.assign({}, _this.subcategories[id], { subcategories: true });
@@ -50737,7 +50741,10 @@ var render = function() {
               "router-link",
               {
                 attrs: {
-                  to: { name: "mods_category", params: { category: value.id } }
+                  to: {
+                    name: "mods_category",
+                    params: { game: _vm.gameid, category: value.id }
+                  }
                 }
               },
               [
@@ -50808,53 +50815,77 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("div", { staticClass: "container" }, [
-      _vm.category.image !== null
-        ? _c("img", { attrs: { src: _vm.category.image } })
-        : _vm._e(),
-      _vm._v(" "),
-      _c("div", { staticClass: "heading" }, [
-        _c("h1", [_vm._v(_vm._s(_vm.category.title))]),
-        _vm._v(" "),
-        _c("p", [_vm._v(_vm._s(_vm.category.description))])
-      ]),
-      _vm._v(" "),
-      _c("hr"),
-      _vm._v(" "),
-      _c("div", { staticClass: "about" }, [
-        _vm.category.game_category === false && _vm.parent != null
-          ? _c("h3", [_vm._v("Mods for " + _vm._s(_vm.category.parent))])
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "lists" },
-        [
-          _c("display-timestamps", {
+    _c(
+      "div",
+      { staticClass: "container" },
+      [
+        _c(
+          "router-link",
+          {
             attrs: {
-              created_at: _vm.category.created_at,
-              updated_at: _vm.category.updated_at
+              to: {
+                name: "game_mods",
+                params: {
+                  game: _vm.$route.params["game"],
+                  category: _vm.category.id
+                }
+              }
             }
-          })
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "category-tree" },
-        [
-          _vm.category.subcategories !== [] &&
-          _vm.category.subcategories !== undefined
-            ? _c("display-subcategories", {
-                attrs: { categories: _vm.category.subcategories }
-              })
-            : _vm._e()
-        ],
-        1
-      )
-    ])
+          },
+          [
+            _c("a", { attrs: { href: "#" } }, [
+              _vm._v("Wróć do głównej strony modów do tej gry")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _vm.category.image !== null
+          ? _c("img", { attrs: { src: _vm.category.image } })
+          : _vm._e(),
+        _vm._v(" "),
+        _c("div", { staticClass: "heading" }, [
+          _c("h1", [_vm._v(_vm._s(_vm.category.title))]),
+          _vm._v(" "),
+          _c("p", [_vm._v(_vm._s(_vm.category.description))])
+        ]),
+        _vm._v(" "),
+        _c("hr"),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "lists" },
+          [
+            _c("display-timestamps", {
+              attrs: {
+                created_at: _vm.category.created_at,
+                updated_at: _vm.category.updated_at
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "category-tree" },
+          [
+            _vm.category.subcategories !== [] &&
+            _vm.category.subcategories !== undefined
+              ? _c("display-subcategories", {
+                  attrs: {
+                    categories: _vm.category.subcategories,
+                    gameid: _vm.$route.params["game"]
+                  }
+                })
+              : _vm._e()
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "mods" })
+      ],
+      1
+    )
   ])
 }
 var staticRenderFns = []
@@ -50923,6 +50954,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__route_mixin_js__ = __webpack_require__(17);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameModsCategory_vue__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__GameModsCategory_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__GameModsCategory_vue__);
+//
 //
 //
 //
@@ -51072,7 +51104,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    props: ['category'],
+    props: ['category', 'gameid'],
     computed: {
         backgroundImageStyle: function backgroundImageStyle() {
             return {
@@ -51098,7 +51130,10 @@ var render = function() {
         "router-link",
         {
           attrs: {
-            to: { name: "mods_category", params: { category: _vm.category.id } }
+            to: {
+              name: "mods_category",
+              params: { game: _vm.gameid, category: _vm.category.id }
+            }
           }
         },
         [
@@ -51145,12 +51180,12 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("h2", [_vm._v("Modyfikacje do gry " + _vm._s(_vm.game))]),
+      _c("h2", [_vm._v("Modyfikacje do gry " + _vm._s(_vm.game.title))]),
       _vm._v(" "),
       _vm._l(_vm.categories, function(category) {
         return _c("game-mods-category", {
           key: category.id,
-          attrs: { category: category }
+          attrs: { category: category, gameid: _vm.game.id }
         })
       })
     ],

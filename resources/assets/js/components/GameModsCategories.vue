@@ -1,11 +1,12 @@
 <template>
     <div>
-        <h2>Modyfikacje do gry {{ game }}</h2>
+        <h2>Modyfikacje do gry {{ game.title }}</h2>
 
         <game-mods-category
                 v-for="category in categories"
                 :key="category.id"
                 :category="category"
+                :gameid="game.id"
         ></game-mods-category>
     </div>
 </template>

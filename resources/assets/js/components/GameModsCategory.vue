@@ -1,6 +1,6 @@
 <template>
     <div class="listing-summary">
-        <router-link :to="{ name: 'mods_category', params: { category: category.id } }">
+        <router-link :to="{ name: 'mods_category', params: { game: gameid, category: category.id } }">
             <div class="wrapper">
                 <div class="thumbnail" :style="backgroundImageStyle"></div>
                 <div class="info title">
@@ -13,7 +13,7 @@
 </template>
 <script>
     export default {
-        props: [ 'category' ],
+        props: [ 'category', 'gameid' ],
         computed: {
             backgroundImageStyle() {
                 return {
