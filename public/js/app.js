@@ -50713,7 +50713,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         getSubcategories: function getSubcategories(id, categoryId) {
             var _this = this;
 
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/mods/' + this.gameid + 'category/' + categoryId + '/subcategories').then(function (response) {
+            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/mods/category/' + categoryId + '/subcategories').then(function (response) {
                 _this.subcategories[id].children = response.data;
                 _this.subcategories[id].updated_at = 'now';
                 var newVal = Object.assign({}, _this.subcategories[id], { subcategories: true });
@@ -50784,7 +50784,7 @@ var render = function() {
                   "div",
                   [
                     _c("display-subcategories", {
-                      attrs: { categories: [child] }
+                      attrs: { categories: [child], gameid: _vm.gameid }
                     })
                   ],
                   1

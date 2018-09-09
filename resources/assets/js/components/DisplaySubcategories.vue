@@ -12,7 +12,7 @@
 
             <ul v-if="value.children">
                 <div v-for="child in value.children">
-                    <display-subcategories :categories="[child]"></display-subcategories>
+                    <display-subcategories :categories="[child]" :gameid="gameid"></display-subcategories>
                 </div>
             </ul>
         </ul>
@@ -44,7 +44,7 @@
         },
         methods: {
             getSubcategories: function (id, categoryId) {
-                axios.get('/api/mods/' + this.gameid + 'category/' + categoryId + '/subcategories').then(response => {
+                axios.get('/api/mods/category/' + categoryId + '/subcategories').then(response => {
                     this.subcategories[id].children = response.data;
                     this.subcategories[id].updated_at = 'now';
                     var newVal = Object.assign({}, this.subcategories[id], {subcategories: true});
