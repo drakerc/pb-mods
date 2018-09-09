@@ -45,6 +45,6 @@ class CreateModificationsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('modifications');
     }
 }

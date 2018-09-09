@@ -16,7 +16,7 @@ class CreateCategoriesTable extends Migration
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->integer('parent')->unsigned()->nullable();
             $table->integer('author')->unsigned()->nullable();;
             $table->integer('image')->unsigned()->nullable();;
@@ -28,7 +28,6 @@ class CreateCategoriesTable extends Migration
             // if game_category is false and parent is null, that means that a category is selected game's main mods category
             // however, game foreign key is needed in such cases so it's faster to find a suitable category
         });
-
 
         Schema::table('categories', function($table) {
             $table->foreign('parent')->references('id')->on('categories');
@@ -45,6 +44,7 @@ class CreateCategoriesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('categories');
     }
 }
