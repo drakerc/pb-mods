@@ -29,7 +29,7 @@ Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryAp
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');
 
-Route::get('/modifications/{mod}', 'ModificationController@getModificationApi');
+Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationApi');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
