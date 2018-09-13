@@ -13,8 +13,18 @@ class Post extends Model
         'body',
         'post_category_id'
     ];
+
     public function files()
     {
         return $this->belongsToMany('App\File', 'posts_files', 'file_id', 'post_id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'post_id', 'id');
+    }
+
+    public function getComments($value) {
+        return $value->comments();
     }
 }
