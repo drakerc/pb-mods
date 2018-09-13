@@ -37,7 +37,7 @@ class CategoryController extends Controller
             ];
         }
         return [
-            'category' => $category->toArray(),
+            'category' => $category === null ? null : $category->toArray(),
             'game' => $game->toArray(),
             'auth' => Auth::check()
         ];
@@ -92,9 +92,29 @@ class CategoryController extends Controller
         return view('start', ['model' => $this->prepareCategoryCreationInfo($game, $category, $request)]);
     }
 
-    public function createCategoryWeb()
+    public function createCategoryWeb(Request $request)
     {
-        $test = 1;
+        $category = new Category(
+            [
+                'title' => $request->title,
+                'description' => $request->description,
+                'game_category' => false,
+                'parent' => $request->categoryid !== '' ? (int)$request->category : null,
+                'author' => Auth::id(),
+                'game' => $request->gameid,
+                'active' => false // TODO: true if admin
+            ]);
+
+        if ($request->file('thumbnail') !== null) {
+            $category->thumbnail = $request->file('thumbnail')->store('category_thumbnails');
+        }
+
+        if ($request->file('background') !== null) {
+            $category->background = $request->file('thumbnail')->store('category_backgrounds');
+        }
+
+        $category->save();
+        return redirect()->route('ModCategory', ['game' => $request->gameid, 'category' => $category->id]);
     }
 
 

@@ -20,7 +20,7 @@
     export default {
         data() {
             return {
-                csrf_token: window.csrf_token
+                csrf_token: window.window.csrf_token
             }
         }
     }

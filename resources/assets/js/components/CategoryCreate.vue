@@ -46,6 +46,7 @@
                 game: '',
                 auth: '',
                 description: '',
+                csrf_token: window.window.csrf_token
             };
         },
         methods: {

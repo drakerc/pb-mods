@@ -25,3 +25,14 @@ const app = new Vue({
 
 var VueTruncate = require('vue-truncate-filter');
 Vue.use(VueTruncate);
+
+import axios from 'axios';
+
+axios.interceptors.response.use((response) => { // intercept the global error
+    return response
+}, function (error) {
+    if (error.response.status === 401) {
+        router.push({ name: 'login',}) // if user is not logged in, redirect him to login page
+    }
+    return Promise.reject(error)
+});
