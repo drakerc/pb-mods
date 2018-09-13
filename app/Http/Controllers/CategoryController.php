@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-//'auth' => Auth::check()
     private function prepareGameModsCategories(Game $game, Request $request = null)
     {
         $categories = $game->getModificationCategories();
@@ -24,6 +23,23 @@ class CategoryController extends Controller
         return [
             'categories' => $categories->toArray(),
             'game' => $game->toArray(),
+        ];
+    }
+
+    private function prepareCategoryCreationInfo(Game $game, Category $category = null, Request $request = null)
+    {
+        if ($request !== null) {
+            return [
+                'category' => $category === null ? null : $category->toArray(),
+                'game' => $game->toArray(),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ];
+        }
+        return [
+            'category' => $category->toArray(),
+            'game' => $game->toArray(),
+            'auth' => Auth::check()
         ];
     }
 
@@ -65,6 +81,22 @@ class CategoryController extends Controller
     {
         return $category->getSubcategories();
     }
+
+    public function getCategoryCreateApi(Game $game, Category $category = null)
+    {
+        return response()->json($this->prepareCategoryCreationInfo($game, $category));
+    }
+
+    public function getCategoryCreateWeb(Game $game, Category $category = null, Request $request)
+    {
+        return view('start', ['model' => $this->prepareCategoryCreationInfo($game, $category, $request)]);
+    }
+
+    public function createCategoryWeb()
+    {
+        $test = 1;
+    }
+
 
 //    public function getCategoriesApi()
 //    {

@@ -20,7 +20,10 @@ Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
+Route::post('/mods/create-category', 'CategoryController@createCategoryWeb')->name('CreateCategory');
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesWeb')->name('GameModsCategories');
+Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@getCategoryCreateWeb')->middleware('auth');
+
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryWeb');
 
 Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationWeb');

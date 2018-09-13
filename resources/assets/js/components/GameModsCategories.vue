@@ -1,5 +1,9 @@
 <template>
     <div>
+        <router-link :to="{ name: 'category_create', params: { game: game.id } }">
+            Stwórz nową kategorię
+        </router-link>
+
         <h2>Modyfikacje do gry {{ game.title }}</h2>
 
         <game-mods-category
