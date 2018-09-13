@@ -22,7 +22,8 @@ class ModificationsSeeder extends Seeder
                 'version' => '2.0',
                 'replaces' => 'Vincent',
                 'game_id' => 1,
-                'category_id' => 8
+                'category_id' => 8,
+                'active' => true,
             ],
             [
                 'id' => 2,
@@ -33,7 +34,8 @@ class ModificationsSeeder extends Seeder
                 'version' => '1.0',
                 'replaces' => 'Infernus',
                 'game_id' => 1,
-                'category_id' => 7
+                'category_id' => 7,
+                'active' => true,
             ],
             [
                 'id' => 3,
@@ -44,7 +46,20 @@ class ModificationsSeeder extends Seeder
                 'version' => '1.5',
                 'replaces' => 'Wszystkie bronie',
                 'game_id' => 2,
-                'category_id' => 2
+                'category_id' => 2,
+                'active' => true,
+            ],
+            [
+                'id' => 4,
+                'title' => 'Fałszywa modyfikacja',
+                'description' => 'Jest to modyfikacja stworzona przez jakiegoś użytkownika, która jest fałszywa i jest obecnie nieaktywna',
+                'development_status' => 3,
+                'size' => 2,
+                'version' => '1.1',
+                'replaces' => null,
+                'game_id' => 2,
+                'category_id' => 2,
+                'active' => false,
             ],
         ]);
     }

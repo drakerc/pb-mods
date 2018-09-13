@@ -35,3 +35,5 @@ Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
 
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
+
+Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');

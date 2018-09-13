@@ -28,6 +28,7 @@ class CreateModificationsTable extends Migration
             $table->string('font_color')->nullable();
             $table->integer('development_studio')->unsigned()->nullable();
             $table->boolean('use_game_background')->default(true);
+            $table->boolean('active')->default(true); // there's no risk for mods, so they'll be active after creation
         });
 
 
