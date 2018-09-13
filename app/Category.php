@@ -9,6 +9,11 @@ class Category extends Model
     public $subCount;
 
     protected $appends = ['subcategoriesCount'];
+
+    protected $fillable = [
+        'title', 'description', 'parent', 'image', 'game', 'thumbnail', 'background'
+    ];
+
     /**
      * Fetches subcategories of a category.
      *
@@ -16,17 +21,17 @@ class Category extends Model
      */
     public function getSubcategories()
     {
-        return Category::where('parent', $this->id)->get();
+        return Category::where(['parent' => $this->id, 'active' => true])->get();
     }
 
     public function getSubcategoriesCountAttribute()
     {
-        return Category::where('parent', $this->id)->count();
+        return Category::where(['parent' => $this->id, 'active' => true])->count();
     }
 
     public function getModificationsInCategory()
     {
-        $mods = Modification::where(['category_id' => $this->id])->get();
+        $mods = Modification::where(['category_id' => $this->id, 'active' => true])->get();
         $mods->transform(function($mod) {
             $mod->size = $mod->getModificationSizeName();
             $mod->development_status = $mod->getModificationDevStatus();

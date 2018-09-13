@@ -25,6 +25,7 @@ class CreateCategoriesTable extends Migration
             $table->timestamps();
             $table->string('thumbnail')->nullable();
             $table->string('background')->nullable();
+            $table->boolean('active')->default(false);
             // if game_category is false and parent is null, that means that a category is selected game's main mods category
             // however, game foreign key is needed in such cases so it's faster to find a suitable category
         });

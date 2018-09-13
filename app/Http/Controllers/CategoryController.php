@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
+//'auth' => Auth::check()
     private function prepareGameModsCategories(Game $game, Request $request = null)
     {
         $categories = $game->getModificationCategories();
@@ -15,7 +17,8 @@ class CategoryController extends Controller
             return [
                 'categories' => $categories->toArray(),
                 'game' => $game->toArray(),
-                'path' => $request->getPathInfo()
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
             ];
         }
         return [

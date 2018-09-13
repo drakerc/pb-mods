@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -18,13 +19,13 @@ class UsersTableSeeder extends Seeder
                     'id' => 1,
                     'name' => 'gallanonim',
                     'email' => 'gallanonim@anonim.com',
-                    'password' => 'anonim'
+                    'password' => Hash::make('anonim')
                 ],
                 [
                     'id' => 2,
                     'name' => 'anonymous_user',
                     'email' => 'anonymous@asdasd.com',
-                    'password' => 'somerandompassword'
+                    'password' => Hash::make('somerandompassword')
                 ]
             ]
         );

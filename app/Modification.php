@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modification extends Model
 {
+    protected $fillable = [
+        'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'game_id', 'category_id', 'font_color', 'development_studio', 'use_game_background'
+    ];
+
     public function getModificationSizeName()
     {
         if ($this->size === 0) {

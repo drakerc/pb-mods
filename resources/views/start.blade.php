@@ -7,6 +7,7 @@
     <title>Mods n stuff</title>
     <script type="text/javascript">
         window.mods_model = "{!! addslashes(json_encode($model)) !!}"
+        window.csrf_token = "{{ csrf_token() }}"
     </script>
 </head>
 <body>
