@@ -11,7 +11,7 @@ class Category extends Model
     protected $appends = ['subcategoriesCount'];
 
     protected $fillable = [
-        'title', 'description', 'parent', 'image', 'game', 'thumbnail', 'background'
+        'title', 'description', 'thumbnail', 'background'
     ];
 
     /**

@@ -19,7 +19,6 @@ class CreateCategoriesTable extends Migration
             $table->text('description')->nullable();
             $table->integer('parent')->unsigned()->nullable();
             $table->integer('author')->unsigned()->nullable();;
-            $table->integer('image')->unsigned()->nullable();;
             $table->boolean('game_category')->default(true);
             $table->integer('game')->unsigned()->nullable();;
             $table->timestamps();
@@ -33,7 +32,6 @@ class CreateCategoriesTable extends Migration
         Schema::table('categories', function($table) {
             $table->foreign('parent')->references('id')->on('categories');
             $table->foreign('author')->references('id')->on('users');
-            $table->foreign('image')->references('id')->on('files');
             $table->foreign('game')->references('id')->on('games');
         });
     }

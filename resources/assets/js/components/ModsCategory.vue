@@ -5,6 +5,10 @@
                 <a href="#">Wróć do głównej strony modów do tej gry</a>
             </router-link>
 
+            <router-link :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
+                Stwórz nową kategorię
+            </router-link>
+
             <img v-if="category.image !== null" :src="category.image"/>
             <div class="heading">
                 <h1>{{ category.title }}</h1>
