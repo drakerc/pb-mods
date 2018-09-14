@@ -20,7 +20,8 @@ class CreateModificationsTable extends Migration
             $table->integer('development_status')->default(0); // 0 - not yet started, 1 - in progress, 2 - testing, 3 - released, 4 - paused
             $table->integer('size')->default(0); // 0 - small (replaces something), 1 - medium - adds significant changes, 2 - big - completely rehauls a game
             $table->string('replaces')->nullable(); // replaces what
-            $table->string('version')->default('0.1');
+            $table->string('version')->nullable()->default('0.1');
+            $table->integer('creator')->unsigned()->nullable();;
             $table->timestamps();
             $table->date('release_date')->nullable()->default(date('Y-m-d'));
             $table->integer('game_id')->unsigned()->nullable();
@@ -35,6 +36,7 @@ class CreateModificationsTable extends Migration
         Schema::table('modifications', function($table) {
             $table->foreign('game_id')->references('id')->on('games');
             $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('creator')->references('id')->on('users');
 //            $table->foreign('development_studio')->references('id')->on('development_studios'); // not yet created
         });
     }

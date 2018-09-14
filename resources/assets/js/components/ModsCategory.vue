@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="container">
+        <div class="container" :style="backgroundImageStyle">
             <router-link :to="{ name: 'game_mods', params: { game: $route.params['game'], category: category.id } }">
                 <a href="#">Wróć do głównej strony modów do tej gry</a>
             </router-link>
@@ -9,10 +9,14 @@
                 Stwórz nową kategorię
             </router-link>
 
+            <router-link :to="{ name: 'modification_create', params: { game: $route.params['game'], category: category.id } }">
+                Stwórz nową modyfikację
+            </router-link>
+
             <img v-if="category.image !== null" :src="category.image"/>
             <div class="heading">
                 <h1>{{ category.title }}</h1>
-                <p>{{ category.description }}</p>
+                <div v-html="category.description"></div>
             </div>
             <hr>
             <div class="lists">
@@ -55,6 +59,13 @@
                 axios.get('/api/mods/' + this.$route.params['game'] + '/category/' + this.$route.params['category']).then(({data}) => {
                     this.category = data['category'];
                 });
+            }
+        },
+        computed: {
+            backgroundImageStyle() {
+                return {
+                    'background-image': `url("${this.category.background}")`
+                }
             }
         },
         methods: {

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :style="backgroundImageStyle">
         <router-link :to="{ name: 'category_create', params: { game: game.id } }">
             Stwórz nową kategorię
         </router-link>
@@ -30,6 +30,13 @@
                 this.categories = categories;
                 this.game = game;
             },
+        },
+        computed: {
+            backgroundImageStyle() {
+                return {
+                    'background-image': `url("${this.game.background}")`
+                }
+            }
         },
         components: {
             GameModsCategory

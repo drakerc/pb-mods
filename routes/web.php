@@ -26,8 +26,9 @@ Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@getCa
 
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryWeb')->name('ModCategory');
 
-Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationWeb');
-Route::get('/modifications/create', 'ModificationController@getModificationWeb');
+Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationWeb')->name('ModificationView');
+Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@getModificationCreateWeb');
+Route::post('/mods/create-modification', 'ModificationController@createModificationWeb');
 
 //Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
 //Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');

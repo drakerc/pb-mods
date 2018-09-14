@@ -12,6 +12,17 @@ class CategoryController extends Controller
     private function prepareGameModsCategories(Game $game, Request $request = null)
     {
         $categories = $game->getModificationCategories();
+
+        $categories->transform(function($cat) {
+            $cat['background'] = asset(
+                'storage/' . $cat['background']
+            );
+            $cat['thumbnail'] = asset(
+                'storage/' . $cat['thumbnail']
+            );
+            return $cat;
+        });
+
         if ($request !== null) {
             return [
                 'categories' => $categories->toArray(),
@@ -57,6 +68,12 @@ class CategoryController extends Controller
     {
         $model = $category->toArray();
         $model['subcategories'] = $category->getSubcategories();
+        $model['background'] = asset(
+            'storage/' . $model['background']
+        );
+        $model['thumbnail'] = asset(
+            'storage/' . $model['thumbnail']
+        );
 
         if ($request !== null) {
             return [
@@ -106,51 +123,14 @@ class CategoryController extends Controller
             ]);
 
         if ($request->file('thumbnail') !== null) {
-            $category->thumbnail = $request->file('thumbnail')->store('category_thumbnails');
+            $category->thumbnail = $request->file('thumbnail')->store('category_thumbnails', ['disk' => 'public']);
         }
 
         if ($request->file('background') !== null) {
-            $category->background = $request->file('thumbnail')->store('category_backgrounds');
+            $category->background = $request->file('thumbnail')->store('category_backgrounds', ['disk' => 'public']);
         }
 
         $category->save();
         return redirect()->route('ModCategory', ['game' => $request->gameid, 'category' => $category->id]);
     }
-
-
-//    public function getCategoriesApi()
-//    {
-//        $results = [];
-//        foreach (Category::all() as $category) {
-//            $results[] = $this->setSubcategories($category);
-//        }
-//        return response()->json($results);
-//    }
-//
-//    public function getCategoriesWeb()
-//    {
-//        $results = [];
-//        foreach (Category::all() as $category) {
-//            $results[] = $this->setSubcategories($category);
-//        }
-//        return view('start', ['model' => $results]);
-//    }
-//
-//    public function getMainCategoriesApi()
-//    {
-//        $results = [];
-//        foreach (Category::where('parent', null)->get() as $category) {
-//            $results[] = $this->setSubcategories($category);
-//        }
-//        return response()->json($results);
-//    }
-//
-//    public function getMainCategoriesWeb()
-//    {
-//        $results = [];
-//        foreach (Category::where('parent', null)->get() as $category) {
-//            $results[] = $this->setSubcategories($category);
-//        }
-//        return view('start', ['model' => $results]);
-//    }
 }
