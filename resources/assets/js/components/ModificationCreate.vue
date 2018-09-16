@@ -76,7 +76,6 @@
         mixins: [ routeMixin ],
         components: {
             VueEditor,
-            vSelect,
             Datepicker,
             Multiselect
         },

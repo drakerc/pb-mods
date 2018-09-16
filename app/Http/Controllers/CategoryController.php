@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    private function prepareGameModsCategories(Game $game, Request $request = null)
+    private function prepareGameModsCategories(Game $game, Request $request)
     {
         $categories = $game->getModificationCategories();
 
@@ -23,48 +23,39 @@ class CategoryController extends Controller
             return $cat;
         });
 
-        if ($request !== null) {
+        if ($request->ajax()) {
             return [
                 'categories' => $categories->toArray(),
                 'game' => $game->toArray(),
-                'path' => $request->getPathInfo(),
-                'auth' => Auth::check()
             ];
         }
+
         return [
             'categories' => $categories->toArray(),
             'game' => $game->toArray(),
+            'path' => $request->getPathInfo(),
+            'auth' => Auth::check()
         ];
     }
 
-    private function prepareCategoryCreationInfo(Game $game, Category $category = null, Request $request = null)
+    private function prepareCategoryCreationInfo(Game $game, Category $category = null, Request $request)
     {
-        if ($request !== null) {
+        if ($request->ajax()) {
             return [
                 'category' => $category === null ? null : $category->toArray(),
                 'game' => $game->toArray(),
-                'path' => $request->getPathInfo(),
                 'auth' => Auth::check()
             ];
         }
         return [
             'category' => $category === null ? null : $category->toArray(),
             'game' => $game->toArray(),
+            'path' => $request->getPathInfo(),
             'auth' => Auth::check()
         ];
     }
 
-    public function getGameModsCategoriesApi(Game $game)
-    {
-        return response()->json($this->prepareGameModsCategories($game));
-    }
-
-    public function getGameModsCategoriesWeb(Game $game, Request $request)
-    {
-        return view('start', ['model' => $this->prepareGameModsCategories($game, $request)]);
-    }
-
-    private function setSubcategories(Category $category, Request $request = null)
+    private function setSubcategories(Category $category, Request $request)
     {
         $model = $category->toArray();
         $model['subcategories'] = $category->getSubcategories();
@@ -75,23 +66,29 @@ class CategoryController extends Controller
             'storage/' . $model['thumbnail']
         );
 
-        if ($request !== null) {
-            return [
-                'path' => $request->getPathInfo(),
-                'category' => $model
-            ];
+        if ($request->ajax()) {
+            return ['category' => $model];
         }
-        return ['category' => $model];
+        return [
+            'path' => $request->getPathInfo(),
+            'category' => $model
+        ];
     }
 
-    public function getCategoryApi(Game $game, Category $category)
+    public function getGameModsCategories(Game $game, Request $request)
     {
-        return response()->json($this->setSubcategories($category));
+        if ($request->ajax()) {
+            return response()->json($this->prepareGameModsCategories($game, $request));
+        }
+        return view('start', ['model' => $this->prepareGameModsCategories($game, $request)]);
     }
 
-    public function getCategoryWeb(Game $game, Category $category)
+    public function getCategory(Game $game, Category $category, Request $request)
     {
-        return view('start', ['model' => $this->setSubcategories($category)]);
+        if ($request->ajax()) {
+            return response()->json($this->setSubcategories($category, $request));
+        }
+        return view('start', ['model' => $this->setSubcategories($category, $request)]);
     }
 
     public function getSubcategoriesApi(Category $category)
@@ -99,18 +96,15 @@ class CategoryController extends Controller
         return $category->getSubcategories();
     }
 
-    public function getCategoryCreateApi(Game $game, Category $category = null)
+    public function createCategory(Game $game, Category $category = null, Request $request)
     {
-        return response()->json($this->prepareCategoryCreationInfo($game, $category));
-    }
+        if ($request->ajax()) {
+            return response()->json($this->prepareCategoryCreationInfo($game, $category, $request));
+        }
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => $this->prepareCategoryCreationInfo($game, $category, $request)]);
+        }
 
-    public function getCategoryCreateWeb(Game $game, Category $category = null, Request $request)
-    {
-        return view('start', ['model' => $this->prepareCategoryCreationInfo($game, $category, $request)]);
-    }
-
-    public function createCategoryWeb(Request $request)
-    {
         $category = new Category(
             [
                 'title' => $request->title,

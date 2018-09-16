@@ -10,46 +10,45 @@ use Illuminate\Support\Facades\Auth;
 
 class ModificationController extends Controller
 {
-    private function prepareModificationArray(Modification $modification, Request $request = null)
+    private function prepareModificationArray(Modification $modification, Request $request)
     {
         $modification->size = $modification->getModificationSizeName();
         $modification->development_status = $modification->getModificationDevStatus();
-        if ($request !== null) {
+
+        if ($request->ajax()) {
             return [
                 'mod' => $modification->toArray(),
-                'path' => $request->getPathInfo()
             ];
         }
         return [
             'mod' => $modification->toArray(),
+            'path' => $request->getPathInfo()
         ];
     }
 
     // TODO: this is pretty much the same as prepareCategoryCreationInfo - maybe move to a helper?
-    private function prepareModificationCreationInfo(Game $game, Category $category, Request $request = null)
+    private function prepareModificationCreationInfo(Game $game, Category $category, Request $request)
     {
-        if ($request !== null) {
+        if ($request->ajax()) {
             return [
                 'category' => $category->toArray(),
                 'game' => $game->toArray(),
-                'path' => $request->getPathInfo(),
                 'auth' => Auth::check()
             ];
         }
         return [
             'category' => $category->toArray(),
             'game' => $game->toArray(),
+            'path' => $request->getPathInfo(),
             'auth' => Auth::check()
         ];
     }
 
-    public function getModificationApi(Modification $mod)
+    public function getModification(Modification $mod, Request $request)
     {
-        return response()->json($this->prepareModificationArray($mod));
-    }
-
-    public function getModificationWeb(Modification $mod, Request $request)
-    {
+        if ($request->ajax()) {
+            return response()->json($this->prepareModificationArray($mod, $request));
+        }
         return view('start', ['model' => $this->prepareModificationArray($mod, $request)]);
     }
 
@@ -58,18 +57,15 @@ class ModificationController extends Controller
         return response()->json(($category->getModificationsInCategory())->toArray());
     }
 
-    public function getModificationCreateApi(Game $game, Category $category)
+    public function createModification(Game $game = null, Category $category = null, Request $request)
     {
-        return response()->json($this->prepareModificationCreationInfo($game, $category));
-    }
+        if ($request->ajax()) {
+            return response()->json($this->prepareModificationCreationInfo($game, $category, $request));
+        }
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => $this->prepareModificationCreationInfo($game, $category, $request)]);
+        }
 
-    public function getModificationCreateWeb(Game $game, Category $category, Request $request)
-    {
-        return view('start', ['model' => $this->prepareModificationCreationInfo($game, $category, $request)]);
-    }
-
-    public function createModificationWeb(Request $request)
-    {
         $modification = new Modification(
             [
                 'title' => $request->title,
@@ -83,8 +79,8 @@ class ModificationController extends Controller
                 'category_id' => $request->category_id,
                 'font_color' => $request->font_color,
 //                'development_studio' => $request->development_studio,
-                'author' => Auth::id(),
             ]);
+        $modification->creator = Auth::id();
 
         $modification->save();
         return redirect()->route('ModificationView', ['mod' => $modification->id]);

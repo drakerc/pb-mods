@@ -20,15 +20,15 @@ Auth::routes();
 //Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::post('/mods/create-category', 'CategoryController@createCategoryWeb')->name('CreateCategory');
-Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesWeb')->name('GameModsCategories');
-Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@getCategoryCreateWeb')->middleware('auth');
+Route::post('/mods/create-category', 'CategoryController@createCategory')->name('CreateCategory');
+Route::get('/mods/{game}', 'CategoryController@getGameModsCategories')->name('GameModsCategories');
+Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory')->middleware('auth');
 
-Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryWeb')->name('ModCategory');
+Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory')->name('ModCategory');
 
-Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationWeb')->name('ModificationView');
-Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@getModificationCreateWeb');
-Route::post('/mods/create-modification', 'ModificationController@createModificationWeb');
+Route::get('/mods/modifications/{mod}', 'ModificationController@getModification')->name('ModificationView');
+Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@createModification');
+Route::post('/mods/create-modification', 'ModificationController@createModification');
 
 //Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
 //Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');
