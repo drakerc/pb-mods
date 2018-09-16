@@ -1,5 +1,8 @@
 <template>
     <div class="listing-summary">
+        <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
+            Edytuj tą modyfikację
+        </router-link>
         <div>{{ mod.title }}</div>
         <div>{{ mod.description }}</div>
         <div>{{ mod.development_status }}</div>
