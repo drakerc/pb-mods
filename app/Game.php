@@ -18,6 +18,10 @@ class Game extends Model
     }
 
     public function posts() {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('App\Post', 'game_id', 'id');
+    }
+
+    public function getPosts($value) {
+        return $value->posts();
     }
 }

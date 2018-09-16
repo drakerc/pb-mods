@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class GameController extends Controller
 {
@@ -14,7 +15,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Game::all());
     }
 
     /**
@@ -41,21 +42,26 @@ class GameController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Game  $game
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Game $game)
+    public function show($id)
     {
-        //
+        $game = Game::FindOrFail($id);
+        Log::debug($game->posts);
+        return response()->json($game);
+//        return response()->json([
+//           'game' => $game
+//        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Game  $game
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Game $game)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +70,10 @@ class GameController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Game  $game
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Game $game)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,11 +81,17 @@ class GameController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Game  $game
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Game $game)
+    public function destroy($id)
     {
         //
     }
+
+    public function indexWeb()
+    {
+        return view('game.start');
+    }
+
 }
