@@ -39,7 +39,7 @@
 
             <div class="form-control">
                 <p>Data wydania (pozostaw puste jeśli niewydane)</p>
-                <datepicker name="version"></datepicker>
+                <datepicker name="release_date"></datepicker>
             </div>
 
             <div class="form-control">

@@ -63,8 +63,8 @@ class ModificationController extends Controller
         return $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'development_status' => 'required|boolean|in:0,1,2,3,4',
-            'size' => 'required|boolean|in:0,1,2',
+            'development_status' => 'required|integer|in:0,1,2,3,4',
+            'size' => 'required|integer|in:0,1,2',
             'replaces' => 'string|max:100',
             'version' => 'string|max:20',
             'release_date' => 'date',
