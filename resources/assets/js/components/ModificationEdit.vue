@@ -127,7 +127,7 @@
                     return obj.value === mod.development_status;
                 });
                 this.description = mod.description;
-                this.release_date = mod.release_date === '' ? new Date() : new Date(mod.release_date) // TODO: make sure it works
+                this.release_date = mod.release_date === '' ? new Date() : new Date(mod.release_date);
             },
             deleteModification: function () {
                 axios.delete('/api/mods/modifications/' + this.mod.id + '/delete').then(response => {

@@ -3,6 +3,11 @@
         <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
             Edytuj tą modyfikację
         </router-link>
+
+        <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
+            Dodaj plik/i
+        </router-link>
+
         <div>{{ mod.title }}</div>
         <div>{{ mod.description }}</div>
         <div>{{ mod.development_status }}</div>

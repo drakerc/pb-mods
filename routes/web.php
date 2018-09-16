@@ -30,6 +30,9 @@ Route::get('/mods/modifications/{mod}', 'ModificationController@getModification'
 Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit')->name('ModificationUpdate');
 Route::put('/mods/modifications/{mod}/update', 'ModificationController@edit');
 
+Route::get('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles');
+Route::post('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles');
+
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create');
 Route::post('/mods/create-modification', 'ModificationController@create');
 

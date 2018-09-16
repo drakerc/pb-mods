@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Modification extends Model
 {
-    protected $fillable = [
-        'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
-    ];
+    public function files()
+    {
+        return $this->belongsToMany('App\File')->withPivot('title', 'description');
+    }
 
     public function getModificationSizeName()
     {
@@ -37,4 +38,8 @@ class Modification extends Model
         }
         return 'Wstrzymany';
     }
+
+    protected $fillable = [
+        'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
+    ];
 }
