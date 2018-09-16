@@ -36,6 +36,8 @@ Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationA
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
 
+Route::resource('game', 'GameController');
+
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');

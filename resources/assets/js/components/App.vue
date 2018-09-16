@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <div id="toolbar">
             <router-link :to="{name: 'login' }">
                 <p>Logowanie</p>

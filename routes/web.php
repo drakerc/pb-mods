@@ -31,3 +31,9 @@ Route::get('/modifications/create', 'ModificationController@getModificationWeb')
 
 //Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
 //Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');
+
+Route::get('/game{any}', 'GameController@indexWeb')->where('any', '.*');
+
+Route::group(['prefix' => 'voyager/admin'], function () {
+    Voyager::routes();
+});
