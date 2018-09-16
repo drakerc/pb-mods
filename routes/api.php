@@ -35,6 +35,7 @@ Route::get('/mods/{game}/category/{category}/create-modification', 'Modification
 
 Route::get('/mods/modifications/{mod}', 'ModificationController@getModification');
 Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
+Route::delete('/mods/modifications/{mod}/delete', 'ModificationController@destroy');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
