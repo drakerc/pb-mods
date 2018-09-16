@@ -57,7 +57,26 @@ class ModificationController extends Controller
         return response()->json(($category->getModificationsInCategory())->toArray());
     }
 
-    public function createModification(Game $game = null, Category $category = null, Request $request)
+    private function validation(Request $request)
+    {
+        //https://scotch.io/tutorials/simple-laravel-crud-with-resource-controllers
+        return $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'development_status' => 'required|boolean|in:0,1,2,3,4',
+            'size' => 'required|boolean|in:0,1,2',
+            'replaces' => 'string|max:100',
+            'version' => 'string|max:20',
+            'release_date' => 'date',
+            'font_color' => 'string',
+//                'development_studio' => $request->development_studio,
+            'creator' => 'exists:users',
+            'game_id' => 'exists:games',
+            'category_id' => 'exists:categories',
+        ]);
+    }
+
+    public function create(Game $game = null, Category $category = null, Request $request)
     {
         if ($request->ajax()) {
             return response()->json($this->prepareModificationCreationInfo($game, $category, $request));
@@ -65,6 +84,8 @@ class ModificationController extends Controller
         if ($request->method() === 'GET') {
             return view('start', ['model' => $this->prepareModificationCreationInfo($game, $category, $request)]);
         }
+
+        $validation = $this->validation($request);
 
         $modification = new Modification(
             [
@@ -75,14 +96,65 @@ class ModificationController extends Controller
                 'replaces' => $request->replaces,
                 'version' => $request->version,
                 'release_date' => $request->release_date,
-                'game_id' => $request->game_id,
-                'category_id' => $request->category_id,
                 'font_color' => $request->font_color,
 //                'development_studio' => $request->development_studio,
             ]);
         $modification->creator = Auth::id();
+        $modification->game_id = $request->gameid;
+        $modification->category_id = $request->categoryid;
 
         $modification->save();
         return redirect()->route('ModificationView', ['mod' => $modification->id]);
+    }
+
+    public function edit(Modification $mod, Request $request)
+    {
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień cwelu');
+//            return false;
+        }
+        if ($request->ajax()) {
+            return response()->json([
+                'mod' => $mod->toArray(),
+                'category' => Category::find($mod->category_id)->toArray(),
+                'game' => Game::find($mod->game_id)->toArray(),
+                'auth' => Auth::check()
+            ]);
+        }
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => [
+                'mod' => $mod->toArray(),
+                'category' => Category::find($mod->category_id)->toArray(),
+                'game' => Game::find($mod->game_id)->toArray(),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ]]);
+        }
+
+        $validation = $this->validation($request); // $validation var is not yet used
+
+        $mod->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'development_status' => $request->development_status,
+            'size' => $request->size,
+            'replaces' => $request->replaces,
+            'version' => $request->version,
+            'release_date' => $request->release_date,
+            'game_id' => $request->game_id,
+            'category_id' => $request->category_id,
+            'font_color' => $request->font_color,
+//                'development_studio' => $request->development_studio,
+        ]);
+
+        // these fields should probably not be able to be updated?
+//        $mod->creator = Auth::id();
+//        $mod->game_id = $request->gameid;
+//        $mod->category_id = $request->categoryid;
+
+        $mod->save();
+        $request->session()->flash('info', 'Pomyślnie zaktualizowano modyfikację!');
+
+        return redirect()->route('ModificationView', ['mod' => $mod->id]);
     }
 }

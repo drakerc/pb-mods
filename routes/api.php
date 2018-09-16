@@ -31,9 +31,10 @@ Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@creat
 //->middleware('auth:api')
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');
-Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@createModification');
+Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create');
 
 Route::get('/mods/modifications/{mod}', 'ModificationController@getModification');
+Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
