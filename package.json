@@ -21,7 +21,9 @@
         "vue-router": "^3.0.1"
     },
     "dependencies": {
+        "vue-multiselect": "^2.1.0",
         "vue-truncate-filter": "^1.1.7",
-        "vue2-editor": "^2.6.6"
+        "vue2-editor": "^2.6.6",
+        "vuejs-datepicker": "^1.5.3"
     }
 }

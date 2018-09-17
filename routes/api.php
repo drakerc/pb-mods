@@ -24,14 +24,17 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //Route::get('/categories/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 
 
-Route::get('/mods/{game}', 'CategoryController@getGameModsCategoriesApi');
-Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategoryApi');
-Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@getCategoryCreateApi');
+Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
+Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
+
+Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory');
 //->middleware('auth:api')
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');
+Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create');
 
-Route::get('/mods/modifications/{mod}', 'ModificationController@getModificationApi');
+Route::get('/mods/modifications/{mod}', 'ModificationController@getModification');
+Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
