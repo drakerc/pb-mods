@@ -38,6 +38,10 @@ Route::post('/mods/create-modification', 'ModificationController@create');
 
 Route::get('/game{any}', 'GameController@indexWeb')->where('any', '.*');
 
+Route::get('/post{any}', function() {
+    return view('game.start');
+})->where('any', '.*');
+
 Route::group(['prefix' => 'voyager/admin'], function () {
     Voyager::routes();
 });

@@ -1,20 +1,29 @@
 <template>
     <div>
-        <div>Hello!</div>
+        <h1>Hello!</h1>
+
         <p>Latest game releases:</p>
-        <div>
-            <div v-for="game in games">
-                <h3 class="h3">{{game.id}} - {{game.title}}</h3>
-                <div>
-                    <router-link :to="`/game/${game.id}`">Details</router-link>
-                </div>
-            </div>
-        </div>
+        <b-card v-for="game in games" :key="game.id">
+            <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
+            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
+            <p class="card-text">
+                {{game.description}}
+            </p>
+        </b-card>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+
+    const fetchGames = (callback) => {
+        axios.get(`/api/game`).then((response) => {
+            // console.log(response.data);
+            callback(null, response.data);
+        }).catch(err => callback(err, err.response.data));
+
+    };
+
     export default {
         name: "GameIndex",
         data() {
@@ -22,15 +31,19 @@
                 games: []
             }
         },
-        created() {
-            return this.fetchGames();
+        beforeRouteEnter(to, from, next) {
+            fetchGames((err, data) => {
+               next(vm => vm.setData(err, data));
+            });
         },
         methods: {
-            fetchGames() {
-                axios.get(`/api/game`).then((response) => {
-                    console.log(response.data);
-                    this.games = response.data;
-                })
+            setData(err, data) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    // console.log(data);
+                    this.games = data;
+                }
             }
         }
 

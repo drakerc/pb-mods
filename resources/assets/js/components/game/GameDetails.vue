@@ -2,20 +2,31 @@
     <div>
         Details:
         <p>Title: {{game.title}}</p>
+        <p>Description:</p>
+        <em>{{game.description}}</em>
         <p>Posts:</p>
-        <ul>
-            <li v-for="post in game.posts">
-                {{post.title}}
-                <ul>
-                    <li>{{post.body}}</li>
-                </ul>
-            </li>
-        </ul>
+        <div v-if="game.posts.length > 0">
+            <b-card v-for="post in game.posts" :key="post.id">
+                <b-link slot="header" :to="`/post/${post.id}`">{{post.title}}</b-link>
+                <p class="card-text">{{post.body}}</p>
+            </b-card>
+        </div>
+        <div v-else>
+            <p class="lead">No posts available.</p>
+        </div>
     </div>
 </template>
 
 <script>
     import axios from 'axios';
+
+    const fetch = (id, callback) => {
+        axios.get(`/api/game/${id}`).then((response) => {
+            // console.log(response.data);
+            callback(null, response.data);
+        }).catch(error => callback(error, error.response.data));
+    };
+
     export default {
         name: "GameDetails",
         data() {
@@ -23,16 +34,18 @@
                 game: {}
             }
         },
-        created() {
-            return this.fetch();
+        beforeRouteEnter(to, from, next) {
+            fetch(to.params.id, (err, data) => {
+                next(vm => vm.setData(err, data));
+            });
         },
         methods:{
-            fetch() {
-                const id = this.$route.params['id'];
-                axios.get(`/api/game/${id}`).then((response) => {
-                    console.log(response.data);
-                    this.game = response.data;
-                });
+            setData(err, data) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    this.game = data;
+                }
             }
         }
     }
