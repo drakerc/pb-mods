@@ -24,7 +24,7 @@ class Post extends Model
         return $this->hasMany('App\Comment', 'post_id', 'id');
     }
 
-    public function getComments($value) {
+    public function getComments(Post $value) {
         return $value->comments();
     }
 }
