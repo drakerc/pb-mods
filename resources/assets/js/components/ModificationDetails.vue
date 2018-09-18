@@ -16,12 +16,19 @@
         <div>{{ mod.version }}</div>
         <div>{{ mod.release_date }}</div>
         <div>{{ mod.development_studio }}</div>
+
+        <div>
+            <h1>Pliki:</h1>
+            <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
+        </div>
     </div>
 </template>
 <script>
     import routeMixin from '../route-mixin.js';
+    import ModificationFiles from "./ModificationFiles";
 
     export default {
+        components: {ModificationFiles},
         mixins: [ routeMixin ],
 
         data() {

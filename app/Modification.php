@@ -39,6 +39,13 @@ class Modification extends Model
         return 'Wstrzymany';
     }
 
+    public function getFiles()
+    {
+        return File::whereHas('modifications', function ($query) {
+            $query->where(['id' => $this->id, 'availability' => true]);
+        })->get();
+    }
+
     protected $fillable = [
         'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
     ];

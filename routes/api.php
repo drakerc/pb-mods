@@ -37,6 +37,7 @@ Route::get('/mods/modifications/{mod}', 'ModificationController@getModification'
 Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
 Route::delete('/mods/modifications/{mod}/delete', 'ModificationController@destroy');
 Route::get('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles');
+Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');

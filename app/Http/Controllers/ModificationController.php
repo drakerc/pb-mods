@@ -57,6 +57,11 @@ class ModificationController extends Controller
         return response()->json(($category->getModificationsInCategory())->toArray());
     }
 
+    public function getFilesApi(Modification $mod)
+    {
+        return response()->json(($mod->getFiles())->toArray());
+    }
+
     private function validation(Request $request)
     {
         //https://scotch.io/tutorials/simple-laravel-crud-with-resource-controllers
