@@ -10,6 +10,7 @@ import CategoryCreate from './components/CategoryCreate';
 import ModificationCreate from './components/ModificationCreate';
 import ModificationUpdate from './components/ModificationEdit';
 import ModificationCreateFiles from './components/ModificationCreateFiles';
+import ModificationCreateImages from './components/ModificationCreateImages';
 
 export default new VueRouter({
     mode: 'history',
@@ -20,6 +21,7 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod', component: ModificationDetails, name: 'modification_view'},
         {path: '/mods/modifications/:mod/update', component: ModificationUpdate, name: 'modification_update'},
         {path: '/mods/modifications/:mod/create-files', component: ModificationCreateFiles, name: 'modification_create_files'},
+        {path: '/mods/modifications/:mod/create-images', component: ModificationCreateImages, name: 'modification_create_images'},
         {path: '/login', component: Login, name: 'login'},
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'}
     ],

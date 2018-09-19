@@ -62,6 +62,11 @@ class ModificationController extends Controller
         return response()->json($mod->getFiles());
     }
 
+    public function getImagesApi(Modification $mod)
+    {
+        return response()->json($mod->getImages());
+    }
+
     private function validation(Request $request)
     {
         //https://scotch.io/tutorials/simple-laravel-crud-with-resource-controllers

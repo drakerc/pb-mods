@@ -8,6 +8,11 @@
             Dodaj plik/i
         </router-link>
 
+        <router-link :to="{ name: 'modification_create_images', params: { mod: mod.id } }">
+            Dodaj galerię zdjęć
+        </router-link>
+
+
         <div>{{ mod.title }}</div>
         <div>{{ mod.description }}</div>
         <div>{{ mod.development_status }}</div>
@@ -21,14 +26,18 @@
             <h1>Pliki:</h1>
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
         </div>
+
+
+        <modification-gallery :modification="mod"></modification-gallery>
     </div>
 </template>
 <script>
     import routeMixin from '../route-mixin.js';
     import ModificationFiles from "./ModificationFiles";
+    import ModificationGallery from "./ModificationGallery";
 
     export default {
-        components: {ModificationFiles},
+        components: {ModificationFiles, ModificationGallery},
         mixins: [ routeMixin ],
 
         data() {

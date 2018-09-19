@@ -62,6 +62,11 @@ class Modification extends Model
         return $this->belongsToMany('App\File')->withPivot('title', 'description');
     }
 
+    public function images()
+    {
+        return $this->belongsToMany('App\File', 'image_file_modification', 'modification_id', 'file_id')->withPivot('active', 'type');
+    }
+
     public function getModificationSizeName()
     {
         if ($this->size === self::SIZE_SMALL) {
@@ -114,6 +119,11 @@ class Modification extends Model
         }
 
         return $files;
+    }
+
+    public function getImages()
+    {
+        // TODO: implement
     }
 
     protected $fillable = [
