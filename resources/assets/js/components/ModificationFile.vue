@@ -1,8 +1,10 @@
 <template>
     <div>
-        <p>json: {{ file }}</p>
         <p>id: {{ file.id }}</p>
-        <p>size: {{ file.size }}</p>
+        <p>title: {{ file.title }}</p>
+        <p>description: {{ file.description }}</p>
+        <p><a :href="file.downloadLink">Pobierz ten plik</a></p>
+        <hr/>
     </div>
 </template>
 <script>

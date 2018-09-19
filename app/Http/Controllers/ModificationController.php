@@ -59,7 +59,7 @@ class ModificationController extends Controller
 
     public function getFilesApi(Modification $mod)
     {
-        return response()->json(($mod->getFiles())->toArray());
+        return response()->json($mod->getFiles());
     }
 
     private function validation(Request $request)

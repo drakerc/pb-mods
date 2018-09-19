@@ -4,6 +4,24 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Game
+ *
+ * @property int $id
+ * @property string $title
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string $description
+ * @property int|null $logo_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Post[] $posts
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereLogoId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereTitle($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Game whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Game extends Model
 {
     protected $fillable = [

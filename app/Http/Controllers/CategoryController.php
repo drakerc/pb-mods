@@ -59,7 +59,7 @@ class CategoryController extends Controller
     {
         $model = $category->toArray();
         $model['subcategories'] = $category->getSubcategories();
-        $model['background'] = asset(
+        $model['background'] = asset( // TODO: move to model as a appendable attribute
             'storage/' . $model['background']
         );
         $model['thumbnail'] = asset(
