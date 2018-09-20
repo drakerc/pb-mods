@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Mods n stuff</title>
     <script type="text/javascript">
-        window.mods_model = "{!! addslashes(json_encode($model)) !!}"
+        window.mods_model = "{!! addslashes(isset($model) ? json_encode($model) : []) !!}"
         window.csrf_token = "{{ csrf_token() }}"
     </script>
 </head>

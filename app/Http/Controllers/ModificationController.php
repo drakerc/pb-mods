@@ -57,6 +57,16 @@ class ModificationController extends Controller
         return response()->json(($category->getModificationsInCategory())->toArray());
     }
 
+    public function getFilesApi(Modification $mod)
+    {
+        return response()->json($mod->getFiles());
+    }
+
+    public function getImagesApi(Modification $mod)
+    {
+        return response()->json($mod->getImages());
+    }
+
     private function validation(Request $request)
     {
         //https://scotch.io/tutorials/simple-laravel-crud-with-resource-controllers
@@ -95,7 +105,7 @@ class ModificationController extends Controller
                 'size' => $request->size,
                 'replaces' => $request->replaces,
                 'version' => $request->version,
-                'release_date' => $request->release_date,
+                'release_date' => \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d'),
                 'font_color' => $request->font_color,
 //                'development_studio' => $request->development_studio,
             ]);
@@ -110,7 +120,7 @@ class ModificationController extends Controller
     public function edit(Modification $mod, Request $request)
     {
         if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień cwelu');
+            $request->session()->flash('info', 'Nie masz uprawnień');
 //            return false;
         }
         if ($request->ajax()) {
@@ -140,7 +150,7 @@ class ModificationController extends Controller
             'size' => $request->size,
             'replaces' => $request->replaces,
             'version' => $request->version,
-            'release_date' => $request->release_date,
+            'release_date' => \DateTime::createFromFormat('Y-m-d', $request->release_date)->format('Y-m-d'),
             'game_id' => $request->game_id,
             'category_id' => $request->category_id,
             'font_color' => $request->font_color,
@@ -156,5 +166,25 @@ class ModificationController extends Controller
         $request->session()->flash('info', 'Pomyślnie zaktualizowano modyfikację!');
 
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
+    public function destroy(Modification $mod, Request $request)
+    {
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return false;
+        }
+        if (!$request->ajax()) {
+            return false; // should never happen, if it does, show a warning
+        }
+        if ($mod->delete()) {
+            $request->session()->flash('info', 'Pomyślnie usunięto modyfikację!');
+            return response()->json([
+                'status' => true
+            ]);
+        }
+        return response()->json([
+            'status' => false
+        ]);
     }
 }
