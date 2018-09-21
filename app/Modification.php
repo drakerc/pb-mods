@@ -103,14 +103,28 @@ class Modification extends Model
         return 'Inny';
     }
 
-    public function getFiles()
+    public function getFiles($all = false)
     {
+        if ($all) {
+            return ($this->files()->get())->toArray();
+        }
         return ($this->files()->where('availability', true)->get())->toArray();
     }
 
-    public function getImages()
+    public function getImages($all = false)
     {
-        $images = $this->images()->where('availability', true)->wherePivot('active', '=', true)->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)->get();
+        if ($all) {
+            return ($this->images()
+                ->wherePivot('active', '=', true)
+                ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+                ->get())->toArray();
+        }
+
+        $images = $this->images()
+            ->where('availability', true)
+            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+            ->get();
         // TODO: check if we can pass something to wherePivot as array instead of using 2x wherePivot
         return $images->toArray();
     }

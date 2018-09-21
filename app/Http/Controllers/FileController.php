@@ -28,7 +28,7 @@ class FileController extends Controller
         ]);
 
         $filesValidator = Validator::make($request->allFiles(), [
-            'files.*' => 'file|max:1', // 1GB
+            'files.*' => 'file|max:1000000', // 1GB
         ]);
 
         if ($textsValidator->fails() || $filesValidator->fails()) {
@@ -93,6 +93,91 @@ class FileController extends Controller
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
     }
 
+    public function editModificationFiles(Modification $mod, Request $request)
+    {
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'mod' => $mod->toArray(),
+                'files' => $mod->getFiles(true),
+                'auth' => Auth::check()
+            ]);
+        }
+
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => [
+                'mod' => $mod->toArray(),
+                'files' => $mod->getFiles(true),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ]]);
+        }
+
+        $files = $request->file('files');
+
+        foreach ($request->post('files') as $key => $value) {
+            $file = $mod->files()->find($key);
+            if (isset($files[$key])) {
+                $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
+                $file->file_type = $files[$key]->getMimeType();
+                $file->file_size = $files[$key]->getSize();
+                $file->uploader_id = Auth::id();
+            }
+
+            $file->availability = $value['availability'];
+            $file->pivot->title = $value['title'];
+            $file->pivot->description = $value['description'];
+            $file->save();
+        }
+
+        return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
+    public function editModificationImageFiles(Modification $mod, Request $request)
+    {
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true),
+                'auth' => Auth::check()
+            ]);
+        }
+
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => [
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ]]);
+        }
+
+        $files = $request->file('files');
+
+        foreach ($request->post('files') as $key => $value) {
+            $file = $mod->images()->find($key);
+            if (isset($files[$key])) {
+                $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
+                $file->file_type = $files[$key]->getMimeType();
+                $file->file_size = $files[$key]->getSize();
+                $file->uploader_id = Auth::id();
+            }
+            $file->availability = $value['availability'];
+            $file->save();
+        }
+
+        return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
     /**
      * @param Modification $mod
      * @param Request $request
@@ -102,7 +187,7 @@ class FileController extends Controller
     {
         if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
             $request->session()->flash('info', 'Nie masz uprawnień');
-//            return false;
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
         if ($request->ajax()) {
             return response()->json([
@@ -121,6 +206,4 @@ class FileController extends Controller
 
         return true;
     }
-
-
 }

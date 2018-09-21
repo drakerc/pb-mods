@@ -12,6 +12,13 @@
             Dodaj galerię zdjęć
         </router-link>
 
+        <router-link :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
+            Edytuj pliki
+        </router-link>
+
+        <router-link :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
+            Edytuj obrazki
+        </router-link>
 
         <div>{{ mod.title }}</div>
         <div>{{ mod.description }}</div>
@@ -26,7 +33,6 @@
             <h1>Pliki:</h1>
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
         </div>
-
 
         <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
     </div>
