@@ -28,7 +28,7 @@
         </div>
 
 
-        <modification-gallery :modification="mod"></modification-gallery>
+        <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
     </div>
 </template>
 <script>

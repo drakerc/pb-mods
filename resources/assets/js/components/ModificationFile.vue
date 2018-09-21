@@ -1,8 +1,8 @@
 <template>
     <div>
         <p>id: {{ file.id }}</p>
-        <p>title: {{ file.title }}</p>
-        <p>description: {{ file.description }}</p>
+        <p>title: {{ file.pivot.title }}</p>
+        <p>description: {{ file.pivot.description }}</p>
         <p><a :href="file.downloadLink">Pobierz ten plik</a></p>
         <hr/>
     </div>
