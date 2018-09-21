@@ -16,6 +16,7 @@ import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -34,6 +35,7 @@ var VueTruncate = require('vue-truncate-filter');
 Vue.use(VueTruncate);
 
 import axios from 'axios';
+
 
 axios.interceptors.response.use((response) => { // intercept the global error
     return response

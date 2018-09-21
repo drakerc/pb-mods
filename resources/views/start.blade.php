@@ -7,7 +7,7 @@
     <title>Mods n stuff</title>
     {{--<link rel="stylesheet" href="{{ asset('css/app.css') }}">--}}
     <script type="text/javascript">
-        window.mods_model = "{!! addslashes(json_encode($model)) !!}"
+        window.mods_model = "{!! addslashes(isset($model) ? json_encode($model) : []) !!}"
         window.csrf_token = "{{ csrf_token() }}"
     </script>
 </head>
