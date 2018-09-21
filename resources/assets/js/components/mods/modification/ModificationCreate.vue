@@ -70,7 +70,7 @@
         </form>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
+    import routeMixin from '../../../route-mixin.js';
     import { VueEditor } from 'vue2-editor'
     import Datepicker from 'vuejs-datepicker';
     import Multiselect from 'vue-multiselect'

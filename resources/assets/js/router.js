@@ -2,15 +2,15 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-import ModsCategory from './components/ModsCategory.vue';
+import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
-import ModificationDetails from './components/ModificationDetails';
+import ModificationDetails from './components/mods/modification/ModificationDetails';
 import Login from './components/Login';
-import CategoryCreate from './components/CategoryCreate';
-import ModificationCreate from './components/ModificationCreate';
-import ModificationUpdate from './components/ModificationEdit';
-import ModificationCreateFiles from './components/ModificationCreateFiles';
-import ModificationCreateImages from './components/ModificationCreateImages';
+import CategoryCreate from './components/mods/category/CategoryCreate';
+import ModificationCreate from './components/mods/modification/ModificationCreate';
+import ModificationUpdate from './components/mods/modification/ModificationEdit';
+import ModificationCreateFiles from './components/mods/file/ModificationCreateFiles';
+import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
 
 export default new VueRouter({
     mode: 'history',

@@ -6,6 +6,7 @@ use App\File;
 use App\Modification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class FileController extends Controller
 {
@@ -21,7 +22,26 @@ class FileController extends Controller
             return $redirectionData;
         }
 
-        foreach ($request->allFiles() as $key => $value) {
+        $textsValidator = Validator::make($request->all(), [
+            'files.*.title' => 'string|required',
+            'files.*.description' => 'string|max:100',
+        ]);
+
+        $filesValidator = Validator::make($request->allFiles(), [
+            'files.*' => 'file|max:1', // 1GB
+        ]);
+
+        if ($textsValidator->fails() || $filesValidator->fails()) {
+            $validationMessages = array_merge($textsValidator->messages()->toArray(), $filesValidator->messages()->toArray());
+
+            return redirect()->route('CreateModFiles', ['mod' => $mod->id])
+                ->withErrors($validationMessages)
+                ->withInput();
+        }
+
+        $params = $request->post('files');
+
+        foreach ($request->file('files') as $key => $value) {
             $file = new File();
             $file->file_path = $value->store('modification_files', ['disk' => 'public']);
             $file->file_type = $value->getMimeType();
@@ -30,7 +50,7 @@ class FileController extends Controller
 
             $file->save();
 
-            $mod->files()->attach($file->id, ['title' => $request->get('title-' . $key), 'description' => $request->get('description-' . $key)]);
+            $mod->files()->attach($file->id, ['title' => $params[$key]['title'], 'description' => $params[$key]['description']]);
         }
 
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
@@ -48,7 +68,17 @@ class FileController extends Controller
             return $redirectionData;
         }
 
-        foreach ($request->allFiles() as $key => $value) {
+        $filesValidator = Validator::make($request->allFiles(), [
+            'files.*' => 'file|image|max:10000', // 10MB
+        ]);
+
+        if ($filesValidator->fails()) {
+            return redirect()->route('CreateModImages', ['mod' => $mod->id])
+                ->withErrors($filesValidator)
+                ->withInput();
+        }
+
+        foreach ($request->file('files') as $key => $value) {
             $file = new File();
             $file->file_path = $value->store('modification_files', ['disk' => 'public']);
             $file->file_type = $value->getMimeType();

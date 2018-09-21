@@ -16,7 +16,7 @@
 </template>
 <script>
     import routeMixin from '../route-mixin.js';
-    import GameModsCategory from './GameModsCategory.vue';
+    import GameModsCategory from './mods/category/GameModsCategory.vue';
     export default {
         mixins: [ routeMixin ],
         data() {

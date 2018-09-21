@@ -35,10 +35,10 @@
     </div>
 </template>
 <script>
-    import DisplayTimestamps from './DisplayTimestamps';
+    import DisplayTimestamps from '../../DisplayTimestamps';
     import DisplaySubcategories from './DisplaySubcategories';
     import CategoryMods from './CategoryMods';
-    import routeMixin from '../route-mixin.js';
+    import routeMixin from '../../../route-mixin.js';
 
     export default {
         mixins: [ routeMixin ],

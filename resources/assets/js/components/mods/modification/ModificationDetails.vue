@@ -32,8 +32,8 @@
     </div>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
-    import ModificationFiles from "./ModificationFiles";
+    import routeMixin from '../../../route-mixin.js';
+    import ModificationFiles from "../file/ModificationFiles";
     import ModificationGallery from "./ModificationGallery";
 
     export default {
