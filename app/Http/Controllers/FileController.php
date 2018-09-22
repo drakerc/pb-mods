@@ -7,6 +7,7 @@ use App\Modification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use ZanySoft\Zip\Zip;
 
 class FileController extends Controller
 {
@@ -196,6 +197,24 @@ class FileController extends Controller
         }
 
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
+    public function massDownload(Modification $mod, Request $request)
+    {
+        $files = $request->get('files');
+        $files = File::findMany(explode(',', $files))->pluck('file_path');
+
+        $files->transform(function ($value) {
+            return public_path() . '/storage/' . $value;
+        });
+
+        $filePath = tempnam(public_path() . '/storage/zips', 'temp_mass_download_');
+
+        $zip = Zip::create($filePath, true);
+        $zip->add($files->toArray());
+        $zip->close();
+
+        return response()->download($filePath, 'mass-download.zip');
     }
 
     /**

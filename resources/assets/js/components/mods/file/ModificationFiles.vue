@@ -1,6 +1,21 @@
 <template>
     <div>
-        <modification-file v-if="files[0].id !== undefined" v-for="file in files" :key="file.id" :file="file"></modification-file>
+        <modification-file v-if="files[0].id !== undefined" v-for="file in files" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+
+        <div v-if="selectedFiles.length !== 0">
+            <form role="form" method="GET" :action="'/mods/modifications/' + modification.id + '/mass-download'">
+                Wybrałeś poniższe pliki do pobrania:
+                <div v-for="file in selectedFiles">{{ file.pivot.title }}</div>
+
+                <!--<input type="hidden" name="_token" :value="csrf_token">-->
+                <input type="hidden" name="files" :value="selectedFilesIds">
+
+                <b-button size="lg" variant="primary" type="submit">
+                    Pobierz
+                </b-button>
+            </form>
+
+        </div>
     </div>
 </template>
 <script>
@@ -11,6 +26,8 @@
         data() {
             return {
                 files: '',
+                selectedFiles: [],
+                selectedFilesIds: []
             }
         },
         components: {
@@ -20,6 +37,18 @@
             axios.get('/api/mods/modifications/' + this.modification.id + '/files').then(({data}) => {
                 this.files = data;
             });
+        },
+        methods: {
+            addSelectedFile: function (file, value) {
+                if (value === true) {
+                    this.selectedFiles.push(file);
+                    this.selectedFilesIds.push(file.id);
+                } else {
+                    var index = this.selectedFiles.findIndex(value => value.id === file.id);
+                    this.selectedFiles.splice(index, 1);
+                    this.selectedFilesIds.splice(this.selectedFilesIds.indexOf(file.id));
+                }
+            }
         },
     }
 </script>
