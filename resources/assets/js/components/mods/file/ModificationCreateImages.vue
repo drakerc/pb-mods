@@ -1,10 +1,13 @@
 <template>
     <div>
-        <form enctype="multipart/form-data" role="form" method="POST" :action="'/mods/modifications/' + mod.id + '/create-files'">
+        <form enctype="multipart/form-data" role="form" method="POST" :action="'/mods/modifications/' + mod.id + '/create-images'">
             <input type="hidden" name="_token" :value="csrf_token">
-            <h3>Dodajesz pliki do modyfikacji {{ mod.title }}</h3>
+            <input type="hidden" name="type" :value="3">
 
-            <modification-create-file v-for="index in files_amount" :key="index" :index="index" :image_gallery="false"></modification-create-file>
+            <h3>Dodajesz obrazki do galerii do modyfikacji {{ mod.title }}</h3>
+
+            <modification-create-file v-for="index in files_amount" :key="index" :index="index" :image_gallery="true"></modification-create-file>
+            <!--Add checking if files are img files only-->
 
             <div class="form-control">
                 <b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount--">
@@ -21,14 +24,12 @@
     </div>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
-    import { VueEditor } from 'vue2-editor';
+    import routeMixin from '../../../route-mixin.js';
     import ModificationCreateFile from './ModificationCreateFile.vue';
 
     export default {
         mixins: [ routeMixin ],
         components: {
-            VueEditor,
             ModificationCreateFile
         },
         data() {

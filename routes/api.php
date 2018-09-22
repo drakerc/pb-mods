@@ -36,10 +36,14 @@ Route::get('/mods/{game}/category/{category}/create-modification', 'Modification
 Route::get('/mods/modifications/{mod}', 'ModificationController@getModification');
 Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
 Route::delete('/mods/modifications/{mod}/delete', 'ModificationController@destroy');
+
 Route::get('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles');
+Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificationFiles');
 Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi');
+Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@destroy');
 
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
+Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
 Route::resource('post','PostController');

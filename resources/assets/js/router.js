@@ -2,15 +2,17 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
-import ModsCategory from './components/ModsCategory.vue';
+import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
-import ModificationDetails from './components/ModificationDetails';
+import ModificationDetails from './components/mods/modification/ModificationDetails';
 import Login from './components/Login';
-import CategoryCreate from './components/CategoryCreate';
-import ModificationCreate from './components/ModificationCreate';
-import ModificationUpdate from './components/ModificationEdit';
-import ModificationCreateFiles from './components/ModificationCreateFiles';
-import ModificationCreateImages from './components/ModificationCreateImages';
+import CategoryCreate from './components/mods/category/CategoryCreate';
+import ModificationCreate from './components/mods/modification/ModificationCreate';
+import ModificationUpdate from './components/mods/modification/ModificationEdit';
+import ModificationCreateFiles from './components/mods/file/ModificationCreateFiles';
+import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
+import ModificationEditFiles from './components/mods/file/ModificationEditFiles';
+import ModificationEditImages from './components/mods/file/ModificationEditImages';
 
 export default new VueRouter({
     mode: 'history',
@@ -21,7 +23,9 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod', component: ModificationDetails, name: 'modification_view'},
         {path: '/mods/modifications/:mod/update', component: ModificationUpdate, name: 'modification_update'},
         {path: '/mods/modifications/:mod/create-files', component: ModificationCreateFiles, name: 'modification_create_files'},
+        {path: '/mods/modifications/:mod/edit-files', component: ModificationEditFiles, name: 'modification_edit_files'},
         {path: '/mods/modifications/:mod/create-images', component: ModificationCreateImages, name: 'modification_create_images'},
+        {path: '/mods/modifications/:mod/edit-images', component: ModificationEditImages, name: 'modification_edit_images'},
         {path: '/login', component: Login, name: 'login'},
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'}
     ],
