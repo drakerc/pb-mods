@@ -137,6 +137,26 @@ class FileController extends Controller
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
     }
 
+    public function destroy(Modification $mod, File $file, Request $request)
+    {
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
+
+        if (!$request->ajax()) {
+            return false; // should never happen, if it does, show a warning
+        }
+        if ($file->delete()) {
+            return response()->json([
+                'status' => true
+            ]);
+        }
+        return response()->json([
+            'status' => false
+        ]);
+    }
+
     public function editModificationImageFiles(Modification $mod, Request $request)
     {
         if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members

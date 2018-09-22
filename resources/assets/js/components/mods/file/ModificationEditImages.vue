@@ -6,7 +6,10 @@
 
             <h3>Edytujesz pliki do modyfikacji {{ mod.title }}</h3>
 
-            <modification-create-file v-for="(value, index) in files" :file="value" :key="index" :index="value.id" :image_gallery="true" :edit="true"></modification-create-file>
+            <div v-for="(value, index) in files">
+                <modification-create-file :file="value" :key="index" :index="value.id" :image_gallery="true" :edit="true"></modification-create-file>
+                <modification-delete-file :file="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-file>
+            </div>
 
             <b-button size="lg" variant="primary" type="submit">
                 Wyślij
@@ -18,12 +21,14 @@
     import routeMixin from '../../../route-mixin.js';
     import { VueEditor } from 'vue2-editor';
     import ModificationCreateFile from './ModificationCreateFile.vue';
+    import ModificationDeleteFile from './ModificationDeleteFile';
 
     export default {
         mixins: [ routeMixin ],
         components: {
             VueEditor,
-            ModificationCreateFile
+            ModificationCreateFile,
+            ModificationDeleteFile
         },
         data() {
             return {
@@ -39,6 +44,9 @@
                 this.files = files;
                 this.mod = mod;
             },
+            deleteFile: function (id) {
+                this.files.splice(id, 1);
+            }
         },
     }
 </script>

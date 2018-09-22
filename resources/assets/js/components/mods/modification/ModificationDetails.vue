@@ -21,7 +21,7 @@
         </router-link>
 
         <div>{{ mod.title }}</div>
-        <div>{{ mod.description }}</div>
+        <div v-html="mod.description"></div>
         <div>{{ mod.development_status }}</div>
         <div>{{ mod.size }}</div>
         <div>{{ mod.replaces }}</div>
@@ -34,6 +34,7 @@
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
         </div>
 
+        Galeria screenów:
         <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
     </div>
 </template>

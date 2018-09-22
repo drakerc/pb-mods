@@ -2,7 +2,7 @@
     <div>
         <p>id: {{ file.id }}</p>
         <p>title: {{ file.pivot.title }}</p>
-        <p>description: {{ file.pivot.description }}</p>
+        <p>description: <span v-html="file.pivot.description"></span></p>
         <p><a :href="file.downloadLink">Pobierz ten plik</a></p>
         <hr/>
     </div>
