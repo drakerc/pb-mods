@@ -12,9 +12,16 @@
             Dodaj galerię zdjęć
         </router-link>
 
+        <router-link :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
+            Edytuj pliki
+        </router-link>
+
+        <router-link :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
+            Edytuj obrazki
+        </router-link>
 
         <div>{{ mod.title }}</div>
-        <div>{{ mod.description }}</div>
+        <div v-html="mod.description"></div>
         <div>{{ mod.development_status }}</div>
         <div>{{ mod.size }}</div>
         <div>{{ mod.replaces }}</div>
@@ -27,13 +34,13 @@
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
         </div>
 
-
-        <modification-gallery :modification="mod"></modification-gallery>
+        Galeria screenów:
+        <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
     </div>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
-    import ModificationFiles from "./ModificationFiles";
+    import routeMixin from '../../../route-mixin.js';
+    import ModificationFiles from "../file/ModificationFiles";
     import ModificationGallery from "./ModificationGallery";
 
     export default {

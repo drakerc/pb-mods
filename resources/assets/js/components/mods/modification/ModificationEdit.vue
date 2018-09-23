@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 <label for="title">Tytuł</label>
-                <input id="title" type="text" name="title" class="form-control" :value="mod.title"
+                <input id="title" type="text" name="title" class="form-control" v-model="title"
                        placeholder="Tytuł" required autofocus>
             </div>
 
@@ -43,28 +43,27 @@
 
             <div class="form-group">
                 <label for="replaces">Zamienia (co podmienia modyfikacja - np. nazwa samochodu, broni; w przypadku większych modyfikacji pozostaw to pole pustym):</label>
-                <input class="form-control" id="replaces" type="text" name="replaces" :value="mod.replaces">
+                <input class="form-control" id="replaces" type="text" name="replaces" v-model="replaces">
             </div>
 
             <div class="form-group">
                 <label for="version">Wersja modyfikacji (pozostaw puste jeśli niewydane)</label>
-                <input class="form-control" id="version" type="text" name="version" placeholder="Wersja modyfikacji (pozostaw puste jeśli niewydane)" :value="mod.version">
+                <input class="form-control" id="version" type="text" name="version" placeholder="Wersja modyfikacji (pozostaw puste jeśli niewydane)" v-model="version">
             </div>
 
             <div class="form-group">
                 <label for="release_date">Data wydania (pozostaw puste jeśli niewydane)</label>
-                <datepicker :value="release_date" format="dd-MM-yyyy" id="release_date" class="form-control" name="release_date"></datepicker>
+                <datepicker v-model="release_date" format="dd-MM-yyyy" id="release_date" class="form-control" name="release_date"></datepicker>
             </div>
 
             <div class="form-group">
                 <label for="font_color">Kolor czcionki (możesz dostosować do swoich potrzeb kolor czcionki używanej w kluczowych miejscach prezentacji modyfikacji, m.in. w nagłówkach):</label>
                 <input class="form-control" type="color" id="font_color" name="font_color"
-                       :value="mod.font_color" />
+                       v-model="font_color" />
             </div>
 
             <div class="form-group">
                 <input type="hidden" name="description" :value="description">
-
                 <label for="description">Opis</label>
                 <vue-editor id="description" v-model="description"></vue-editor>
             </div>
@@ -85,11 +84,11 @@
     </div>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
+    import routeMixin from '../../../route-mixin.js';
     import { VueEditor } from 'vue2-editor'
     import Datepicker from 'vuejs-datepicker';
     import Multiselect from 'vue-multiselect'
-    import router from "../router";
+    import router from "../../../router";
 
     export default {
         mixins: [ routeMixin ],
@@ -100,6 +99,10 @@
         },
         data() {
             return {
+                title: '',
+                replaces: '',
+                version: '',
+                font_color: '',
                 category: [],
                 game: '',
                 mod: '',
@@ -120,6 +123,10 @@
                 this.auth = auth;
                 this.mod = mod;
 
+                this.title = mod.title;
+                this.replaces = mod.replaces;
+                this.version = mod.version;
+                this.font_color = mod.font_color;
                 this.size = this.size_options.find(obj => {
                     return obj.value === mod.size;
                 });

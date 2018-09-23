@@ -1,0 +1,36 @@
+<template>
+    <div>
+        <gallery :images="images" :index="index" @close="index = null"></gallery>
+        <div
+                class="image"
+                v-for="(image, imageIndex) in images"
+                :key="imageIndex"
+                @click="index = imageIndex"
+                :style="{ backgroundImage: 'url(' + image + ')', width: '150px', height: '150px' }"
+        ></div>
+    </div>
+</template>
+<script>
+    import VueGallery from 'vue-gallery';
+
+    export default {
+        components: {
+            'gallery': VueGallery
+        },
+        props: ['modification'],
+
+        data() {
+            return {
+                images: [],
+                index: null,
+            }
+        },
+        created() {
+            axios.get('/api/mods/modifications/' + this.modification.id + '/images').then(({data}) => {
+                this.images = data.map(function (value) {
+                    return value.downloadLink;
+                });
+            });
+        },
+    }
+</script>

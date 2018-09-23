@@ -11,10 +11,12 @@ window.Vue = require('vue');
 
 import router from './router';
 import App from './components/App';
-import BootstrapVue from 'bootstrap-vue';
 
+import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
+import BootstrapVue from 'bootstrap-vue'
+import axios from 'axios';
 
 
 /**
@@ -29,19 +31,13 @@ const app = new Vue({
 });
 
 Vue.use(BootstrapVue);
-
-
-var VueTruncate = require('vue-truncate-filter');
-Vue.use(VueTruncate);
-
-import axios from 'axios';
-
+Vue.use(require('vue-truncate-filter'));
 
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
 }, function (error) {
     if (error.response.status === 401) {
-        router.push({ name: 'login',}) // if user is not logged in, redirect him to login page
+        router.push({name: 'login'}) // if user is not logged in, redirect him to login page
     }
     return Promise.reject(error)
 });

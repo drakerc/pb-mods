@@ -103,27 +103,30 @@ class Modification extends Model
         return 'Inny';
     }
 
-    public function getFiles()
+    public function getFiles($all = false)
     {
-        $files = (File::whereHas('modifications', function ($query) {
-            /**
-             * @var Builder $query
-             */
-            $query->where(['id' => $this->id, 'availability' => true]);
-        })->get())->toArray();
-
-        foreach ($files as $index => $value) { // not sure if this is the right way to get these properties
-            $fileMod = FileModification::where(['file_id' => $value['id'], 'modification_id' => $this->id])->first();
-            $files[$index]['title'] = $fileMod->title;
-            $files[$index]['description'] = $fileMod->description;
+        if ($all) {
+            return ($this->files()->get())->toArray();
         }
-
-        return $files;
+        return ($this->files()->where('availability', true)->get())->toArray();
     }
 
-    public function getImages()
+    public function getImages($all = false)
     {
-        // TODO: implement
+        if ($all) {
+            return ($this->images()
+                ->wherePivot('active', '=', true)
+                ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+                ->get())->toArray();
+        }
+
+        $images = $this->images()
+            ->where('availability', true)
+            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+            ->get();
+        // TODO: check if we can pass something to wherePivot as array instead of using 2x wherePivot
+        return $images->toArray();
     }
 
     protected $fillable = [

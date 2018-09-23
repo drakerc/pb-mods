@@ -121,7 +121,7 @@ class ModificationController extends Controller
     {
         if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
             $request->session()->flash('info', 'Nie masz uprawnień');
-//            return false;
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
         if ($request->ajax()) {
             return response()->json([
@@ -172,7 +172,7 @@ class ModificationController extends Controller
     {
         if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
             $request->session()->flash('info', 'Nie masz uprawnień');
-//            return false;
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning

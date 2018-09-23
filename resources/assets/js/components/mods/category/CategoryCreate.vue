@@ -32,7 +32,7 @@
     </div>
 </template>
 <script>
-    import routeMixin from '../route-mixin.js';
+    import routeMixin from '../../../route-mixin.js';
     import { VueEditor } from 'vue2-editor'
 
     export default {
