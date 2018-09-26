@@ -13,6 +13,8 @@ import ModificationCreateFiles from './components/mods/file/ModificationCreateFi
 import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
 import ModificationEditFiles from './components/mods/file/ModificationEditFiles';
 import ModificationEditImages from './components/mods/file/ModificationEditImages';
+import ModificationCreateVideos from './components/mods/video/ModificationCreateVideos';
+import ModificationEditVideos from './components/mods/video/ModificationEditVideos';
 
 export default new VueRouter({
     mode: 'history',
@@ -26,6 +28,8 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod/edit-files', component: ModificationEditFiles, name: 'modification_edit_files'},
         {path: '/mods/modifications/:mod/create-images', component: ModificationCreateImages, name: 'modification_create_images'},
         {path: '/mods/modifications/:mod/edit-images', component: ModificationEditImages, name: 'modification_edit_images'},
+        {path: '/mods/modifications/:mod/create-videos', component: ModificationCreateVideos, name: 'modification_create_videos'},
+        {path: '/mods/modifications/:mod/edit-videos', component: ModificationEditVideos, name: 'modification_edit_videos'},
         {path: '/login', component: Login, name: 'login'},
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'}
     ],

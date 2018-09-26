@@ -1,24 +1,6 @@
 <template>
     <div class="listing-summary">
-        <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
-            Edytuj tą modyfikację
-        </router-link>
-
-        <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
-            Dodaj plik/i
-        </router-link>
-
-        <router-link :to="{ name: 'modification_create_images', params: { mod: mod.id } }">
-            Dodaj galerię zdjęć
-        </router-link>
-
-        <router-link :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
-            Edytuj pliki
-        </router-link>
-
-        <router-link :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
-            Edytuj obrazki
-        </router-link>
+        <modification-author-menu :mod="mod"></modification-author-menu>
 
         <div>{{ mod.title }}</div>
         <div v-html="mod.description"></div>
@@ -36,15 +18,19 @@
 
         Galeria screenów:
         <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
+
+        Filmiki:
+
     </div>
 </template>
 <script>
     import routeMixin from '../../../route-mixin.js';
     import ModificationFiles from "../file/ModificationFiles";
     import ModificationGallery from "./ModificationGallery";
+    import ModificationAuthorMenu from './ModificationAuthorMenu';
 
     export default {
-        components: {ModificationFiles, ModificationGallery},
+        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu},
         mixins: [ routeMixin ],
 
         data() {

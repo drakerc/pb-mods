@@ -46,6 +46,10 @@ Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModi
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
+Route::get('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos');
+Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos');
+Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy');
+
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
 

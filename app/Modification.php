@@ -44,6 +44,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereUseGameBackground($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereVersion($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $images
  */
 class Modification extends Model
 {
@@ -65,6 +66,11 @@ class Modification extends Model
     public function images()
     {
         return $this->belongsToMany('App\File', 'image_file_modification', 'modification_id', 'file_id')->withPivot('active', 'type');
+    }
+
+    public function videos()
+    {
+        return $this->hasMany('App\ModificationVideo');
     }
 
     public function getModificationSizeName()
@@ -109,6 +115,11 @@ class Modification extends Model
             return ($this->files()->get())->toArray();
         }
         return ($this->files()->where('availability', true)->get())->toArray();
+    }
+
+    public function getVideos()
+    {
+        return ($this->videos()->get())->toArray();
     }
 
     public function getImages($all = false)
