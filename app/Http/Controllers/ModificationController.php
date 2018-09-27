@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Game;
 use App\Modification;
+use App\ModificationVideo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -65,6 +66,11 @@ class ModificationController extends Controller
     public function getImagesApi(Modification $mod)
     {
         return response()->json($mod->getImages());
+    }
+
+    public function getVideosApi(Modification $mod)
+    {
+        return response()->json($mod->getVideos());
     }
 
     private function validation(Request $request)

@@ -48,6 +48,7 @@ Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImages
 
 Route::get('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos');
 Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos');
+Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideosApi');
 Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy');
 
 Route::resource('post','PostController');

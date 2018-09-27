@@ -20,7 +20,7 @@
         <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
 
         Filmiki:
-
+        <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
     </div>
 </template>
 <script>
@@ -28,9 +28,10 @@
     import ModificationFiles from "../file/ModificationFiles";
     import ModificationGallery from "./ModificationGallery";
     import ModificationAuthorMenu from './ModificationAuthorMenu';
+    import ModificationVideos from '../video/ModificationVideos';
 
     export default {
-        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu},
+        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos},
         mixins: [ routeMixin ],
 
         data() {
