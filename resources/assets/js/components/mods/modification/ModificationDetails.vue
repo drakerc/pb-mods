@@ -2,6 +2,14 @@
     <div class="listing-summary">
         <modification-author-menu :mod="mod"></modification-author-menu>
 
+        <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+            Dodaj swoją opinię
+        </router-link>
+
+        <router-link :to="{ name: 'modification_ratings', params: { mod: mod.id } }">
+            Opinie
+        </router-link>
+
         <div>{{ mod.title }}</div>
         <div v-html="mod.description"></div>
         <div>{{ mod.development_status }}</div>

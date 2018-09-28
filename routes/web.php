@@ -41,6 +41,12 @@ Route::post('/mods/modifications/{mod}/create-images', 'FileController@createMod
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 Route::put('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 
+Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');
+Route::get('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');
+Route::put('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');
+Route::get('/mods/modifications/{mod}/create-rating', 'ModificationRatingController@create');
+Route::post('/mods/modifications/{mod}/create-rating', 'ModificationRatingController@create');
+
 Route::get('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos')->name('CreateModVideos');
 Route::post('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos');
 Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos');
