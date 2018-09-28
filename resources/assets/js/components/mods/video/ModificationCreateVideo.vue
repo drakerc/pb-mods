@@ -12,6 +12,7 @@
         </div>
 
         <div v-if="edit === true" class="form-group">
+            <input type="hidden" :name="'videos[' + index + '][id]'" :value="video.id">
             <div class="radio-inline">
                 <label><input type="radio" :name="'videos[' + index + '][availability]'" value="1" :checked="video.availability === 1">Dostępny</label>
             </div>

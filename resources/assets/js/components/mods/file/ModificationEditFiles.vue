@@ -7,8 +7,8 @@
             <h3>Edytujesz pliki do modyfikacji {{ mod.title }}</h3>
 
             <div v-for="(value, index) in files">
-                <modification-create-file :file="value" :key="index" :index="value.id" :image_gallery="false" :edit="true"></modification-create-file>
-                <modification-delete-file :file="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-file>
+                <modification-create-file :key="value.id" :file="value" :index="value.id" :image_gallery="false" :edit="true"></modification-create-file>
+                <modification-delete-file :key="value.id" :file="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-file>
             </div>
 
             <b-button size="lg" variant="primary" type="submit">
