@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -73,6 +72,11 @@ class Modification extends Model
         return $this->hasMany('App\ModificationVideo');
     }
 
+    public function ratings()
+    {
+        return $this->hasMany('App\ModificationRating');
+    }
+
     public function getModificationSizeName()
     {
         if ($this->size === self::SIZE_SMALL) {
@@ -140,7 +144,19 @@ class Modification extends Model
         return $images->toArray();
     }
 
+    public function getAverageRatingAttribute()
+    {
+        $ratings = $this->ratings()->get();
+        $ratingSum = 0;
+        foreach ($ratings as $rating) {
+            $ratingSum += $rating->rating;
+        }
+        return $ratingSum / $ratings->count();
+    }
+
     protected $fillable = [
         'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
     ];
+
+    protected $appends = ['averageRating'];
 }
