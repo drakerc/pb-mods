@@ -49,7 +49,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Post::findOrFail($id));
+        return response()->json(Post::with(['comments', 'files'])->findOrFail($id));
     }
 
     /**

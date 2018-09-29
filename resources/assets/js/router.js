@@ -17,6 +17,7 @@ import ModificationCreateFiles from './components/mods/file/ModificationCreateFi
 import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
 import ModificationEditFiles from './components/mods/file/ModificationEditFiles';
 import ModificationEditImages from './components/mods/file/ModificationEditImages';
+import SearchResults from './components/game/SearchResults';
 
 export default new VueRouter({
     mode: 'history',
@@ -37,10 +38,16 @@ export default new VueRouter({
             component: Header,
             children: [
                 { path: '', component: GameIndex, name: 'game_index' },
+                {
+                    path: 'search',
+                    component: SearchResults,
+                    name: 'search_results',
+                },
                 { path: ':id', component: GameDetails, name: 'game_details' },
-                { path: ':game_id/post/:id', component: PostDetails, name: 'post_details'}
+                { path: ':game_id/post/:id', component: PostDetails, name: 'post_details'},
             ]
         },
+
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }

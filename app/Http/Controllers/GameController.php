@@ -47,8 +47,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $game = Game::FindOrFail($id);
-        Log::debug($game->posts);
+        $game = Game::with(['posts', 'logo', 'categories'])->FindOrFail($id);
         return response()->json($game);
 //        return response()->json([
 //           'game' => $game
@@ -87,6 +86,15 @@ class GameController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function searchByPhraseInTitleOrDescription(Request $request) {
+        $phrase = $request->phrase;
+        $games = Game::where('title', 'like', '%' . $phrase . '%')
+            ->orWhere('description', 'like', '%' . $phrase . '%')
+            ->get(['id', 'title']);
+
+        return response()->json($games);
     }
 
     public function indexWeb()

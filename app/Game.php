@@ -30,11 +30,6 @@ class Game extends Model
         'logo_id'
     ];
 
-    protected $with = [
-        'logo',
-        'categories'
-    ];
-
 
     public function getModificationCategories()
     {

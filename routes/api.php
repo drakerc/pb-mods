@@ -49,7 +49,10 @@ Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImages
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');
 
+Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
+
 Route::resource('game', 'GameController');
+
 
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 
