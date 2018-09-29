@@ -4,6 +4,9 @@
             <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
         </div>
         <h2>{{game.title}}</h2>
+        <div v-if="game.categories">
+            <strong v-for="category in game.categories" :key="category.id">{{category.title}} </strong>
+        </div>
         <em>Added on {{game.created_at}}</em>
         <b-tabs>
             <b-tab title="Info">

@@ -42,7 +42,7 @@ class Game extends Model
     }
 
     public function categories() {
-        return $this->hasMany('App\Category', 'game')->where(['game_category' => true]);
+        return $this->belongsToMany('App\Category', 'category_game');
     }
 
     public function logo() {
