@@ -25,7 +25,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
  */
-//class User extends \TCG\Voyager\Models\User
 class User extends Authenticatable
 {
     use Notifiable;

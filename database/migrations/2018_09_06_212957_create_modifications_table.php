@@ -21,7 +21,7 @@ class CreateModificationsTable extends Migration
             $table->integer('size')->default(0); // 0 - small (replaces something), 1 - medium - adds significant changes, 2 - big - completely rehauls a game
             $table->string('replaces')->nullable(); // replaces what
             $table->string('version')->nullable()->default('0.1');
-            $table->integer('creator')->unsigned()->nullable();;
+            $table->integer('creator')->unsigned()->nullable();
             $table->timestamps();
             $table->date('release_date')->nullable()->default(date('Y-m-d'));
             $table->integer('game_id')->unsigned()->nullable();

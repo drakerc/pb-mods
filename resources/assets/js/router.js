@@ -8,8 +8,8 @@ import ModificationDetails from './components/mods/modification/ModificationDeta
 import Login from './components/Login';
 import GameDetails from './components/game/GameDetails';
 import GameIndex from './components/game/GameIndex';
-import GameMain from './components/game/GameMain';
-import PostDetails from './components/post/PostDetails';
+import Header from './components/game/Header';
+import PostDetails from './components/game/blog/PostDetails';
 import CategoryCreate from './components/mods/category/CategoryCreate';
 import ModificationCreate from './components/mods/modification/ModificationCreate';
 import ModificationUpdate from './components/mods/modification/ModificationEdit';
@@ -34,16 +34,13 @@ export default new VueRouter({
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
         {
             path: '/game',
-            component: GameMain,
+            component: Header,
             children: [
-                {path: '', component: GameIndex, name: 'game_index'},
-                {path: ':id', component: GameDetails, name: 'game_details'},
+                { path: '', component: GameIndex, name: 'game_index' },
+                { path: ':id', component: GameDetails, name: 'game_details' },
+                { path: ':game_id/post/:id', component: PostDetails, name: 'post_details'}
             ]
         },
-        {
-            path: '/post/:id',
-            component: PostDetails
-        }
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }

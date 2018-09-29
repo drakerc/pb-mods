@@ -2,17 +2,17 @@
     <div id="login" class="login-container">
         <form role="form" method="POST" action="/login">
             <input type="hidden" name="_token" :value="csrf_token">
-            <div class="form-control">
-                <input id="email" type="email" name="email"
+            <!--<div class="form-control">-->
+                <input id="email" type="email" name="email" class="form-control"
                        placeholder="Email Address" required autofocus>
-            </div>
-            <div class="form-control">
-                <input id="password" type="password" name="password"
+            <!--</div>-->
+            <!--<div class="form-control">-->
+                <input id="password" type="password" name="password" class="form-control"
                        placeholder="Password" required>
-            </div>
-            <div class="form-control">
-                <button type="submit">Log in</button>
-            </div>
+            <!--</div>-->
+            <!--<div class="form-control">-->
+                <button class="btn btn-success" type="submit">Log in</button>
+            <!--</div>-->
         </form>
     </div>
 </template>

@@ -35,6 +35,11 @@ class Post extends Model
         'post_category_id'
     ];
 
+    protected $with = [
+      'files',
+      'comments'
+    ];
+
     public function files()
     {
         return $this->belongsToMany('App\File', 'posts_files', 'file_id', 'post_id');
@@ -45,7 +50,4 @@ class Post extends Model
         return $this->hasMany('App\Comment', 'post_id', 'id');
     }
 
-    public function getComments(Post $value) {
-        return $value->comments();
-    }
 }

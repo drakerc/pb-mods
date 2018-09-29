@@ -36,5 +36,29 @@ class CategoriesSeeder extends Seeder
         DB::table('categories')->insert([
             ['title' => 'Fałszywa kategoria użytkownika', 'parent' => 6, 'game_category' => false, 'active' => false],
         ]);
+        // Game categories
+        DB::table('categories')->insert([
+            [
+                'id' => 11,
+                'title' => 'FPS',
+                'description' => 'First Person Shooter',
+                'game_category' => true,
+                'active' => true
+            ],
+            [
+                'id' => 12,
+                'title' => 'RPG',
+                'description' => 'Role Playing Game',
+                'game_category' => true,
+                'active' => true
+            ],
+            [
+                'id' => 13,
+                'title' => 'Action',
+                'description' => 'Action',
+                'game_category' => true,
+                'active' => true
+            ],
+        ]);
     }
 }

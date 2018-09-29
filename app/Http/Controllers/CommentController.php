@@ -87,18 +87,11 @@ class CommentController extends Controller
 
     public function getForPostId($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         if ($post && $post->comments())
         {
             return response()->json($post->comments()->get());
         }
         return response()->json([]);
-//        echo $comments;
-//        echo $comments->count();
-//        if ($comments->count() > 0)
-//        {
-//            return response()->json($comments->get());
-//        }
-//        return response()->json(Post::find($id)->comments()->get());
     }
 }

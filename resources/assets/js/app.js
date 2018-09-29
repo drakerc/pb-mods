@@ -11,13 +11,11 @@ window.Vue = require('vue');
 
 import router from './router';
 import App from './components/App';
-
 import BootstrapVue from 'bootstrap-vue';
-import 'bootstrap/dist/css/bootstrap.css';
-import 'bootstrap-vue/dist/bootstrap-vue.css';
-import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

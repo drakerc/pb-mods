@@ -1,19 +1,32 @@
 <template>
     <div>
-        Details:
-        <p>Title: {{game.title}}</p>
-        <p>Description:</p>
-        <em>{{game.description}}</em>
-        <p>Posts:</p>
-        <div v-if="game.posts.length > 0">
-            <b-card v-for="post in game.posts" :key="post.id">
-                <b-link slot="header" :to="`/post/${post.id}`">{{post.title}}</b-link>
-                <p class="card-text">{{post.body}}</p>
-            </b-card>
+        <div v-if="game.logo">
+            <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
         </div>
-        <div v-else>
-            <p class="lead">No posts available.</p>
-        </div>
+        <h2>{{game.title}}</h2>
+        <em>Added on {{game.created_at}}</em>
+        <b-tabs>
+            <b-tab title="Info">
+                <p>Description:</p>
+                <em>{{game.description}}</em>
+            </b-tab>
+            <b-tab title="Blog">
+                <div v-if="game.posts !== undefined && game.posts.length > 0">
+                    <p>Posts:</p>
+                    <b-card v-for="post in game.posts" :key="post.id">
+                        <b-link slot="header" :to="`/post/${post.id}`">{{post.title}}</b-link>
+                        <p class="card-text">{{post.body}}</p>
+                    </b-card>
+                </div>
+                <div v-else>
+                    <p>No posts available.</p>
+                </div>
+            </b-tab>
+            <b-tab title="Files">
+                <!--TODO-->
+            </b-tab>
+        </b-tabs>
+
     </div>
 </template>
 
@@ -52,5 +65,8 @@
 </script>
 
 <style scoped>
-
+    img#game-logo {
+        max-height: 100px;
+        max-width: 150px;
+    }
 </style>

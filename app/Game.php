@@ -30,9 +30,23 @@ class Game extends Model
         'logo_id'
     ];
 
+    protected $with = [
+        'logo',
+        'categories'
+    ];
+
+
     public function getModificationCategories()
     {
         return Category::where(['game' => $this->id, 'game_category' => false, 'parent' => null])->get();
+    }
+
+    public function categories() {
+        return $this->hasMany('App\Category', 'game')->where(['game_category' => true]);
+    }
+
+    public function logo() {
+        return $this->belongsTo('App\File', 'logo_id');
     }
 
     public function posts() {

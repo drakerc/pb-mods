@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json(Post::all());
     }
 
     /**
@@ -49,16 +49,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::find($id);
-        Log::debug($post->comments);
-//        $post->comments = $post->comments() ? $post->comments()->get() : null;
-        if ($post)
-        {
-            return response()->json(
-                [
-                    'post' => $post
-                ]);
-        }
+        return response()->json(Post::findOrFail($id));
     }
 
     /**

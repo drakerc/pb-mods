@@ -53,6 +53,6 @@ Route::get('/post{any}', function() {
     return view('game.start');
 })->where('any', '.*');
 
-Route::group(['prefix' => 'voyager/admin'], function () {
-    Voyager::routes();
-});
+//Route::group(['prefix' => 'voyager/admin'], function () {
+//    Voyager::routes();
+//});
