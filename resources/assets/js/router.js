@@ -44,7 +44,7 @@ export default new VueRouter({
                     name: 'search_results',
                 },
                 { path: ':id', component: GameDetails, name: 'game_details' },
-                { path: ':game_id/post/:id', component: PostDetails, name: 'post_details'},
+                { path: ':gameId/post/:id', component: PostDetails, name: 'post_details'},
             ]
         },
 

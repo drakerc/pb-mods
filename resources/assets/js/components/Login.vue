@@ -11,7 +11,8 @@
                        placeholder="Password" required>
             <!--</div>-->
             <!--<div class="form-control">-->
-                <button class="btn btn-success" type="submit">Log in</button>
+            <b-button type="submit" success>Log in</b-button>
+                <!--<button class="btn btn-success" type="submit">Log in</button>-->
             <!--</div>-->
         </form>
     </div>

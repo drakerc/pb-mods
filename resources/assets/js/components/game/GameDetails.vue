@@ -17,7 +17,7 @@
                 <div v-if="game.posts !== undefined && game.posts.length > 0">
                     <p>Posts:</p>
                     <b-card v-for="post in game.posts" :key="post.id">
-                        <b-link slot="header" :to="`/post/${post.id}`">{{post.title}}</b-link>
+                        <b-link slot="header" :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
                         <p class="card-text">{{post.body}}</p>
                     </b-card>
                 </div>

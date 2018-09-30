@@ -1,9 +1,10 @@
 <template>
     <div class="container">
         <div id="toolbar">
-            <router-link :to="{name: 'login' }">
-                <p>Logowanie</p>
-            </router-link>
+            <b-button :to="{name: 'login'}">Logowanie</b-button>
+            <!--<router-link :to="{name: 'login' }">-->
+                <!--<p>Logowanie</p>-->
+            <!--</router-link>-->
             <!--<router-link :to="{ name: 'categories' }">-->
                 <!--<img class="icon" src="/images/logo.jpg">-->
                 <!--<h1>Mods</h1>-->
