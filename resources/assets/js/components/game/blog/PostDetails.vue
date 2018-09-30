@@ -5,12 +5,16 @@
         <p>{{post.body}}</p>
 
         <p>Comments:</p>
-        <div v-for="(comment, index) in post.comments" :key="comment.id">
-            <b-card>
-                <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
-                <p>{{comment.body}}</p>
-            </b-card>
+        <div v-if="post.comments !== undefined && post.comments.length > 0">
+            <div v-for="(comment, index) in post.comments" :key="comment.id">
+                <b-card>
+                    <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
+                    <p>{{comment.body}}</p>
+                </b-card>
+            </div>
         </div>
+        <div v-else><p>No comments found.</p></div>
+        <b-button>Add comment</b-button>
 
     </div>
 </template>
