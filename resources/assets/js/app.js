@@ -17,6 +17,10 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+
+Vue.use(BootstrapVue);
+Vue.use(require('vue-truncate-filter'));
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -28,8 +32,7 @@ const app = new Vue({
     router
 });
 
-Vue.use(BootstrapVue);
-Vue.use(require('vue-truncate-filter'));
+
 
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
