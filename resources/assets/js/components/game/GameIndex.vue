@@ -6,8 +6,8 @@
         <b-card v-for="game in games" :key="game.id">
             <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
             <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-            <p class="card-text">
-                {{game.description}}
+            <p class="card-text" v-html="game.description">
+                <!--{{game.description | truncate(200)}}-->
             </p>
         </b-card>
     </div>

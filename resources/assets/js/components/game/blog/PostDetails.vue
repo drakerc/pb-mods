@@ -2,7 +2,7 @@
     <div>
         <h1>{{post.title}}</h1>
         <em>Posted at {{post.created_at}}</em>
-        <p>{{post.body}}</p>
+        <p v-html="post.body"></p>
 
         <p>Comments:</p>
         <div v-if="post.comments !== undefined && post.comments.length > 0">

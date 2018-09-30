@@ -18,7 +18,7 @@
                     <p>Posts:</p>
                     <b-card v-for="post in game.posts" :key="post.id">
                         <b-link slot="header" :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
-                        <p class="card-text">{{post.body}}</p>
+                        <p class="card-text" v-html="post.body"></p>
                     </b-card>
                 </div>
                 <div v-else>
