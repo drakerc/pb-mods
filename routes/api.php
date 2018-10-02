@@ -17,15 +17,18 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
+Route::get('/mods/{game}/get-title', 'GameController@getGameTitleApi');
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
 
 Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory');
 //->middleware('auth:api')
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
+Route::get('/mods/category/{category}/get-title', 'CategoryController@getCategoryTitleApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create');
 
 Route::get('/mods/modifications/{mod}', 'ModificationController@getModification');
+Route::get('/mods/modifications/{mod}/get-title', 'ModificationController@getModTitleApi');
 Route::get('/mods/modifications/{mod}/update', 'ModificationController@edit');
 Route::delete('/mods/modifications/{mod}/delete', 'ModificationController@destroy');
 
@@ -54,3 +57,4 @@ Route::resource('comment', 'CommentController');
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');
+

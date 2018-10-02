@@ -38,6 +38,7 @@
         },
         beforeMount: function () {
             var that = this;
+            console.log(this.subcategories)
             this.subcategories.forEach(function (item, index) { // TODO: change to => function
                 return that.subcategories[index].children = [];
             });

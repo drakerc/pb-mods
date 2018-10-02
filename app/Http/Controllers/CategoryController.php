@@ -121,10 +121,15 @@ class CategoryController extends Controller
         }
 
         if ($request->file('background') !== null) {
-            $category->background = $request->file('thumbnail')->store('category_backgrounds', ['disk' => 'public']);
+            $category->background = $request->file('background')->store('category_backgrounds', ['disk' => 'public']);
         }
 
         $category->save();
         return redirect()->route('ModCategory', ['game' => $request->gameid, 'category' => $category->id]);
+    }
+
+    public function getCategoryTitleApi(Category $category)
+    {
+        return $category->title;
     }
 }

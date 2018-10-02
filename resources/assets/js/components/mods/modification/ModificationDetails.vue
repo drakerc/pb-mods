@@ -53,6 +53,7 @@
         methods: {
             assignData({mod}) {
                 this.mod = mod;
+                this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
             },
         },
     }

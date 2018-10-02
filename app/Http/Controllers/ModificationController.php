@@ -210,4 +210,9 @@ class ModificationController extends Controller
             'status' => false
         ]);
     }
+
+    public function getModTitleApi(Modification $mod)
+    {
+        return $mod->title;
+    }
 }

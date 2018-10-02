@@ -29,6 +29,7 @@
             assignData({categories, game}) {
                 this.categories = categories;
                 this.game = game;
+                this.$emit('set-mod-link', this.game.id);
             },
         },
         computed: {

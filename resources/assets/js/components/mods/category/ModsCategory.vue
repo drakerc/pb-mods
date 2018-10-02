@@ -1,35 +1,36 @@
 <template>
-    <div>
-        <div class="container" :style="backgroundImageStyle">
-            <router-link :to="{ name: 'game_mods', params: { game: $route.params['game'], category: category.id } }">
-                <a href="#">Wróć do głównej strony modów do tej gry</a>
-            </router-link>
-
-            <router-link :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
-                Stwórz nową kategorię
-            </router-link>
-
-            <router-link :to="{ name: 'modification_create', params: { game: $route.params['game'], category: category.id } }">
-                Stwórz nową modyfikację
-            </router-link>
-
-            <img v-if="category.image !== null" :src="category.image"/>
-            <div class="heading">
-                <h1>{{ category.title }}</h1>
-                <div v-html="category.description"></div>
-            </div>
-            <hr>
-            <div class="lists">
-                <display-timestamps :created_at="category.created_at" :updated_at="category.updated_at">
-                </display-timestamps>
+    <div :style="backgroundImageStyle">
+        <div class="container">
+            <div class="jumbotron text-white p-3 p-md-5 rounded bg-dark">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h1 class="display-4 font-italic">{{ category.title }}</h1>
+                        <p v-html="category.description"></p>
+                        <display-timestamps :created_at="category.created_at" :updated_at="category.updated_at">
+                        </display-timestamps>
+                    </div>
+                    <div id="category-thumbnail" class="col-md-4" v-if="category.thumbnail !== null">
+                        <img :src="category.thumbnail"/>
+                    </div>
+                </div>
             </div>
 
-            <div class="category-tree">
-                <display-subcategories v-if="category.subcategories !== [] && category.subcategories !== undefined" :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
-            </div>
-
-            <div class="mods">
-                <category-mods :category="category.id"></category-mods>
+            <div class="row">
+                <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-10">
+                    <h2>Podkategorie</h2>
+                    <display-subcategories :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
+                </div>
+                <div class="col-md-2 rounded bg-dark">
+                    <h2>Menu</h2>
+                    <ol class="list-unstyled">
+                        <router-link :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
+                            <li>Stwórz nową kategorię</li>
+                        </router-link>
+                        <router-link :to="{ name: 'modification_create', params: { game: $route.params['game'], category: category.id } }">
+                            <li>Stwórz nową modyfikację</li>
+                        </router-link>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
@@ -70,15 +71,13 @@
         methods: {
             assignData({category}) {
                 this.category = category;
+                this.$emit('set-mod-link', this.$route.params['game'], this.category.id);
             },
         }
     }
 </script>
 <style>
-    .about {
-        margin: 2em 0;
-    }
-    .about h3 {
-        font-size: 22px;
+    #category-thumbnail img {
+        max-width: 200px;
     }
 </style>
