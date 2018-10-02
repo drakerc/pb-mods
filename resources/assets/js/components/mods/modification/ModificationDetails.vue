@@ -19,6 +19,8 @@
         <div>{{ mod.release_date }}</div>
         <div>{{ mod.development_studio }}</div>
 
+        <display-total-rating :rating="mod.averageRating"></display-total-rating>
+
         <div>
             <h1>Pliki:</h1>
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
@@ -37,9 +39,10 @@
     import ModificationGallery from "./ModificationGallery";
     import ModificationAuthorMenu from './ModificationAuthorMenu';
     import ModificationVideos from '../video/ModificationVideos';
+    import DisplayTotalRating from '../rating/DisplayTotalRating';
 
     export default {
-        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos},
+        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating},
         mixins: [ routeMixin ],
 
         data() {

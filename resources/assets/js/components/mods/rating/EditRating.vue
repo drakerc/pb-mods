@@ -82,11 +82,20 @@
                 this.mod = mod;
                 this.auth = auth;
                 this.title = rating.title;
-                this.rating = rating.rating;
                 this.description = rating.description;
-                this.rating_fun = rating.rating_fun;
-                this.rating_quality = rating.rating_quality;
-                this.rating_usability = rating.rating_usability;
+
+                this.rating = this.rating_options.find(obj => {
+                    return obj.value === rating.rating;
+                });
+                this.rating_fun = this.rating_fun_options.find(obj => {
+                    return obj.value === rating.rating_fun;
+                });
+                this.rating_quality = this.rating_quality_options.find(obj => {
+                    return obj.value === rating.rating_quality;
+                });
+                this.rating_usability = this.rating_usability.find(obj => {
+                    return obj.value === rating.rating_usability;
+                });
             },
         },
     }
