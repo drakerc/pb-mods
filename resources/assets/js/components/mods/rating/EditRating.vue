@@ -3,7 +3,7 @@
         <input type="hidden" name="_token" :value="csrf_token">
         <input type="hidden" name="modId" :value="mod.id">
 
-        <h3>Oceniasz modyfikację {{ mod.title }}</h3>
+        <h3>Edytujesz ocenę modyfikację {{ mod.title }}</h3>
         <p>Prosimy o stworzenie rzetelnej, sumiennej oceny. Twoja recenzja będzie czytana przez innych użytkowników i będzie mieć wpływ na ich wybór przy pobieraniu modyfikacji.</p>
 
         <div class="form-group">
@@ -43,7 +43,8 @@
         </div>
 
         <div class="form-control">
-            <b-button :size="lg" :variant="primary" type="submit">
+            <delete-rating :rating="id" :mod="mod"></delete-rating>
+            <b-button size="lg" variant="primary" type="submit">
                 Wyślij
             </b-button>
         </div>
@@ -53,15 +54,18 @@
     import routeMixin from '../../../route-mixin.js';
     import { VueEditor } from 'vue2-editor'
     import Multiselect from 'vue-multiselect'
+    import DeleteRating from './DeleteRating';
 
     export default {
         mixins: [ routeMixin ],
         components: {
             VueEditor,
-            Multiselect
+            Multiselect,
+            DeleteRating
         },
         data() {
             return {
+                id: '',
                 title: '',
                 rating: '',
                 description: '',
@@ -83,6 +87,7 @@
                 this.auth = auth;
                 this.title = rating.title;
                 this.description = rating.description;
+                this.id = rating.id;
 
                 this.rating = this.rating_options.find(obj => {
                     return obj.value === rating.rating;

@@ -77,6 +77,11 @@ class Modification extends Model
         return $this->hasMany('App\ModificationRating');
     }
 
+    public function news()
+    {
+        return $this->hasMany('App\ModificationNews');
+    }
+
     public function getModificationSizeName()
     {
         if ($this->size === self::SIZE_SMALL) {
