@@ -13,6 +13,7 @@ import router from './router';
 import App from './components/App';
 import BootstrapVue from 'bootstrap-vue'
 import axios from 'axios';
+import VueYouTubeEmbed from 'vue-youtube-embed';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
@@ -30,6 +31,7 @@ const app = new Vue({
 
 Vue.use(BootstrapVue);
 Vue.use(require('vue-truncate-filter'));
+Vue.use(VueYouTubeEmbed);
 
 axios.interceptors.response.use((response) => { // intercept the global error
     return response

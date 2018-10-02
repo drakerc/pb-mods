@@ -6,8 +6,6 @@
             <form role="form" method="GET" :action="'/mods/modifications/' + modification.id + '/mass-download'">
                 Wybrałeś poniższe pliki do pobrania:
                 <div v-for="file in selectedFiles">{{ file.pivot.title }}</div>
-
-                <!--<input type="hidden" name="_token" :value="csrf_token">-->
                 <input type="hidden" name="files" :value="selectedFilesIds">
 
                 <b-button size="lg" variant="primary" type="submit">

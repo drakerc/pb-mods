@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereUploaderId($value)
  * @mixin \Eloquent
+ * @property-read mixed $download_link
  */
 class File extends Model
 {

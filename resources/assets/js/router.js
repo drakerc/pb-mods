@@ -13,6 +13,11 @@ import ModificationCreateFiles from './components/mods/file/ModificationCreateFi
 import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
 import ModificationEditFiles from './components/mods/file/ModificationEditFiles';
 import ModificationEditImages from './components/mods/file/ModificationEditImages';
+import ModificationCreateVideos from './components/mods/video/ModificationCreateVideos';
+import ModificationEditVideos from './components/mods/video/ModificationEditVideos';
+import ModificationCreateRating from './components/mods/rating/CreateRating';
+import ModificationDisplayRatings from './components/mods/rating/DisplayRatings';
+import ModificationEditRating from './components/mods/rating/EditRating';
 
 export default new VueRouter({
     mode: 'history',
@@ -26,6 +31,11 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod/edit-files', component: ModificationEditFiles, name: 'modification_edit_files'},
         {path: '/mods/modifications/:mod/create-images', component: ModificationCreateImages, name: 'modification_create_images'},
         {path: '/mods/modifications/:mod/edit-images', component: ModificationEditImages, name: 'modification_edit_images'},
+        {path: '/mods/modifications/:mod/create-videos', component: ModificationCreateVideos, name: 'modification_create_videos'},
+        {path: '/mods/modifications/:mod/edit-videos', component: ModificationEditVideos, name: 'modification_edit_videos'},
+        {path: '/mods/modifications/:mod/create-rating', component: ModificationCreateRating, name: 'modification_create_rating'},
+        {path: '/mods/modifications/:mod/ratings', component: ModificationDisplayRatings, name: 'modification_ratings'},
+        {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
         {path: '/login', component: Login, name: 'login'},
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'}
     ],

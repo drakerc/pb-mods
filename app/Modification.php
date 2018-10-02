@@ -2,7 +2,6 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -44,6 +43,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereUseGameBackground($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereVersion($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $images
  */
 class Modification extends Model
 {
@@ -65,6 +65,21 @@ class Modification extends Model
     public function images()
     {
         return $this->belongsToMany('App\File', 'image_file_modification', 'modification_id', 'file_id')->withPivot('active', 'type');
+    }
+
+    public function videos()
+    {
+        return $this->hasMany('App\ModificationVideo');
+    }
+
+    public function ratings()
+    {
+        return $this->hasMany('App\ModificationRating');
+    }
+
+    public function news()
+    {
+        return $this->hasMany('App\ModificationNews');
     }
 
     public function getModificationSizeName()
@@ -111,6 +126,11 @@ class Modification extends Model
         return ($this->files()->where('availability', true)->get())->toArray();
     }
 
+    public function getVideos()
+    {
+        return ($this->videos()->get())->toArray();
+    }
+
     public function getImages($all = false)
     {
         if ($all) {
@@ -129,7 +149,19 @@ class Modification extends Model
         return $images->toArray();
     }
 
+    public function getAverageRatingAttribute()
+    {
+        $ratings = $this->ratings()->get();
+        $ratingSum = 0;
+        foreach ($ratings as $rating) {
+            $ratingSum += $rating->rating;
+        }
+        return $ratingSum / $ratings->count();
+    }
+
     protected $fillable = [
         'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
     ];
+
+    protected $appends = ['averageRating'];
 }

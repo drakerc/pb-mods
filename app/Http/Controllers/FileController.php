@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\Modification;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -122,6 +123,10 @@ class FileController extends Controller
 
         foreach ($request->post('files') as $key => $value) {
             $file = $mod->files()->find($key);
+            if ($file === null) {
+                throw new ModelNotFoundException('Could not find a file with id' . $key);
+            }
+
             if (isset($files[$key])) {
                 $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
                 $file->file_type = $files[$key]->getMimeType();
@@ -133,6 +138,7 @@ class FileController extends Controller
             $file->pivot->title = $value['title'];
             $file->pivot->description = $value['description'];
             $file->save();
+            $file->pivot->save();
         }
 
         return redirect()->route('ModificationView', ['mod' => $mod->id]);

@@ -37,8 +37,6 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    public $subCount;
-
     protected $appends = ['subcategoriesCount'];
 
     protected $fillable = [
