@@ -55,6 +55,7 @@ Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
 
 Route::resource('game', 'GameController');
 
+Route::resource('post-category', 'PostCategoryController');
 
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 

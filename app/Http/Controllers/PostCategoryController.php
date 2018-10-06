@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
+use App\PostCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
-class PostController extends Controller
+class PostCategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(Post::all());
+        return response()->json(PostCategory::all());
     }
 
     /**
@@ -36,9 +35,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        Log::debug($request);
-
-        return response()->json(Post::create($request->all()));
+        //
     }
 
     /**
@@ -49,7 +46,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Post::with(['comments', 'files'])->findOrFail($id));
+        //
     }
 
     /**

@@ -23,6 +23,7 @@ import ModificationEditVideos from './components/mods/video/ModificationEditVide
 import ModificationCreateRating from './components/mods/rating/CreateRating';
 import ModificationDisplayRatings from './components/mods/rating/DisplayRatings';
 import ModificationEditRating from './components/mods/rating/EditRating';
+import PostForm from './components/game/blog/post/PostForm';
 
 export default new VueRouter({
     mode: 'history',
@@ -61,6 +62,11 @@ export default new VueRouter({
                     path: ':id',
                     component: GameDetails,
                     name: 'game_details'
+                },
+                {
+                    path: ':id/post/new',
+                    component: PostForm,
+                    name: 'post_form'
                 },
                 {
                     path: ':gameId/post/:id',

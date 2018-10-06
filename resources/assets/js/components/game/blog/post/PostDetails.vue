@@ -32,12 +32,11 @@
     import axios from 'axios';
     import { VueEditor } from 'vue2-editor';
 
-    const fetchGames = (id, callback) => {
+    const fetchPost = (id, callback) => {
         axios.get(`/api/post/${id}`).then((response) => {
             // console.log(response.data);
             callback(null, response.data);
         }).catch(err => callback(err, err.response.data));
-
     };
 
     export default {
@@ -61,7 +60,7 @@
             this.comment.postId = this.$route.params.id;
         },
         beforeRouteEnter(to, from, next) {
-            fetchGames(to.params.id, (err, data) => {
+            fetchPost(to.params.id, (err, data) => {
                 next(vm => vm.setData(err, data));
             });
         },
@@ -88,13 +87,6 @@
                     author_id: 1
                 }).then(response => {
                     console.log(response);
-                    // this.$router.push({
-                    //     name: 'post_details',
-                    //     params: {
-                    //         gameId: this.gameId,
-                    //         postId: this.postId
-                    //     }
-                    // });
                 });
             }
         }

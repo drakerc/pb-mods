@@ -14,6 +14,8 @@
                 <em>{{game.description}}</em>
             </b-tab>
             <b-tab title="Blog">
+                <!--TODO: if user is authenticated and is in development team-->
+                <b-link :to="{name: 'post_form', params:{id: game.id}}">Create a new post</b-link>
                 <div v-if="game.posts !== undefined && game.posts.length > 0">
                     <p>Posts:</p>
                     <b-card v-for="post in game.posts" :key="post.id">
