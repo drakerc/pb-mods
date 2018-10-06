@@ -9,7 +9,7 @@ import Login from './components/Login';
 import GameDetails from './components/game/GameDetails';
 import GameIndex from './components/game/GameIndex';
 import Header from './components/game/Header';
-import PostDetails from './components/game/blog/PostDetails';
+import PostDetails from './components/game/blog/post/PostDetails';
 import CategoryCreate from './components/mods/category/CategoryCreate';
 import ModificationCreate from './components/mods/modification/ModificationCreate';
 import ModificationUpdate from './components/mods/modification/ModificationEdit';
@@ -47,14 +47,26 @@ export default new VueRouter({
             path: '/game',
             component: Header,
             children: [
-                { path: '', component: GameIndex, name: 'game_index' },
+                {
+                    path: '',
+                    component: GameIndex,
+                    name: 'game_index'
+                },
                 {
                     path: 'search',
                     component: SearchResults,
                     name: 'search_results',
                 },
-                { path: ':id', component: GameDetails, name: 'game_details' },
-                { path: ':gameId/post/:id', component: PostDetails, name: 'post_details'},
+                {
+                    path: ':id',
+                    component: GameDetails,
+                    name: 'game_details'
+                },
+                {
+                    path: ':gameId/post/:id',
+                    component: PostDetails,
+                    name: 'post_details'
+                },
             ]
         },
 

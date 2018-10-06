@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Comment;
 use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -36,7 +38,10 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::info(Auth::guest());
+        $comment = $request->all();
+        Comment::create($comment);
+        return response()->json($comment);
     }
 
     /**
