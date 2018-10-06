@@ -13,7 +13,7 @@ class FileSeeder extends Seeder
     {
         DB::table('files')->insert([
             [
-                'id' => 1,
+                'id' => 8,
                 'file_path' => 'game/logo/1-gtasa.jpg',
                 'file_type' => 'image/jpg',
                 'file_size' => 13760,
@@ -23,7 +23,7 @@ class FileSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'id' => 2,
+                'id' => 9,
                 'file_path' => 'game/logo/2-skyrim.jpg',
                 'file_type' => 'image/jpg',
                 'file_size' => 3900,
@@ -33,7 +33,7 @@ class FileSeeder extends Seeder
                 'updated_at' => now()
             ],
             [
-                'id' => 3,
+                'id' => 10,
                 'file_path' => 'game/logo/3-fallout3.jpeg',
                 'file_type' => 'image/jpeg',
                 'file_size' => 57901,

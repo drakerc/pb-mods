@@ -52,6 +52,24 @@ class ModificationController extends Controller
         return view('start', ['model' => $this->prepareModificationArray($mod, $request)]);
     }
 
+    public function getRatings(Modification $mod, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'ratings' => ($mod->ratings()->get())->toArray(),
+                    'mod' => $mod->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'ratings' => ($mod->ratings()->get())->toArray(),
+            'mod' => $mod->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
+    }
+
     public function getModificationsInCategoryApi(Category $category)
     {
         return response()->json(($category->getModificationsInCategory())->toArray());
@@ -65,6 +83,11 @@ class ModificationController extends Controller
     public function getImagesApi(Modification $mod)
     {
         return response()->json($mod->getImages());
+    }
+
+    public function getVideosApi(Modification $mod)
+    {
+        return response()->json($mod->getVideos());
     }
 
     private function validation(Request $request)

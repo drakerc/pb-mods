@@ -1,23 +1,13 @@
 <template>
     <div class="listing-summary">
-        <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
-            Edytuj tą modyfikację
+        <modification-author-menu :mod="mod"></modification-author-menu>
+
+        <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+            Dodaj swoją opinię
         </router-link>
 
-        <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
-            Dodaj plik/i
-        </router-link>
-
-        <router-link :to="{ name: 'modification_create_images', params: { mod: mod.id } }">
-            Dodaj galerię zdjęć
-        </router-link>
-
-        <router-link :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
-            Edytuj pliki
-        </router-link>
-
-        <router-link :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
-            Edytuj obrazki
+        <router-link :to="{ name: 'modification_ratings', params: { mod: mod.id } }">
+            Opinie
         </router-link>
 
         <div>{{ mod.title }}</div>
@@ -29,6 +19,8 @@
         <div>{{ mod.release_date }}</div>
         <div>{{ mod.development_studio }}</div>
 
+        <display-total-rating :rating="mod.averageRating"></display-total-rating>
+
         <div>
             <h1>Pliki:</h1>
             <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
@@ -36,15 +28,21 @@
 
         Galeria screenów:
         <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
+
+        Filmiki:
+        <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
     </div>
 </template>
 <script>
     import routeMixin from '../../../route-mixin.js';
     import ModificationFiles from "../file/ModificationFiles";
     import ModificationGallery from "./ModificationGallery";
+    import ModificationAuthorMenu from './ModificationAuthorMenu';
+    import ModificationVideos from '../video/ModificationVideos';
+    import DisplayTotalRating from '../rating/DisplayTotalRating';
 
     export default {
-        components: {ModificationFiles, ModificationGallery},
+        components: {ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating},
         mixins: [ routeMixin ],
 
         data() {

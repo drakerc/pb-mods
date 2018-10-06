@@ -16,14 +16,6 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-//Route::get('categories/{category}', function(\App\Category $category) {
-//    return $category->toJson();
-//});
-//Route::get('/categories/', 'CategoryController@getCategoriesApi');
-//Route::get('/categories/{category}', 'CategoryController@getCategoryApi');
-//Route::get('/categories/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
-
-
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
 
@@ -45,6 +37,16 @@ Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@d
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
+
+Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');
+Route::get('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');
+Route::delete('/mods/modifications/{mod}/ratings/{rating}/delete', 'ModificationRatingController@destroy');
+Route::get('/mods/modifications/{mod}/create-rating', 'ModificationRatingController@create');
+
+Route::get('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos');
+Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos');
+Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideosApi');
+Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');

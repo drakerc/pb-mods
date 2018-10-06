@@ -22,6 +22,7 @@
         </div>
 
         <div v-if="edit === true" class="form-group">
+            <input type="hidden" :name="'files[' + index + '][id]'" :value="file.id">
             <!--<label :for="'files[' + index + '][availability]'">Dostępność</label>-->
             <!--<input :id="'files[' + index + '][title]'" type="text" :name="'files[' + index + '][title]'" class="form-control"-->
                    <!--placeholder="Tytuł" v-model="title" required autofocus>-->
