@@ -37,7 +37,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Category extends Model
 {
-    protected $appends = ['subcategoriesCount'];
+    protected $appends = ['subcategoriesCount', 'deepSubcategoriesCount', 'deepModificationsCount'];
 
     protected $fillable = [
         'title', 'description', 'thumbnail', 'background'
@@ -56,6 +56,34 @@ class Category extends Model
     public function getSubcategoriesCountAttribute()
     {
         return Category::where(['parent' => $this->id, 'active' => true])->count();
+    }
+
+    public function getDeepSubcategoriesCountAttribute($parentId = null, $count = 0)
+    {
+        if ($parentId === null) {
+            $parentId = $this->id;
+        }
+        $subcats = Category::where(['parent' => $parentId, 'active' => true])->get(); // probably need to fetch id only
+
+        foreach ($subcats as $cat) {
+            $count++;
+            $count = $this->getDeepSubcategoriesCountAttribute($cat->id, $count);
+        }
+        return $count;
+    }
+
+    public function getDeepModificationsCountAttribute($parentId = null, $count = 0)
+    {
+        if ($parentId === null) {
+            $parentId = $this->id;
+        }
+        $subcats = Category::where(['parent' => $parentId, 'active' => true])->get();
+
+        foreach ($subcats as $cat) {
+            $count += Modification::where(['category_id' => $cat->id, 'active' => true])->count();
+            $count = $this->getDeepSubcategoriesCountAttribute($cat->id, $count);
+        }
+        return $count;
     }
 
     public function getModificationsInCategory()
