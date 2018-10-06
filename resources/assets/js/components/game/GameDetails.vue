@@ -18,8 +18,11 @@
                 <b-link :to="{name: 'post_form', params:{id: game.id}}">Create a new post</b-link>
                 <div v-if="game.posts !== undefined && game.posts.length > 0">
                     <p>Posts:</p>
-                    <b-card v-for="post in game.posts" :key="post.id">
-                        <b-link slot="header" :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
+                    <b-card v-for="post in game.posts" :key="post.id" class="my-2">
+                        <p slot="header">
+                            <b-link :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
+                        </p>
+                        <p slot="header"><em>Posted at: {{post.created_at}}</em></p>
                         <p class="card-text" v-html="post.body"></p>
                     </b-card>
                 </div>

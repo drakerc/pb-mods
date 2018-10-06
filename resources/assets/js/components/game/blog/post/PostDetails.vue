@@ -1,12 +1,12 @@
 <template>
-    <div>
+    <div class="my-2">
         <h1>{{post.title}}</h1>
         <em>Posted at {{post.created_at}}</em>
         <p v-html="post.body"></p>
 
         <p>Comments:</p>
         <div v-if="post.comments !== undefined && post.comments.length > 0">
-            <div v-for="(comment, index) in post.comments" :key="comment.id">
+            <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
                 <b-card>
                     <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
                     <p v-html="comment.body"/>
@@ -14,13 +14,13 @@
             </div>
         </div>
         <div v-else><p>No comments found.</p></div>
-        <b-button @click="showForm" v-if="!formVisible">Add comment</b-button>
-        <div v-if="formVisible">
+        <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
+        <div v-if="formVisible" class="my-2">
             <b-form @submit="onSubmit" class="col-sm-10">
                 <b-form-group label="Comment:">
                     <vue-editor v-model="comment.body"></vue-editor>
                 </b-form-group>
-                <b-button type="submit" variant="primary">Submit</b-button>
+                <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
                 <b-button @click="hideForm" variant="default">Cancel</b-button>
             </b-form>
         </div>

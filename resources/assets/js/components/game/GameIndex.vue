@@ -3,7 +3,7 @@
         <h1>Hello!</h1>
 
         <p>Latest game releases:</p>
-        <b-card v-for="game in games" :key="game.id">
+        <b-card v-for="game in games" :key="game.id" class="my-2">
             <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
             <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
             <p class="card-text" v-html="game.description">
