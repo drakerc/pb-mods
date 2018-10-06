@@ -14,8 +14,8 @@ class FileSeeder extends Seeder
         DB::table('files')->insert([
             [
                 'id' => 1,
-                'file_path' => 'game/logo/1-gtasa.png',
-                'file_type' => 'image/png',
+                'file_path' => 'game/logo/1-gtasa.jpg',
+                'file_type' => 'image/jpg',
                 'file_size' => 13760,
                 'availability' => '1',
                 'uploader_id' => '1',
@@ -24,8 +24,8 @@ class FileSeeder extends Seeder
             ],
             [
                 'id' => 2,
-                'file_path' => 'game/logo/2-skyrim.jpeg',
-                'file_type' => 'image/jpeg',
+                'file_path' => 'game/logo/2-skyrim.jpg',
+                'file_type' => 'image/jpg',
                 'file_size' => 3900,
                 'availability' => '1',
                 'uploader_id' => '1',
@@ -34,8 +34,8 @@ class FileSeeder extends Seeder
             ],
             [
                 'id' => 3,
-                'file_path' => 'game/logo/3-fallout3.jpg',
-                'file_type' => 'image/jpg',
+                'file_path' => 'game/logo/3-fallout3.jpeg',
+                'file_type' => 'image/jpeg',
                 'file_size' => 57901,
                 'availability' => '1',
                 'uploader_id' => '1',
