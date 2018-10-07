@@ -1,6 +1,8 @@
 <template>
     <div>
-        <modification-file v-if="files[0].id !== undefined" v-for="file in files" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+        <div class="row">
+            <modification-file v-if="files[0].id !== undefined" v-for="file in files" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+        </div>
 
         <div v-if="selectedFiles.length !== 0">
             <form role="form" method="GET" :action="'/mods/modifications/' + modification.id + '/mass-download'">

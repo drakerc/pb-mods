@@ -1,38 +1,34 @@
 <template>
     <div>
-        <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
-            Dodaj plik/i
-        </router-link>
-
-        <router-link :to="{ name: 'modification_create_images', params: { mod: mod.id } }">
-            Dodaj galerię zdjęć
-        </router-link>
-
-        <router-link :to="{ name: 'modification_create_videos', params: { mod: mod.id } }">
-            Dodaj filmiki
-        </router-link>
-
-        <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
-            Edytuj tą modyfikację
-        </router-link>
-
-        <span v-if="files_added">
-            <router-link :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
-                Edytuj pliki
+        <ol class="list-unstyled">
+            <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
+                <li>Dodaj plik/i</li>
             </router-link>
-        </span>
 
-        <span v-if="images_added">
-            <router-link :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
-                Edytuj obrazki
+            <router-link :to="{ name: 'modification_create_images', params: { mod: mod.id } }">
+                <li>Dodaj galerię zdjęć</li>
             </router-link>
-        </span>
 
-        <span v-if="videos_added">
-            <router-link :to="{ name: 'modification_edit_videos', params: { mod: mod.id } }">
-                Edytuj filmiki
+            <router-link :to="{ name: 'modification_create_videos', params: { mod: mod.id } }">
+                <li>Dodaj filmiki</li>
             </router-link>
-        </span>
+
+            <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
+                <li>Edytuj tą modyfikację</li>
+            </router-link>
+
+            <router-link v-if="files_added" :to="{ name: 'modification_edit_files', params: { mod: mod.id } }">
+                <li>Edytuj pliki</li>
+            </router-link>
+
+            <router-link v-if="images_added" :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
+                <li>Edytuj obrazki</li>
+            </router-link>
+
+            <router-link v-if="videos_added" :to="{ name: 'modification_edit_videos', params: { mod: mod.id } }">
+                <li>Edytuj filmiki</li>
+            </router-link>
+        </ol>
     </div>
 </template>
 

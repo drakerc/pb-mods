@@ -1,15 +1,26 @@
 <template>
-    <div>
-        <p>id: {{ file.id }}</p>
-        <p>title: {{ file.pivot.title }}</p>
-        <p>description: <span v-html="file.pivot.description"></span></p>
-        <p><a :href="file.downloadLink">Pobierz ten plik</a></p>
 
-        <div>
-            <input type="checkbox" :id="'checkbox-' + file.id" v-model="selected" v-on:change="$emit('selectFile', file, selected)">
-            <label for="'checkbox-' + file.id">Zaznacz, by dodać do pobierania masowego</label>
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="text-center">
+                {{ file.pivot.title }}
+            </div>
+
+            <div class="card-body">
+                <p class="card-text"><span v-html="file.pivot.description"></span></p>
+                <div>
+                    <div>
+                        <a :href="file.downloadLink" class="btn btn-lg btn-outline-primary">
+                           Pobierz ten plik
+                        </a>
+                        <div>
+                            <input class="form-check-input" type="checkbox" :id="'checkbox-' + file.id" v-model="selected" v-on:change="$emit('selectFile', file, selected)">
+                            <label for="'checkbox-' + file.id">Zaznacz, by dodać do pobierania masowego</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <hr/>
     </div>
 </template>
 <script>

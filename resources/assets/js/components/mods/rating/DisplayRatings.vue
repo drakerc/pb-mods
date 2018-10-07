@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="row">
         <display-rating v-for="rating in ratings" :key="rating.id" :rating="rating" :mod="mod"></display-rating>
     </div>
 </template>
@@ -9,6 +9,7 @@
 
     export default {
         mixins: [ routeMixin ],
+        props: ['passedMod'],
         data() {
             return {
                 mod: '',
@@ -16,6 +17,14 @@
                 auth: '',
             }
         },
+        mounted() {
+            if (this.ratings.length === 0) {
+                axios.get('/api/mods/modifications/' + this.passedMod.id + '/ratings').then(({data}) => {
+                    this.ratings = data['ratings'];
+                });
+            }
+        },
+
         components: {
             DisplayRating,
         },
