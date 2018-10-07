@@ -54,7 +54,7 @@ export default new VueRouter({
                     name: 'game_index'
                 },
                 {
-                    path: 'search',
+                    path: 'search/results',
                     component: SearchResults,
                     name: 'search_results',
                 },

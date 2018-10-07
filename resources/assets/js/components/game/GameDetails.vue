@@ -60,7 +60,10 @@
                 next(vm => vm.setData(err, data));
             });
         },
-        methods:{
+        beforeMount(){
+            this.game.id = this.$route.params.id;
+        },
+        methods: {
             setData(err, data) {
                 if (err) {
                     console.error(err);

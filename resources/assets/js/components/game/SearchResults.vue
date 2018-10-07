@@ -1,8 +1,16 @@
 <template>
-    <div>
-        <p>Results for "{{phrase}}"</p>
-        <div v-for="game in games" :key="game.id">
-            <router-link :to="`/game/${game.id}`">{{game.title}}</router-link>
+    <div class="col-sm-6">
+        <em v-if="loading" class="lead">Please wait...</em>
+        <div v-else>
+            <p>Results for <em>"{{phrase}}"</em>:</p>
+            <div v-if="games.length > 0">
+                <b-list-group>
+                    <b-list-group-item v-for="game in games" :key="game.id" :to="{name: 'game_details', params: {id: game.id}}">{{game.title}}</b-list-group-item>
+                </b-list-group>
+            </div>
+            <div v-else>
+                <p class="lead">No results found.</p>
+            </div>
         </div>
     </div>
 </template>
@@ -16,7 +24,6 @@
                 phrase
             }
         }).then((response) => {
-            // console.log(response.data);
             callback(null, response.data);
         }).catch(err => callback(err, err.response.data));
 
@@ -27,26 +34,28 @@
         data() {
             return {
                 games: [],
-                phrase: ""
+                phrase: this.$route.query.phrase,
+                loading: true
             }
         },
-        beforeRouteEnter(to, from, next) {
-            search(to.query.phrase, (err, data) => {
-                next(vm => vm.setData(err, data));
-            });
+        watch: {
+            '$route': 'search'
         },
-        beforeMount() {
-            this.phrase = this.$route.query.phrase;
+        created() {
+            this.search();
         },
         methods: {
-            setData(err, data) {
-
-                if (err) {
-                    console.error(err);
-                } else {
-                    console.log(data);
-                    this.games = data;
-                }
+            search() {
+                this.games = [];
+                this.loading = true;
+                search(this.$route.query.phrase, (err, data) => {
+                    this.loading = false;
+                    if (err) {
+                        console.error(err);
+                    } else {
+                        this.games = data;
+                    }
+                });
             }
         }
     }
