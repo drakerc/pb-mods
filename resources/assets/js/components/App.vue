@@ -1,10 +1,5 @@
 <template>
     <div>
-        <div id="toolbar">
-            <router-link :to="{name: 'login' }">
-                <p>Logowanie</p>
-            </router-link>
-        </div>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <a class="navbar-brand" href="#">{{ current_module_name }}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
@@ -31,7 +26,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podkategorie</a>
                         <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
-                            <display-subcategories v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
+                            <display-subcategories :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
                         </div>
                     </li>
                 </ul>

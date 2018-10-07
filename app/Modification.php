@@ -159,9 +159,19 @@ class Modification extends Model
         return $ratingSum / $ratings->count();
     }
 
+    public function getThumbnailAttribute()
+    {
+        $thumbnail = $this->images()
+            ->where('availability', true)
+            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
+            ->first(['file_path']);
+        return $thumbnail === null ? null : $thumbnail->downloadLink;
+    }
+
     protected $fillable = [
         'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
     ];
 
-    protected $appends = ['averageRating'];
+    protected $appends = ['averageRating', 'thumbnail'];
 }

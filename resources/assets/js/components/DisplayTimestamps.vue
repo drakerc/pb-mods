@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>
+        <p v-if="created_at">
             Stworzono dnia: {{ created_at }}
         </p>
         <p v-if="created_at !== updated_at">

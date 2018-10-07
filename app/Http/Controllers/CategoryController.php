@@ -17,8 +17,10 @@ class CategoryController extends Controller
             $cat['background'] = asset(
                 'storage/' . $cat['background']
             );
+            $thumbnailFile = $cat['thumbnail'] === null ? 'no_photo.png' : $cat['thumbnail'];
+
             $cat['thumbnail'] = asset(
-                'storage/' . $cat['thumbnail']
+                'storage/' . $thumbnailFile
             );
             return $cat;
         });
@@ -62,8 +64,10 @@ class CategoryController extends Controller
         $model['background'] = asset( // TODO: move to model as a appendable attribute
             'storage/' . $model['background']
         );
+        $thumbnailFile = $model['thumbnail'] === null ? 'no_photo.png' : $cat['thumbnail'];
+
         $model['thumbnail'] = asset(
-            'storage/' . $model['thumbnail']
+            'storage/' . $thumbnailFile
         );
 
         if ($request->ajax()) {
@@ -109,12 +113,13 @@ class CategoryController extends Controller
             [
                 'title' => $request->title,
                 'description' => $request->description,
-                'game_category' => false,
-                'parent' => $request->categoryid !== '' ? (int)$request->category : null,
-                'author' => Auth::id(),
-                'game' => $request->gameid,
-                'active' => false // TODO: true if admin
             ]);
+
+        $category->game_category = false;
+        $category->parent = $request->categoryid !== '' ? (int)$request->category : null;
+        $category->author = Auth::id();
+        $category->game = $request->gameid;
+        $category->active = false; // TODO: true if admin
 
         if ($request->file('thumbnail') !== null) {
             $category->thumbnail = $request->file('thumbnail')->store('category_thumbnails', ['disk' => 'public']);

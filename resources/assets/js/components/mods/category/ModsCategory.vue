@@ -18,9 +18,9 @@
             <div class="row">
                 <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-10">
                     <h2>Podkategorie</h2>
-                    <display-subcategories :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
+                    <display-subcategories :subcategory=false :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
                 </div>
-                <div class="col-md-2 rounded bg-dark">
+                <div class="col-md-2 rounded bg-light">
                     <h2>Menu</h2>
                     <ol class="list-unstyled">
                         <router-link :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
@@ -32,6 +32,14 @@
                     </ol>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-10">
+                    <h2>Modyfikacje</h2>
+                    <category-mods :category="category.id"></category-mods>
+                </div>
+            </div>
+
         </div>
     </div>
 </template>

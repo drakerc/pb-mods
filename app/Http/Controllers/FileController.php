@@ -97,10 +97,10 @@ class FileController extends Controller
 
     public function editModificationFiles(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -146,10 +146,10 @@ class FileController extends Controller
 
     public function destroy(Modification $mod, File $file, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
@@ -166,10 +166,10 @@ class FileController extends Controller
 
     public function editModificationImageFiles(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -230,10 +230,10 @@ class FileController extends Controller
      */
     private function getModificationFileCreationRedirections(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
         if ($request->ajax()) {
             return response()->json([
                 'mod' => $mod->toArray(),
