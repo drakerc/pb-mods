@@ -12,6 +12,71 @@ class GamesSeeder extends Seeder
      */
     public function run()
     {
+        // Game-related files
+        DB::table('files')->insert([
+            [
+                'id' => 8,
+                'file_path' => 'game/logo/1-gtasa.jpg',
+                'file_type' => 'image/jpg',
+                'file_size' => 13760,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 9,
+                'file_path' => 'game/logo/2-skyrim.jpg',
+                'file_type' => 'image/jpg',
+                'file_size' => 3900,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 10,
+                'file_path' => 'game/logo/3-fallout3.jpeg',
+                'file_type' => 'image/jpeg',
+                'file_size' => 57901,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 11,
+                'file_path' => 'game/files/3-screen1.jpeg',
+                'file_type' => 'image/jpeg',
+                'file_size' => 57901,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 12,
+                'file_path' => 'game/files/3-screen2.jpeg',
+                'file_type' => 'image/jpeg',
+                'file_size' => 57901,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => 13,
+                'file_path' => 'game/files/3-screen3.jpeg',
+                'file_type' => 'image/jpeg',
+                'file_size' => 57901,
+                'availability' => '1',
+                'uploader_id' => '1',
+                'created_at' => now(),
+                'updated_at' => now()
+            ]
+        ]);
+
+        // Games
         DB::table('games')->insert([
             [
                 'id' => 1,
@@ -37,6 +102,22 @@ class GamesSeeder extends Seeder
                 'description' => "Fallout 3 to kolejna odsłona kultowej serii z gatunku cRPG, zapoczątkowanej w 1997 roku. Opracowaniem niniejszej części cyklu zajęli się twórcy gry The Elder Scrolls IV: Oblivion, wykorzystując jej ulepszony silnik. Aczkolwiek przykładowo system animacji i efektów świetlnych zaprojektowano od podstaw.",
                 'logo_id' => 10
             ],
+        ]);
+
+        // Game -> file pivot
+        DB::table('file_game')->insert([
+            [
+                'game_id' => '3',
+                'file_id' => 11
+            ],
+            [
+                'game_id' => '3',
+                'file_id' => 12
+            ],
+            [
+                'game_id' => '3',
+                'file_id' => 13
+            ]
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="md" type="dark" variant="info">
+        <b-navbar toggleable="md" type="dark" variant="info" class="mb-3">
             <b-navbar-nav>
                 <b-nav-item to="/game" exact>Games</b-nav-item>
             </b-navbar-nav>

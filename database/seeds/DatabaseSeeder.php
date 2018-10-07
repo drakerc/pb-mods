@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(PostCategoriesTableSeeder::class);
         $this->call(UsersTableSeeder::class);
-        $this->call(FileSeeder::class);
         $this->call(GamesSeeder::class);
         $this->call(CategoriesSeeder::class);
         $this->call(PostsTableSeeder::class);

@@ -45,10 +45,14 @@ class Game extends Model
     }
 
     public function posts() {
-        return $this->hasMany('App\Post', 'game_id', 'id');
+        return $this->hasMany('App\Post', 'game_id', 'id')->orderBy('created_at', 'desc');
     }
 
     public function getPosts($value) {
         return $value->posts();
+    }
+
+    public function files() {
+        return $this->belongsToMany('App\File', 'file_game');
     }
 }

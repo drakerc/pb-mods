@@ -47,7 +47,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $game = Game::with(['posts', 'logo', 'categories'])->FindOrFail($id);
+        $game = Game::with(['posts', 'logo', 'categories', 'files'])->FindOrFail($id);
         return response()->json($game);
 //        return response()->json([
 //           'game' => $game
