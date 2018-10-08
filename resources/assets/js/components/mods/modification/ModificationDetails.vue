@@ -1,6 +1,6 @@
 <template>
-    <div :style="backgroundImageStyle">
-            <div class="jumbotron text-white rounded" :style="splashImageStyle">
+    <div class="cover-container" :style="backgroundImageStyle">
+            <div class="jumbotron text-white rounded border-bottom" :style="splashImageStyle">
                 <div class="row">
                     <div class="col-md-8 bg-semi-transparent">
                         <div class="row">
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-        <div class="container">
+        <div class="container jumbotron rounded text-white bg-semi-transparent-details">
             <b-nav tabs>
                 <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
@@ -45,14 +45,14 @@
                 <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
             </div>
 
-            <div v-if="active === 'reviews'">
+            <div class="text-dark" v-if="active === 'reviews'">
                 <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
                     Dodaj swoją opinię
                 </router-link>
                 <display-ratings :passedMod="mod"></display-ratings>
             </div>
 
-            <div v-if="active === 'files'">
+            <div class="text-dark" v-if="active === 'files'">
                 <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
             </div>
 
@@ -61,42 +61,6 @@
             </div>
 
         </div>
-
-
-
-
-
-        <!--<modification-author-menu :mod="mod"></modification-author-menu>-->
-
-        <!--<router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">-->
-            <!--Dodaj swoją opinię-->
-        <!--</router-link>-->
-
-        <!--<router-link :to="{ name: 'modification_ratings', params: { mod: mod.id } }">-->
-            <!--Opinie-->
-        <!--</router-link>-->
-
-        <!--<div>{{ mod.title }}</div>-->
-        <!--<div v-html="mod.description"></div>-->
-        <!--<div>{{ mod.development_status }}</div>-->
-        <!--<div>{{ mod.size }}</div>-->
-        <!--<div>{{ mod.replaces }}</div>-->
-        <!--<div>{{ mod.version }}</div>-->
-        <!--<div>{{ mod.release_date }}</div>-->
-        <!--<div>{{ mod.development_studio }}</div>-->
-
-        <!--<display-total-rating :rating="mod.averageRating"></display-total-rating>-->
-
-        <!--<div>-->
-            <!--<h1>Pliki:</h1>-->
-            <!--<modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>-->
-        <!--</div>-->
-
-        <!--Galeria screenów:-->
-        <!--<modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>-->
-
-        <!--Filmiki:-->
-        <!--<modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>-->
     </div>
 </template>
 <script>
@@ -124,13 +88,17 @@
             splashImageStyle() {
                 return {
                     'background-image': `url("${this.mod.splash}")`,
+                    'background-repeat': 'no-repeat',
                     'background-color': 'black',
-
+                    'background-size': 'cover',
                 }
             },
             backgroundImageStyle() {
                 return {
                     'background-image': `url("${this.mod.background}")`,
+                    'background-repeat': 'no-repeat',
+                    'height': '100%',
+                    'background-size': 'cover',
                 }
             },
             fontTitle() {
@@ -149,6 +117,10 @@
 </script>
 <style>
     .bg-semi-transparent{
-        background-color: rgba(255,255,255, 0.5);
+        background-color: rgba(124, 124, 124, 0.84);
+    }
+    .bg-semi-transparent-details {
+        background-color: rgba(0, 0, 0, 0.8);
+
     }
 </style>

@@ -72,7 +72,9 @@
         computed: {
             backgroundImageStyle() {
                 return {
-                    'background-image': `url("${this.category.background}")`
+                    'background-image': `url("${this.category.background}")`,
+                    'background-repeat': 'no-repeat',
+                    'background-size': '100%',
                 }
             }
         },

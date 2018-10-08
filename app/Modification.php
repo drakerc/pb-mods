@@ -171,22 +171,22 @@ class Modification extends Model
 
     public function getBackgroundAttribute()
     {
-        $thumbnail = $this->images()
+        $image = $this->images()
             ->where('availability', true)
             ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
             ->first(['file_path']);
-        return $thumbnail === null ? null : $thumbnail->downloadLink;
+        return $image === null ? null : $image->downloadLink;
     }
 
     public function getSplashAttribute()
     {
-        $thumbnail = $this->images()
+        $image = $this->images()
             ->where('availability', true)
             ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_SPLASH)
             ->first(['file_path']);
-        return $thumbnail === null ? null : $thumbnail->downloadLink;
+        return $image === null ? null : $image->downloadLink;
     }
 
     protected $fillable = [

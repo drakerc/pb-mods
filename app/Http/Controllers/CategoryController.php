@@ -64,7 +64,7 @@ class CategoryController extends Controller
         $model['background'] = asset( // TODO: move to model as a appendable attribute
             'storage/' . $model['background']
         );
-        $thumbnailFile = $model['thumbnail'] === null ? 'no_photo.png' : $cat['thumbnail'];
+        $thumbnailFile = $model['thumbnail'] === null ? 'no_photo.png' : $model['thumbnail'];
 
         $model['thumbnail'] = asset(
             'storage/' . $thumbnailFile
@@ -116,7 +116,8 @@ class CategoryController extends Controller
             ]);
 
         $category->game_category = false;
-        $category->parent = $request->categoryid !== '' ? (int)$request->category : null;
+
+        $category->parent = $request->categoryid !== '' ? (int)$request->categoryid : null;
         $category->author = Auth::id();
         $category->game = $request->gameid;
         $category->active = false; // TODO: true if admin
