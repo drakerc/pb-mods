@@ -1,21 +1,31 @@
 <template>
-    <div>
-        <form role="form" method="POST" :action="'/mods/modifications/' + mod.id + '/edit-videos'">
-            <input type="hidden" name="_token" :value="csrf_token">
-            <input name="_method" type="hidden" value="PUT">
-            <h3>Edytujesz pliki wideo do modyfikacji {{ mod.title }}</h3>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <form role="form" method="POST" :action="'/mods/modifications/' + mod.id + '/edit-videos'">
+                    <input type="hidden" name="_token" :value="csrf_token">
+                    <input name="_method" type="hidden" value="PUT">
+                    <h3>Edytujesz pliki wideo do modyfikacji {{ mod.title }}</h3>
 
-            <div v-for="(value, index) in videos">
-                <modification-create-video :key="value.id" :video="value" :index="index" :edit="true"></modification-create-video>
-                <modification-delete-video :key="value.id" :video="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-video>
-            </div>
+                    <div v-for="(value, index) in videos">
+                        <modification-delete-video :key="value.id" :video="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-video>
+                        <modification-create-video :key="value.id" :video="value" :index="index" :edit="true"></modification-create-video>
+                    </div>
 
-            <div class="form-control">
-                <b-button size="lg" variant="primary" type="submit">
-                    Wyślij
-                </b-button>
+                    <b-button block=true size="lg" variant="primary" type="submit">
+                        Wyślij
+                    </b-button>
+                </form>
             </div>
-        </form>
+            <!--<div class="col-md-2">-->
+                <!--<b-button size="md" variant="secondary" @click="files_amount++">-->
+                    <!--Wybierz więcej filmików-->
+                <!--</b-button>-->
+                <!--<b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount&#45;&#45;">-->
+                    <!--Usuń ostatni filmik-->
+                <!--</b-button>-->
+            <!--</div>-->
+        </div>
     </div>
 </template>
 <script>

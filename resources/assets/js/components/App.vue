@@ -23,7 +23,7 @@
                             <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
                         </router-link>
                     </li>
-                    <li class="nav-item dropdown">
+                    <li v-if="subcategories && subcategories.length > 0" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podkategorie</a>
                         <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
                             <display-subcategories :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
@@ -62,6 +62,7 @@
         },
         methods: {
             setModLink: function(game, category = null, mod = null) {
+                console.log('xx')
                 if (this.game !== game) {
                     axios.get('/api/mods/' + game + '/get-title').then(({data}) => {
                         this.game_title = data;
@@ -103,5 +104,13 @@
     }
 </script>
 <style>
+    body {
+        padding-top: 60px;
+    }
+    @media (max-width: 979px) {
+        body {
+            padding-top: 0px;
+        }
+    }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>

@@ -33,7 +33,7 @@
                 <label><input type="radio" :name="'files[' + index + '][availability]'" value="0" :checked="file.availability === 0">Niedostępny</label>
             </div>
         </div>
-
+        <hr class="mb-4">
     </div>
 </template>
 <script>

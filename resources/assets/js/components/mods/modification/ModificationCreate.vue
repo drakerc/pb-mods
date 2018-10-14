@@ -12,8 +12,6 @@
             <p>W pierwszym kroku wypełnij podstawowy formularz o modyfikacji. Po jego wysłaniu będziesz mógł dodać pliki do pobrania, uzupełnić galerię obrazków, nowości, czy też filmiki.</p>
 
         <div class="col-md-12">
-
-
             <div class="mb-3">
                 <label for="title">Tytuł</label>
                 <input id="title" type="text" name="title" class="form-control"
@@ -23,13 +21,13 @@
             <div class="mb-3">
                 <input type="hidden" name="size" :value="size.value">
                 <label for="size">Wielkość modyfikacji</label>
-                <multiselect id="size" class="form-control" track-by="value" label="label" v-model="size" :options="[{label: 'Niewielka, pojedyńcza modyfikacja', value: 0}, {label: 'Średniej wielkości modyfikacja', value: 1}, {label: 'Duża, kompletna modyfikacja', value: 2}]"></multiselect>
+                <multiselect id="size" track-by="value" label="label" v-model="size" :options="[{label: 'Niewielka, pojedyńcza modyfikacja', value: 0}, {label: 'Średniej wielkości modyfikacja', value: 1}, {label: 'Duża, kompletna modyfikacja', value: 2}]"></multiselect>
             </div>
 
             <div class="mb-3">
                 <input type="hidden" name="development_status" :value="development_status.value">
                 <label for="development_status">Status produkcji</label>
-                <multiselect id="development_status" class="form-control" track-by="value" label="label" v-model="development_status" :options="[{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}]"></multiselect>
+                <multiselect id="development_status" track-by="value" label="label" v-model="development_status" :options="[{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}]"></multiselect>
             </div>
 
             <div class="mb-3">
@@ -44,7 +42,7 @@
 
             <div class="mb-3">
                 <label for="release_date">Data wydania (pozostaw puste jeśli niewydane)</label>
-                <datepicker format="dd-MM-yyyy" id="release_date" class="form-control" name="release_date"></datepicker>
+                <datepicker format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
             </div>
 
             <div class="mb-3">
@@ -68,11 +66,9 @@
                 <!--<v-select :v-model="development_studio" :options="development_studios"></v-select>-->
             <!--</div>-->
             <!--// TODO: implement dev studios-->
-            <div class="form-control">
-                <b-button size="lg" variant="primary" block=true type="submit">
-                    Wyślij
-                </b-button>
-            </div>
+        <b-button size="lg" variant="primary" block=true type="submit">
+            Wyślij
+        </b-button>
         </form>
     </div>
 </template>

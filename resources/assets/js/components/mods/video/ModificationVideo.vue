@@ -1,5 +1,6 @@
 <template>
     <div v-if="video.youtubeId !== undefined">
+        Tytuł: {{ video.title }}
         <youtube :video-id="video.youtubeId" @playing="true"></youtube>
     </div>
 </template>

@@ -11,7 +11,7 @@
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">
                     <h5 class="card-title">{{ mod.title }}</h5>
                 </router-link>
-                <p class="card-text">{{ mod.description | truncate(100) }}</p>
+                <p class="card-text" v-html="$options.filters.truncate(mod.description, 100)"></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline-secondary">

@@ -1,20 +1,33 @@
 <template>
-    <div>
-        <form enctype="multipart/form-data" role="form" method="POST" :action="'/mods/modifications/' + mod.id + '/edit-images'">
-            <input type="hidden" name="_token" :value="csrf_token">
-            <input name="_method" type="hidden" value="PUT">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10">
+                <form enctype="multipart/form-data" role="form" method="POST"
+                      :action="'/mods/modifications/' + mod.id + '/edit-images'">
+                    <input type="hidden" name="_token" :value="csrf_token">
+                    <input type="hidden" name="type" :value="3">
+                    <input name="_method" type="hidden" value="PUT">
 
-            <h3>Edytujesz pliki do modyfikacji {{ mod.title }}</h3>
+                    <h3>Edytujesz obrazki do galerii do modyfikacji {{ mod.title }}</h3>
 
-            <div v-for="(value, index) in files">
-                <modification-create-file :file="value" :key="index" :index="value.id" :image_gallery="true" :edit="true"></modification-create-file>
-                <modification-delete-file :file="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-file>
+                    <div v-for="(value, index) in files">
+                        <modification-delete-file :file="value" :mod="mod" :index="index" v-on:delete-file="deleteFile"></modification-delete-file>
+                        <modification-create-file :file="value" :key="index" :index="value.id" :image_gallery="true" :edit="true"></modification-create-file>
+                    </div>
+                    <b-button block=true size="lg" variant="primary" type="submit">
+                        Wyślij
+                    </b-button>
+                </form>
             </div>
-
-            <b-button size="lg" variant="primary" type="submit">
-                Wyślij
-            </b-button>
-        </form>
+            <!--<div class="col-md-2">-->
+                <!--<b-button size="md" variant="secondary" @click="files_amount++">-->
+                    <!--Dodaj więcej obrazków-->
+                <!--</b-button>-->
+                <!--<b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount&#45;&#45;">-->
+                    <!--Usuń ostatni obrazek-->
+                <!--</b-button>-->
+            <!--</div>-->
+        </div>
     </div>
 </template>
 <script>

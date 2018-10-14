@@ -28,38 +28,40 @@
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
                 <b-nav-item :active="active === 'videos'" @click="active = 'videos'">Filmiki</b-nav-item>
                 <b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>
+                <b-nav-item :active="active === 'news'" @click="active = 'news'">Wiadomości</b-nav-item>
                 <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">Opinie</b-nav-item>
                 <b-nav-item :active="active === 'files'" @click="active = 'files'" >Pliki</b-nav-item>
                 <b-nav-item :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">Dla autora</b-nav-item>
             </b-nav>
 
-            <div v-if="active === 'description'">
-                <div v-html="mod.description"></div>
-            </div>
+            <div class="container mod-item">
+                <div v-if="active === 'description'">
+                    <div v-html="mod.description"></div>
+                </div>
 
-            <div v-if="active === 'pictures'">
-                <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
-            </div>
+                <div v-if="active === 'pictures'">
+                    <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
+                </div>
 
-            <div v-if="active === 'videos'">
-                <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
-            </div>
+                <div v-if="active === 'videos'">
+                    <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
+                </div>
 
-            <div class="text-dark" v-if="active === 'reviews'">
-                <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
-                    Dodaj swoją opinię
-                </router-link>
-                <display-ratings :passedMod="mod"></display-ratings>
-            </div>
+                <div class="text-dark" v-if="active === 'reviews'">
+                    <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+                        Dodaj swoją opinię
+                    </router-link>
+                    <display-ratings :passedMod="mod"></display-ratings>
+                </div>
 
-            <div class="text-dark" v-if="active === 'files'">
-                <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
-            </div>
+                <div class="text-dark" v-if="active === 'files'">
+                    <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
+                </div>
 
-            <div v-if="active === 'authorsMenu'">
-                <modification-author-menu :mod="mod"></modification-author-menu>
+                <div v-if="active === 'authorsMenu'">
+                    <modification-author-menu :mod="mod"></modification-author-menu>
+                </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -103,7 +105,7 @@
             },
             fontTitle() {
                 return {
-                    'font-color': this.mod.font_color === null ? '#FFFFFF' : this.mod.font_color + ' !important',
+                    'color': this.mod.font_color === null ? '#FFFFFF' : this.mod.font_color + ' !important',
                 }
             },
         },
@@ -116,11 +118,13 @@
     }
 </script>
 <style>
-    .bg-semi-transparent{
+    .bg-semi-transparent {
         background-color: rgba(124, 124, 124, 0.84);
     }
     .bg-semi-transparent-details {
         background-color: rgba(0, 0, 0, 0.8);
-
+    }
+    .mod-item {
+        padding-top: 1rem;
     }
 </style>

@@ -44,11 +44,9 @@
                 </div>
             </div>
             <br><br>
-            <div class="form-control">
-                <b-button size="lg" variant="primary" block=true type="submit">
-                    Wyślij
-                </b-button>
-            </div>
+            <b-button size="lg" variant="primary" block=true type="submit">
+                Wyślij
+            </b-button>
         </form>
     </div>
 </template>
