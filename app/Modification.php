@@ -190,7 +190,22 @@ class Modification extends Model
     }
 
     protected $fillable = [
-        'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
+        'title',
+        'description',
+        'development_status',
+        'size',
+        'replaces',
+        'version',
+        'release_date',
+        'font_color',
+        'font_color_splash_text',
+        'color_splash_background',
+        'transparency_splash_background',
+        'font_color_description',
+        'color_description_background',
+        'transparency_description_background',
+        'development_studio',
+        'use_game_background'
     ];
 
     protected $appends = ['averageRating', 'thumbnail', 'background', 'splash'];

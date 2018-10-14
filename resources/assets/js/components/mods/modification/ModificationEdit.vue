@@ -56,9 +56,47 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="font_color">Kolor czcionki (możesz dostosować do swoich potrzeb kolor czcionki używanej w kluczowych miejscach prezentacji modyfikacji, m.in. w nagłówkach):</label>
+                    <label for="font_color">Kolor czcionki tytułu:</label>
                     <input class="form-control" type="color" id="font_color" name="font_color"
                            v-model="font_color" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="font_color_splash_text">Kolor czcionki w splashu:</label>
+                    <input class="form-control" type="color" id="font_color_splash_text" name="font_color_splash_text"
+                           v-model="font_color_splash_text" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="color_splash_background">Kolor tła splasha:</label>
+                    <input class="form-control" type="color" id="color_splash_background" name="color_splash_background"
+                           v-model="color_splash_background" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="transparency_splash_background">Przezroczystość tła splasha:</label>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                           id="transparency_splash_background" name="transparency_splash_background"
+                           v-model="transparency_splash_background"/>
+                </div>
+
+                <div class="mb-3">
+                    <label for="font_color_description">Kolor czcionki opisu:</label>
+                    <input class="form-control" type="color" id="font_color_description" name="font_color_description"
+                           v-model="font_color_description" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="color_description_background">Kolor tła opisu:</label>
+                    <input class="form-control" type="color" id="color_description_background" name="color_description_background"
+                           v-model="color_description_background" />
+                </div>
+
+                <div class="mb-3">
+                    <label for="transparency_description_background">Przezroczystość tła opisu:</label>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                           id="transparency_description_background" name="transparency_description_background"
+                           v-model="transparency_description_background"/>
                 </div>
 
                 <div class="mb-3">
@@ -104,6 +142,12 @@
                 replaces: '',
                 version: '',
                 font_color: '',
+                font_color_splash_text: '',
+                color_splash_background: '',
+                transparency_splash_background: '',
+                font_color_description: '',
+                color_description_background: '',
+                transparency_description_background: '',
                 category: [],
                 game: '',
                 mod: '',
@@ -128,6 +172,12 @@
                 this.replaces = mod.replaces;
                 this.version = mod.version;
                 this.font_color = mod.font_color;
+                this.font_color_splash_text = mod.font_color_splash_text;
+                this.color_splash_background = mod.color_splash_background;
+                this.transparency_splash_background = mod.transparency_splash_background;
+                this.font_color_description = mod.font_color_description;
+                this.color_description_background = mod.color_description_background;
+                this.transparency_description_background = mod.transparency_description_background;
                 this.size = this.size_options.find(obj => {
                     return obj.value === mod.size;
                 });

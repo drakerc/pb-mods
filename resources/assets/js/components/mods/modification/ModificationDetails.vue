@@ -2,7 +2,7 @@
     <div class="cover-container" :style="backgroundImageStyle">
             <div class="jumbotron text-white rounded border-bottom" :style="splashImageStyle">
                 <div class="row">
-                    <div class="col-md-8 bg-semi-transparent">
+                    <div class="col-md-8 bg-semi-transparent" :style="splashDetailsStyle">
                         <div class="row">
                         <div class="col-md-9">
                             <h1 class="display-4 font-italic" :style="fontTitle">{{ mod.title }}</h1>
@@ -22,7 +22,7 @@
                 </div>
             </div>
 
-        <div class="container jumbotron rounded text-white bg-semi-transparent-details">
+        <div class="container jumbotron rounded text-white bg-semi-transparent-details" :style="descriptionStyle">
             <b-nav tabs>
                 <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
@@ -93,6 +93,20 @@
                     'background-repeat': 'no-repeat',
                     'background-color': 'black',
                     'background-size': 'cover',
+                }
+            },
+            splashDetailsStyle() {
+                return {
+                    'background-color': this.mod.color_splash_background + ' !important',
+                    'opacity': this.mod.transparency_splash_background + ' !important',
+                    'color': this.mod.font_color_splash_text
+                }
+            },
+            descriptionStyle() {
+                return {
+                    'background-color': this.mod.color_description_background + ' !important',
+                    'opacity': this.mod.transparency_description_background + ' !important',
+                    'color': this.mod.font_color_description
                 }
             },
             backgroundImageStyle() {
