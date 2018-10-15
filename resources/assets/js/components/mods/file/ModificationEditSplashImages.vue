@@ -3,12 +3,12 @@
         <div class="row">
             <div class="col-md-10">
                 <form enctype="multipart/form-data" role="form" method="POST"
-                      :action="'/mods/modifications/' + mod.id + '/edit-images'">
+                      :action="'/mods/modifications/' + mod.id + '/edit-splash-images'">
                     <input type="hidden" name="_token" :value="csrf_token">
-                    <input type="hidden" name="type" :value="3">
-                    <input name="_method" type="hidden" value="PUT">
+                    <input type="hidden" name="type" :value="2">
 
-                    <h3>Edytujesz obrazki do galerii do modyfikacji {{ mod.title }}</h3>
+                    <h3>Edytujesz tło typu splash do modyfikacji {{ mod.title }}</h3>
+                    <p>Pamiętaj, twoja modyfikacja może mieć wybrane tylko jedno aktywne tło!</p>
 
                     <div v-for="(value, index) in files" class="row">
                         <div class="col-md-10">
@@ -20,20 +20,21 @@
                         </div>
                     </div>
 
+                    <modification-create-file v-for="index in files_amount" :key="index" :index="index" :show_availability="true" :image_gallery="true"></modification-create-file>
 
                     <b-button block=true size="lg" variant="primary" type="submit">
                         Wyślij
                     </b-button>
                 </form>
             </div>
-            <!--<div class="col-md-2">-->
-                <!--<b-button size="md" variant="secondary" @click="files_amount++">-->
-                    <!--Dodaj więcej obrazków-->
-                <!--</b-button>-->
-                <!--<b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount&#45;&#45;">-->
-                    <!--Usuń ostatni obrazek-->
-                <!--</b-button>-->
-            <!--</div>-->
+            <div class="col-md-2">
+                <b-button size="md" variant="secondary" @click="files_amount++">
+                    Dodaj więcej obrazków
+                </b-button>
+                <b-button size="md" variant="warning" v-if="files_amount > 0" @click="files_amount--">
+                    Usuń ostatni obrazek
+                </b-button>
+            </div>
         </div>
     </div>
 </template>
@@ -58,6 +59,7 @@
                 files: '',
                 auth: '',
                 csrf_token: window.window.csrf_token,
+                files_amount: 0,
             };
         },
         methods: {
@@ -65,6 +67,7 @@
                 this.auth = auth;
                 this.files = files;
                 this.mod = mod;
+                this.files_amount = this.files.length > 0 ? 0 : 1;
             },
             deleteFile: function (id) {
                 this.files.splice(id, 1);

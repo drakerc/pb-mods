@@ -25,6 +25,14 @@
                 <li>Edytuj obrazki</li>
             </router-link>
 
+            <router-link v-if="images_added" :to="{ name: 'modification_edit_background_images', params: { mod: mod.id } }">
+                <li>Dodaj/edytuj tło</li>
+            </router-link>
+
+            <router-link v-if="images_added" :to="{ name: 'modification_edit_splash_images', params: { mod: mod.id } }">
+                <li>Dodaj/edytuj splasha</li>
+            </router-link>
+
             <router-link v-if="videos_added" :to="{ name: 'modification_edit_videos', params: { mod: mod.id } }">
                 <li>Edytuj filmiki</li>
             </router-link>

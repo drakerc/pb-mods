@@ -131,12 +131,13 @@ class Modification extends Model
         return ($this->videos()->get())->toArray();
     }
 
-    public function getImages($all = false)
+    public function getImages($all = false, $type = ImageFileModification::TYPE_GALLERY)
     {
         if ($all) {
             return ($this->images()
-                ->wherePivot('active', '=', true)
-                ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+//                ->where('availability', true)
+//                ->wherePivot('active', '=', true)
+                ->wherePivot('type', '=', $type)
                 ->get())->toArray();
         }
 
@@ -173,7 +174,7 @@ class Modification extends Model
     {
         $image = $this->images()
             ->where('availability', true)
-            ->wherePivot('active', '=', true)
+//            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
             ->first(['file_path']);
         return $image === null ? null : $image->downloadLink;
@@ -183,7 +184,7 @@ class Modification extends Model
     {
         $image = $this->images()
             ->where('availability', true)
-            ->wherePivot('active', '=', true)
+//            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_SPLASH)
             ->first(['file_path']);
         return $image === null ? null : $image->downloadLink;

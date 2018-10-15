@@ -39,6 +39,9 @@ Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@d
 
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
+Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages');
+Route::get('/mods/modifications/{mod}/edit-splash-images', 'FileController@editModificationSplashImages');
+
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
 Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');
