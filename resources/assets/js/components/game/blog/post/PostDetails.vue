@@ -7,7 +7,7 @@
         <p>Comments:</p>
         <div v-if="post.comments !== undefined && post.comments.length > 0">
             <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
-                <b-card>
+                <b-card :id="index">
                     <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
                     <p v-html="comment.body"/>
                 </b-card>
@@ -86,7 +86,13 @@
                     body: this.comment.body,
                     author_id: 1
                 }).then(response => {
-                    console.log(response);
+                    this.$router.push({
+                        name: 'post_details',
+                        params: {
+                            gameId: this.$route.params.gameId,
+                            id: this.$route.params.id
+                        }
+                    });
                 });
             }
         }
