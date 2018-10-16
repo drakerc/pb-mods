@@ -112,7 +112,23 @@
                 <!--</div>-->
                 <!--// TODO: implement dev studios-->
 
-                <b-btn size="sm" variant="warning" v-b-modal.delete-mod>Usuń modyfikację</b-btn>
+                <div class="row">
+                    <div class="col-md-8">
+                        <b-btn size="lg" variant="warning" v-b-modal.delete-mod>Usuń modyfikację</b-btn>
+                    </div>
+                    <div class="col-md-4">
+                        <ModificationPreviewChanges
+                                :mod="mod"
+                                :font_color="font_color"
+                                :font_color_splash_text="font_color_splash_text"
+                                :color_splash_background="color_splash_background"
+                                :transparency_splash_background="transparency_splash_background"
+                                :font_color_description="font_color_description"
+                                :color_description_background="color_description_background"
+                                :transparency_description_background="transparency_description_background"
+                        ></ModificationPreviewChanges>
+                    </div>
+                </div>
 
                 <b-button size="lg" variant="primary" block=true type="submit">
                     Zapisz zmiany
@@ -126,6 +142,7 @@
     import { VueEditor } from 'vue2-editor'
     import Datepicker from 'vuejs-datepicker';
     import Multiselect from 'vue-multiselect'
+    import ModificationPreviewChanges from './ModificationPreviewChanges';
     import router from "../../../router";
 
     export default {
@@ -133,7 +150,8 @@
         components: {
             VueEditor,
             Datepicker,
-            Multiselect
+            Multiselect,
+            ModificationPreviewChanges
         },
         data() {
             return {

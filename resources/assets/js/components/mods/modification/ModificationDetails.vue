@@ -79,6 +79,7 @@
             DisplayRatings,
             ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating},
         mixins: [ routeMixin ],
+        props: ['mod'],
 
         data() {
             return {
