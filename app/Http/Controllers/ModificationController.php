@@ -70,6 +70,24 @@ class ModificationController extends Controller
         ]]);
     }
 
+    public function getNews(Modification $mod, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'news' => ($mod->news()->get())->toArray(),
+                    'mod' => $mod->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'news' => ($mod->news()->get())->toArray(),
+            'mod' => $mod->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
+    }
+
     public function getModificationsInCategoryApi(Category $category)
     {
         return response()->json(($category->getModificationsInCategory())->toArray());

@@ -20,6 +20,7 @@ import ModificationDisplayRatings from './components/mods/rating/DisplayRatings'
 import ModificationEditRating from './components/mods/rating/EditRating';
 import ModificationEditSplashImages from './components/mods/file/ModificationEditSplashImages';
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
+import ModificationCreateNews from './components/mods/news/CreateNews';
 
 export default new VueRouter({
     mode: 'history',
@@ -35,6 +36,8 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod/edit-images', component: ModificationEditImages, name: 'modification_edit_images'},
         {path: '/mods/modifications/:mod/edit-splash-images', component: ModificationEditSplashImages, name: 'modification_edit_splash_images'},
         {path: '/mods/modifications/:mod/edit-background-images', component: ModificationEditBackgroundImages, name: 'modification_edit_background_images'},
+        {path: '/mods/modifications/:mod/edit-news', component: ModificationCreateNews, name: 'modification_create_news'},
+        {path: '/mods/modifications/:mod/edit-news/:news', component: ModificationCreateNews, name: 'modification_edit_news'},
         {path: '/mods/modifications/:mod/create-videos', component: ModificationCreateVideos, name: 'modification_create_videos'},
         {path: '/mods/modifications/:mod/edit-videos', component: ModificationEditVideos, name: 'modification_edit_videos'},
         {path: '/mods/modifications/:mod/create-rating', component: ModificationCreateRating, name: 'modification_create_rating'},

@@ -13,6 +13,18 @@
                 <li>Dodaj filmiki</li>
             </router-link>
 
+            <router-link :to="{ name: 'modification_edit_background_images', params: { mod: mod.id } }">
+                <li>Dodaj/edytuj tło</li>
+            </router-link>
+
+            <router-link :to="{ name: 'modification_edit_splash_images', params: { mod: mod.id } }">
+                <li>Dodaj/edytuj splasha</li>
+            </router-link>
+
+            <router-link :to="{ name: 'modification_create_news', params: { mod: mod.id } }">
+                <li>Dodaj newsa</li>
+            </router-link>
+
             <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
                 <li>Edytuj tą modyfikację</li>
             </router-link>
@@ -23,14 +35,6 @@
 
             <router-link v-if="images_added" :to="{ name: 'modification_edit_images', params: { mod: mod.id } }">
                 <li>Edytuj obrazki</li>
-            </router-link>
-
-            <router-link v-if="images_added" :to="{ name: 'modification_edit_background_images', params: { mod: mod.id } }">
-                <li>Dodaj/edytuj tło</li>
-            </router-link>
-
-            <router-link v-if="images_added" :to="{ name: 'modification_edit_splash_images', params: { mod: mod.id } }">
-                <li>Dodaj/edytuj splasha</li>
             </router-link>
 
             <router-link v-if="videos_added" :to="{ name: 'modification_edit_videos', params: { mod: mod.id } }">

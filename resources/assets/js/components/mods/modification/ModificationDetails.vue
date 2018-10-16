@@ -47,6 +47,10 @@
                     <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
                 </div>
 
+                <div v-if="active === 'news'">
+                    <display-multiple-news :passedMod="mod"></display-multiple-news>
+                </div>
+
                 <div class="text-dark" v-if="active === 'reviews'">
                     <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
                         Dodaj swoją opinię
@@ -73,13 +77,14 @@
     import ModificationVideos from '../video/ModificationVideos';
     import DisplayTotalRating from '../rating/DisplayTotalRating';
     import DisplayRatings from "../rating/DisplayRatings";
+    import DisplayMultipleNews from '../news/DisplayMultipleNews';
 
     export default {
         components: {
             DisplayRatings,
-            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating},
+            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews},
         mixins: [ routeMixin ],
-        props: ['mod'],
+        props: ['modPassed'],
 
         data() {
             return {
@@ -130,6 +135,11 @@
                 this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
             },
         },
+        mounted: function() {
+            if (this.modPassed !== undefined) {
+                this.mod = this.modPassed;
+            }
+        }
     }
 </script>
 <style>

@@ -42,6 +42,11 @@ Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModifica
 Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages');
 Route::get('/mods/modifications/{mod}/edit-splash-images', 'FileController@editModificationSplashImages');
 
+Route::get('/mods/modifications/{mod}/news', 'ModificationController@getNews');
+Route::get('/mods/modifications/{mod}/edit-news', 'ModificationNewsController@create');
+Route::get('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit');
+Route::delete('/mods/modifications/{mod}/edit-news/{news}/delete', 'ModificationNewsController@destroy');
+
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
 Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');

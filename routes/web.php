@@ -47,6 +47,13 @@ Route::post('/mods/modifications/{mod}/edit-splash-images', 'FileController@edit
 Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages')->name('EditModBackground');
 Route::post('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages');
 
+Route::get('/mods/modifications/{mod}/news', 'ModificationController@getNews');
+Route::get('/mods/modifications/{mod}/edit-news', 'ModificationNewsController@create')->name('CreateNews');
+Route::post('/mods/modifications/{mod}/edit-news', 'ModificationNewsController@create');
+
+Route::get('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit')->name('EditNews');
+Route::post('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit');
+
 Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');
 Route::get('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');
 Route::put('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');

@@ -17,6 +17,7 @@ import VueYouTubeEmbed from 'vue-youtube-embed';
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,7 +30,6 @@ const app = new Vue({
     router
 });
 
-Vue.use(BootstrapVue);
 Vue.use(require('vue-truncate-filter'));
 Vue.use(VueYouTubeEmbed);
 
