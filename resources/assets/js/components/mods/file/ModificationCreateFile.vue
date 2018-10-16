@@ -21,19 +21,22 @@
             <input type="file" :id="'files[' + index + ']'" :name="'files[' + index + ']'" class="form-control-file">
         </div>
 
-        <div v-if="edit === true" class="form-group">
+        <div v-if="edit === true">
             <input type="hidden" :name="'files[' + index + '][id]'" :value="file.id">
+        </div>
+
+        <div v-if="edit === true || show_availability === true" class="form-group">
             <!--<label :for="'files[' + index + '][availability]'">Dostępność</label>-->
             <!--<input :id="'files[' + index + '][title]'" type="text" :name="'files[' + index + '][title]'" class="form-control"-->
                    <!--placeholder="Tytuł" v-model="title" required autofocus>-->
             <div class="radio-inline">
-                <label><input type="radio" :name="'files[' + index + '][availability]'" value="1" :checked="file.availability === 1">Dostępny</label>
+                <label><input type="radio" :name="'files[' + index + '][availability]'" value="1" :checked="file !== undefined && file.availability === 1">Dostępny</label>
             </div>
             <div class="radio-inline">
-                <label><input type="radio" :name="'files[' + index + '][availability]'" value="0" :checked="file.availability === 0">Niedostępny</label>
+                <label><input type="radio" :name="'files[' + index + '][availability]'" value="0" :checked="file !== undefined && file.availability === 0">Niedostępny</label>
             </div>
         </div>
-
+        <hr class="mb-4">
     </div>
 </template>
 <script>
@@ -43,7 +46,7 @@
         components: {
             VueEditor,
         },
-        props: ['index', 'image_gallery', 'file', 'edit'],
+        props: ['index', 'image_gallery', 'file', 'edit', 'show_availability'],
         beforeMount: function () {
             if (this.file !== undefined) {
                 this.description = this.file.pivot.description;

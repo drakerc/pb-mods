@@ -1,8 +1,6 @@
 <template>
     <div>
-        <div class="container">
-            <category-mod v-for="mod in mods" :key="mod.id" :mod="mod"></category-mod>
-        </div>
+        <category-mod v-for="mod in mods" :key="mod.id" :mod="mod"></category-mod>
     </div>
 </template>
 <script>
@@ -13,7 +11,6 @@
         data() {
             return {
                 mods: [],
-                test: this.categoryid,
             }
         },
         components: {

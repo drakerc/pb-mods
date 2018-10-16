@@ -1,57 +1,45 @@
 <template>
-    <div class="listing-summary">
-        <router-link :to="{ name: 'mods_category', params: { game: gameid, category: category.id } }">
-            <div class="wrapper">
-                <div class="thumbnail" :style="backgroundImageStyle"></div>
-                <div class="info title">
-                    <span>{{ category.title }}</span>
-                    <span>{{ category.description | truncate(100) }}</span>
+    <div class="col-md-4">
+        <div class="card mb-4 box-shadow">
+            <div class="text-center">
+                <router-link :to="{ name: 'mods_category', params: { game: gameid, category: category.id } }">
+                    <img class="card-img-top" :src="categoryThumbnail">
+                </router-link>
+            </div>
+
+            <div class="card-body">
+                <router-link :to="{ name: 'mods_category', params: { game: gameid, category: category.id } }">
+                    <h5 class="card-title">{{ category.title }}</h5>
+                </router-link>
+                <p class="card-text">{{ category.description | truncate(100) }}</p>
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-sm btn-outline-secondary">{{
+                            category.deepSubcategoriesCount }} podkategorii
+                        </button>
+                        <button type="button" class="btn btn-sm btn-outline-secondary">{{
+                            category.deepModificationsCount}} modyfikacji
+                        </button>
+                    </div>
                 </div>
             </div>
-        </router-link>
+        </div>
     </div>
 </template>
 <script>
     export default {
-        props: [ 'category', 'gameid' ],
+        props: ['category', 'gameid'],
         computed: {
-            backgroundImageStyle() {
-                return {
-                    'background-image': `url("${this.category.thumbnail}")`
-                }
-            }
+            categoryThumbnail() {
+                return this.category.thumbnail
+            },
         }
     }
 </script>
 <style>
-    .listing-summary {
-        flex: 0 0 auto;
-    }
-    .listing-summary a {
-        text-decoration: none;
-    }
-    .listing-summary .wrapper {
-        max-width: 350px;
-        display: block;
-    }
-    .listing-summary .thumbnail {
-        width: 350px;
-        height: 250px;
-        background-size: cover;
-        background-position: center;
-    }
-    .listing-summary .info {
-        color: #484848;
-        word-wrap: break-word;
-        letter-spacing: 0.2px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-    .listing-summary .info.title {
-        padding-top: 5px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 24px;
+    .card-img-top {
+        width: 200px;
+        height: 200px;
+        text-align: center;
     }
 </style>

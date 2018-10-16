@@ -82,4 +82,9 @@ class GameController extends Controller
     {
         //
     }
+
+    public function getGameTitleApi(Game $game)
+    {
+        return $game->title;
+    }
 }

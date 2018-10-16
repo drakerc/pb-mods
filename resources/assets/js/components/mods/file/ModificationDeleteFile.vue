@@ -2,7 +2,7 @@
     <div>
         <b-btn @click="show=true" v-b-modal="'delete-file-' + file.id">Usuń plik</b-btn>
 
-        <b-modal v-model="show" :id="'delete-file-' + file.id" title="Usuwanie modyfikacji">
+        <b-modal v-model="show" :id="'delete-file-' + file.id" title="Usuwanie pliku">
             <p class="my-4">Czy jesteś pewien, że chcesz usunąć plik {{ file.file_path }} {{ file.pivot.title }}? Jest to proces nieodwracalny!</p>
             <div slot="modal-footer" class="w-100">
                 <b-btn size="sm" class="float-right" variant="secondary" @click="show=false">
@@ -33,7 +33,7 @@
                         this.$emit('delete-file', this.index);
                         this.show = false;
                     } else {
-                        alert('Nie udało się usunąć modyfikacji. Może nie masz uprawnień?')
+                        alert('Nie udało się usunąć pliku. Może nie masz uprawnień?')
                     }
                 });
             }

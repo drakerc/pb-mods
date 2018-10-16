@@ -20,7 +20,7 @@
                 <label><input type="radio" :name="'videos[' + index + '][availability]'" value="0" :checked="video.availability === 0">Niedostępny</label>
             </div>
         </div>
-
+        <hr class="mb-4">
     </div>
 </template>
 <script>
