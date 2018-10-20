@@ -55,40 +55,64 @@
                 </li>
             </ul>
         </div>
+        <div class="footer" v-if="subcategoriesData !== undefined && subcategoriesData.data !== undefined">
+            <pagination :data="subcategoriesData" @pagination-change-page="getResults"></pagination>
+        </div>
     </div>
 </template>
 
 <script>
     import DisplaySubcategories from './DisplaySubcategories';
     import axios from "axios";
+    import pagination from 'laravel-vue-pagination';
+
 
     export default {
-        props: ['categories', 'gameid', 'subcategory'],
+        props: ['categories', 'gameid', 'subcategory', 'categoryId', 'subcatData'],
         components: {
             DisplaySubcategories,
+            pagination,
         },
         data: function () {
             return {
                 subcategories: this.categories,
+                subcategoriesData: this.subcatData,
             }
         },
         beforeCreate() {
             this.$options.components.DisplaySubcategories = require('./DisplaySubcategories.vue');
         },
         beforeMount: function () {
-            var that = this;
-            this.subcategories.forEach(function (item, index) { // TODO: change to => function
-                return that.subcategories[index].children = [];
-            });
+            if (this.subcategory) {
+                var that = this;
+                this.subcategories.forEach(function (item, index) {
+                    return that.subcategories[index].children = [];
+                });
+            } else {
+                this.subcategoriesData = this.categories;
+                this.subcategories = this.categories.data;
+                var that = this;
+                this.subcategories.forEach(function (item, index) {
+                    return that.subcategories[index].children = [];
+                });
+            }
         },
         methods: {
             getSubcategories: function (id, categoryId) {
                 axios.get('/api/mods/category/' + categoryId + '/subcategories').then(response => {
-                    this.subcategories[id].children = response.data;
+                    // this.subcategoriesData = response.data;
+                    this.subcategories[id].children = response.data.data;
                     this.subcategories[id].updated_at = 'now';
                     var newVal = Object.assign({}, this.subcategories[id], {subcategories: true});
                     Vue.set(this.subcategories, id, newVal) // VueJS does not reload the DOM tree after changing an array; using a set method will trigger a reload
                 });
+            },
+            getResults(page = 1) {
+                axios.get('/api/mods/category/' + this.categoryId + '/subcategories/?page=' + page)
+                    .then(response => {
+                        this.subcategoriesData = response.data;
+                        this.subcategories = response.data.data;
+                    });
             }
     }}
 </script>

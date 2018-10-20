@@ -50,7 +50,7 @@ class Category extends Model
      */
     public function getSubcategories()
     {
-        return Category::where(['parent' => $this->id, 'active' => true])->get();
+        return Category::where(['parent' => $this->id, 'active' => true])->paginate(10);
     }
 
     public function getSubcategoriesCountAttribute()

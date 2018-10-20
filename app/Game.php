@@ -32,7 +32,7 @@ class Game extends Model
 
     public function getModificationCategories()
     {
-        return Category::where(['game' => $this->id, 'game_category' => false, 'parent' => null])->get();
+        return Category::where(['game' => $this->id, 'game_category' => false, 'parent' => null])->paginate(10);
     }
 
     public function posts() {
