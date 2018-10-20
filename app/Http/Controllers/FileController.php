@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\ImageFileModification;
+use App\Instruction;
 use App\Modification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -357,6 +358,24 @@ class FileController extends Controller
         }
 
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
+    public function getInstructions(Modification $mod, File $file, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'instructions' => ($file->instructions()->get())->toArray(),
+                    'file' => $file->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'instructions' => ($file->instructions()->get())->toArray(),
+            'file' => $file->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
     }
 
     public function massDownload(Modification $mod, Request $request)

@@ -38,6 +38,11 @@ class File extends Model
         return $this->belongsToMany('App\Modification')->withPivot('title', 'description');
     }
 
+    public function instructions()
+    {
+        return $this->belongsToMany('App\Instruction');
+    }
+
     public function getDownloadLinkAttribute()
     {
         return asset('storage/' . $this->file_path);

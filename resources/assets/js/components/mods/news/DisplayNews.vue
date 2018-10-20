@@ -14,17 +14,19 @@
             <div class="col-md-12">
                 <div v-html="news.description"></div>
                 <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
-                    Edytuj
+                    <b-btn>Edytuj</b-btn>
                 </router-link>
+                <delete-news :news="news"></delete-news>
             </div>
         </div>
     </div>
 </template>
 <script>
     import DisplayTimestamps from '../../DisplayTimestamps';
+    import DeleteNews from './DeleteNews';
 
     export default {
-        components: {DisplayTimestamps},
+        components: {DeleteNews, DisplayTimestamps},
         props: ['news', 'mod'],
     }
 </script>

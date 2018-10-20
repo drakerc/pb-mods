@@ -1,5 +1,4 @@
 <template>
-
     <div class="col-md-4">
         <div class="card mb-4 box-shadow">
             <div class="text-center">
@@ -13,6 +12,12 @@
                         <a :href="file.downloadLink" class="btn btn-lg btn-outline-primary">
                            Pobierz ten plik
                         </a>
+                        <router-link :to="{ name: 'modification_create_instruction', params: { mod: $route.params['mod'], file: file.id } }">
+                            <li>Dodaj instrukcję do pliku</li>
+                        </router-link>
+
+                        <file-instructions :passedFile="file" :passedModId="$route.params['mod']"></file-instructions>
+
                         <div>
                             <input class="form-check-input" type="checkbox" :id="'checkbox-' + file.id" v-model="selected" v-on:change="$emit('selectFile', file, selected)">
                             <label for="'checkbox-' + file.id">Zaznacz, by dodać do pobierania masowego</label>
@@ -24,8 +29,13 @@
     </div>
 </template>
 <script>
+    import FileInstructions from '../instruction/FileInstructions';
+
     export default {
         props: ['file'],
+        components: {
+            FileInstructions,
+        },
         data() {
             return {
                 selected: false

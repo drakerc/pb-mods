@@ -36,6 +36,12 @@ Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificat
 Route::put('/mods/modifications/{mod}/edit-files', 'FileController@editModificationFiles');
 Route::get('/mods/modifications/{mod}/mass-download', 'FileController@massDownload');
 
+Route::get('/mods/modifications/{mod}/files/{file}/instruction', 'FileController@getInstruction');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create');
+Route::post('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create');
+Route::post('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit');
+
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles')->name('CreateModImages');
 Route::post('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');

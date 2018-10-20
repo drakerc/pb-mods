@@ -1,9 +1,9 @@
 <template>
     <div>
-        <b-btn @click="show=true" v-b-modal="'delete-news'">Usuń newsa</b-btn>
+        <b-btn @click="show=true" v-b-modal="'delete-news-' + news.id">Usuń newsa</b-btn>
 
-        <b-modal v-model="show" :id="'delete-news" title="Usuwanie newsa">
-            <p class="my-4">Czy jesteś pewien, że chcesz usunąć newsa {{ news.title}}? Jest to proces nieodwracalny!</p>
+        <b-modal v-model="show" :id="'delete-news-' + news.id" title="Usuwanie newsa">
+            <p class="my-4">Czy jesteś pewien, że chcesz usunąć newsa {{ news.title }}? Jest to proces nieodwracalny!</p>
             <div slot="modal-footer" class="w-100">
                 <b-btn size="sm" class="float-right" variant="secondary" @click="show=false">
                     Anuluj
