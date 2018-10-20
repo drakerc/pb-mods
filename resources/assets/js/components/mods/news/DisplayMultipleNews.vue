@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row text-dark">
         <display-news v-for="singleNews in news" :key="singleNews.id" :news="singleNews" :mod="mod" ></display-news>
     </div>
 </template>

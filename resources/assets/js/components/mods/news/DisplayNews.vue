@@ -13,10 +13,12 @@
         <div class="row">
             <div class="col-md-12">
                 <div v-html="news.description"></div>
-                <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
-                    <b-btn>Edytuj</b-btn>
-                </router-link>
-                <delete-news :news="news"></delete-news>
+                <div class="btn-group">
+                    <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
+                        <b-btn>Edytuj</b-btn>
+                    </router-link>
+                    <delete-news :news="news"></delete-news>
+                </div>
             </div>
         </div>
     </div>

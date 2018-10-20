@@ -27,7 +27,7 @@
                 <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
                 <b-nav-item :active="active === 'videos'" @click="active = 'videos'">Filmiki</b-nav-item>
-                <b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>
+                <!--<b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>-->
                 <b-nav-item :active="active === 'news'" @click="active = 'news'">Wiadomości</b-nav-item>
                 <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">Opinie</b-nav-item>
                 <b-nav-item :active="active === 'files'" @click="active = 'files'" >Pliki</b-nav-item>

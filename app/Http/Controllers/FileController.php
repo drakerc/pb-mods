@@ -392,6 +392,7 @@ class FileController extends Controller
     public function download(Modification $mod, File $file, Request $request)
     {
         $file->downloads += 1;
+        $file->save();
 
         return response()->download(public_path('/storage/') . $file->file_path);
     }
@@ -403,6 +404,9 @@ class FileController extends Controller
         if ($instructions->count() < 1) {
             return $this->download($mod, $file, $request);
         }
+
+        $file->downloads += 1;
+        $file->save();
 
         $reports = [];
         foreach ($instructions as $instruction) {
@@ -421,8 +425,24 @@ class FileController extends Controller
 
     public function massDownload(Modification $mod, Request $request)
     {
+        $reports = [];
+
         $files = $request->get('files');
-        $files = File::findMany(explode(',', $files))->pluck('file_path');
+        $files = File::findMany(explode(',', $files));
+
+        foreach ($files as $file) {
+            $file->downloads += 1;
+            $file->save();
+
+            if ((bool)$request->get('withInstructions') === true) {
+                $instructions = $file->instructions()->get();
+                foreach ($instructions as $instruction) {
+                    $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+                }
+            }
+        }
+
+        $files = $files->pluck('file_path');
 
         $files->transform(function ($value) {
             return public_path() . '/storage/' . $value;
@@ -432,11 +452,10 @@ class FileController extends Controller
 
         $zip = Zip::create($filePath, true);
         $zip->add($files->toArray());
-        $zip->close();
-
-        foreach ($files as $file) {
-            $file->downloads += 1;
+        if ((bool)$request->get('withInstructions') === true) {
+            $zip->add($reports);
         }
+        $zip->close();
 
         return response()->download($filePath, 'mass-download.zip');
     }

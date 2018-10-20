@@ -1,10 +1,10 @@
 <template>
-    <div class="row">
+    <div class="btn-group">
         <instruction v-for="instruction in instructions" :key="instructions.id" :instruction="instruction" :file="file"></instruction>
 
-        <div v-if="instructions.length > 0">
-            <a :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-lg btn-outline-primary">
-                Pobierz plik wraz z instrukcjami
+        <div class="pt-1 mt-1" v-if="instructions.length > 0">
+            <a v-if="instructions.length > 0" :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-sm btn-outline-primary">
+                Pobierz plik z instrukcjami
             </a>
         </div>
     </div>
