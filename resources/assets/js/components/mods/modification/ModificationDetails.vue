@@ -27,7 +27,7 @@
                 <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
                 <b-nav-item :active="active === 'videos'" @click="active = 'videos'">Filmiki</b-nav-item>
-                <b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>
+                <!--<b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>-->
                 <b-nav-item :active="active === 'news'" @click="active = 'news'">Wiadomości</b-nav-item>
                 <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">Opinie</b-nav-item>
                 <b-nav-item :active="active === 'files'" @click="active = 'files'" >Pliki</b-nav-item>
@@ -45,6 +45,10 @@
 
                 <div v-if="active === 'videos'">
                     <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
+                </div>
+
+                <div v-if="active === 'news'">
+                    <display-multiple-news :passedMod="mod"></display-multiple-news>
                 </div>
 
                 <div class="text-dark" v-if="active === 'reviews'">
@@ -73,13 +77,14 @@
     import ModificationVideos from '../video/ModificationVideos';
     import DisplayTotalRating from '../rating/DisplayTotalRating';
     import DisplayRatings from "../rating/DisplayRatings";
+    import DisplayMultipleNews from '../news/DisplayMultipleNews';
 
     export default {
         components: {
             DisplayRatings,
-            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating},
+            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews},
         mixins: [ routeMixin ],
-        props: ['mod'],
+        props: ['modPassed'],
 
         data() {
             return {
@@ -130,6 +135,11 @@
                 this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
             },
         },
+        mounted: function() {
+            if (this.modPassed !== undefined) {
+                this.mod = this.modPassed;
+            }
+        }
     }
 </script>
 <style>

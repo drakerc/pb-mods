@@ -1,7 +1,7 @@
 <template>
     <div>
         <b-modal size="lg" v-model="show" id="preview-mod" title="Podgląd strony" v-if="mod.id !== undefined" >
-            <modification-details v-if="mod.id !== undefined" :mod="mod"></modification-details>
+            <modification-details v-if="mod.id !== undefined" :modPassed="mod"></modification-details>
         </b-modal>
 
         <b-btn size="lg" variant="success" v-b-modal.preview-mod>Podejrzyj stronę modyfikacji</b-btn>

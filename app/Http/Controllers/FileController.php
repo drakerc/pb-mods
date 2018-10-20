@@ -4,15 +4,27 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\ImageFileModification;
+use App\Instruction;
 use App\Modification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\ReportingService;
 use ZanySoft\Zip\Zip;
 
 class FileController extends Controller
 {
+    /**
+     * @var ReportingService
+     */
+    private $reportingService;
+
+    public function __construct(ReportingService $reportingService)
+    {
+        $this->reportingService = $reportingService;
+    }
+
     /**
      * @param Modification $mod
      * @param Request $request
@@ -359,10 +371,78 @@ class FileController extends Controller
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
     }
 
+    public function getInstructions(Modification $mod, File $file, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'instructions' => ($file->instructions()->get())->toArray(),
+                    'file' => $file->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'instructions' => ($file->instructions()->get())->toArray(),
+            'file' => $file->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
+    }
+
+    public function download(Modification $mod, File $file, Request $request)
+    {
+        $file->downloads += 1;
+        $file->save();
+
+        return response()->download(public_path('/storage/') . $file->file_path);
+    }
+
+    public function downloadWithInstructions(Modification $mod, File $file, Request $request)
+    {
+        $instructions = $file->instructions()->get();
+
+        if ($instructions->count() < 1) {
+            return $this->download($mod, $file, $request);
+        }
+
+        $file->downloads += 1;
+        $file->save();
+
+        $reports = [];
+        foreach ($instructions as $instruction) {
+            $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+        }
+
+        $filePath = tempnam(public_path() . '/storage/zips', 'temp_file_w_instruction_download_');
+
+        $zip = Zip::create($filePath, true);
+        $zip->add($reports);
+        $zip->add(public_path('/storage/') . $file->file_path);
+        $zip->close();
+
+        return response()->download($filePath, 'file-with-instructions.zip');
+    }
+
     public function massDownload(Modification $mod, Request $request)
     {
+        $reports = [];
+
         $files = $request->get('files');
-        $files = File::findMany(explode(',', $files))->pluck('file_path');
+        $files = File::findMany(explode(',', $files));
+
+        foreach ($files as $file) {
+            $file->downloads += 1;
+            $file->save();
+
+            if ((bool)$request->get('withInstructions') === true) {
+                $instructions = $file->instructions()->get();
+                foreach ($instructions as $instruction) {
+                    $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+                }
+            }
+        }
+
+        $files = $files->pluck('file_path');
 
         $files->transform(function ($value) {
             return public_path() . '/storage/' . $value;
@@ -372,6 +452,9 @@ class FileController extends Controller
 
         $zip = Zip::create($filePath, true);
         $zip->add($files->toArray());
+        if ((bool)$request->get('withInstructions') === true) {
+            $zip->add($reports);
+        }
         $zip->close();
 
         return response()->download($filePath, 'mass-download.zip');

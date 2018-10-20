@@ -97,6 +97,11 @@ class Modification extends Model
         return 'Inna';
     }
 
+    public function getGameTitle()
+    {
+        return Game::find($this->game_id, ['title'])->first();
+    }
+
     public function getModificationDevStatus()
     {
         if ($this->development_status === self::DEV_STATUS_STARTED) {

@@ -3,9 +3,8 @@
         <div class="row">
             <div class="col-md-10">
                 <form enctype="multipart/form-data" role="form" method="POST"
-                      :action="'/mods/modifications/' + $route.params.mod + '/edit-news/' + id !== undefined ? id : ''">
+                      :action="'/mods/modifications/' + $route.params.mod + '/files/' + fileId + '/edit-instruction/' + id !== undefined ? id : ''">
                     <input type="hidden" name="_token" :value="csrf_token">
-                    <input v-if="id !== undefined" type="hidden" name="id" :value="id">
 
                     <div class="form-group">
                         <label :for="'title'">Tytuł</label>
@@ -20,6 +19,7 @@
                     </div>
 
                     <hr class="mb-4">
+                    <delete v-if="instruction !== ''" :instruction="instruction" :modId="$route.params.mod" :fileId="fileId"></delete>
                     <b-button block=true size="lg" variant="primary" type="submit">
                         Wyślij
                     </b-button>
@@ -30,28 +30,34 @@
 </template>
 <script>
     import {VueEditor} from 'vue2-editor';
+    import Delete from './Delete';
     import routeMixin from '../../../route-mixin.js';
 
     export default {
         components: {
             VueEditor,
+            Delete,
         },
         mixins: [ routeMixin ],
         data() {
             return {
+                instruction: '',
                 id: '',
+                fileId: '',
                 title: '',
                 description: '',
                 csrf_token: window.window.csrf_token,
             };
         },
         methods: {
-            assignData({auth, news}) {
+            assignData({auth, file, instruction}) {
                 this.auth = auth;
-                if (news !== undefined) {
-                    this.title = news.title;
-                    this.description = news.description;
-                    this.id = news.id
+                this.fileId = file.id;
+                if (instruction !== undefined) {
+                    this.instruction = instruction;
+                    this.title = instruction.title;
+                    this.description = instruction.description;
+                    this.id = instruction.id
                 }
             },
         },

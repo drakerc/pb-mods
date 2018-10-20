@@ -4,12 +4,13 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ModificationNews extends Model
+class Instruction extends Model
 {
-    public function modification()
+    public function files()
     {
-        return $this->belongsTo('App\Modification');
+        return $this->belongsToMany('App\Files');
     }
+
     protected $fillable = [
         'title',
         'description',

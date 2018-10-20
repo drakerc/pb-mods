@@ -11,21 +11,19 @@ class ModificationNewsController extends Controller
 {
     public function create(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień.');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień.');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if ($request->ajax()) {
             return response()->json([
-                'mod' => $mod->toArray(),
                 'auth' => Auth::check()
             ]);
         }
 
         if ($request->method() === 'GET') {
             return view('start', ['model' => [
-                'mod' => $mod->toArray(),
                 'path' => $request->getPathInfo(),
                 'auth' => Auth::check()
             ]]);
@@ -53,7 +51,6 @@ class ModificationNewsController extends Controller
 
         if ($request->ajax()) {
             return response()->json([
-                'mod' => $mod->toArray(),
                 'news' => $news->toArray(),
                 'auth' => Auth::check()
             ]);
@@ -61,7 +58,6 @@ class ModificationNewsController extends Controller
 
         if ($request->method() === 'GET') {
             return view('start', ['model' => [
-                'mod' => $mod->toArray(),
                 'news' => $news->toArray(),
                 'path' => $request->getPathInfo(),
                 'auth' => Auth::check()

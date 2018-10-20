@@ -37,10 +37,20 @@ Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificat
 Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi');
 Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@destroy');
 
+Route::get('/mods/modifications/{mod}/files/{file}/instructions', 'FileController@getInstructions');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit');
+Route::delete('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}/delete', 'InstructionController@destroy');
+
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages');
 Route::get('/mods/modifications/{mod}/edit-splash-images', 'FileController@editModificationSplashImages');
+
+Route::get('/mods/modifications/{mod}/news', 'ModificationController@getNews');
+Route::get('/mods/modifications/{mod}/edit-news', 'ModificationNewsController@create');
+Route::get('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit');
+Route::delete('/mods/modifications/{mod}/edit-news/{news}/delete', 'ModificationNewsController@destroy');
 
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
