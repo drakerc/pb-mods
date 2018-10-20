@@ -10,10 +10,21 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\ReportingService;
 use ZanySoft\Zip\Zip;
 
 class FileController extends Controller
 {
+    /**
+     * @var ReportingService
+     */
+    private $reportingService;
+
+    public function __construct(ReportingService $reportingService)
+    {
+        $this->reportingService = $reportingService;
+    }
+
     /**
      * @param Modification $mod
      * @param Request $request
@@ -378,6 +389,36 @@ class FileController extends Controller
         ]]);
     }
 
+    public function download(Modification $mod, File $file, Request $request)
+    {
+        $file->downloads += 1;
+
+        return response()->download(public_path('/storage/') . $file->file_path);
+    }
+
+    public function downloadWithInstructions(Modification $mod, File $file, Request $request)
+    {
+        $instructions = $file->instructions()->get();
+
+        if ($instructions->count() < 1) {
+            return $this->download($mod, $file, $request);
+        }
+
+        $reports = [];
+        foreach ($instructions as $instruction) {
+            $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+        }
+
+        $filePath = tempnam(public_path() . '/storage/zips', 'temp_file_w_instruction_download_');
+
+        $zip = Zip::create($filePath, true);
+        $zip->add($reports);
+        $zip->add(public_path('/storage/') . $file->file_path);
+        $zip->close();
+
+        return response()->download($filePath, 'file-with-instructions.zip');
+    }
+
     public function massDownload(Modification $mod, Request $request)
     {
         $files = $request->get('files');
@@ -392,6 +433,10 @@ class FileController extends Controller
         $zip = Zip::create($filePath, true);
         $zip->add($files->toArray());
         $zip->close();
+
+        foreach ($files as $file) {
+            $file->downloads += 1;
+        }
 
         return response()->download($filePath, 'mass-download.zip');
     }

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "74623005ab9a63851df3b8d10b032251",
+    "content-hash": "351f8c769ec2751cea203ebf196d58b0",
     "packages": [
         {
             "name": "alaouy/youtube",
@@ -902,6 +902,47 @@
                 "performance"
             ],
             "time": "2018-08-31T19:07:57+00:00"
+        },
+        {
+            "name": "cossou/jasperphp",
+            "version": "2.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cossou/JasperPHP.git",
+                "reference": "afda44a9a6a8602966e982709db80408f36e0b6d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cossou/JasperPHP/zipball/afda44a9a6a8602966e982709db80408f36e0b6d",
+                "reference": "afda44a9a6a8602966e982709db80408f36e0b6d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "JasperPHP": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Hélder Duarte",
+                    "email": "cossou@gmail.com"
+                }
+            ],
+            "description": "Create Reports in PHP with JasperReports",
+            "homepage": "https://github.com/cossou/JasperPHP",
+            "keywords": [
+                "jasper",
+                "jasperreports",
+                "java",
+                "pdf",
+                "reports"
+            ],
+            "time": "2018-06-14T10:32:13+00:00"
         },
         {
             "name": "creativeorange/gravatar",

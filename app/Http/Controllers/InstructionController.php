@@ -8,9 +8,18 @@ use App\Modification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use JasperPHP\JasperPHP;
+use App\Services\ReportingService;
 
 class InstructionController extends Controller
 {
+    private $reportingService;
+
+    public function __construct(ReportingService $reportingService)
+    {
+        $this->reportingService = $reportingService;
+    }
+
     public function create(Modification $mod, File $file, Request $request)
     {
 //        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
@@ -108,5 +117,12 @@ class InstructionController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string',
         ]);
+    }
+
+    public function showPdf(Modification $mod, File $file, Instruction $instruction, Request $request)
+    {
+        $pdfFilePath = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+
+        return response()->file($pdfFilePath);
     }
 }

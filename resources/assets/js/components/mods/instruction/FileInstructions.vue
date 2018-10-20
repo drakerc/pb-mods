@@ -1,6 +1,12 @@
 <template>
     <div class="row">
         <instruction v-for="instruction in instructions" :key="instructions.id" :instruction="instruction" :file="file"></instruction>
+
+        <div v-if="instructions.length > 0">
+            <a :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-lg btn-outline-primary">
+                Pobierz plik wraz z instrukcjami
+            </a>
+        </div>
     </div>
 </template>
 <script>

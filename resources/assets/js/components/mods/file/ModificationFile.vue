@@ -9,7 +9,7 @@
                 <p class="card-text"><span v-html="file.pivot.description"></span></p>
                 <div>
                     <div>
-                        <a :href="file.downloadLink" class="btn btn-lg btn-outline-primary">
+                        <a :href="$route.params['mod'] + '/files/' + file.id + '/download'" class="btn btn-lg btn-outline-primary">
                            Pobierz ten plik
                         </a>
                         <router-link :to="{ name: 'modification_create_instruction', params: { mod: $route.params['mod'], file: file.id } }">
