@@ -42,7 +42,7 @@
                     gameId: null,
                     postCategoryId: null
                 },
-                postCategories: [
+                gameCategories: [
                     {value: null, text: 'Please select from one of the categories below:', disabled: true, selected: true}
                 ]
             }
@@ -62,7 +62,7 @@
                     console.error(err);
                 } else {
                     data.forEach(postCategory => {
-                        this.postCategories.push({
+                        this.gameCategories.push({
                             value: postCategory.id,
                             text: postCategory.name
                         });
@@ -76,7 +76,6 @@
                     title: this.post.title,
                     post_category_id: this.post.postCategoryId
                 }).then(response => {
-                    console.log(response);
                     this.$router.push({
                         name: 'post_details',
                         params: {

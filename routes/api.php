@@ -77,3 +77,5 @@ Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');
 
+Route::get('game-categories', 'CategoryController@getGameCategories');
+
