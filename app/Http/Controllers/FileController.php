@@ -3,15 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\File;
+use App\ImageFileModification;
+use App\Instruction;
 use App\Modification;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Services\ReportingService;
 use ZanySoft\Zip\Zip;
 
 class FileController extends Controller
 {
+    /**
+     * @var ReportingService
+     */
+    private $reportingService;
+
+    public function __construct(ReportingService $reportingService)
+    {
+        $this->reportingService = $reportingService;
+    }
+
     /**
      * @param Modification $mod
      * @param Request $request
@@ -97,10 +110,10 @@ class FileController extends Controller
 
     public function editModificationFiles(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -146,10 +159,10 @@ class FileController extends Controller
 
     public function destroy(Modification $mod, File $file, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
@@ -164,12 +177,149 @@ class FileController extends Controller
         ]);
     }
 
+    public function editModificationSplashImages(Modification $mod, Request $request)
+    {
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true, ImageFileModification::TYPE_SPLASH),
+                'auth' => Auth::check()
+            ]);
+        }
+
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => [
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true, ImageFileModification::TYPE_SPLASH),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ]]);
+        }
+
+        $activeSet = false;
+        $files = $request->file('files');
+
+        foreach ($request->post('files') as $key => $value) {
+            if ($activeSet && $value['availability']) {
+                $request->session()->flash('info', 'Nie możesz mieć więcej niż 1 aktywnego splasha w tym samym czasie!');
+
+                return redirect()->route('EditModSplash', ['mod' => $mod->id])
+                    ->withInput();
+            }
+            $file = null;
+            $newFile = false;
+
+            if (isset($value['id'])) {
+                $file = $mod->images()->find($value['id']);
+            }
+
+            if ($file === null) { // adding/editing a background or splash
+                $newFile = true;
+                $file = new File();
+            }
+
+            if (isset($files[$key])) {
+                $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
+                $file->file_type = $files[$key]->getMimeType();
+                $file->file_size = $files[$key]->getSize();
+                $file->uploader_id = Auth::id();
+            }
+
+            $file->availability = $value['availability'];
+            if ($newFile) {
+                $file->save();
+                $mod->images()->attach($file->id, [
+                    'active' => $value['availability'],
+                    'type' => ImageFileModification::TYPE_SPLASH
+                ]);
+            }
+            $file->save();
+            if ($value['availability'] === '1') {
+                $activeSet = true;
+            }
+        }
+        return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
+    public function editModificationBackgroundImages(Modification $mod, Request $request)
+    {
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
+
+        if ($request->ajax()) {
+            return response()->json([
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true, ImageFileModification::TYPE_BACKGROUND),
+                'auth' => Auth::check()
+            ]);
+        }
+        if ($request->method() === 'GET') {
+            return view('start', ['model' => [
+                'mod' => $mod->toArray(),
+                'files' => $mod->getImages(true, ImageFileModification::TYPE_BACKGROUND),
+                'path' => $request->getPathInfo(),
+                'auth' => Auth::check()
+            ]]);
+        }
+
+        $activeSet = false;
+        $files = $request->file('files');
+
+        foreach ($request->post('files') as $key => $value) {
+            if ($activeSet && $value['availability']) {
+                $request->session()->flash('info', 'Nie możesz mieć więcej niż 1 aktywne tło w tym samym czasie!');
+
+                return redirect()->route('EditModBackground', ['mod' => $mod->id])
+                    ->withInput();
+            }
+            $file = null;
+            $newFile = false;
+
+            if (isset($value['id'])) {
+                $file = $mod->images()->find($value['id']);
+            }
+
+            if ($file === null) { // adding/editing a background or splash
+                $newFile = true;
+                $file = new File();
+            }
+
+            if (isset($files[$key])) {
+                $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
+                $file->file_type = $files[$key]->getMimeType();
+                $file->file_size = $files[$key]->getSize();
+                $file->uploader_id = Auth::id();
+            }
+
+            $file->availability = $value['availability'];
+            if ($newFile) {
+                $file->save();
+                $mod->images()->attach($file->id, [
+                    'active' => $value['availability'],
+                    'type' => ImageFileModification::TYPE_BACKGROUND
+                ]);
+            }
+            $file->save();
+            if ($value['availability'] === '1') {
+                $activeSet = true;
+            }
+        }
+        return redirect()->route('ModificationView', ['mod' => $mod->id]);
+    }
+
     public function editModificationImageFiles(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -192,11 +342,27 @@ class FileController extends Controller
 
         foreach ($request->post('files') as $key => $value) {
             $file = $mod->images()->find($key);
+            if ($file === null && $request->post('type') === '3') {
+                throw new ModelNotFoundException('Could not find a file with id' . $key);
+            }
+
+            $newFile = false;
+            if ($file === null) { // adding/editing a background or splash
+                $newFile = true;
+            }
+
             if (isset($files[$key])) {
+                if ($file === null) {
+                    $file = new File();
+                }
+
                 $file->file_path = $files[$key]->store('modification_files', ['disk' => 'public']);
                 $file->file_type = $files[$key]->getMimeType();
                 $file->file_size = $files[$key]->getSize();
                 $file->uploader_id = Auth::id();
+            }
+            if ($newFile) {
+                $mod->images()->attach($file->id, ['active' => true, 'type' => $request->get('type')]);
             }
             $file->availability = $value['availability'];
             $file->save();
@@ -205,10 +371,78 @@ class FileController extends Controller
         return redirect()->route('ModificationView', ['mod' => $mod->id]);
     }
 
+    public function getInstructions(Modification $mod, File $file, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'instructions' => ($file->instructions()->get())->toArray(),
+                    'file' => $file->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'instructions' => ($file->instructions()->get())->toArray(),
+            'file' => $file->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
+    }
+
+    public function download(Modification $mod, File $file, Request $request)
+    {
+        $file->downloads += 1;
+        $file->save();
+
+        return response()->download(public_path('/storage/') . $file->file_path);
+    }
+
+    public function downloadWithInstructions(Modification $mod, File $file, Request $request)
+    {
+        $instructions = $file->instructions()->get();
+
+        if ($instructions->count() < 1) {
+            return $this->download($mod, $file, $request);
+        }
+
+        $file->downloads += 1;
+        $file->save();
+
+        $reports = [];
+        foreach ($instructions as $instruction) {
+            $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+        }
+
+        $filePath = tempnam(public_path() . '/storage/zips', 'temp_file_w_instruction_download_');
+
+        $zip = Zip::create($filePath, true);
+        $zip->add($reports);
+        $zip->add(public_path('/storage/') . $file->file_path);
+        $zip->close();
+
+        return response()->download($filePath, 'file-with-instructions.zip');
+    }
+
     public function massDownload(Modification $mod, Request $request)
     {
+        $reports = [];
+
         $files = $request->get('files');
-        $files = File::findMany(explode(',', $files))->pluck('file_path');
+        $files = File::findMany(explode(',', $files));
+
+        foreach ($files as $file) {
+            $file->downloads += 1;
+            $file->save();
+
+            if ((bool)$request->get('withInstructions') === true) {
+                $instructions = $file->instructions()->get();
+                foreach ($instructions as $instruction) {
+                    $reports[] = $this->reportingService->prepareFileInstruction($instruction, $file, $mod);
+                }
+            }
+        }
+
+        $files = $files->pluck('file_path');
 
         $files->transform(function ($value) {
             return public_path() . '/storage/' . $value;
@@ -218,6 +452,9 @@ class FileController extends Controller
 
         $zip = Zip::create($filePath, true);
         $zip->add($files->toArray());
+        if ((bool)$request->get('withInstructions') === true) {
+            $zip->add($reports);
+        }
         $zip->close();
 
         return response()->download($filePath, 'mass-download.zip');
@@ -230,10 +467,10 @@ class FileController extends Controller
      */
     private function getModificationFileCreationRedirections(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
         if ($request->ajax()) {
             return response()->json([
                 'mod' => $mod->toArray(),

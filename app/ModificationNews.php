@@ -10,4 +10,8 @@ class ModificationNews extends Model
     {
         return $this->belongsTo('App\Modification');
     }
+    protected $fillable = [
+        'title',
+        'description',
+    ];
 }

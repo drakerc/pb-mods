@@ -48,7 +48,9 @@ class Category extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = [];
+    protected $fillable = [
+        'title', 'description', 'thumbnail', 'background', 'active'
+    ];
     // protected $hidden = [];
     // protected $dates = [];
 

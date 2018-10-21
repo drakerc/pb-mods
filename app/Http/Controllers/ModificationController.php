@@ -70,6 +70,24 @@ class ModificationController extends Controller
         ]]);
     }
 
+    public function getNews(Modification $mod, Request $request)
+    {
+        if ($request->ajax()) {
+            return response()->json(
+                [
+                    'news' => ($mod->news()->get())->toArray(),
+                    'mod' => $mod->toArray(),
+                    'auth' => Auth::check()
+                ]);
+        }
+        return view('start', ['model' => [
+            'news' => ($mod->news()->get())->toArray(),
+            'mod' => $mod->toArray(),
+            'auth' => Auth::check(),
+            'path' => $request->getPathInfo(),
+        ]]);
+    }
+
     public function getModificationsInCategoryApi(Category $category)
     {
         return response()->json(($category->getModificationsInCategory())->toArray());
@@ -102,6 +120,12 @@ class ModificationController extends Controller
             'version' => 'string|max:20',
             'release_date' => 'date',
             'font_color' => 'string',
+            'font_color_splash_text' => 'string',
+            'color_splash_background' => 'string',
+            'transparency_splash_background' => 'numeric',
+            'font_color_description' => 'string',
+            'color_description_background' => 'string',
+            'transparency_description_background' => 'numeric',
 //                'development_studio' => $request->development_studio,
             'creator' => 'exists:users',
             'game_id' => 'exists:games',
@@ -128,10 +152,17 @@ class ModificationController extends Controller
                 'size' => $request->size,
                 'replaces' => $request->replaces,
                 'version' => $request->version,
-                'release_date' => \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d'),
                 'font_color' => $request->font_color,
+                'font_color_splash_text' => $request->font_color_splash_text,
+                'color_splash_background' => $request->color_splash_background,
+                'transparency_splash_background' => $request->transparency_splash_background,
+                'font_color_description' => $request->font_color_description,
+                'color_description_background' => $request->color_description_background,
+                'transparency_description_background' => $request->transparency_description_background,
 //                'development_studio' => $request->development_studio,
             ]);
+        $modification->release_date = $request->release_date === '' ? null
+            : \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d');
         $modification->creator = Auth::id();
         $modification->game_id = $request->gameid;
         $modification->category_id = $request->categoryid;
@@ -173,10 +204,15 @@ class ModificationController extends Controller
             'size' => $request->size,
             'replaces' => $request->replaces,
             'version' => $request->version,
-            'release_date' => \DateTime::createFromFormat('Y-m-d', $request->release_date)->format('Y-m-d'),
             'game_id' => $request->game_id,
             'category_id' => $request->category_id,
             'font_color' => $request->font_color,
+            'font_color_splash_text' => $request->font_color_splash_text,
+            'color_splash_background' => $request->color_splash_background,
+            'transparency_splash_background' => $request->transparency_splash_background,
+            'font_color_description' => $request->font_color_description,
+            'color_description_background' => $request->color_description_background,
+            'transparency_description_background' => $request->transparency_description_background,
 //                'development_studio' => $request->development_studio,
         ]);
 
@@ -184,6 +220,7 @@ class ModificationController extends Controller
 //        $mod->creator = Auth::id();
 //        $mod->game_id = $request->gameid;
 //        $mod->category_id = $request->categoryid;
+        $mod->release_date = $request->release_date === '' ? null : \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d');
 
         $mod->save();
         $request->session()->flash('info', 'Pomyślnie zaktualizowano modyfikację!');
@@ -209,5 +246,10 @@ class ModificationController extends Controller
         return response()->json([
             'status' => false
         ]);
+    }
+
+    public function getModTitleApi(Modification $mod)
+    {
+        return $mod->title;
     }
 }

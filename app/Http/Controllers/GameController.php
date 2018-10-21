@@ -88,6 +88,10 @@ class GameController extends Controller
         //
     }
 
+    /**
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function searchByPhraseInTitleOrDescription(Request $request) {
         $phrase = $request->phrase;
         $games = Game::where('title', 'like', '%' . $phrase . '%')
@@ -102,4 +106,8 @@ class GameController extends Controller
         return view('game.start');
     }
 
+    public function getGameTitleApi(Game $game)
+    {
+        return $game->title;
+    }
 }

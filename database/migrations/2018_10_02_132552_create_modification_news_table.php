@@ -16,7 +16,7 @@ class CreateModificationNewsTable extends Migration
         Schema::create('modification_news', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title');
-            $table->text('description');
+            $table->longText('description');
             $table->integer('modification_id')->unsigned();
             $table->foreign('modification_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->integer('author_id')->unsigned();

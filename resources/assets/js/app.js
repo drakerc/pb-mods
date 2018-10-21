@@ -34,10 +34,6 @@ const app = new Vue({
     router
 });
 
-// Vue.use(BootstrapVue);
-// Vue.use(require('vue-truncate-filter'));
-
-
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
 }, function (error) {

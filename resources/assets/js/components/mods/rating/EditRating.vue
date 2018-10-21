@@ -84,6 +84,7 @@
         methods: {
             assignData({mod, rating, auth}) {
                 this.mod = mod;
+                this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
                 this.auth = auth;
                 this.title = rating.title;
                 this.description = rating.description;

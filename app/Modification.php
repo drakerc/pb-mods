@@ -97,6 +97,11 @@ class Modification extends Model
         return 'Inna';
     }
 
+    public function getGameTitle()
+    {
+        return Game::find($this->game_id, ['title'])->first();
+    }
+
     public function getModificationDevStatus()
     {
         if ($this->development_status === self::DEV_STATUS_STARTED) {
@@ -131,12 +136,13 @@ class Modification extends Model
         return ($this->videos()->get())->toArray();
     }
 
-    public function getImages($all = false)
+    public function getImages($all = false, $type = ImageFileModification::TYPE_GALLERY)
     {
         if ($all) {
             return ($this->images()
-                ->wherePivot('active', '=', true)
-                ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
+//                ->where('availability', true)
+//                ->wherePivot('active', '=', true)
+                ->wherePivot('type', '=', $type)
                 ->get())->toArray();
         }
 
@@ -159,9 +165,54 @@ class Modification extends Model
         return $ratingSum / $ratings->count();
     }
 
+    public function getThumbnailAttribute()
+    {
+        $thumbnail = $this->images()
+            ->where('availability', true)
+            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
+            ->first(['file_path']);
+        return $thumbnail === null ? null : $thumbnail->downloadLink;
+    }
+
+    public function getBackgroundAttribute()
+    {
+        $image = $this->images()
+            ->where('availability', true)
+//            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
+            ->first(['file_path']);
+        return $image === null ? null : $image->downloadLink;
+    }
+
+    public function getSplashAttribute()
+    {
+        $image = $this->images()
+            ->where('availability', true)
+//            ->wherePivot('active', '=', true)
+            ->wherePivot('type', '=', ImageFileModification::TYPE_SPLASH)
+            ->first(['file_path']);
+        return $image === null ? null : $image->downloadLink;
+    }
+
     protected $fillable = [
-        'title', 'description', 'development_status', 'size', 'replaces', 'version', 'release_date', 'font_color', 'development_studio', 'use_game_background'
+        'title',
+        'description',
+        'development_status',
+        'size',
+        'replaces',
+        'version',
+        'release_date',
+        'font_color',
+        'font_color_splash_text',
+        'color_splash_background',
+        'transparency_splash_background',
+        'font_color_description',
+        'color_description_background',
+        'transparency_description_background',
+        'development_studio',
+        'use_game_background'
     ];
 
-    protected $appends = ['averageRating'];
+    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash'];
 }

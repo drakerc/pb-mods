@@ -1,7 +1,7 @@
 <template>
     <div>
         Ocena:
-        <star-rating read-only="true" v-model="rating"></star-rating>
+        <star-rating :read-only="true" v-model="rating"></star-rating>
     </div>
 </template>
 

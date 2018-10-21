@@ -1,47 +1,116 @@
 <template>
-    <div class="container">
-        <div id="toolbar">
-            <b-button :to="{name: 'login'}">Logowanie</b-button>
-            <!--<router-link :to="{name: 'login' }">-->
-                <!--<p>Logowanie</p>-->
-            <!--</router-link>-->
-            <!--<router-link :to="{ name: 'categories' }">-->
-                <!--<img class="icon" src="/images/logo.jpg">-->
-                <!--<h1>Mods</h1>-->
-            <!--</router-link>-->
-        </div>
-        <router-view :key="$route.fullPath"></router-view>
+    <div>
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">{{ current_module_name }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbar">
+                <ul v-if="current_module === 'mods'" class="navbar-nav mr-auto">
+                    <li v-if="game" class="nav-item active">
+                        <router-link :to="{name: 'game_mods', params: {game: game}}">
+                            <a class="nav-link">Mody do gry {{ game_title }} > </a>
+                        </router-link>
+                    </li>
+                    <li v-if="category" class="nav-item">
+                        <router-link :to="{name: 'mods_category', params: {game: game, category: category}}">
+                            <a class="nav-link">Kategoria: {{ category_title }} > </a>
+                        </router-link>
+                    </li>
+                    <li v-if="mod" class="nav-item">
+                        <router-link :to="{name: 'modification_view', params: {mod: mod}}">
+                            <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
+                        </router-link>
+                    </li>
+                    <li v-if="subcategories && subcategories.length > 0" class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podkategorie</a>
+                        <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
+                            <display-subcategories :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
+                        </div>
+                    </li>
+                </ul>
+                <router-link :to="{name: 'login'}">
+                    <button class="btn btn-outline-success my-2 my-sm-0">Logowanie</button>
+                </router-link>
+            </div>
+        </nav>
+        <router-view v-on:set-mod-link="setModLink" :key="$route.fullPath"></router-view>
         <vue-footer></vue-footer>
     </div>
 </template>
 <script>
     import VueFooter from './VueFooter.vue';
+    import DisplaySubcategories from './mods/category/DisplaySubcategories';
     export default {
         components: {
+            DisplaySubcategories,
             VueFooter
+        },
+        data() {
+            return {
+                current_module: '',
+                current_module_name: '',
+                game: null,
+                game_title: '',
+                category: null,
+                category_title: '',
+                mod: null,
+                mod_title: '',
+                subcategories: null,
+            };
+        },
+        methods: {
+            setModLink: function(game, category = null, mod = null) {
+                console.log('xx')
+                if (this.game !== game) {
+                    axios.get('/api/mods/' + game + '/get-title').then(({data}) => {
+                        this.game_title = data;
+                    });
+                    this.game = game;
+                }
+                if (this.category !== category) {
+                    if (category !== null) {
+                        axios.get('/api/mods/category/' + category + '/get-title').then(({data}) => {
+                            this.category_title = data;
+                        });
+                        axios.get('/api/mods/category/' + category + '/subcategories').then(({data}) => {
+                            this.subcategories = data;
+                        });
+                    }
+                    this.category = category;
+                }
+                if (mod && this.mod !== mod) {
+                    if (mod !== null) {
+                        axios.get('/api/mods/modifications/' + mod + '/get-title').then(({data}) => {
+                            this.mod_title = data;
+                        });
+                    }
+                    this.mod = mod;
+                }
+            }
+        },
+        beforeUpdate () {
+            if (this.$route.path.startsWith('/mods')) {
+                this.current_module = 'mods';
+                this.current_module_name = 'Portal modyfikacji';
+            } else if (this.$route.path.startsWith('/teams')) {
+                this.current_module = 'teams';
+                this.current_module_name = 'Portal developmentu';
+            } else {
+                // bairei if needed
+            }
         }
     }
 </script>
 <style>
-    #toolbar {
-        border-bottom: 1px solid #e4e4e4;
-        box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+    body {
+        padding-top: 60px;
     }
-    #toolbar a {
-        display: flex;
-        align-items: center;
-        text-decoration: none;
-    }
-    #toolbar .icon {
-        height: 34px;
-        padding: 16px 12px 16px 24px;
-        display: inline-block;
-    }
-    #toolbar h1 {
-        color: #4fc08d;
-        display: inline-block;
-        font-size: 28px;
-        margin: 0;
+    @media (max-width: 979px) {
+        body {
+            padding-top: 0px;
+        }
     }
 </style>
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
