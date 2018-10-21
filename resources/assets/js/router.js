@@ -24,6 +24,7 @@ import ModificationCreateRating from './components/mods/rating/CreateRating';
 import ModificationDisplayRatings from './components/mods/rating/DisplayRatings';
 import ModificationEditRating from './components/mods/rating/EditRating';
 import PostForm from './components/game/blog/post/PostForm';
+import GameForm from './components/game/GameForm';
 import ModificationEditSplashImages from './components/mods/file/ModificationEditSplashImages';
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
 import ModificationCreateNews from './components/mods/news/CreateNews';
@@ -62,6 +63,11 @@ export default new VueRouter({
                     path: '',
                     component: GameIndex,
                     name: 'game_index'
+                },
+                {
+                    path: 'new',
+                    component: GameForm,
+                    name: 'new_game_form'
                 },
                 {
                     path: 'search/results',

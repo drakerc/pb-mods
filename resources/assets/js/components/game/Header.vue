@@ -15,7 +15,7 @@
                 </b-nav-form>
             </b-navbar-nav>
         </b-navbar>
-        <div class="col-sm-12">
+        <div class="col-sm-11 mx-auto">
             <router-view></router-view>
         </div>
     </div>

@@ -95,7 +95,7 @@ class CommentController extends Controller
         $post = Post::findOrFail($id);
         if ($post && $post->comments())
         {
-            return response()->json($post->comments()->get());
+            return response()->json($post->comments()->orderBy('created_at', 'asc')->get());
         }
         return response()->json([]);
     }
