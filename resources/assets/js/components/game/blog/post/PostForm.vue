@@ -42,7 +42,7 @@
                     gameId: null,
                     postCategoryId: null
                 },
-                gameCategories: [
+                postCategories: [
                     {value: null, text: 'Please select from one of the categories below:', disabled: true, selected: true}
                 ]
             }
@@ -62,7 +62,7 @@
                     console.error(err);
                 } else {
                     data.forEach(postCategory => {
-                        this.gameCategories.push({
+                        this.postCategories.push({
                             value: postCategory.id,
                             text: postCategory.name
                         });
