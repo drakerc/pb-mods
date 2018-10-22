@@ -34,6 +34,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Category whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read mixed $deep_modifications_count
+ * @property-read mixed $deep_subcategories_count
  */
 class Category extends Model
 {

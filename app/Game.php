@@ -30,6 +30,11 @@ class Game extends Model
         'logo_id'
     ];
 
+    public function developmentStudio()
+    {
+        return $this->belongsToMany('App\DevelopmentStudio');
+    }
+
     public function getModificationCategories()
     {
         return Category::where(['game' => $this->id, 'game_category' => false, 'parent' => null])->get();

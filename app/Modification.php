@@ -44,6 +44,25 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereVersion($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $images
+ * @property string|null $font_color_splash_text
+ * @property string|null $color_splash_background
+ * @property float|null $transparency_splash_background
+ * @property string|null $font_color_description
+ * @property string|null $color_description_background
+ * @property float|null $transparency_description_background
+ * @property-read mixed $average_rating
+ * @property-read mixed $background
+ * @property-read mixed $splash
+ * @property-read mixed $thumbnail
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationNews[] $news
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationRating[] $ratings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationVideo[] $videos
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereColorDescriptionBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereColorSplashBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereFontColorDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereFontColorSplashText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereTransparencyDescriptionBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereTransparencySplashBackground($value)
  */
 class Modification extends Model
 {
@@ -80,6 +99,11 @@ class Modification extends Model
     public function news()
     {
         return $this->hasMany('App\ModificationNews');
+    }
+
+    public function developmentStudio()
+    {
+        return $this->belongsToMany('App\DevelopmentStudio');
     }
 
     public function getModificationSizeName()
