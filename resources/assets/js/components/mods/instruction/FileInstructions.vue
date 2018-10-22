@@ -1,7 +1,6 @@
 <template>
     <div class="btn-group">
         <instruction v-for="instruction in instructions" :key="instructions.id" :instruction="instruction" :file="file"></instruction>
-
         <div class="pt-1 mt-1" v-if="instructions.length > 0">
             <a v-if="instructions.length > 0" :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-sm btn-outline-primary">
                 Pobierz plik z instrukcjami

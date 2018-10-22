@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="row">
         <category-mod v-for="mod in mods" :key="mod.id" :mod="mod"></category-mod>
     </div>
 </template>

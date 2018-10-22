@@ -182,6 +182,10 @@ class Modification extends Model
     public function getAverageRatingAttribute()
     {
         $ratings = $this->ratings()->get();
+        if ($ratings->count() === 0) {
+            return 0;
+        }
+
         $ratingSum = 0;
         foreach ($ratings as $rating) {
             $ratingSum += $rating->rating;
@@ -219,6 +223,20 @@ class Modification extends Model
         return $image === null ? null : $image->downloadLink;
     }
 
+    public function getDownloadsCountAttribute()
+    {
+        $sum = 0;
+        $files = $this->files()
+            ->where('availability', true)
+            ->get(['downloads']);
+
+        foreach ($files as $file) {
+            $sum += $file->downloads;
+        }
+
+        return $sum;
+    }
+
     protected $fillable = [
         'title',
         'description',
@@ -238,5 +256,5 @@ class Modification extends Model
         'use_game_background'
     ];
 
-    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash'];
+    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash', 'downloadsCount'];
 }

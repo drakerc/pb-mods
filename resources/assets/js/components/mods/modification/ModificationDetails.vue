@@ -12,6 +12,7 @@
                             <div>Wersja: {{ mod.version }}</div>
                             <div>Data wydania: {{ mod.release_date }}</div>
                             <div>Studio developerskie: {{ mod.development_studio }}</div>
+                            <div>Ilość pobrań: {{ mod.downloadsCount }}</div>
                         </div>
                         <div class="col-md-3">
                             <display-total-rating :rating="mod.averageRating"></display-total-rating>
@@ -23,7 +24,7 @@
             </div>
 
         <div class="container jumbotron rounded text-white bg-semi-transparent-details" :style="descriptionStyle">
-            <b-nav tabs>
+            <b-nav justified tabs class="bg-dark" style="opacity: 0.85">
                 <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
                 <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
                 <b-nav-item :active="active === 'videos'" @click="active = 'videos'">Filmiki</b-nav-item>
@@ -63,7 +64,10 @@
                 </div>
 
                 <div v-if="active === 'authorsMenu'">
-                    <modification-author-menu :mod="mod"></modification-author-menu>
+                    <div class="container jumbotron bg-dark">
+                        <h3>To menu widoczne jest wyłącznie dla autorów modyfikacji. Z jego poziomu możesz zarządzać wszystkimi elementami swojego moda.</h3>
+                        <modification-author-menu :mod="mod"></modification-author-menu>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,6 +103,9 @@
                     'background-repeat': 'no-repeat',
                     'background-color': 'black',
                     'background-size': 'cover',
+                    'width': '90%',
+                    'margin': 'auto',
+                    'opacity': '0.95',
                 }
             },
             splashDetailsStyle() {
@@ -112,7 +119,8 @@
                 return {
                     'background-color': this.mod.color_description_background + ' !important',
                     'opacity': this.mod.transparency_description_background + ' !important',
-                    'color': this.mod.font_color_description
+                    'color': this.mod.font_color_description + ' !important',
+                    'width': '130%',
                 }
             },
             backgroundImageStyle() {

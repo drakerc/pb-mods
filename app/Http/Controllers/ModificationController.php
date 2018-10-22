@@ -75,7 +75,7 @@ class ModificationController extends Controller
         if ($request->ajax()) {
             return response()->json(
                 [
-                    'news' => ($mod->news()->get())->toArray(),
+                    'news' => ($mod->news()->get()->sortByDesc('created_at'))->values()->toArray(),
                     'mod' => $mod->toArray(),
                     'auth' => Auth::check()
                 ]);
@@ -110,16 +110,15 @@ class ModificationController extends Controller
 
     private function validation(Request $request)
     {
-        //https://scotch.io/tutorials/simple-laravel-crud-with-resource-controllers
         return $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'development_status' => 'required|integer|in:0,1,2,3,4',
             'size' => 'required|integer|in:0,1,2',
-            'replaces' => 'string|max:100',
-            'version' => 'string|max:20',
-            'release_date' => 'date',
-            'font_color' => 'string',
+            'replaces' => 'string|nullable|max:100',
+            'version' => 'string|nullable|max:20',
+            'release_date' => 'date|nullable',
+            'font_color' => 'string|nullable',
             'font_color_splash_text' => 'string',
             'color_splash_background' => 'string',
             'transparency_splash_background' => 'numeric',
@@ -173,10 +172,10 @@ class ModificationController extends Controller
 
     public function edit(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
         if ($request->ajax()) {
             return response()->json([
                 'mod' => $mod->toArray(),
@@ -230,10 +229,10 @@ class ModificationController extends Controller
 
     public function destroy(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-            $request->session()->flash('info', 'Nie masz uprawnień');
-            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-        }
+//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+//            $request->session()->flash('info', 'Nie masz uprawnień');
+//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+//        }
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
         }

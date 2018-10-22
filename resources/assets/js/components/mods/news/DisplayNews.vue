@@ -12,15 +12,16 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div v-html="news.description"></div>
                 <div class="btn-group">
                     <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
                         <b-btn>Edytuj</b-btn>
                     </router-link>
                     <delete-news :news="news"></delete-news>
                 </div>
+                <div v-html="news.description"></div>
             </div>
         </div>
+        <hr class="mb-4">
     </div>
 </template>
 <script>

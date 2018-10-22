@@ -10,7 +10,7 @@
                         Edytuj
                     </b-btn>
                 </router-link>
-                <b-btn size="sm" class="float-right" variant="primary" @click="print">
+                <b-btn size="sm" class="float-right" :href="$route.params['mod'] + '/files/' + file.id + '/instruction/' + instruction.id + '/print'" variant="primary" @click="print">
                     Drukuj
                 </b-btn>
             </div>
@@ -29,6 +29,7 @@
         },
         methods: {
             print: function () {
+
             }
         },
     }

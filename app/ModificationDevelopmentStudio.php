@@ -11,5 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ModificationDevelopmentStudio extends Model
 {
-    //
+    public function developmentStudio()
+    {
+        return $this->belongsToMany('App\DevelopmentStudio');
+    }
 }

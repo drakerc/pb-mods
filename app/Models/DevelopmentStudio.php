@@ -19,7 +19,7 @@ class DevelopmentStudio extends Model
     // protected $primaryKey = 'id';
     // public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization'];
+    protected $fillable = ['title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization', 'owner_id'];
     // protected $hidden = [];
     // protected $dates = [];
 

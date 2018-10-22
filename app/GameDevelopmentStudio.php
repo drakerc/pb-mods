@@ -11,5 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class GameDevelopmentStudio extends Model
 {
-    //
+    public function developmentStudio()
+    {
+        return $this->belongsToMany('App\DevelopmentStudio');
+    }
 }

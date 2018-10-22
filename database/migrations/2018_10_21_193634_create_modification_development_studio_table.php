@@ -13,7 +13,7 @@ class CreateModificationDevelopmentStudioTable extends Migration
      */
     public function up()
     {
-        Schema::create('modification_development_studio', function (Blueprint $table) {
+        Schema::create('modification_development_studios', function (Blueprint $table) {
             $table->integer('mod_id')->unsigned()->index();
             $table->foreign('mod_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();
