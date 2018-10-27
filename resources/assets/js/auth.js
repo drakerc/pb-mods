@@ -25,9 +25,9 @@ export const Auth = {
     },
 
     getId() {
-        const id = jwt_decode(window.localStorage.getItem('token')).sub;
-        if (id) {
-            return id;
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            return jwt_decode(window.localStorage.getItem('token')).sub;
         }
         return null;
     },

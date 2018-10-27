@@ -61,12 +61,8 @@ class ApiAuthController extends Controller
 
         $user = $request->user();
 
-        $tokenResult = $user->createToken('Personal Access Token');
+        $tokenResult = $user->createToken('My token');
         $token = $tokenResult->token;
-
-        if($request->remember_me) {
-            $token->expires_at = Carbon::now()->addWeeks(1);
-        }
 
         $token->save();
 
