@@ -20,16 +20,21 @@
             </div>
         </div>
         <div v-else><p>No comments found.</p></div>
-        <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
-        <div v-if="formVisible" class="my-2">
-            <b-form @submit="onSubmit" class="col-sm-10">
-                <b-form-group label="Comment:">
-                    <vue-editor v-model="comment.body"></vue-editor>
-                </b-form-group>
-                <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
-                <b-button @click="hideForm" variant="default">Cancel</b-button>
-            </b-form>
-        </div>
+        <template v-if="!isLoggedIn">
+            <p>Please log in to add comments.</p>
+        </template>
+        <template v-else>
+            <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
+            <div v-if="formVisible" class="my-2">
+                <b-form @submit="onSubmit" class="col-sm-10">
+                    <b-form-group label="Comment:">
+                        <vue-editor v-model="comment.body"></vue-editor>
+                    </b-form-group>
+                    <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
+                    <b-button @click="hideForm" variant="default">Cancel</b-button>
+                </b-form>
+            </div>
+        </template>
 
     </div>
 </template>
@@ -37,6 +42,7 @@
 <script>
     import axios from 'axios';
     import { VueEditor } from 'vue2-editor';
+    import { Auth } from "../../../../auth";
 
     const fetchPost = (id, callback) => {
         axios.get(`/api/post/${id}`).then((response) => {
@@ -86,12 +92,12 @@
                 this.comment.body = '';
             },
             onSubmit() {
+                console.log(axios.defaults.headers.common);
                 axios.post(`/api/comment`, {
                     post_id: this.comment.postId,
                     game_id: this.comment.gameId,
                     body: this.comment.body,
-                    author_id: 1
-                }).then(response => {
+                }).then(() => {
                     this.$router.push({
                         name: 'post_details',
                         params: {
@@ -100,6 +106,9 @@
                         }
                     });
                 });
+            },
+            isLoggedIn() {
+                return Auth.isLoggedIn();
             }
         }
     }

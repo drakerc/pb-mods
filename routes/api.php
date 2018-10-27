@@ -78,7 +78,12 @@ Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVi
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 Route::resource('post','PostController');
 
-Route::resource('comment', 'CommentController');
+Route::group(['middleware' => 'auth:api'], function () {
+   Route::post('comment', 'CommentController@store');
+});
+Route::resource('comment', 'CommentController')->except([
+    'store'
+]);
 
 Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
 Route::resource('game', 'GameController');

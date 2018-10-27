@@ -2,6 +2,7 @@ import axios from 'axios';
 import { EventBus } from "./event-bus";
 
 export const Auth = {
+
     login(token, user) {
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('user', user);
@@ -15,7 +16,6 @@ export const Auth = {
     },
 
     getUser() {
-        // console.log(window.localStorage.getItem('user'));
         const token = window.localStorage.getItem('token');
         if (token) {
             axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;

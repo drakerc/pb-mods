@@ -55,8 +55,8 @@
                     <b-button :to="{name: 'login'}" variant="outline-success" :class="['my-2','my-sm-0', $route.path.startsWith('/login') ? 'ml-auto': '']">Logowanie</b-button>
                 </template>
                 <template v-else>
-                    <b-navbar-nav :class="$route.path.startsWith('/home') ? 'ml-auto' : ''">
-                        <b-nav-text class="mr-1">Welcome, {{username}}!</b-nav-text>
+                    <b-navbar-nav class="mr-2 ml-2">
+                        <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
                         <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
                     </b-navbar-nav>
                 </template>
