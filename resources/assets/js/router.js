@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+import { Auth } from "./auth";
 
 import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
@@ -30,7 +30,9 @@ import ModificationEditBackgroundImages from './components/mods/file/Modificatio
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
 
-export default new VueRouter({
+Vue.use(VueRouter);
+
+export const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
@@ -67,7 +69,10 @@ export default new VueRouter({
                 {
                     path: 'new',
                     component: GameForm,
-                    name: 'new_game_form'
+                    name: 'new_game_form',
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: 'search/results',
@@ -82,7 +87,10 @@ export default new VueRouter({
                 {
                     path: ':id/post/new',
                     component: PostForm,
-                    name: 'post_form'
+                    name: 'post_form',
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: ':gameId/post/:id',
@@ -96,4 +104,17 @@ export default new VueRouter({
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
     }
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!Auth.isLoggedIn()) {
+            next({
+                path: '/login',
+                query: { redirect: to.fullPath }
+            });
+            return;
+        }
+    }
+    next();
 });

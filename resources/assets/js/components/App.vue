@@ -30,9 +30,32 @@
                         </div>
                     </li>
                 </ul>
-                <router-link :to="{name: 'login'}">
-                    <button class="btn btn-outline-success my-2 my-sm-0">Logowanie</button>
-                </router-link>
+                <template v-if="current_module === 'game'">
+                    <b-navbar-nav>
+                        <b-nav-item to="/game" exact>Games</b-nav-item>
+                    </b-navbar-nav>
+                    <b-navbar-nav class="ml-auto">
+                        <b-nav-form @submit.prevent="onSearchSubmit">
+                            <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" v-model="phrase"></b-form-input>
+                            <b-button size="sm" class="my-2 mr-sm-2" type="submit"
+                                      :disabled="phrase.length===0" @submit.prevent="onSubmit"
+                            >
+                                Search
+                            </b-button>
+                        </b-nav-form>
+                    </b-navbar-nav>
+                </template>
+                <template v-if="!isLogged" class="ml-auto">
+                    <router-link :to="{name: 'login'}">
+                        <button class="btn btn-outline-success my-2 my-sm-0">Logowanie</button>
+                    </router-link>
+                </template>
+                <template v-else>
+                    <b-navbar-nav>
+                        <b-nav-text class="mr-1">Welcome, {{username}}!</b-nav-text>
+                        <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
+                    </b-navbar-nav>
+                </template>
             </div>
         </nav>
         <router-view v-on:set-mod-link="setModLink" :key="$route.fullPath"></router-view>
@@ -42,6 +65,9 @@
 <script>
     import VueFooter from './VueFooter.vue';
     import DisplaySubcategories from './mods/category/DisplaySubcategories';
+    import { Auth } from "../auth";
+    import { EventBus } from '../event-bus';
+
     export default {
         components: {
             DisplaySubcategories,
@@ -58,7 +84,10 @@
                 mod: null,
                 mod_title: '',
                 subcategories: null,
-            };
+                phrase: '',
+                isLogged: Auth.isLoggedIn(),
+                username: Auth.getUser()
+            }
         },
         methods: {
             setModLink: function(game, category = null, mod = null) {
@@ -88,18 +117,48 @@
                     }
                     this.mod = mod;
                 }
+            },
+            onSearchSubmit() {
+                this.$router.push({
+                    name: 'search_results',
+                    query: {
+                        phrase: this.phrase
+                    }
+                });
+                this.phrase = '';
+            },
+            logout() {
+                Auth.logout();
+                this.$router.push({'name': 'login', query: {redirect: this.$route.fullPath}});
+            },
+            setCurrentModule() {
+                if (this.$route.path.startsWith('/mods')) {
+                    this.current_module = 'mods';
+                    this.current_module_name = 'Portal modyfikacji';
+                } else if (this.$route.path.startsWith('/teams')) {
+                    this.current_module = 'teams';
+                    this.current_module_name = 'Portal developmentu';
+                } else if (this.$route.path.startsWith('/game')) {
+                    this.current_module = 'game';
+                    this.current_module_name = 'Portal gier';
+                }
             }
         },
         beforeUpdate () {
-            if (this.$route.path.startsWith('/mods')) {
-                this.current_module = 'mods';
-                this.current_module_name = 'Portal modyfikacji';
-            } else if (this.$route.path.startsWith('/teams')) {
-                this.current_module = 'teams';
-                this.current_module_name = 'Portal developmentu';
-            } else {
-                // bairei if needed
-            }
+            this.setCurrentModule();
+        },
+        beforeMount() {
+            this.setCurrentModule();
+        },
+        mounted() {
+            EventBus.$on('logged-out', () => {
+               this.isLogged = false;
+               this.username = null;
+            });
+            EventBus.$on('logged-in', (user) => {
+                this.isLogged = true;
+                this.username = user;
+            })
         }
     }
 </script>

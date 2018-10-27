@@ -1,27 +1,57 @@
 <template>
-    <div id="login" class="login-container">
-        <form role="form" method="POST" action="/login">
-            <input type="hidden" name="_token" :value="csrf_token">
-            <!--<div class="form-control">-->
-                <input id="email" type="email" name="email" class="form-control"
-                       placeholder="Email Address" required autofocus>
-            <!--</div>-->
-            <!--<div class="form-control">-->
-                <input id="password" type="password" name="password" class="form-control"
-                       placeholder="Password" required>
-            <!--</div>-->
-            <!--<div class="form-control">-->
-            <b-button type="submit" success>Log in</b-button>
-                <!--<button class="btn btn-success" type="submit">Log in</button>-->
-            <!--</div>-->
-        </form>
+    <div class="my-2 col-sm-5 mx-auto">
+        <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
+            <b-form-group
+                          label="Email:"
+                          label-for="email-input">
+                <b-form-input v-model="email"
+                              id="email-input"
+                              type="email"
+                              required
+                              placeholder="email@example.com">
+                </b-form-input>
+            </b-form-group>
+            <b-form-group label="Password:"
+                          label-for="password-input">
+                <b-form-input id="password-input"
+                              type="password"
+                              v-model="password"
+                              required>
+                </b-form-input>
+            </b-form-group>
+            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="reset" variant="warning">Reset</b-button>
+        </b-form>
     </div>
 </template>
 <script>
+    import axios from 'axios';
+    import { Auth } from '../auth';
+
     export default {
         data() {
             return {
-                csrf_token: window.window.csrf_token
+                csrf_token: window.window.csrf_token,
+                email: '',
+                password: '',
+                redirect: this.$route.query.redirect? this.$route.query.redirect : null
+            }
+        },
+        methods: {
+            onSubmit() {
+                axios.post('/api/auth/login', {
+                    email: this.email,
+                    password: this.password
+                }).then(response => {
+                    Auth.login(response.data.access_token, response.data.username);
+                    this.$router.push(this.redirect ? this.redirect: '/');
+                }).catch(err => {
+                    console.error(err)
+                });
+            },
+            onReset() {
+                this.email = '';
+                this.password = '';
             }
         }
     }

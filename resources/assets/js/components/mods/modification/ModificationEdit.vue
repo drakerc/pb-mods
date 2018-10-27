@@ -143,7 +143,6 @@
     import Datepicker from 'vuejs-datepicker';
     import Multiselect from 'vue-multiselect'
     import ModificationPreviewChanges from './ModificationPreviewChanges';
-    import router from "../../../router";
 
     export default {
         mixins: [ routeMixin ],
@@ -208,7 +207,7 @@
             deleteModification: function () {
                 axios.delete('/api/mods/modifications/' + this.mod.id + '/delete').then(response => {
                     if (response.data.status === true) {
-                        router.push({ name: 'mods_category', params: { game: this.game.id, category: this.category.id} })
+                        this.$router.push({ name: 'mods_category', params: { game: this.game.id, category: this.category.id} })
                     } else {
                         alert('Nie udało się usunąć modyfikacji. Może nie masz uprawnień?')
                     }

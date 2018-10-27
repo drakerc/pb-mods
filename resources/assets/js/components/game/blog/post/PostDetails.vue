@@ -1,15 +1,22 @@
 <template>
-    <div class="my-2">
-        <h1>{{post.title}}</h1>
-        <em>Posted at {{post.created_at}}</em>
-        <p v-html="post.body"></p>
+    <div class="my-2" v-if="post.title">
+        <b-jumbotron bg-variant="dark" text-variant="white" header-level="4">
+            <template slot="header">
+                {{post.title}}
+            </template>
+            <b-row>
+                <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
+                <em>Posted at {{post.created_at}}</em>
+            </b-row>
+        </b-jumbotron>
+        <p v-html="post.body" class="col-sm-10 my-2"></p>
 
         <p>Comments:</p>
         <div v-if="post.comments !== undefined && post.comments.length > 0">
             <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
                 <b-card :id="index">
                     <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
-                    <p v-html="comment.body"/>
+                    <p v-html="comment.body"></p>
                 </b-card>
             </div>
         </div>

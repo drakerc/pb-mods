@@ -1,21 +1,6 @@
 <template>
     <div>
-        <b-navbar toggleable="md" type="dark" variant="info" class="mb-3">
-            <b-navbar-nav>
-                <b-nav-item to="/game" exact>Games</b-nav-item>
-            </b-navbar-nav>
-            <b-navbar-nav class="ml-auto">
-                <b-nav-form @submit.prevent="onSubmit">
-                    <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" v-model="phrase"></b-form-input>
-                    <b-button size="sm" class="my-2 my-sm-0" type="submit"
-                              :disabled="phrase.length===0" @submit.prevent="onSubmit"
-                    >
-                        Search
-                    </b-button>
-                </b-nav-form>
-            </b-navbar-nav>
-        </b-navbar>
-        <div class="col-sm-11 mx-auto">
+        <div class="container my-2 col-sm-11 mx-auto">
             <router-view></router-view>
         </div>
     </div>
@@ -26,19 +11,8 @@
         name: "GameMain",
         data() {
             return {
-                phrase: ""
             }
         },
-        methods: {
-            onSubmit() {
-                this.$router.push({
-                    name: 'search_results',
-                    query: {
-                        phrase: this.phrase
-                    }
-                });
-            }
-        }
     }
 </script>
 
