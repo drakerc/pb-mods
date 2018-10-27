@@ -80,9 +80,11 @@ Route::resource('post','PostController');
 
 Route::group(['middleware' => 'auth:api'], function () {
    Route::post('comment', 'CommentController@store');
+   Route::delete('comment/{id}', 'CommentController@destroy');
 });
+
 Route::resource('comment', 'CommentController')->except([
-    'store'
+    'store', 'destroy'
 ]);
 
 Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');

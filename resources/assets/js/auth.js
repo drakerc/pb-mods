@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { EventBus } from "./event-bus";
+import jwt_decode from 'jwt-decode';
 
 export const Auth = {
 
@@ -23,10 +24,17 @@ export const Auth = {
         }
     },
 
+    getId() {
+        const id = jwt_decode(window.localStorage.getItem('token')).sub;
+        if (id) {
+            return id;
+        }
+        return null;
+    },
+
     logout() {
         window.localStorage.removeItem('token');
         window.localStorage.removeItem('user');
-
         EventBus.$emit('logged-out');
     }
 };

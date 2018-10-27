@@ -14,7 +14,10 @@
         <div v-if="post.comments !== undefined && post.comments.length > 0">
             <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
                 <b-card :id="index">
-                    <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
+                    <b-row class="col-sm-12">
+                        <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
+                        <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">Delete</b-link>
+                    </b-row>
                     <p v-html="comment.body"></p>
                 </b-card>
             </div>
@@ -46,7 +49,6 @@
 
     const fetchPost = (id, callback) => {
         axios.get(`/api/post/${id}`).then((response) => {
-            // console.log(response.data);
             callback(null, response.data);
         }).catch(err => callback(err, err.response.data));
     };
@@ -92,7 +94,6 @@
                 this.comment.body = '';
             },
             onSubmit() {
-                console.log(axios.defaults.headers.common);
                 axios.post(`/api/comment`, {
                     post_id: this.comment.postId,
                     game_id: this.comment.gameId,
@@ -106,6 +107,27 @@
                         }
                     });
                 });
+            },
+            onDelete(comment) {
+                if (this.isAuthor(comment.author.id)){
+                    let confirm = window.confirm("Are you sure you want to delete this comment? This cannot be undone!"); // TODO
+                    if (confirm) {
+                        axios.delete(`/api/comment/${comment.id}`).then(() => {
+                            fetchPost(this.post.id, (err, data) => {
+                                this.setData(err, data);
+                            });
+                        });
+                    }
+                } else {
+                    console.log("You're not allowed to delete this message");
+                }
+            },
+            isAuthor(authorId) {
+                if (this.isLoggedIn) {
+                    const id = parseInt(Auth.getId());
+                    return authorId === id;
+                }
+                return false;
             },
             isLoggedIn() {
                 return Auth.isLoggedIn();

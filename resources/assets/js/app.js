@@ -14,7 +14,6 @@ import App from './components/App';
 import BootstrapVue from 'bootstrap-vue';
 import axios from 'axios';
 import VueYouTubeEmbed from 'vue-youtube-embed';
-import { Auth } from "./auth";
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';

@@ -52,10 +52,12 @@
                     </b-navbar-nav>
                 </template>
                 <template v-if="!isLogged">
-                    <b-button :to="{name: 'login'}" variant="outline-success" :class="['my-2','my-sm-0', $route.path.startsWith('/login') ? 'ml-auto': '']">Logowanie</b-button>
+                    <b-navbar-nav :class="$route.path.startsWith('/game') ? '' : 'ml-auto'">
+                        <b-button :to="{name: 'login'}" variant="outline-success" class="my-sm-0 my-2">Logowanie</b-button>
+                    </b-navbar-nav>
                 </template>
                 <template v-else>
-                    <b-navbar-nav class="mr-2 ml-2">
+                    <b-navbar-nav :class="['mr-2', 'ml-2', $route.path.startsWith('/game') ? '' : 'ml-auto']">
                         <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
                         <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
                     </b-navbar-nav>
