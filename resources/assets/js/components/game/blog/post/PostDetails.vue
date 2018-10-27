@@ -4,10 +4,9 @@
             <template slot="header">
                 {{post.title}}
             </template>
-            <b-row>
-                <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
-                <em>Posted at {{post.created_at}}</em>
-            </b-row>
+            <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
+            <br>
+            <em>Posted at {{post.created_at}}</em>
         </b-jumbotron>
         <p v-html="post.body" class="col-sm-10 my-2"></p>
 

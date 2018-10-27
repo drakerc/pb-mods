@@ -44,7 +44,7 @@
                     password: this.password
                 }).then(response => {
                     Auth.login(response.data.access_token, response.data.username);
-                    this.$router.push(this.redirect ? this.redirect: '/');
+                    this.$router.push(this.redirect ? this.redirect: '/home');
                 }).catch(err => {
                     console.error(err)
                 });

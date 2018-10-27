@@ -11,8 +11,21 @@
         <b-card no-body>
             <b-tabs card>
                 <b-tab title="Info" class="my-2">
-                    <p>Description:</p>
-                    <em>{{game.description}}</em>
+                    <b-row>
+                        <b-col sm="8">
+                            <p>Description:</p>
+                            <em>{{game.description}}</em>
+                        </b-col>
+
+                        <b-col>
+                            <b-card>
+                                <div slot="header">
+                                    Info:
+                                </div>
+                                <br><br><br><br><br><br><br>
+                            </b-card>
+                        </b-col>
+                    </b-row>
                 </b-tab>
                 <b-tab title="Blog" class="my-2">
                     <!--TODO: if user is authenticated and is in development team-->

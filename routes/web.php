@@ -80,9 +80,9 @@ Route::put('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController
 
 Route::get('/game{any}', 'GameController@indexWeb')->where('any', '.*');
 
-Route::get('/post{any}', function() {
+Route::get('/home', function() {
     return view('game.start');
-})->where('any', '.*');
+});
 
 //Route::group(['prefix' => 'voyager/admin'], function () {
 //    Voyager::routes();

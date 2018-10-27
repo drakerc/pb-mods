@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">{{ current_module_name }}</a>
+            <b-navbar-brand class="navbar-brand" to="/home">{{ current_module_name }}</b-navbar-brand>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,7 +37,7 @@
                     <b-navbar-nav class="ml-auto">
                         <b-nav-form @submit.prevent="onSearchSubmit">
                             <b-form-input size="sm" class="mr-sm-2" type="text" placeholder="Search" v-model="phrase"></b-form-input>
-                            <b-button size="sm" class="my-2 mr-sm-2" type="submit"
+                            <b-button size="sm" class="mr-sm-2" type="submit"
                                       :disabled="phrase.length===0" @submit.prevent="onSubmit"
                             >
                                 Search
@@ -45,13 +45,17 @@
                         </b-nav-form>
                     </b-navbar-nav>
                 </template>
-                <template v-if="!isLogged" class="ml-auto">
-                    <router-link :to="{name: 'login'}">
-                        <button class="btn btn-outline-success my-2 my-sm-0">Logowanie</button>
-                    </router-link>
+                <template v-else-if="current_module === 'none'">
+                    <b-navbar-nav>
+                        <b-nav-item to="/game">Games</b-nav-item>
+                        <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
+                    </b-navbar-nav>
+                </template>
+                <template v-if="!isLogged">
+                    <b-button :to="{name: 'login'}" variant="outline-success" :class="['my-2','my-sm-0', $route.path.startsWith('/login') ? 'ml-auto': '']">Logowanie</b-button>
                 </template>
                 <template v-else>
-                    <b-navbar-nav>
+                    <b-navbar-nav :class="$route.path.startsWith('/home') ? 'ml-auto' : ''">
                         <b-nav-text class="mr-1">Welcome, {{username}}!</b-nav-text>
                         <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
                     </b-navbar-nav>
@@ -141,6 +145,9 @@
                 } else if (this.$route.path.startsWith('/game')) {
                     this.current_module = 'game';
                     this.current_module_name = 'Portal gier';
+                } else {
+                    this.current_module = 'none';
+                    this.current_module_name = null;
                 }
             }
         },
@@ -148,6 +155,10 @@
             this.setCurrentModule();
         },
         beforeMount() {
+            this.setCurrentModule();
+        },
+        beforeRouteUpdate() {
+            console.log('update');
             this.setCurrentModule();
         },
         mounted() {

@@ -29,6 +29,7 @@ import ModificationEditSplashImages from './components/mods/file/ModificationEdi
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
+import Home from './components/Home';
 
 Vue.use(VueRouter);
 
@@ -57,6 +58,11 @@ export const router = new VueRouter({
         {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
         {path: '/login', component: Login, name: 'login'},
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {
+            path: '/home',
+            component: Home,
+            name: 'home'
+        },
         {
             path: '/game',
             component: Header,
