@@ -50,6 +50,25 @@ class ModificationController extends Controller
         ];
     }
 
+    public static function canManageMod($mod)
+    {
+        if (Auth::id() === $mod->creator) {
+            return true;
+        }
+
+        $user = Auth::user();
+        $studio = $mod->developmentStudio()->first();
+
+        if ($studio !== null) {
+            $members = $studio->users()->get();
+
+            if ($members->contains('id', $user->id)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function getModification(Modification $mod, Request $request)
     {
         if ($request->ajax()) {
@@ -167,14 +186,6 @@ class ModificationController extends Controller
                 'size' => $request->size,
                 'replaces' => $request->replaces,
                 'version' => $request->version,
-                'font_color' => $request->font_color,
-                'font_color_splash_text' => $request->font_color_splash_text,
-                'color_splash_background' => $request->color_splash_background,
-                'transparency_splash_background' => $request->transparency_splash_background,
-                'font_color_description' => $request->font_color_description,
-                'color_description_background' => $request->color_description_background,
-                'transparency_description_background' => $request->transparency_description_background,
-//                'development_studio' => $request->development_studio,
             ]);
         $modification->release_date = $request->release_date === '' ? null
             : \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d');
@@ -193,7 +204,8 @@ class ModificationController extends Controller
 
     public function edit(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+        $canManage = self::canManageMod($mod);
+        if ($canManage === false) {
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
@@ -260,10 +272,12 @@ class ModificationController extends Controller
 
     public function destroy(Modification $mod, Request $request)
     {
-        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+        $canManage = self::canManageMod($mod);
+        if ($canManage === false) {
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
+
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
         }

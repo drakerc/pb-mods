@@ -36,35 +36,35 @@ Route::get('/mods/modifications/user-mods/{user}', 'ModificationController@getUs
 
 Route::get('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles')->middleware('auth:api');
 Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificationFiles');
-Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi');
-Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@destroy');
+Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi')->middleware('auth:api');
+Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@destroy')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/files/{file}/instructions', 'FileController@getInstructions');
-Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create');
-Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit');
-Route::delete('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}/delete', 'InstructionController@destroy');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create')->middleware('auth:api');
+Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit')->middleware('auth:api');
+Route::delete('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}/delete', 'InstructionController@destroy')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles')->middleware('auth:api');
-Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
-Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages');
-Route::get('/mods/modifications/{mod}/edit-splash-images', 'FileController@editModificationSplashImages');
+Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles')->middleware('auth:api');
+Route::get('/mods/modifications/{mod}/edit-background-images', 'FileController@editModificationBackgroundImages')->middleware('auth:api');
+Route::get('/mods/modifications/{mod}/edit-splash-images', 'FileController@editModificationSplashImages')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/news', 'ModificationController@getNews');
 Route::get('/mods/modifications/{mod}/edit-news', 'ModificationNewsController@create')->middleware('auth:api');
-Route::get('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit');
-Route::delete('/mods/modifications/{mod}/edit-news/{news}/delete', 'ModificationNewsController@destroy');
+Route::get('/mods/modifications/{mod}/edit-news/{news}', 'ModificationNewsController@edit')->middleware('auth:api');
+Route::delete('/mods/modifications/{mod}/edit-news/{news}/delete', 'ModificationNewsController@destroy')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/images', 'ModificationController@getImagesApi');
 
 Route::get('/mods/modifications/{mod}/ratings', 'ModificationController@getRatings');
-Route::get('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit');
-Route::delete('/mods/modifications/{mod}/ratings/{rating}/delete', 'ModificationRatingController@destroy');
+Route::get('/mods/modifications/{mod}/ratings/{rating}/edit', 'ModificationRatingController@edit')->middleware('auth:api');
+Route::delete('/mods/modifications/{mod}/ratings/{rating}/delete', 'ModificationRatingController@destroy')->middleware('auth:api');
 Route::get('/mods/modifications/{mod}/create-rating', 'ModificationRatingController@create')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/create-videos', 'ModificationVideoController@createModificationVideos')->middleware('auth:api');
-Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos');
+Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos')->middleware('auth:api');
 Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideosApi');
-Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy');
+Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy')->middleware('auth:api');
 
 Route::resource('post','PostController');
 Route::resource('comment', 'CommentController');

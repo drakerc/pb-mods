@@ -105,18 +105,17 @@ class DevelopmentStudioController extends Controller
      */
     public function create(Request $request)
     {
-//        if (Auth::id() === null) {
-//            $request->session()->flash('info', 'Musisz być zalogowany by stworzyć studio!');
-//            return redirect()->route('DevStudiosIndex');
-//        }
-
         if ($request->method() === 'GET') {
             return response()->json([
                 'auth' => Auth::check()
             ]);
         }
         if ($request->method() !== 'POST') {
-            return 'Error. This request can be either POST or GET!';
+            return response()->json([
+                    'status' => false,
+                    'message' => 'Tylko POST albo GET.'
+                ]
+            );
         }
 
         $validation = $this->validation($request); // $validation var is not yet used
@@ -149,10 +148,13 @@ class DevelopmentStudioController extends Controller
      */
     public function edit(DevelopmentStudio $studio, Request $request)
     {
-//        if (Auth::id() !== $studio->owner_id) { //TODO: or admin, or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
-//        }
+        if (Auth::id() !== $studio->owner_id) {
+            return response()->json([
+                    'status' => false,
+                    'message' => 'Nie masz uprawnień.'
+                ]
+            );
+        }
 
         if ($request->method() === 'GET') {
             return response()->json([
@@ -187,8 +189,6 @@ class DevelopmentStudioController extends Controller
             'status' => true,
             'id' => $studio->id,
         ]);
-
-//        return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
     }
 
     /**
@@ -214,10 +214,13 @@ class DevelopmentStudioController extends Controller
      */
     public function destroy(DevelopmentStudio $studio, Request $request)
     {
-//        if (Auth::id() !== $studio->owner_id) { //TODO: or admin
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
-//        }
+        if (Auth::id() !== $studio->owner_id) {
+            return response()->json([
+                    'status' => false,
+                    'message' => 'Nie masz uprawnień.'
+                ]
+            );
+        }
 
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
@@ -242,11 +245,14 @@ class DevelopmentStudioController extends Controller
      */
     public function addMember(DevelopmentStudio $studio, User $user, Request $request)
     {
-//        if (Auth::id() !== $studio->owner_id) { //TODO: or admin
-//            return response()->json([
-//                'status' => false
-//            ]);
-//        }
+        if (Auth::id() !== $studio->owner_id) {
+            return response()->json([
+                    'status' => false,
+                    'message' => 'Nie masz uprawnień.'
+                ]
+            );
+        }
+
         $studio->users()->attach($user->id);
         return response()->json([
             'status' => true
@@ -262,11 +268,14 @@ class DevelopmentStudioController extends Controller
      */
     public function deleteMember(DevelopmentStudio $studio, User $user, Request $request)
     {
-//        if (Auth::id() !== $studio->owner_id || Auth::id() !== $user->id) { //TODO: or admin
-//            return response()->json([
-//                'status' => false
-//            ]);
-//        }
+        if (Auth::id() !== $studio->owner_id) {
+            return response()->json([
+                    'status' => false,
+                    'message' => 'Nie masz uprawnień.'
+                ]
+            );
+        }
+
         $studio->users()->detach($user->id);
         return response()->json([
             'status' => true

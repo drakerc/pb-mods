@@ -55,7 +55,7 @@
                     <datepicker v-model="release_date" format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
                 </div>
 
-                <div class="mb-3" v-if="studios !== ''">
+                <div class="mb-3" v-if="studios !== '' && studios.length > 0">
                     <label for="development_studio">Studio deweloperskie</label>
                     <input type="hidden" name="development_studio" :value="development_studio.value">
                     <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>

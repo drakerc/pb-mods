@@ -45,16 +45,10 @@
                 <datepicker format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
             </div>
 
-            <div class="mb-3" v-if="studios !== ''">
+            <div class="mb-3" v-if="studios !== '' && studios.length > 0">
                 <label for="development_studio">Studio deweloperskie</label>
                 <input type="hidden" name="development_studio" :value="development_studio.value">
                 <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
-            </div>
-
-            <div class="mb-3">
-                <label for="font_color">Kolor czcionki (możesz dostosować do swoich potrzeb kolor czcionki używanej w kluczowych miejscach prezentacji modyfikacji, m.in. w nagłówkach):</label>
-                <input class="form-control" type="color" id="font_color" name="font_color"
-                       value="#000000" />
             </div>
 
             <div class="mb-3">
