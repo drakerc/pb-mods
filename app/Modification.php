@@ -103,7 +103,7 @@ class Modification extends Model
 
     public function developmentStudio()
     {
-        return $this->belongsToMany('App\DevelopmentStudio');
+        return $this->belongsToMany('App\DevelopmentStudio', 'modification_development_studio');
     }
 
     public function getModificationSizeName()
@@ -237,6 +237,20 @@ class Modification extends Model
         return $sum;
     }
 
+    public function getDevStudioAttribute()
+    {
+        return $this->developmentStudio()->first();
+    }
+
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->creator);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
     protected $fillable = [
         'title',
         'description',
@@ -256,5 +270,5 @@ class Modification extends Model
         'use_game_background'
     ];
 
-    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash', 'downloadsCount'];
+    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash', 'downloadsCount', 'devStudio', 'creatorName'];
 }

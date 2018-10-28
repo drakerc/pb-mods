@@ -33,6 +33,11 @@ const app = new Vue({
 Vue.use(require('vue-truncate-filter'));
 Vue.use(VueYouTubeEmbed);
 
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': window.csrf_token
+};
+
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
 }, function (error) {

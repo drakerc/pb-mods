@@ -11,7 +11,18 @@
                             <div>Zamienia: {{ mod.replaces }}</div>
                             <div>Wersja: {{ mod.version }}</div>
                             <div>Data wydania: {{ mod.release_date }}</div>
-                            <div>Studio developerskie: {{ mod.development_studio }}</div>
+                            <div v-if="mod.devStudio !== null">Studio developerskie:
+                                <router-link :to="{ name: 'dev_studio_mods', params: { studio: mod.devStudio.id } }">
+                                    {{ mod.devStudio.name}}
+                                </router-link>
+                            </div>
+
+                            <div>Autor:
+                                <router-link :to="{ name: 'user_mods', params: { user: mod.creator } }">
+                                    {{ mod.creatorName }}
+                                </router-link>
+                            </div>
+
                             <div>Ilość pobrań: {{ mod.downloadsCount }}</div>
                         </div>
                         <div class="col-md-3">

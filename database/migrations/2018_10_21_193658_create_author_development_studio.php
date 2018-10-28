@@ -13,9 +13,9 @@ class CreateAuthorDevelopmentStudio extends Migration
      */
     public function up()
     {
-        Schema::create('author_development_studios', function (Blueprint $table) {
-            $table->integer('author_id')->unsigned()->index();
-            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+        Schema::create('user_development_studio', function (Blueprint $table) {
+            $table->integer('user_id')->unsigned()->index();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();
             $table->foreign('development_studio_id')->references('id')->on('development_studio')->onDelete('cascade');
         });

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\DevelopmentStudio;
 use App\Game;
 use App\Modification;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,16 +31,20 @@ class ModificationController extends Controller
     // TODO: this is pretty much the same as prepareCategoryCreationInfo - maybe move to a helper?
     private function prepareModificationCreationInfo(Game $game, Category $category, Request $request)
     {
+        $user = Auth::user();
+
         if ($request->ajax()) {
             return [
                 'category' => $category->toArray(),
                 'game' => $game->toArray(),
+                'studios' => $user->studios()->get()->toArray(),
                 'auth' => Auth::check()
             ];
         }
         return [
             'category' => $category->toArray(),
             'game' => $game->toArray(),
+            'studios' => $user->studios()->get()->toArray(),
             'path' => $request->getPathInfo(),
             'auth' => Auth::check()
         ];
@@ -86,6 +92,16 @@ class ModificationController extends Controller
             'auth' => Auth::check(),
             'path' => $request->getPathInfo(),
         ]]);
+    }
+
+    public function getUserMods(User $user, Request $request)
+    {
+        return response()->json(
+            [
+                'user' => $user->toArray(),
+                'mods' => Modification::where('creator', '=', $user->id)->get()->toArray(),
+            ]
+        );
     }
 
     public function getModificationsInCategoryApi(Category $category)
@@ -166,21 +182,30 @@ class ModificationController extends Controller
         $modification->game_id = $request->gameid;
         $modification->category_id = $request->categoryid;
 
+        $studio = $request->development_studio;
+        if ($studio !== null) {
+            $modification->developmentStudio()->attach($request->development_studio);
+        }
+
         $modification->save();
         return redirect()->route('ModificationView', ['mod' => $modification->id]);
     }
 
     public function edit(Modification $mod, Request $request)
     {
-//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
+
+        $user = Auth::user();
+
         if ($request->ajax()) {
             return response()->json([
                 'mod' => $mod->toArray(),
                 'category' => Category::find($mod->category_id)->toArray(),
                 'game' => Game::find($mod->game_id)->toArray(),
+                'studios' => $user->studios()->get()->toArray(),
                 'auth' => Auth::check()
             ]);
         }
@@ -189,6 +214,7 @@ class ModificationController extends Controller
                 'mod' => $mod->toArray(),
                 'category' => Category::find($mod->category_id)->toArray(),
                 'game' => Game::find($mod->game_id)->toArray(),
+                'studios' => $user->studios()->get()->toArray(),
                 'path' => $request->getPathInfo(),
                 'auth' => Auth::check()
             ]]);
@@ -221,6 +247,11 @@ class ModificationController extends Controller
 //        $mod->category_id = $request->categoryid;
         $mod->release_date = $request->release_date === '' ? null : \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d');
 
+        $studio = $request->development_studio;
+        if ($studio !== null) {
+            $mod->developmentStudio()->sync([$request->development_studio]);
+        }
+
         $mod->save();
         $request->session()->flash('info', 'Pomyślnie zaktualizowano modyfikację!');
 
@@ -229,10 +260,10 @@ class ModificationController extends Controller
 
     public function destroy(Modification $mod, Request $request)
     {
-//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning
         }

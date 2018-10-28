@@ -15,11 +15,11 @@ class ModificationDevelopmentStudio extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'modification_development_studios';
+    protected $table = 'modification_development_studio';
     // protected $primaryKey = 'id';
-    // public $timestamps = false;
+     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['mod_id', 'development_studio_id'];
+    protected $fillable = ['modification_id', 'development_studio_id'];
     // protected $hidden = [];
     // protected $dates = [];
 

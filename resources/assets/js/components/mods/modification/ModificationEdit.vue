@@ -55,6 +55,12 @@
                     <datepicker v-model="release_date" format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
                 </div>
 
+                <div class="mb-3" v-if="studios !== ''">
+                    <label for="development_studio">Studio deweloperskie</label>
+                    <input type="hidden" name="development_studio" :value="development_studio.value">
+                    <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
+                </div>
+
                 <div class="mb-3">
                     <label for="font_color">Kolor czcionki tytułu:</label>
                     <input class="form-control" type="color" id="font_color" name="font_color"
@@ -104,13 +110,6 @@
                     <label for="description">Opis</label>
                     <vue-editor id="description" v-model="description"></vue-editor>
                 </div>
-
-                <!--<div class="form-control">-->
-                <!--<p>Studio deweloperskie</p>-->
-                <!--<input type="hidden" id="development_studio" name="development_studio" :value="development_studio">-->
-                <!--<v-select :v-model="development_studio" :options="development_studios"></v-select>-->
-                <!--</div>-->
-                <!--// TODO: implement dev studios-->
 
                 <div class="row">
                     <div class="col-md-8">
@@ -176,15 +175,24 @@
                 development_status: '',
                 development_status_options: [{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}],
                 csrf_token: window.window.csrf_token,
-                release_date: ''
+                release_date: '',
+                development_studio: '',
+                studios: '',
             };
         },
         methods: {
-            assignData({category, game, auth, mod}) {
+            assignData({category, game, auth, mod, studios}) {
                 this.category = category;
                 this.game = game;
                 this.auth = auth;
                 this.mod = mod;
+
+                this.studios = studios.map(function (value) {
+                    return {
+                        label: value.name,
+                        value: value.id
+                    };
+                });
 
                 this.title = mod.title;
                 this.replaces = mod.replaces;
@@ -202,6 +210,14 @@
                 this.development_status = this.development_status_options.find(obj => {
                     return obj.value === mod.development_status;
                 });
+
+                if (mod.devStudio !== null) {
+                    this.development_studio = {
+                        label: mod.devStudio.name,
+                        value: mod.devStudio.id,
+                    };
+                }
+
                 this.description = mod.description;
                 this.release_date = mod.release_date === '' ? new Date() : new Date(mod.release_date);
             },

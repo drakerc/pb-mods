@@ -13,9 +13,9 @@ class CreateModificationDevelopmentStudioTable extends Migration
      */
     public function up()
     {
-        Schema::create('modification_development_studios', function (Blueprint $table) {
-            $table->integer('mod_id')->unsigned()->index();
-            $table->foreign('mod_id')->references('id')->on('modifications')->onDelete('cascade');
+        Schema::create('modification_development_studio', function (Blueprint $table) {
+            $table->integer('modification_id')->unsigned()->index();
+            $table->foreign('modification_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();
             $table->foreign('development_studio_id')->references('id')->on('development_studio')->onDelete('cascade');
         });

@@ -15,22 +15,22 @@ class DevelopmentStudio extends Model
     const SPECIALIZATION_MODS = 1;
     const SPECIALIZATION_GAMES = 2;
 
-    public function authors()
+    public function users()
     {
-        return $this->belongsToMany('App\User');
+        return $this->belongsToMany('App\User', 'user_development_studio');
     }
 
     public function games()
     {
-        return $this->belongsToMany('App\Game');
+        return $this->belongsToMany('App\Game', 'game_development_studio');
     }
 
     public function modifications()
     {
-        return $this->belongsToMany('App\Modification');
+        return $this->belongsToMany('App\Modification', 'modification_development_studio');
     }
 
-    public function getSpecializationAttribute()
+    public function getSpecializationTextAttribute()
     {
         if ($this->specialization === 0) {
             return 'Ogólna';
@@ -48,5 +48,5 @@ class DevelopmentStudio extends Model
         'title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization'
     ];
 
-    protected $appends = ['specialization'];
+    protected $appends = ['specializationText'];
 }

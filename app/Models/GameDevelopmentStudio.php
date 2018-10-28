@@ -15,9 +15,9 @@ class GameDevelopmentStudio extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'game_development_studios';
+    protected $table = 'game_development_studio';
     // protected $primaryKey = 'id';
-    // public $timestamps = false;
+     public $timestamps = false;
     // protected $guarded = ['id'];
     protected $fillable = ['game_id', 'development_studio_id'];
     // protected $hidden = [];

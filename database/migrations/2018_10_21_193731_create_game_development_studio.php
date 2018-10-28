@@ -13,7 +13,7 @@ class CreateGameDevelopmentStudio extends Migration
      */
     public function up()
     {
-        Schema::create('game_development_studios', function (Blueprint $table) {
+        Schema::create('game_development_studio', function (Blueprint $table) {
             $table->integer('game_id')->unsigned()->index();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();

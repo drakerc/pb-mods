@@ -40,17 +40,28 @@ class DevelopmentStudioController extends Controller
         return false;
     }
 
+    /**
+     * Returns the details of a selected development studio
+     * @param DevelopmentStudio $studio
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
     public function details(DevelopmentStudio $studio, Request $request)
     {
         if ($request->ajax()) {
             return response()->json([
                 'studio' => $studio->toArray(),
-                'auth' => Auth::check()
             ]);
         }
         return false;
     }
 
+    /**
+     * Returns mods developed by a selected development studio
+     * @param DevelopmentStudio $studio
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
     public function mods(DevelopmentStudio $studio, Request $request)
     {
         $mods = $studio->modifications()->paginate(10);
@@ -60,12 +71,17 @@ class DevelopmentStudioController extends Controller
                 [
                     'studio' => $studio->toArray(),
                     'mods' => $mods,
-                    'auth' => Auth::check()
                 ]);
         }
         return false;
     }
 
+    /**
+     * Returns games developed by a selected development studio
+     * @param DevelopmentStudio $studio
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     */
     public function games(DevelopmentStudio $studio, Request $request)
     {
         $games = $studio->games()->paginate(10);
@@ -75,12 +91,18 @@ class DevelopmentStudioController extends Controller
                 [
                     'studio' => $studio->toArray(),
                     'games' => $games,
-                    'auth' => Auth::check()
                 ]);
         }
         return false;
     }
 
+    /**
+     * Used to create a new development studio. If request is POST, it creates a new studio with POST parameters:
+     * name, address, description, website, email, commercial, specialization.
+     * If it's GET, it returns the auth info.
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|string
+     */
     public function create(Request $request)
     {
 //        if (Auth::id() === null) {
@@ -88,10 +110,13 @@ class DevelopmentStudioController extends Controller
 //            return redirect()->route('DevStudiosIndex');
 //        }
 
-        if ($request->ajax()) {
+        if ($request->method() === 'GET') {
             return response()->json([
                 'auth' => Auth::check()
             ]);
+        }
+        if ($request->method() !== 'POST') {
+            return 'Error. This request can be either POST or GET!';
         }
 
         $validation = $this->validation($request); // $validation var is not yet used
@@ -113,6 +138,15 @@ class DevelopmentStudioController extends Controller
         return redirect()->route('DevStudiosDetails', ['studio' => $developmentStudio->id]);
     }
 
+    /**
+     * Used to edit a selected development studio. If request is PUT, it edits the studio with PUT parameters:
+     * name, address, description, website, email, commercial, specialization.
+     * You can supply a newOwner parameter that changes the studio's owner's ID
+     * If it's GET, it returns the auth info and studio details.
+     * @param DevelopmentStudio $studio
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|string
+     */
     public function edit(DevelopmentStudio $studio, Request $request)
     {
 //        if (Auth::id() !== $studio->owner_id) { //TODO: or admin, or one of the dev studio members
@@ -120,11 +154,14 @@ class DevelopmentStudioController extends Controller
 //            return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
 //        }
 
-        if ($request->ajax()) {
+        if ($request->method() === 'GET') {
             return response()->json([
                 'studio' => $studio->toArray(),
                 'auth' => Auth::check()
             ]);
+        }
+        if ($request->method() !== 'PUT') {
+            return 'Error. This request can be either PUT or GET!';
         }
 
         $validation = $this->validation($request); // $validation var is not yet used
@@ -146,9 +183,35 @@ class DevelopmentStudioController extends Controller
 
         $studio->save();
 
-        return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
+        return response()->json([
+            'status' => true,
+            'id' => $studio->id,
+        ]);
+
+//        return redirect()->route('DevStudiosDetails', ['studio' => $studio->id]);
     }
 
+    /**
+     * Returns development studios of selected user
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function userStudios(User $user, Request $request)
+    {
+        return response()->json([
+            'studios' => $user->studios()->get()->toArray(),
+            'auth' => Auth::check()
+        ]);
+    }
+
+    /**
+     * Hard-deletes a selected development studio
+     * @param DevelopmentStudio $studio
+     * @param Request $request
+     * @return bool|\Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
     public function destroy(DevelopmentStudio $studio, Request $request)
     {
 //        if (Auth::id() !== $studio->owner_id) { //TODO: or admin
@@ -170,6 +233,13 @@ class DevelopmentStudioController extends Controller
         ]);
     }
 
+    /**
+     * Adds a selected user to selected dev studio's members list
+     * @param DevelopmentStudio $studio
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function addMember(DevelopmentStudio $studio, User $user, Request $request)
     {
 //        if (Auth::id() !== $studio->owner_id) { //TODO: or admin
@@ -177,12 +247,19 @@ class DevelopmentStudioController extends Controller
 //                'status' => false
 //            ]);
 //        }
-        $studio->authors()->attach($user->id);
+        $studio->users()->attach($user->id);
         return response()->json([
             'status' => true
         ]);
     }
 
+    /**
+     * Removes selected user from selected studio's members list
+     * @param DevelopmentStudio $studio
+     * @param User $user
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function deleteMember(DevelopmentStudio $studio, User $user, Request $request)
     {
 //        if (Auth::id() !== $studio->owner_id || Auth::id() !== $user->id) { //TODO: or admin
@@ -190,7 +267,7 @@ class DevelopmentStudioController extends Controller
 //                'status' => false
 //            ]);
 //        }
-        $studio->authors()->detach($user->id);
+        $studio->users()->detach($user->id);
         return response()->json([
             'status' => true
         ]);

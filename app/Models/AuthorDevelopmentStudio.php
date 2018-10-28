@@ -15,11 +15,11 @@ class AuthorDevelopmentStudio extends Model
     |--------------------------------------------------------------------------
     */
 
-    protected $table = 'author_development_studios';
+    protected $table = 'user_development_studio';
     // protected $primaryKey = 'id';
-    // public $timestamps = false;
+     public $timestamps = false;
     // protected $guarded = ['id'];
-    protected $fillable = ['author_id', 'development_studio_id'];
+    protected $fillable = ['user_id', 'development_studio_id'];
     // protected $hidden = [];
     // protected $dates = [];
 

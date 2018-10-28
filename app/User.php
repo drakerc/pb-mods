@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Laravel\Passport\HasApiTokens;
 
 /**
  * App\User
@@ -27,7 +28,15 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, HasApiTokens;
+
+    /**
+     * Selected user's development studios
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function studios() {
+        return $this->belongsToMany('App\DevelopmentStudio', 'user_development_studio');
+    }
 
     /**
      * The attributes that are mass assignable.

@@ -77,13 +77,3 @@ Route::put('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController
 
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create');
 Route::post('/mods/create-modification', 'ModificationController@create');
-
-// DEV STUDIOS
-Route::get('/devstudios', 'DevelopmentStudioController@index')->name('DevStudiosIndex');
-Route::get('/devstudios/{studio}', 'DevelopmentStudioController@details')->name('DevStudiosDetails');
-Route::get('/devstudios/{studio}/mods', 'DevelopmentStudioController@mods');
-Route::get('/devstudios/{studio}/games', 'DevelopmentStudioController@games');
-Route::get('/devstudios/{studio}/edit', 'DevelopmentStudioController@edit');
-Route::put('/devstudios/{studio}/edit', 'DevelopmentStudioController@edit');
-Route::get('/devstudios/create', 'DevelopmentStudioController@create');
-Route::post('/devstudios/create', 'DevelopmentStudioController@create');
