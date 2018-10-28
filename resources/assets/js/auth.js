@@ -4,12 +4,13 @@ import jwt_decode from 'jwt-decode';
 
 export const Auth = {
 
-    login(token, user) {
+    login(token, user, gravatar) {
         window.localStorage.setItem('token', token);
         window.localStorage.setItem('user', user);
+        window.localStorage.setItem('gravatar', gravatar);
 
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-        EventBus.$emit('logged-in', user);
+        EventBus.$emit('logged-in', user, gravatar);
     },
 
     isLoggedIn() {
@@ -32,9 +33,36 @@ export const Auth = {
         return null;
     },
 
+    getUserData() {
+        const userData = window.localStorage.getItem('user-data');
+        if (userData) {
+            return userData;
+        }
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            axios.get('/api/auth/user').then((response) => {
+                window.localStorage.setItem('user-data', JSON.stringify(response.data));
+                console.log(response.data);
+                return response.data;
+            });
+        }
+        return null;
+    },
+
+    getUserGravatar() {
+        let userData = window.localStorage.getItem('user-data');
+        if (userData) {
+            return JSON.parse(userData).gravatar;
+        }
+        userData = this.getUserData();
+        if (userData) {
+            return userData['gravatar']
+        }
+        return null;
+    },
+
     logout() {
-        window.localStorage.removeItem('token');
-        window.localStorage.removeItem('user');
+        window.localStorage.clear();
         EventBus.$emit('logged-out');
     }
 };

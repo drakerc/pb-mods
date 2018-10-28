@@ -15,8 +15,16 @@
             <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
                 <b-card :id="index">
                     <b-row class="col-sm-12">
-                        <em>#{{index + 1}} by {{comment.author.name}} on {{comment.created_at}}</em>
-                        <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">Delete</b-link>
+                        <b-col sm="0" class="mr-1 mb-2">
+                            <b-img :src="`${comment.author.gravatar}&s=50`" rounded></b-img>
+                        </b-col>
+                        <b-col>
+                            <b-row>
+                                <em>#{{index + 1}} {{comment.author.name}} on {{comment.created_at}}</em>
+                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">Delete</b-link>
+                            </b-row>
+                            <!--<b-row></b-row>-->
+                        </b-col>
                     </b-row>
                     <p v-html="comment.body"></p>
                 </b-card>
@@ -24,7 +32,7 @@
         </div>
         <div v-else><p>No comments found.</p></div>
         <template v-if="!isLoggedIn">
-            <p>Please log in to add comments.</p>
+            <p>Please <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">log in</b-link> to add comments.</p>
         </template>
         <template v-else>
             <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
@@ -68,6 +76,11 @@
         },
         components: {
             VueEditor
+        },
+        computed: {
+            isLoggedIn() {
+                return Auth.isLoggedIn();
+            }
         },
         beforeMount() {
             this.comment.gameId = this.$route.params.gameId;
@@ -128,9 +141,6 @@
                     return authorId === id;
                 }
                 return false;
-            },
-            isLoggedIn() {
-                return Auth.isLoggedIn();
             }
         }
     }

@@ -22,6 +22,15 @@
             <b-button type="submit" variant="primary">Submit</b-button>
             <b-button type="reset" variant="warning">Reset</b-button>
         </b-form>
+        <div class="my-1">
+            <b-row>
+                <em>Nie masz konta?</em>
+            </b-row>
+            <b-row>
+                <b-link to="/register"> Kliknij tu</b-link>
+                <em>, by się zarejstrować!</em>
+            </b-row>
+        </div>
     </div>
 </template>
 <script>
@@ -43,7 +52,7 @@
                     email: this.email,
                     password: this.password
                 }).then(response => {
-                    Auth.login(response.data.access_token, response.data.username);
+                    Auth.login(response.data.access_token, response.data.username, response.data.gravatar);
                     this.$router.push(this.redirect ? this.redirect: '/home');
                 }).catch(err => {
                     console.error(err)

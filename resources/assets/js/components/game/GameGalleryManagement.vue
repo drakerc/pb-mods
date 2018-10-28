@@ -12,18 +12,26 @@
         </b-card>
         <b-card>
             <p>Delete existing images:</p>
-            <b-form @submit.prevent="onDeleteImages">
-                <b-form-checkbox-group v-if="game.files !== undefined && game.files.length > 0" v-model="imagesToDelete">
-                    <div v-for="file in game.files" :key="file.id">
-                        <b-col class="my-2">
-                            <img :src="file.downloadLink" class="img-thumbnail" style="height: 150px; width: 225px;">
-                            <b-form-checkbox :value="file.id"></b-form-checkbox>
-                        </b-col>
-                    </div>
-                </b-form-checkbox-group>
+            <b-row>
+                <b-col sm="1">
 
-                <b-button type="submit" size="sm" variant="danger">Delete</b-button>
-            </b-form>
+                </b-col>
+                <b-form @submit.prevent="onDeleteImages">
+                    <b-form-checkbox-group v-if="game.files !== undefined && game.files.length > 0" v-model="imagesToDelete">
+                        <b-row>
+                            <div v-for="file in game.files" :key="file.id">
+                                <b-col class="my-2">
+                                    <img :src="file.downloadLink" class="img-thumbnail" style="height: 150px; width: 225px;">
+                                    <b-form-checkbox :value="file.id"></b-form-checkbox>
+                                </b-col>
+                            </div>
+                        </b-row>
+                    </b-form-checkbox-group>
+
+                    <b-button type="submit" size="sm" variant="danger">Delete</b-button>
+                </b-form>
+            </b-row>
+
         </b-card>
     </div>
 </template>

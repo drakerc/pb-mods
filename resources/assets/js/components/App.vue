@@ -59,6 +59,7 @@
                 <template v-else>
                     <b-navbar-nav :class="['mr-2', 'ml-2', $route.path.startsWith('/game') ? '' : 'ml-auto']">
                         <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
+                        <b-img rounded="circle" :src="`${gravatar}&s=40`" class="mr-1"></b-img>
                         <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
                     </b-navbar-nav>
                 </template>
@@ -92,7 +93,8 @@
                 subcategories: null,
                 phrase: '',
                 isLogged: Auth.isLoggedIn(),
-                username: Auth.getUser()
+                username: Auth.getUser(),
+                gravatar: Auth.getUserGravatar()
             }
         },
         methods: {
@@ -167,10 +169,12 @@
             EventBus.$on('logged-out', () => {
                this.isLogged = false;
                this.username = null;
+               this.gravatar = null;
             });
-            EventBus.$on('logged-in', (user) => {
+            EventBus.$on('logged-in', (user, gravatar) => {
                 this.isLogged = true;
                 this.username = user;
+                this.gravatar = gravatar;
             })
         }
     }

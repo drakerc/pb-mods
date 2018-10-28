@@ -31,6 +31,7 @@ import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
 import Home from './components/Home';
 import GameGalleryManagement from './components/game/GameGalleryManagement';
+import Register from './components/Register';
 
 Vue.use(VueRouter);
 
@@ -57,7 +58,22 @@ export const router = new VueRouter({
         {path: '/mods/modifications/:mod/create-rating', component: ModificationCreateRating, name: 'modification_create_rating'},
         {path: '/mods/modifications/:mod/ratings', component: ModificationDisplayRatings, name: 'modification_ratings'},
         {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
-        {path: '/login', component: Login, name: 'login'},
+        {
+            path: '/login',
+            component: Login,
+            name: 'login',
+            meta: {
+                cannotBeLoggedIn: true
+            }
+        },
+        {
+            path: '/register',
+            component: Register,
+            name: 'register',
+            meta: {
+                cannotBeLoggedIn: true
+            }
+        },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
         {
             path: '/home',
@@ -94,7 +110,10 @@ export const router = new VueRouter({
                 {
                     path: ':id/gallery/manage',
                     component: GameGalleryManagement,
-                    name: 'game_gallery_manage'
+                    name: 'game_gallery_manage',
+                    meta: {
+                        requiresAuth: true
+                    }
                 },
                 {
                     path: ':id/post/new',
@@ -124,6 +143,13 @@ router.beforeEach((to, from, next) => {
             next({
                 path: '/login',
                 query: { redirect: to.fullPath }
+            });
+            return;
+        }
+    } if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
+        if (Auth.isLoggedIn()) {
+            next({
+                path: '/home'
             });
             return;
         }
