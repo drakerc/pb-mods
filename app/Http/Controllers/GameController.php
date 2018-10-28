@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\File;
 use App\Game;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -36,14 +38,40 @@ class GameController extends Controller
      */
     public function store(Request $request)
     {
-        $requestGame = Game::create([
+        $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required',
+            'game_category_ids' => 'required', //TODO: make it check arrays from FormData?
+            'logoFile' => 'required|image|max:1000'
+        ]);
+
+        $game = new Game([
            'title' => $request->title,
            'description' => $request->description
         ]);
-        Log::debug($requestGame->id);
-        $requestGame->categories()->attach($request->game_category_id);
 
-        return response()->json($requestGame);
+        $user = $request->user();
+
+        $imageName = Carbon::now()->timestamp . $request->logoFile->getClientOriginalName();
+
+
+        $imageFile = new File();
+        $imageFile->file_path = $request->logoFile->storeAs('game/logo', $imageName, ['disk' => 'public']);
+        $imageFile->file_type = $request->logoFile->getMimeType();
+        $imageFile->file_size = $request->logoFile->getSize();
+        $imageFile->uploader_id = $user->id;
+
+        $imageFile->save();
+
+        $game->logo_id = $imageFile->id;
+        $game->save();
+
+        $game_categories = explode(',', $request->game_category_ids);
+        foreach ($game_categories as $category) {
+            $game->categories()->attach($category);
+        }
+
+        return response()->json($game);
     }
 
     /**

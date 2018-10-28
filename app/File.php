@@ -33,6 +33,8 @@ class File extends Model
 {
     protected $appends = ['downloadLink'];
 
+    protected $fillable = ['file_path'];
+
     public function modifications()
     {
         return $this->belongsToMany('App\Modification')->withPivot('title', 'description');

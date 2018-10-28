@@ -88,7 +88,12 @@ Route::resource('comment', 'CommentController')->except([
 ]);
 
 Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
-Route::resource('game', 'GameController');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('game', 'GameController@store');
+});
+Route::resource('game', 'GameController')->except([
+    'store'
+]);
 
 Route::resource('post-category', 'PostCategoryController');
 

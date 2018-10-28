@@ -14,7 +14,7 @@
                     <b-row>
                         <b-col sm="8">
                             <p>Description:</p>
-                            <em>{{game.description}}</em>
+                            <em v-html="game.description"></em>
                         </b-col>
 
                         <b-col>

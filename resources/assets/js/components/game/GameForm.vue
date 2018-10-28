@@ -5,7 +5,11 @@
                 <b-form-input v-model="game.title" class="col-sm-6"/>
             </b-form-group>
             <b-form-group label="Game Category">
-                <b-form-select :options="gameCategories" v-model="game.gameCategoryId" class="col-sm-6"></b-form-select>
+                <b-form-select multiple :options="gameCategories" v-model="game.gameCategoryIds" class="col-sm-6"></b-form-select>
+            </b-form-group>
+            <b-form-group label="Game logo:">
+                <b-form-file accept="image/*" v-model="logoFile" placeholder="Choose an image file" class="col-sm-6"></b-form-file>
+                <div class="mt-3">Selected file: {{logoFile && logoFile.name}}</div>
             </b-form-group>
             <b-form-group label="Description:">
                 <vue-editor v-model="game.description"></vue-editor>
@@ -31,7 +35,7 @@
         },
         computed: {
             isValid() {
-                return this.game.description && this.game.title && this.game.gameCategoryId;
+                return this.game.description && this.game.title && this.game.gameCategoryIds.length > 0;
             }
         },
         data() {
@@ -39,10 +43,11 @@
                 game: {
                     title: null,
                     description: null,
-                    gameCategoryId: null
+                    gameCategoryIds: []
                 },
+                logoFile: null,
                 gameCategories: [
-                    {value: null, text: 'Please select from one of the categories below:', disabled: true, selected: true}
+                    {value: null, text: 'Please select one (or more) categories from below:', disabled: true, selected: true}
                 ]
             }
         },
@@ -65,10 +70,19 @@
                 }
             },
             onSubmit() {
-                axios.post(`/api/game`, {
-                    description: this.game.description,
-                    title: this.game.title,
-                    game_category_id: this.game.gameCategoryId
+                // console.log(this.game.gameCategoryIds);
+
+                let formData = new FormData();
+                formData.append('description', this.game.description);
+                formData.append('title', this.game.title);
+                formData.append('game_category_ids', this.game.gameCategoryIds);
+                if (this.logoFile) {
+                    formData.append('logoFile', this.logoFile);
+                }
+                axios.post(`/api/game`, formData, {
+                    headers: {
+                        'Content-type': 'multipart/form-data'
+                    }
                 }).then(response => {
                     this.$router.push({
                         name: 'game_details',
