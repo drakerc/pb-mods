@@ -30,6 +30,7 @@ import ModificationEditBackgroundImages from './components/mods/file/Modificatio
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
 import Home from './components/Home';
+import GameGalleryManagement from './components/game/GameGalleryManagement';
 
 Vue.use(VueRouter);
 
@@ -89,6 +90,11 @@ export const router = new VueRouter({
                     path: ':id',
                     component: GameDetails,
                     name: 'game_details'
+                },
+                {
+                    path: ':id/gallery/manage',
+                    component: GameGalleryManagement,
+                    name: 'game_gallery_manage'
                 },
                 {
                     path: ':id/post/new',

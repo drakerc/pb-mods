@@ -7,6 +7,7 @@ use App\Game;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class GameController extends Controller
 {
@@ -17,7 +18,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        return response()->json(Game::all());
+        return response()->json(Game::orderBy('created_at', 'desc')->get());
     }
 
     /**
@@ -67,7 +68,8 @@ class GameController extends Controller
         $game->save();
 
         $game_categories = explode(',', $request->game_category_ids);
-        foreach ($game_categories as $category) {
+        foreach ($game_categories as $category)
+        {
             $game->categories()->attach($category);
         }
 
@@ -127,7 +129,8 @@ class GameController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function searchByPhraseInTitleOrDescription(Request $request) {
+    public function searchByPhraseInTitleOrDescription(Request $request)
+    {
         $phrase = $request->phrase;
         $games = Game::where('title', 'like', '%' . $phrase . '%')
             ->orWhere('description', 'like', '%' . $phrase . '%')
@@ -144,5 +147,68 @@ class GameController extends Controller
     public function getGameTitleApi(Game $game)
     {
         return $game->title;
+    }
+
+    /**
+     * @param Request $request
+     * @param [string] $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteImages(Request $request, $id) {
+        Log::info($request);
+        $request->validate([
+           'images' => 'required|array|min:1'
+        ]);
+
+        $game = Game::findOrFail($id);
+
+        $deleted = [];
+        foreach ($request->images as $image_id)
+        {
+            Log::info($image_id);
+
+            $file = File::findOrFail($image_id);
+            Log::info($file);
+
+            if ($file)
+            {
+                $game->files()->detach($image_id);
+                Storage::disk('public')->delete($file->file_path); // TODO: replace with soft-deleting?
+            }
+            array_push($deleted, $file);
+        }
+
+        return response()->json($deleted);
+    }
+
+    /**
+     * @param Request $request
+     * @param [string] $id
+     * @return \Illuminate\Http\Request
+     */
+    public function uploadImages(Request $request, $id)
+    {
+        $request->validate([
+            'images' => 'required|array|min:1'
+        ]);
+
+        $game = Game::findOrFail($id);
+        $user = $request->user();
+
+        Log::info($request->images);
+        foreach ($request->images as $key => $requestFile)
+        {
+            $file = new File();
+            Log::info($key);
+            Log::info($requestFile->getClientOriginalName());
+            $imageName = Carbon::now()->timestamp . '-' . $game->id . '-' . $key . $requestFile->getClientOriginalName();
+            $file->file_path = $requestFile->storeAs('game/files', $imageName, ['disk' => 'public']);
+            $file->file_type = $requestFile->getMimeType();
+            $file->file_size = $requestFile->getSize();
+            $file->uploader_id = $user->id;
+
+            $file->save();
+            $game->files()->attach($file->id);
+        }
     }
 }

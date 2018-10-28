@@ -70,8 +70,6 @@
                 }
             },
             onSubmit() {
-                // console.log(this.game.gameCategoryIds);
-
                 let formData = new FormData();
                 formData.append('description', this.game.description);
                 formData.append('title', this.game.title);

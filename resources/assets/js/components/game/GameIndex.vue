@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!--<b-col sm="11" class="mx-auto">-->
+        <b-col sm="9" class="mx-auto">
             <h1>Hello!</h1>
             <div class="row">
                 <b-col sm="9">
@@ -8,22 +8,21 @@
                     <b-card v-for="game in games" :key="game.id" class="my-2">
                         <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
                         <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                        <p class="card-text" v-html="game.description">
+                        <p class="card-text small" v-html="game.description">
                             <!--{{game.description | truncate(200)}}-->
                         </p>
                     </b-card>
                 </b-col>
                 <b-col sm="3">
                     <p>Latest game updates:</p>
-                    <b-card v-for="post in posts" :key="post.id" class="my-2">
+                    <b-card v-for="post in posts" :key="post.id" class="my-2 small">
                         <b-link slot="header" :to="`/game/${post.game_id}/post/${post.id}`">{{post.title}}</b-link>
                         <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                        <truncate clamp="Show more" :length="90" less="Show Less" type="html" :text="post.body" action-class="btn btn-link"/>
-                            <!--{{game.description | truncate(200)}}-->
+                        <truncate clamp="Show more" :length="90" less="Show Less" type="html" :text="post.body" action-class="text-primary"/>
                     </b-card>
                 </b-col>
             </div>
-        <!--</b-col>-->
+        </b-col>
     </div>
 </template>
 

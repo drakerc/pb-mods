@@ -101,7 +101,8 @@ class CommentController extends Controller
         $comment = Comment::findOrFail($id);
         $user = $request->user();
 
-        if($comment->author_id != $user->id) {
+        if($comment->author_id != $user->id)
+        {
             return response()->json([
                'message' => 'Not allowed to perform this action'
             ], 401);

@@ -51,7 +51,8 @@ Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@d
 Route::get('/mods/modifications/{mod}/files/{file}/instructions', 'FileController@getInstructions');
 Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/', 'InstructionController@create');
 Route::get('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}', 'InstructionController@edit');
-Route::delete('/mods/modifications/{mod}/files/{file}/edit-instruction/{instruction}/delete', 'InstructionController@destroy');
+Route::delete('/mods/modifications/{mod}/files/{file}                console.log(this.imagesToDelete);
+/edit-instruction/{instruction}/delete', 'InstructionController@destroy');
 
 Route::get('/mods/modifications/{mod}/create-images', 'FileController@createModificationImageFiles');
 Route::get('/mods/modifications/{mod}/edit-images', 'FileController@editModificationImageFiles');
@@ -90,6 +91,8 @@ Route::resource('comment', 'CommentController')->except([
 Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('game', 'GameController@store');
+    Route::post('game/{id}/gallery/upload', 'GameController@uploadImages');
+    Route::post('game/{id}/gallery/delete', 'GameController@deleteImages');
 });
 Route::resource('game', 'GameController')->except([
     'store'

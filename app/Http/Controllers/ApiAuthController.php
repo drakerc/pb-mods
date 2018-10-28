@@ -18,7 +18,8 @@ class ApiAuthController extends Controller
      * @param [string password_confirmation
      * @return \Illuminate\Http\Response response
      */
-    public function signup(Request $request) {
+    public function signup(Request $request)
+    {
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -44,7 +45,8 @@ class ApiAuthController extends Controller
      * @retunr \Illuminate\Http\Response response
      */
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -53,7 +55,8 @@ class ApiAuthController extends Controller
 
         $credentials = request(['email', 'password']);
 
-        if(!Auth::attempt($credentials)) {
+        if(!Auth::attempt($credentials))
+        {
             return response()->json([
                 'message' => 'unauthorized'
             ], 401);
@@ -80,7 +83,8 @@ class ApiAuthController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response response
      */
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->user()->token()->revoke();
 
         return response()->json([
@@ -93,7 +97,8 @@ class ApiAuthController extends Controller
      *
      * @param Request $request
      */
-    public function user(Request $request) {
+    public function user(Request $request)
+    {
         return response()->json($request->user());
     }
 }
