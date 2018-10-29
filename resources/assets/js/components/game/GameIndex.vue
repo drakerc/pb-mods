@@ -22,6 +22,7 @@
                     </b-card>
                 </b-col>
             </div>
+            <b-button v-if="Auth.isLoggedIn()" :to="{name:'new_game_form'}" variant="success">Create a new game entry</b-button>
         </b-col>
     </div>
 </template>
@@ -29,6 +30,7 @@
 <script>
     import axios from 'axios';
     import truncate from 'vue-truncate-collapsed';
+    import { Auth } from '../../auth';
 
     const fetchData = (callback) => {
         axios.get(`/api/game`).then((response) => {
@@ -47,7 +49,8 @@
         data() {
             return {
                 games: [],
-                posts: []
+                posts: [],
+                Auth
             }
         },
         components: {
