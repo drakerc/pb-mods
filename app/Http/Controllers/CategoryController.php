@@ -95,9 +95,9 @@ class CategoryController extends Controller
         return view('start', ['model' => $this->setSubcategories($category, $request)]);
     }
 
-    public function getSubcategoriesApi(Category $category)
+    public function getSubcategoriesApi(Category $category, Request $request)
     {
-        return $category->getSubcategories();
+        return $category->getSubcategories(); // where the f is toarray?
     }
 
     public function createCategory(Game $game, Category $category = null, Request $request)

@@ -11,12 +11,14 @@
             </div>
             <div class="row">
                 <div class="col-md-10">
-                    <game-mods-category
-                            v-for="category in categories"
-                            :key="category.id"
-                            :category="category"
-                            :gameid="game.id"
-                    ></game-mods-category>
+                    <div class="row">
+                        <game-mods-category
+                                v-for="category in categories.data"
+                                :key="category.id"
+                                :category="category"
+                                :gameid="game.id"
+                        ></game-mods-category>
+                    </div>
                 </div>
                 <div class="col-md-2 rounded bg-light">
                     <h2>Menu</h2>
@@ -27,6 +29,9 @@
                     </ol>
                 </div>
             </div>
+            <div class="footer" v-if="categories.from !== undefined">
+                <pagination :data="categories" @pagination-change-page="getResults"></pagination>
+            </div>
         </div>
     </div>
 
@@ -34,6 +39,9 @@
 <script>
     import routeMixin from '../route-mixin.js';
     import GameModsCategory from './mods/category/GameModsCategory.vue';
+    import pagination from 'laravel-vue-pagination';
+    import axios from 'axios';
+
     export default {
         mixins: [ routeMixin ],
         data() {
@@ -48,6 +56,12 @@
                 this.game = game;
                 this.$emit('set-mod-link', this.game.id);
             },
+            getResults(page = 1) {
+                axios.get('/api/mods/' + this.game.id + '?page=' + page)
+                    .then(response => {
+                        this.categories = response.data.categories;
+                    });
+            }
         },
         computed: {
             backgroundImageStyle() {
@@ -57,7 +71,8 @@
             }
         },
         components: {
-            GameModsCategory
+            GameModsCategory,
+            pagination
         }
     }
 </script>

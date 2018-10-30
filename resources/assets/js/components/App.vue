@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-            <a class="navbar-brand" href="#">{{ current_module_name }}</a>
+            <p class="navbar-brand">{{ current_module_name }}</p>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -10,23 +10,23 @@
                 <ul v-if="current_module === 'mods'" class="navbar-nav mr-auto">
                     <li v-if="game" class="nav-item active">
                         <router-link :to="{name: 'game_mods', params: {game: game}}">
-                            <a class="nav-link">Mody do gry {{ game_title }} > </a>
+                            <a class="nav-link">Mody do gry {{ game_title }}</a>
                         </router-link>
                     </li>
                     <li v-if="category" class="nav-item">
                         <router-link :to="{name: 'mods_category', params: {game: game, category: category}}">
-                            <a class="nav-link">Kategoria: {{ category_title }} > </a>
+                            <a class="nav-link"> > Kategoria: {{ category_title }} > </a>
                         </router-link>
                     </li>
                     <li v-if="mod" class="nav-item">
                         <router-link :to="{name: 'modification_view', params: {mod: mod}}">
-                            <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
+                            <a class="nav-link"> > Modyfikacja: {{ mod_title }}</a>
                         </router-link>
                     </li>
                     <li v-if="subcategories && subcategories.length > 0" class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podkategorie</a>
                         <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
-                            <display-subcategories :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
+                            <display-subcategories :categoryId="category" :subcatData="subcategoriesData" :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
                         </div>
                     </li>
                 </ul>
@@ -58,11 +58,11 @@
                 mod: null,
                 mod_title: '',
                 subcategories: null,
+                subcategoriesData: null,
             };
         },
         methods: {
             setModLink: function(game, category = null, mod = null) {
-                console.log('xx')
                 if (this.game !== game) {
                     axios.get('/api/mods/' + game + '/get-title').then(({data}) => {
                         this.game_title = data;
@@ -75,7 +75,8 @@
                             this.category_title = data;
                         });
                         axios.get('/api/mods/category/' + category + '/subcategories').then(({data}) => {
-                            this.subcategories = data;
+                            this.subcategoriesData = data;
+                            this.subcategories = data.data;
                         });
                     }
                     this.category = category;

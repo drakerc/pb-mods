@@ -18,7 +18,7 @@
             <div class="row">
                 <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-10">
                     <h2>Podkategorie</h2>
-                    <display-subcategories :subcategory=false :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
+                    <display-subcategories :subcategory=false :categoryId="category.id" :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
                 </div>
                 <div class="col-md-2 rounded bg-light">
                     <h2>Menu</h2>
@@ -39,7 +39,6 @@
                     <category-mods :category="category.id"></category-mods>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -48,6 +47,7 @@
     import DisplaySubcategories from './DisplaySubcategories';
     import CategoryMods from './CategoryMods';
     import routeMixin from '../../../route-mixin.js';
+    import pagination from 'laravel-vue-pagination';
 
     export default {
         mixins: [ routeMixin ],
@@ -60,6 +60,7 @@
             DisplayTimestamps,
             DisplaySubcategories,
             CategoryMods,
+            pagination,
         },
         mounted() {
             if (this.category.length === 0) {
@@ -83,6 +84,12 @@
                 this.category = category;
                 this.$emit('set-mod-link', this.$route.params['game'], this.category.id);
             },
+            getResults(page = 1) {
+                axios.get('/api/mods/' + this.game.id + '?page=' + page)
+                    .then(response => {
+                        this.categories = response.data.categories;
+                    });
+            }
         }
     }
 </script>

@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "bootstrap-vue": "^2.0.0-rc.11",
+        "laravel-vue-pagination": "^2.1.0",
         "vue-gallery": "^1.4.0",
         "vue-multiselect": "^2.1.0",
         "vue-star-rating": "^1.6.0",
