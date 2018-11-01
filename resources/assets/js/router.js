@@ -22,6 +22,8 @@ import ModificationEditSplashImages from './components/mods/file/ModificationEdi
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
+import DevStudioMods from './components/mods/modification/DevStudioMods';
+import UserMods from './components/mods/modification/UserMods';
 
 export default new VueRouter({
     mode: 'history',
@@ -29,6 +31,7 @@ export default new VueRouter({
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
         {path: '/mods/:game/category/:category', component: ModsCategory, name: 'mods_category'},
         {path: '/mods/:game/category/:category/create-modification', component: ModificationCreate, name: 'modification_create'},
+        {path: '/mods/modifications/user-mods/:user', component: UserMods, name: 'user_mods'},
         {path: '/mods/modifications/:mod', component: ModificationDetails, name: 'modification_view'},
         {path: '/mods/modifications/:mod/update', component: ModificationUpdate, name: 'modification_update'},
         {path: '/mods/modifications/:mod/create-files', component: ModificationCreateFiles, name: 'modification_create_files'},
@@ -47,7 +50,9 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod/ratings', component: ModificationDisplayRatings, name: 'modification_ratings'},
         {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
         {path: '/login', component: Login, name: 'login'},
-        {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'}
+        {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'}
+
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }

@@ -1,7 +1,7 @@
 <template>
     <div>
         <gallery :images="images" :index="index" @close="index = null"></gallery>
-        <img v-for="(image, imageIndex) in images" :src="image" width="150px" height="150px" :key="imageIndex" @click="index = imageIndex">
+        <img class="m-2 border" v-for="(image, imageIndex) in images" :src="image" width="150px" height="150px" :key="imageIndex" @click="index = imageIndex">
     </div>
 </template>
 <script>

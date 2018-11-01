@@ -45,10 +45,10 @@
                 <datepicker format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
             </div>
 
-            <div class="mb-3">
-                <label for="font_color">Kolor czcionki (możesz dostosować do swoich potrzeb kolor czcionki używanej w kluczowych miejscach prezentacji modyfikacji, m.in. w nagłówkach):</label>
-                <input class="form-control" type="color" id="font_color" name="font_color"
-                       value="#000000" />
+            <div class="mb-3" v-if="studios !== '' && studios.length > 0">
+                <label for="development_studio">Studio deweloperskie</label>
+                <input type="hidden" name="development_studio" :value="development_studio.value">
+                <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
             </div>
 
             <div class="mb-3">
@@ -59,13 +59,6 @@
         </div>
         <hr class="mb-4">
 
-
-        <!--<div class="form-control">-->
-                <!--<p>Studio deweloperskie</p>-->
-                <!--<input type="hidden" id="development_studio" name="development_studio" :value="development_studio">-->
-                <!--<v-select :v-model="development_studio" :options="development_studios"></v-select>-->
-            <!--</div>-->
-            <!--// TODO: implement dev studios-->
         <b-button size="lg" variant="primary" block=true type="submit">
             Wyślij
         </b-button>
@@ -93,14 +86,22 @@
                 description: '',
                 size: '',
                 development_status: '',
+                development_studio: '',
+                studios: '',
                 csrf_token: window.window.csrf_token
             };
         },
         methods: {
-            assignData({category, game, auth}) {
+            assignData({category, game, studios, auth}) {
                 this.category = category;
                 this.game = game;
                 this.auth = auth;
+                this.studios = studios.map(function (value) {
+                    return {
+                        label: value.name,
+                        value: value.id
+                    };
+                });
             },
         },
     }

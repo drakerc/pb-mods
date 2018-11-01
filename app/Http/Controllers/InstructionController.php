@@ -22,10 +22,11 @@ class InstructionController extends Controller
 
     public function create(Modification $mod, File $file, Request $request)
     {
-//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -58,10 +59,11 @@ class InstructionController extends Controller
 
     public function edit(Modification $mod, File $file, Instruction $instruction, Request $request)
     {
-//        if (Auth::id() !== $mod->creator) { //TODO: or admin, or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -92,10 +94,11 @@ class InstructionController extends Controller
 
     public function destroy(Modification $mod, File $file, Instruction $instruction, Request $request)
     {
-//        if (Auth::id() !== $instruction->author_id) { //TODO: or admin
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
 
         if (!$request->ajax()) {
             return false; // should never happen, if it does, show a warning

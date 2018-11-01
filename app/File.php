@@ -28,11 +28,10 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\File whereUploaderId($value)
  * @mixin \Eloquent
  * @property-read mixed $download_link
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Instruction[] $instructions
  */
 class File extends Model
 {
-    protected $appends = ['downloadLink'];
-
     public function modifications()
     {
         return $this->belongsToMany('App\Modification')->withPivot('title', 'description');
@@ -47,4 +46,17 @@ class File extends Model
     {
         return asset('storage/' . $this->file_path);
     }
+
+    public function getHumanReadableFilesizeAttribute($decimals = 1)
+    {
+        if ($this->file_size == 0)
+            return "0.00 B";
+
+        $s = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
+        $e = floor(log($this->file_size, 1024));
+
+        return round($this->file_size/pow(1024, $e), 2).$s[$e];
+    }
+
+    protected $appends = ['downloadLink', 'humanReadableFilesize'];
 }

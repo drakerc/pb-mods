@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div v-html="rating.description"></div>
-                <router-link :to="{ name: 'modification_edit_rating', params: { mod: mod.id, rating: rating.id } }">
+                <router-link :to="{ name: 'modification_edit_rating', params: { mod: $route.params['mod'], rating: rating.id } }">
                     Edytuj
                 </router-link>
             </div>
@@ -23,6 +23,7 @@
                 <div>Ocena jakości: {{ rating.quality }}</div>
             </div>
         </div>
+        <hr class="mb-4">
     </div>
 </template>
 <script>

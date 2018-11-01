@@ -11,13 +11,22 @@
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">
                     <h5 class="card-title">{{ mod.title }}</h5>
                 </router-link>
-                <p class="card-text" v-html="$options.filters.truncate(mod.description, 100)"></p>
+                <p class="card-text">
+                    Data wydania: {{ mod.release_date }}
+                </p>
+                <p class="card-text">
+                    Autor: {{ mod.creator }}
+                </p>
+                <p class="card-text" v-html="$options.filters.truncate(mod.description, 200)"></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline-secondary">
+                            {{ mod.downloadsCount }} pobrań
                         </button>
                         <button type="button" class="btn btn-sm btn-outline-secondary">
+                            Wersja: {{ mod.version }}
                         </button>
+
                     </div>
                 </div>
             </div>

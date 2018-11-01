@@ -16,7 +16,7 @@
                 </form>
             </div>
             <div class="col-md-2">
-                <b-button size="md" variant="secondary" @click="f++">
+                <b-button size="md" variant="secondary" @click="files_amount++">
                     Dodaj więcej obrazków
                 </b-button>
                 <b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount--">

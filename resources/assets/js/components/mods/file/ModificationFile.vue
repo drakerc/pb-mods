@@ -13,7 +13,7 @@
                             Rozmiar:
                         </div>
                         <div class="col-md-6">
-                            {{ file.file_size }} B
+                            {{ file.humanReadableFilesize }}
                         </div>
                     </div>
                     <div class="row">

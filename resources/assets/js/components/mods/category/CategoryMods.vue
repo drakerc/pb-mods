@@ -1,6 +1,7 @@
 <template>
-    <div>
-        <category-mod v-for="mod in mods" :key="mod.id" :mod="mod"></category-mod>
+    <div class="row">
+        <category-mod v-for="mod in mods.data" :key="mod.id" :mod="mod"></category-mod>
+        <!--<pagination :data="mods" @pagination-change-page="getResults"></pagination>-->
     </div>
 </template>
 <script>
@@ -24,7 +25,14 @@
                     });
                 }
             }
-        }
+        },
+        // methods: {
+        //     getResults: function () {
+        //         axios.get('/api/mods/category/' + this.category + '/modifications').then(({data}) => {
+        //             this.mods = data;
+        //         });
+        //     }
+        // }
     }
 </script>
 <style>
