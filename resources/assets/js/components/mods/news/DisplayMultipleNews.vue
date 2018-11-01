@@ -1,6 +1,6 @@
 <template>
     <div class="row text-dark">
-        <display-news v-for="singleNews in news" :key="singleNews.id" :news="singleNews" :mod="mod" ></display-news>
+        <display-news v-for="singleNews in news" :key="singleNews.id" :canManageMod="canManageMod" :news="singleNews" :mod="mod" ></display-news>
     </div>
 </template>
 <script>
@@ -9,7 +9,7 @@
 
     export default {
         mixins: [ routeMixin ],
-        props: ['passedMod'],
+        props: ['passedMod', 'canManageMod'],
         data() {
             return {
                 news: '',

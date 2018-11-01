@@ -43,7 +43,7 @@
                 <b-nav-item :active="active === 'news'" @click="active = 'news'">Wiadomości</b-nav-item>
                 <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">Opinie</b-nav-item>
                 <b-nav-item :active="active === 'files'" @click="active = 'files'" >Pliki</b-nav-item>
-                <b-nav-item :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">Dla autora</b-nav-item>
+                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">Dla autora</b-nav-item>
             </b-nav>
 
             <div class="container mod-item">
@@ -60,7 +60,7 @@
                 </div>
 
                 <div v-if="active === 'news'">
-                    <display-multiple-news :passedMod="mod"></display-multiple-news>
+                    <display-multiple-news :canManageMod="canManageMod" :passedMod="mod"></display-multiple-news>
                 </div>
 
                 <div class="text-dark" v-if="active === 'reviews'">
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="text-dark" v-if="active === 'files'">
-                    <modification-files v-if="mod.id !== undefined" :modification="mod"></modification-files>
+                    <modification-files :canManageMod="canManageMod" v-if="mod.id !== undefined" :modification="mod"></modification-files>
                 </div>
 
                 <div v-if="active === 'authorsMenu'">
@@ -104,7 +104,9 @@
         data() {
             return {
                 mod: [],
-                active: 'description'
+                active: 'description',
+                userId: window.window.user_id,
+                canManageMod: false,
             }
         },
         computed: {
@@ -149,8 +151,9 @@
             },
         },
         methods: {
-            assignData({mod}) {
+            assignData({mod, canManageMod}) {
                 this.mod = mod;
+                this.canManageMod = canManageMod;
                 this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
             },
         },

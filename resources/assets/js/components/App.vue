@@ -30,6 +30,9 @@
                         </div>
                     </li>
                 </ul>
+                <router-link v-if="userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
+                    <button class="btn btn-outline-success my-2 my-sm-0">Moje modyfikacje</button>
+                </router-link>
                 <router-link :to="{name: 'login'}">
                     <button class="btn btn-outline-success my-2 my-sm-0">Logowanie</button>
                 </router-link>
@@ -49,6 +52,7 @@
         },
         data() {
             return {
+                auth: null,
                 current_module: '',
                 current_module_name: '',
                 game: null,
@@ -59,6 +63,7 @@
                 mod_title: '',
                 subcategories: null,
                 subcategoriesData: null,
+                userId: window.window.user_id,
             };
         },
         methods: {
@@ -95,8 +100,8 @@
             if (this.$route.path.startsWith('/mods')) {
                 this.current_module = 'mods';
                 this.current_module_name = 'Portal modyfikacji';
-            } else if (this.$route.path.startsWith('/teams')) {
-                this.current_module = 'teams';
+            } else if (this.$route.path.startsWith('/devstudios')) {
+                this.current_module = 'devstudios';
                 this.current_module_name = 'Portal developmentu';
             } else {
                 // bairei if needed

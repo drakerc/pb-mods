@@ -40,7 +40,7 @@
                             {{ file.creatorName }}
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" v-if="canManageMod">
                         <div class="col-md-10">
                             <router-link :to="{ name: 'modification_create_instruction', params: { mod: $route.params['mod'], file: file.id } }">
                                 Dodaj instrukcję do pliku
@@ -73,7 +73,7 @@
     import FileInstructions from '../instruction/FileInstructions';
 
     export default {
-        props: ['file'],
+        props: ['file', 'canManageMod'],
         components: {
             FileInstructions,
         },

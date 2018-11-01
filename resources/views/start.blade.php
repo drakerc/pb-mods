@@ -8,6 +8,7 @@
     <script type="text/javascript">
         window.mods_model = "{!! addslashes(isset($model) ? json_encode($model) : []) !!}"
         window.csrf_token = "{{ csrf_token() }}"
+        window.user_id = "{{ Auth::id() }}"
     </script>
 </head>
 <body>

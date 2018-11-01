@@ -20,10 +20,12 @@ class ModificationController extends Controller
         if ($request->ajax()) {
             return [
                 'mod' => $modification->toArray(),
+                'canManageMod' => self::canManageMod($modification),
             ];
         }
         return [
             'mod' => $modification->toArray(),
+            'canManageMod' => self::canManageMod($modification),
             'path' => $request->getPathInfo()
         ];
     }

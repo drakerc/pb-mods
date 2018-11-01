@@ -12,7 +12,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <div class="btn-group">
+                <div class="btn-group" v-if="canManageMod">
                     <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
                         <b-btn>Edytuj</b-btn>
                     </router-link>
@@ -30,7 +30,7 @@
 
     export default {
         components: {DeleteNews, DisplayTimestamps},
-        props: ['news', 'mod'],
+        props: ['news', 'mod', 'canManageMod'],
     }
 </script>
 <style>

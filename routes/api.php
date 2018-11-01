@@ -13,15 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
 Route::get('/mods/{game}/get-title', 'GameController@getGameTitleApi');
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
 
 Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory')->middleware('auth:api');
-//->middleware('auth:api')
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 Route::get('/mods/category/{category}/get-title', 'CategoryController@getCategoryTitleApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');

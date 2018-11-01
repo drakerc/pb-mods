@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="row">
-            <modification-file v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+            <modification-file :canManageMod="canManageMod" v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
         </div>
 
         <div class="footer">
@@ -34,7 +34,7 @@
     import pagination from 'laravel-vue-pagination';
 
     export default {
-        props: ['modification'],
+        props: ['modification', 'canManageMod'],
         data() {
             return {
                 files: '',

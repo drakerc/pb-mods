@@ -12,7 +12,7 @@
         <div class="row">
             <div class="col-md-8">
                 <div v-html="rating.description"></div>
-                <router-link :to="{ name: 'modification_edit_rating', params: { mod: $route.params['mod'], rating: rating.id } }">
+                <router-link v-if="userId === rating.author_id" :to="{ name: 'modification_edit_rating', params: { mod: $route.params['mod'], rating: rating.id } }">
                     Edytuj
                 </router-link>
             </div>
@@ -32,6 +32,11 @@
     export default {
         components: {DisplayTotalRating},
         props: ['rating', 'mod'],
+        data() {
+            return {
+                userId: window.window.user_id,
+            }
+        },
     }
 </script>
 <style>
