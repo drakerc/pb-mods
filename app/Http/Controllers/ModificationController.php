@@ -125,7 +125,9 @@ class ModificationController extends Controller
 
     public function getModificationsInCategoryApi(Category $category)
     {
-        return response()->json(($category->getModificationsInCategory())->toArray());
+        return response()->json($category->getModificationsInCategory());
+
+//        return response()->json(($category->getModificationsInCategory())->toArray());
     }
 
     public function getFilesApi(Modification $mod)
