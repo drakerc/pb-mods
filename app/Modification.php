@@ -150,9 +150,9 @@ class Modification extends Model
     public function getFiles($all = false)
     {
         if ($all) {
-            return ($this->files()->get())->toArray();
+            return $this->files()->paginate(5);
         }
-        return ($this->files()->where('availability', true)->get())->toArray();
+        return $this->files()->where('availability', true)->paginate(2);
     }
 
     public function getVideos()

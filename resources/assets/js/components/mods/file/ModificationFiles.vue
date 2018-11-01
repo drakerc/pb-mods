@@ -1,7 +1,11 @@
 <template>
     <div>
         <div class="row">
-            <modification-file v-if="files[0].id !== undefined" v-for="file in files" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+            <modification-file v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+        </div>
+
+        <div class="footer">
+            <pagination :data="files" @pagination-change-page="getResults"></pagination>
         </div>
 
         <div v-if="selectedFiles.length !== 0" class="jumbotron bg-light mt-3 pt-3">
@@ -22,12 +26,12 @@
                     Pobierz paczkę
                 </b-button>
             </form>
-
         </div>
     </div>
 </template>
 <script>
     import ModificationFile  from './ModificationFile.vue';
+    import pagination from 'laravel-vue-pagination';
 
     export default {
         props: ['modification'],
@@ -39,7 +43,8 @@
             }
         },
         components: {
-            ModificationFile
+            ModificationFile,
+            pagination
         },
         created() {
             axios.get('/api/mods/modifications/' + this.modification.id + '/files').then(({data}) => {
@@ -57,6 +62,11 @@
                     this.selectedFilesIds.splice(this.selectedFilesIds.indexOf(file.id));
                 }
             },
+            getResults: function (page) {
+                axios.get('/api/mods/modifications/' + this.modification.id + '/files' + '?page=' + page).then(({data}) => {
+                    this.files = data;
+                });
+            }
         },
     }
 </script>

@@ -1,6 +1,7 @@
 <template>
     <div class="text-center" v-if="video.youtubeId !== undefined">
-        Tytuł: {{ video.title }}
+        <p>Tytuł: {{ video.title }}</p>
+        <p>Wrzucił: {{ video.creatorName }}</p>
         <youtube :video-id="video.youtubeId" @playing="true"></youtube>
         <hr class="mb-4">
     </div>

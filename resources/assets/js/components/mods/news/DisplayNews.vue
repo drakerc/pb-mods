@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1 class="font-italic">{{ news.title }}</h1>
-                <h4>Autor: {{ news.author_id }}</h4>
+                <h4>Autor: {{ news.creatorName  }}</h4>
             </div>
             <div class="col-md-4">
                 <display-timestamps :created_at="news.created_at" :updated_at="news.updated_at">

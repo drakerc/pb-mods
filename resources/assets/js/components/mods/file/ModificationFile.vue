@@ -37,7 +37,7 @@
                             Wrzucił:
                         </div>
                         <div class="col-md-6">
-                            {{ file.uploader_id }}
+                            {{ file.creatorName }}
                         </div>
                     </div>
                     <div class="row">

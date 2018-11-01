@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-8">
                 <h1 class="font-italic">{{ rating.title }}</h1>
-                <h4>Autor: {{ rating.author_id }}</h4>
+                <h4>Autor: {{ rating.creatorName }}</h4>
             </div>
             <div class="col-md-4">
                 <display-total-rating :rating="rating.rating"></display-total-rating>

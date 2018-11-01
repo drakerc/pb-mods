@@ -58,5 +58,14 @@ class File extends Model
         return round($this->file_size/pow(1024, $e), 2).$s[$e];
     }
 
-    protected $appends = ['downloadLink', 'humanReadableFilesize'];
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->uploader_id);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
+    protected $appends = ['downloadLink', 'humanReadableFilesize', 'creatorName'];
 }

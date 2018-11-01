@@ -44,9 +44,18 @@ class DevelopmentStudio extends Model
         return 'Inna';
     }
 
+    public function getOwnerNameAttribute()
+    {
+        $creator = User::find($this->uploader_id);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
     protected $fillable = [
         'title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization'
     ];
 
-    protected $appends = ['specializationText'];
+    protected $appends = ['specializationText', 'ownerName'];
 }

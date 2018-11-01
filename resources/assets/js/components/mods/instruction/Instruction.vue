@@ -2,7 +2,8 @@
     <div class="pt-1 mt-1 mr-1 pt-1">
         <b-btn size="sm" @click="show=true" v-b-modal="'show-instruction-' + instruction.id">Instrukcja {{ instruction.title }}</b-btn>
 
-        <b-modal size="lg" v-model="show" :id="'show-instruction-' + instruction.id" :title="instruction.title">
+        <b-modal size="lg" v-model="show" :id="'show-instruction-' + instruction.id" :title="'Instrukcja ' + instruction.title">
+            <h3>Autor: {{ instruction.creatorName }}</h3>
             <p class="my-4" v-html="instruction.description"></p>
             <div slot="modal-footer" class="w-100">
                 <router-link :to="{ name: 'modification_edit_instruction', params: { mod: $route.params['mod'], file: file.id, instruction: instruction.id } }">

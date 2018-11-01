@@ -52,17 +52,19 @@ class ModificationController extends Controller
 
     public static function canManageMod($mod)
     {
+        if (Auth::id() === null) {
+            return false;
+        }
         if (Auth::id() === $mod->creator) {
             return true;
         }
 
-        $user = Auth::user();
         $studio = $mod->developmentStudio()->first();
 
         if ($studio !== null) {
             $members = $studio->users()->get();
 
-            if ($members->contains('id', $user->id)) {
+            if ($members->contains('id', Auth::id())) {
                 return true;
             }
         }
