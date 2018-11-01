@@ -1,5 +1,10 @@
 <template>
     <div>
+        <div class="row" v-if="mods.data.length === 0">
+            <p>
+                Brak modyfikacji. Możesz jednak dodać swoją modyfikację do tej kategorii, korzystając z menu powyżej.
+            </p>
+        </div>
         <div class="row">
             <category-mod v-for="mod in mods.data" :key="mod.id" :mod="mod"></category-mod>
         </div>

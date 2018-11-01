@@ -25,6 +25,8 @@
                 <li>Dodaj newsa</li>
             </router-link>
 
+            <hr>
+
             <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
                 <li>Edytuj tą modyfikację</li>
             </router-link>

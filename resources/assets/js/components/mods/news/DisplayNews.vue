@@ -1,5 +1,5 @@
 <template>
-    <div v-if="news.id !== undefined" class="col-md-10 bg-light">
+    <div v-if="news.id !== undefined" class="jumbotron container dark-jumbotron">
         <div class="row">
             <div class="col-md-8">
                 <h1 class="font-italic">{{ news.title }}</h1>
@@ -14,7 +14,10 @@
             <div class="col-md-12">
                 <div class="btn-group" v-if="canManageMod">
                     <router-link :to="{ name: 'modification_edit_news', params: { mod: mod.id, news: news.id } }">
-                        <b-btn>Edytuj</b-btn>
+                        <b-btn>
+                            <font-awesome-icon icon="edit" />
+                            Edytuj
+                        </b-btn>
                     </router-link>
                     <delete-news :news="news"></delete-news>
                 </div>
@@ -34,4 +37,8 @@
     }
 </script>
 <style>
+    .dark-jumbotron {
+        color: #e3e3e3;
+        background-color: #464646;
+    }
 </style>

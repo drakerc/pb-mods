@@ -113,7 +113,10 @@
 
                 <div class="row">
                     <div class="col-md-8">
-                        <b-btn size="lg" variant="warning" v-b-modal.delete-mod>Usuń modyfikację</b-btn>
+                        <b-btn size="lg" variant="warning" v-b-modal.delete-mod>
+                            <font-awesome-icon icon="trash" />
+                            Usuń modyfikację
+                        </b-btn>
                     </div>
                     <div class="col-md-4">
                         <ModificationPreviewChanges

@@ -1,17 +1,25 @@
 <template>
     <div>
-        <div class="row">
-            <modification-file :canManageMod="canManageMod" v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+        <div class="text-white" v-if="files.data.length === 0">
+            Przykro nam, ale autor modyfikacji nie wrzucił do niej żadnych powiązanych plików. Spróbuj później!
         </div>
 
-        <div class="footer">
-            <pagination :data="files" @pagination-change-page="getResults"></pagination>
+        <div class="jumbotron container">
+            <div class="row">
+                <modification-file :canManageMod="canManageMod" v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
+            </div>
+
+            <div class="footer">
+                <pagination :data="files" @pagination-change-page="getResults"></pagination>
+            </div>
         </div>
 
         <div v-if="selectedFiles.length !== 0" class="jumbotron bg-light mt-3 pt-3">
             <form ref="massDownloadForm" role="form" method="GET" :action="'/mods/modifications/' + modification.id + '/mass-download'">
                 <div class="lead">Wybrałeś poniższe pliki do pobrania:</div>
-                <p v-for="file in selectedFiles">{{ file.pivot.title }}</p>
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="file in selectedFiles">{{ file.pivot.title }}</li>
+                </ul>
                 <input type="hidden" name="files" :value="selectedFilesIds">
                 <input type="hidden" name="withInstructions" :value="withInstructions">
 
@@ -52,12 +60,12 @@
             });
         },
         methods: {
-            addSelectedFile: function (file, value) {
-                if (value === true) {
+            addSelectedFile: function (file) {
+                var index = this.selectedFiles.findIndex(value => value.id === file.id);
+                if (index === -1) {
                     this.selectedFiles.push(file);
                     this.selectedFilesIds.push(file.id);
                 } else {
-                    var index = this.selectedFiles.findIndex(value => value.id === file.id);
                     this.selectedFiles.splice(index, 1);
                     this.selectedFilesIds.splice(this.selectedFilesIds.indexOf(file.id));
                 }
@@ -71,10 +79,8 @@
     }
 </script>
 <style>
-    .about {
-        margin: 2em 0;
-    }
-    .about h3 {
-        font-size: 22px;
+    .dark-jumbotron {
+        color: #e3e3e3;
+        background-color: #464646;
     }
 </style>

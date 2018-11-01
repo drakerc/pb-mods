@@ -11,22 +11,23 @@
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">
                     <h5 class="card-title">{{ mod.title }}</h5>
                 </router-link>
-                <p class="card-text">
-                    Data wydania: {{ mod.release_date }}
+                <b><p class="card-text" v-html="$options.filters.truncate(mod.description, 150)"></p></b>
+                <p class="card-text secondary-info">
+                    <b>Data wydania:</b> {{ mod.release_date }}
                 </p>
-                <p class="card-text">
-                    Autor: {{ mod.creator }}
+                <p class="card-text secondary-info">
+                    <b>Autor:</b> {{ mod.creatorName }}
                 </p>
-                <p class="card-text" v-html="$options.filters.truncate(mod.description, 200)"></p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
                         <button type="button" class="btn btn-sm btn-outline-secondary">
-                            {{ mod.downloadsCount }} pobrań
+                            <font-awesome-icon icon="download" />
+                            {{ mod.downloadsCount }} <b>pobrań</b>
                         </button>
                         <button type="button" class="btn btn-sm btn-outline-secondary">
-                            Wersja: {{ mod.version }}
+                            <font-awesome-icon icon="code-branch" />
+                            <b>Wersja:</b> {{ mod.version }}
                         </button>
-
                     </div>
                 </div>
             </div>
@@ -44,4 +45,12 @@
     }
 </script>
 <style>
+    .card-img-top {
+        height: 185px;
+        width: 100%
+    }
+
+    .secondary-info {
+        font-size: 9pt;
+    }
 </style>

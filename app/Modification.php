@@ -200,7 +200,14 @@ class Modification extends Model
             ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
             ->first(['file_path']);
-        return $thumbnail === null ? null : $thumbnail->downloadLink;
+
+        if ($thumbnail === null) {
+            return asset(
+                'storage/no_photo.png'
+            );
+        }
+
+        return $thumbnail->downloadLink;
     }
 
     public function getBackgroundAttribute()
@@ -210,6 +217,7 @@ class Modification extends Model
 //            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
             ->first(['file_path']);
+
         return $image === null ? null : $image->downloadLink;
     }
 

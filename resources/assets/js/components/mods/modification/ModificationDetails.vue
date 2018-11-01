@@ -1,49 +1,129 @@
 <template>
     <div class="cover-container" :style="backgroundImageStyle">
-            <div class="jumbotron text-white rounded border-bottom" :style="splashImageStyle">
-                <div class="row">
-                    <div class="col-md-8 bg-semi-transparent" :style="splashDetailsStyle">
-                        <div class="row">
-                        <div class="col-md-9">
-                            <h1 class="display-4 font-italic" :style="fontTitle">{{ mod.title }}</h1>
-                            <div>Status produkcji: {{ mod.development_status }}</div>
-                            <div>Wielkość: {{ mod.size }}</div>
-                            <div>Zamienia: {{ mod.replaces }}</div>
-                            <div>Wersja: {{ mod.version }}</div>
-                            <div>Data wydania: {{ mod.release_date }}</div>
-                            <div v-if="mod.devStudio !== null">Studio developerskie:
-                                <router-link :to="{ name: 'dev_studio_mods', params: { studio: mod.devStudio.id } }">
-                                    {{ mod.devStudio.name}}
-                                </router-link>
+        <div class="container jumbotron text-white rounded" :style="splashImageStyle">
+            <div class="row">
+                <div class="col-md-10 bg-semi-transparent" :style="splashDetailsStyle">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <display-total-rating class="float-right" :rating="mod.averageRating"></display-total-rating>
+                            <h1 class="display-4 font-italic text-center" :style="fontTitle">{{ mod.title }}</h1>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Status produkcji:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.development_status }}
+                                </div>
                             </div>
 
-                            <div>Autor:
-                                <router-link :to="{ name: 'user_mods', params: { user: mod.creator } }">
-                                    {{ mod.creatorName }}
-                                </router-link>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Wielkość:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.size }}
+                                </div>
                             </div>
 
-                            <div>Ilość pobrań: {{ mod.downloadsCount }}</div>
+                            <div v-if="mod.replaces !== null" class="row">
+                                <div class="col-md-4">
+                                    Zamienia:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.replaces }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Wersja:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.version }}
+                                </div>
+                            </div>
+
+                            <div v-if="mod.devStudio !== null" class="row">
+                                <div class="col-md-4">
+                                    Studio developerskie:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    <router-link :to="{ name: 'dev_studio_mods', params: { studio: mod.devStudio.id } }">
+                                        {{ mod.devStudio.name}}
+                                    </router-link>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Data wydania:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.release_date }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Autor:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    <router-link :to="{ name: 'user_mods', params: { user: mod.creator } }">
+                                        {{ mod.creatorName }}
+                                    </router-link>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    Ilość pobrań:
+                                </div>
+                                <div class="col-md-8 mod-info-value">
+                                    {{ mod.downloadsCount }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <display-timestamps :created_at="mod.created_at" :updated_at="mod.updated_at"></display-timestamps>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <display-total-rating :rating="mod.averageRating"></display-total-rating>
-                        </div>
-                        </div>
-                        <p v-if="mod.description" v-html="$options.filters.truncate(mod.description, 100)"></p>
                     </div>
                 </div>
             </div>
+        </div>
 
         <div class="container jumbotron rounded text-white bg-semi-transparent-details" :style="descriptionStyle">
-            <b-nav justified tabs class="bg-dark" style="opacity: 0.85">
-                <b-nav-item :active="active === 'description'" @click="active = 'description'">Opis</b-nav-item>
-                <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">Obrazki</b-nav-item>
-                <b-nav-item :active="active === 'videos'" @click="active = 'videos'">Filmiki</b-nav-item>
-                <!--<b-nav-item :active="active === 'suggestions'" @click="active = 'suggestions'">Sugestie</b-nav-item>-->
-                <b-nav-item :active="active === 'news'" @click="active = 'news'">Wiadomości</b-nav-item>
-                <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">Opinie</b-nav-item>
-                <b-nav-item :active="active === 'files'" @click="active = 'files'" >Pliki</b-nav-item>
-                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">Dla autora</b-nav-item>
+            <b-nav justified tabs class="bg-dark navigation-buttons" style="opacity: 0.85">
+                <b-nav-item :active="active === 'description'" @click="active = 'description'">
+                    <font-awesome-icon icon="font" />
+                    Opis
+                </b-nav-item>
+                <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">
+                    <font-awesome-icon icon="camera" />
+                    Galeria zdjęć
+                </b-nav-item>
+                <b-nav-item :active="active === 'videos'" @click="active = 'videos'">
+                    <font-awesome-icon icon="video" />
+                    Filmy
+                </b-nav-item>
+                <b-nav-item :active="active === 'news'" @click="active = 'news'">
+                    <font-awesome-icon icon="newspaper" />
+                    Wiadomości
+                </b-nav-item>
+                <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">
+                    <font-awesome-icon icon="star" />
+                    Opinie
+                </b-nav-item>
+                <b-nav-item :active="active === 'files'" @click="active = 'files'" >
+                    <font-awesome-icon icon="file" />
+                    Pliki
+                </b-nav-item>
+                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">
+                    <font-awesome-icon icon="cogs" />
+                    Dla autora
+                </b-nav-item>
             </b-nav>
 
             <div class="container mod-item">
@@ -64,9 +144,13 @@
                 </div>
 
                 <div class="text-dark" v-if="active === 'reviews'">
-                    <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
-                        Dodaj swoją opinię
-                    </router-link>
+                    <b-button block="true" class="p-3 mb-3 add-review-button" size="md" variant="success">
+                        <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+                            <font-awesome-icon icon="plus" />
+                            Dodaj swoją opinię
+                        </router-link>
+                    </b-button>
+
                     <display-ratings :passedMod="mod"></display-ratings>
                 </div>
 
@@ -75,7 +159,7 @@
                 </div>
 
                 <div v-if="active === 'authorsMenu'">
-                    <div class="container jumbotron bg-dark">
+                    <div class="container jumbotron dark-jumbotron">
                         <h3>To menu widoczne jest wyłącznie dla autorów modyfikacji. Z jego poziomu możesz zarządzać wszystkimi elementami swojego moda.</h3>
                         <modification-author-menu :mod="mod"></modification-author-menu>
                     </div>
@@ -93,11 +177,13 @@
     import DisplayTotalRating from '../rating/DisplayTotalRating';
     import DisplayRatings from "../rating/DisplayRatings";
     import DisplayMultipleNews from '../news/DisplayMultipleNews';
+    import DisplayTimestamps from '../../DisplayTimestamps';
 
     export default {
         components: {
-            DisplayRatings,
-            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews},
+            DisplayRatings, DisplayTimestamps,
+            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews
+        },
         mixins: [ routeMixin ],
         props: ['modPassed'],
 
@@ -116,7 +202,7 @@
                     'background-repeat': 'no-repeat',
                     'background-color': 'black',
                     'background-size': 'cover',
-                    'width': '90%',
+                    // 'width': '65%',
                     'margin': 'auto',
                     'opacity': '0.95',
                 }
@@ -125,7 +211,8 @@
                 return {
                     'background-color': this.mod.color_splash_background + ' !important',
                     'opacity': this.mod.transparency_splash_background + ' !important',
-                    'color': this.mod.font_color_splash_text
+                    'color': this.mod.font_color_splash_text,
+                    'padding': '15px',
                 }
             },
             descriptionStyle() {
@@ -133,7 +220,6 @@
                     'background-color': this.mod.color_description_background + ' !important',
                     'opacity': this.mod.transparency_description_background + ' !important',
                     'color': this.mod.font_color_description + ' !important',
-                    'width': '130%',
                 }
             },
             backgroundImageStyle() {
@@ -173,5 +259,18 @@
     }
     .mod-item {
         padding-top: 1rem;
+    }
+    .add-review-button > a {
+        color: white;
+    }
+    .navigation-buttons > .nav-item > a {
+        color: white;
+    }
+    .dark-jumbotron {
+        color: #e3e3e3;
+        background-color: #464646;
+    }
+    .mod-info-value {
+        font-weight: bold;
     }
 </style>

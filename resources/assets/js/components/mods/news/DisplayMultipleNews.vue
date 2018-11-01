@@ -1,5 +1,8 @@
 <template>
-    <div class="row text-dark">
+    <div class="text-white" v-if="news.length === 0">
+        <p>Przykro nam, ale zespół deweloperski modyfikacji nie dodał jeszcze żadnych wiadomości o modyfikacji.</p>
+    </div>
+    <div v-else class="row text-dark">
         <display-news v-for="singleNews in news" :key="singleNews.id" :canManageMod="canManageMod" :news="singleNews" :mod="mod" ></display-news>
     </div>
 </template>

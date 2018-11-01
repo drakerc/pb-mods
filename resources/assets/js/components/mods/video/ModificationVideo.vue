@@ -1,8 +1,8 @@
 <template>
-    <div class="text-center" v-if="video.youtubeId !== undefined">
-        <p>Tytuł: {{ video.title }}</p>
+    <div class="jumbotron container dark-jumbotron" v-if="video.youtubeId !== undefined">
+        <h3>{{ video.title }}</h3>
         <p>Wrzucił: {{ video.creatorName }}</p>
-        <youtube :video-id="video.youtubeId" @playing="true"></youtube>
+        <youtube class="text-center" :video-id="video.youtubeId" @playing="true"></youtube>
         <hr class="mb-4">
     </div>
 </template>
@@ -12,4 +12,8 @@
     }
 </script>
 <style>
+    .dark-jumbotron {
+        color: #e3e3e3;
+        background-color: #464646;
+    }
 </style>

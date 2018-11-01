@@ -1,6 +1,8 @@
 <template>
     <div class="pt-1 mt-1 mr-1 pt-1">
-        <b-btn size="sm" @click="show=true" v-b-modal="'show-instruction-' + instruction.id">Instrukcja {{ instruction.title }}</b-btn>
+        <b-btn block="true" @click="show=true" v-b-modal="'show-instruction-' + instruction.id">
+            <font-awesome-icon icon="book" />
+            Instrukcja {{ instruction.title }}</b-btn>
 
         <b-modal size="lg" v-model="show" :id="'show-instruction-' + instruction.id" :title="'Instrukcja ' + instruction.title">
             <h3>Autor: {{ instruction.creatorName }}</h3>

@@ -1,5 +1,11 @@
 <template>
     <div>
+        <div class="row" v-if="subcategories.length === 0 && !subcategory">
+            <p>
+                Brak podkategorii. Możesz jednak stworzyć nową podkategorię, korzystając z menu powyżej.
+            </p>
+        </div>
+
         <div class="row" v-if="!subcategory">
             <div v-for="(value, index) in subcategories" class="col-md-4">
                 <div class="card mb-4 box-shadow">
@@ -11,11 +17,13 @@
                         <p v-if="value.description" class="card-text" v-html="$options.filters.truncate(value.description, 200)"></p>
 
                         <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                                value.deepSubcategoriesCount }} podkategorii
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <font-awesome-icon icon="list-ol" />
+                                {{ value.deepSubcategoriesCount }} podkategorii
                             </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                                value.deepModificationsCount}} modyfikacji
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <font-awesome-icon icon="list-alt" />
+                                {{ value.deepModificationsCount}} modyfikacji
                             </button>
                         </div>
 
@@ -65,7 +73,6 @@
     import DisplaySubcategories from './DisplaySubcategories';
     import axios from "axios";
     import pagination from 'laravel-vue-pagination';
-
 
     export default {
         props: ['categories', 'gameid', 'subcategory', 'categoryId', 'subcatData'],
