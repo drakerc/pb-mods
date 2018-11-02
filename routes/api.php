@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
+
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('login', 'ApiAuthController@login');
+    Route::post('signup', 'ApiAuthController@signup');
+
+    Route::group(['middleware' => 'auth:api'], function () {
+        Route::get('logout', 'ApiAuthController@logout');
+        Route::get('user', 'ApiAuthController@user');
+    });
+});
+
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
 Route::get('/mods/{game}/get-title', 'GameController@getGameTitleApi');
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
@@ -62,12 +76,33 @@ Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController
 Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideosApi');
 Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy')->middleware('auth:api');
 
-Route::resource('post','PostController');
-Route::resource('comment', 'CommentController');
-
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
+Route::resource('post','PostController');
+
+Route::group(['middleware' => 'auth:api'], function () {
+   Route::post('comment', 'CommentController@store');
+   Route::delete('comment/{id}', 'CommentController@destroy');
+});
+
+Route::resource('comment', 'CommentController')->except([
+    'store', 'destroy'
+]);
+
+Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
+Route::group(['middleware' => 'auth:api'], function () {
+    Route::post('game', 'GameController@store');
+    Route::post('game/{id}/gallery/upload', 'GameController@uploadImages');
+    Route::post('game/{id}/gallery/delete', 'GameController@deleteImages');
+});
+Route::resource('game', 'GameController')->except([
+    'store'
+]);
+
+Route::resource('post-category', 'PostCategoryController');
 
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');
+
+Route::get('game-categories', 'CategoryController@getGameCategories');
 
 // DEV STUDIOS
 Route::get('/devstudios', 'DevelopmentStudioController@index')->name('DevStudiosIndex');

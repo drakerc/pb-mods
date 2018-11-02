@@ -45,7 +45,8 @@ class Post extends Model
         return $this->hasMany('App\Comment', 'post_id', 'id');
     }
 
-    public function getComments($value) {
-        return $value->comments();
+    public function game() {
+        return $this->belongsTo('App\Game', 'game_id', 'id');
     }
+
 }

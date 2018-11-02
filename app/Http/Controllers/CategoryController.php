@@ -138,4 +138,9 @@ class CategoryController extends Controller
     {
         return $category->title;
     }
+
+    public function getGameCategories() {
+        $categories = Category::where('game_category', '=', true)->get();
+        return response()->json($categories);
+    }
 }

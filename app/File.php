@@ -32,6 +32,11 @@ use Illuminate\Database\Eloquent\Model;
  */
 class File extends Model
 {
+
+    protected $appends = ['downloadLink', 'humanReadableFilesize', 'creatorName'];
+
+    protected $fillable = ['file_path'];
+
     public function modifications()
     {
         return $this->belongsToMany('App\Modification')->withPivot('title', 'description');
@@ -67,5 +72,4 @@ class File extends Model
         return $creator->name;
     }
 
-    protected $appends = ['downloadLink', 'humanReadableFilesize', 'creatorName'];
 }

@@ -1,33 +1,35 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 
 window.Vue = require('vue');
 
-import router from './router';
+import { router } from './router';
 import App from './components/App';
-import BootstrapVue from 'bootstrap-vue'
+import BootstrapVue from 'bootstrap-vue';
 import axios from 'axios';
 import VueYouTubeEmbed from 'vue-youtube-embed';
-
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
+import { library } from '@fortawesome/fontawesome-svg-core';
 import {faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faEdit, faTrash,
-    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+
 
 library.add(faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faClock, faEdit,
     faSearch, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser, faSave, faMinus);
 
-Vue.component('font-awesome-icon', FontAwesomeIcon)
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 
 Vue.use(BootstrapVue);
+Vue.use(require('vue-truncate-filter'));
+Vue.use(VueYouTubeEmbed);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -39,9 +41,6 @@ const app = new Vue({
     render: h => h(App),
     router
 });
-
-Vue.use(require('vue-truncate-filter'));
-Vue.use(VueYouTubeEmbed);
 
 axios.defaults.headers.common = {
     'X-Requested-With': 'XMLHttpRequest',

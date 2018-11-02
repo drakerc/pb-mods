@@ -28,7 +28,7 @@ use Laravel\Passport\HasApiTokens;
  */
 class User extends Authenticatable
 {
-    use Notifiable, HasApiTokens;
+    use HasApiTokens, Notifiable;
 
     /**
      * Selected user's development studios
@@ -44,7 +44,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password'
     ];
 
     /**
@@ -53,6 +53,16 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token'
     ];
+
+    protected $appends = [
+        'gravatar'
+    ];
+
+    public function getGravatarAttribute()
+    {
+        $hash = md5(strtolower(trim($this->email)));
+        return "http://www.gravatar.com/avatar/$hash?d=monsterid";
+    }
 }

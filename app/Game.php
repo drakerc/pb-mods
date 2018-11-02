@@ -40,7 +40,23 @@ class Game extends Model
         return Category::where(['game' => $this->id, 'game_category' => false, 'parent' => null])->paginate(10);
     }
 
+    public function categories() {
+        return $this->belongsToMany('App\Category', 'category_game');
+    }
+
+    public function logo() {
+        return $this->belongsTo('App\File', 'logo_id');
+    }
+
     public function posts() {
-        return $this->hasMany('App\Post');
+        return $this->hasMany('App\Post', 'game_id', 'id')->orderBy('created_at', 'desc');
+    }
+
+    public function getPosts($value) {
+        return $value->posts();
+    }
+
+    public function files() {
+        return $this->belongsToMany('App\File', 'file_game');
     }
 }

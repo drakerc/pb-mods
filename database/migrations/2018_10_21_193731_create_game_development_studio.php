@@ -17,7 +17,7 @@ class CreateGameDevelopmentStudio extends Migration
             $table->integer('game_id')->unsigned()->index();
             $table->foreign('game_id')->references('id')->on('games')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();
-            $table->foreign('development_studio_id')->references('id')->on('development_studio')->onDelete('cascade');
+            $table->foreign('development_studio_id')->references('id')->on('development_studios')->onDelete('cascade');
         });
     }
 

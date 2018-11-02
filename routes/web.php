@@ -71,5 +71,17 @@ Route::post('/mods/modifications/{mod}/create-videos', 'ModificationVideoControl
 Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos')->middleware('auth');
 Route::put('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController@editModificationVideos')->middleware('auth');
 
+//Route::get('/categories/', 'CategoryController@getCategoriesWeb')->name('categories');
+//Route::get('/categories/{category}', 'CategoryController@getCategoryWeb');
+
+Route::get('/game{any}', 'GameController@indexWeb')->where('any', '.*');
+
+Route::get('/home', function() {
+    return view('game.start');
+});
+
+//Route::group(['prefix' => 'voyager/admin'], function () {
+//    Voyager::routes();
+//});
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create')->middleware('auth');
 Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth');

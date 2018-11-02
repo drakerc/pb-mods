@@ -35,6 +35,6 @@ class CreateDevelopmentStudioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('development_studio');
+        Schema::dropIfExists('development_studios');
     }
 }

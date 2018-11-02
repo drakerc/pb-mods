@@ -14,3 +14,9 @@ public/js
 public/css
 public/vendor
 public/packages
+/config/voyager.php
+/config/voyager-hooks.php
+/config/image.php
+/config/hooks.php
+/database/seeds/voyager/
+/app/Http/Controllers/Voyager/

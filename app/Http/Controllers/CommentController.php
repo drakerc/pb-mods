@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Comment;
+use App\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CommentController extends Controller
 {
@@ -35,7 +38,20 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Log::info($request->game_id);
+        $user = $request->user();
+        Log::info($user);
+
+        $comment = new Comment(
+            [
+                'post_id' => $request->post_id,
+                'game_id' => $request->game_id,
+                'body' => $request->body,
+                'author_id' => $user->id
+            ]
+        );
+        $comment->save();
+        return response()->json($comment);
     }
 
     /**
@@ -77,27 +93,35 @@ class CommentController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
+     * @param \Illuminate\Http\Request request
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        $comment = Comment::findOrFail($id);
+        $user = $request->user();
+
+        if($comment->author_id != $user->id)
+        {
+            return response()->json([
+               'message' => 'Not allowed to perform this action'
+            ], 401);
+        }
+
+        $comment->delete();
+
+        return response()->json([
+            'message' => 'Comment deleted successfully'
+        ], 200);
     }
 
     public function getForPostId($id)
     {
-        $post = Post::find($id);
+        $post = Post::findOrFail($id);
         if ($post && $post->comments())
         {
-            return response()->json($post->comments()->get());
+            return response()->json($post->comments()->orderBy('created_at', 'asc')->get());
         }
         return response()->json([]);
-//        echo $comments;
-//        echo $comments->count();
-//        if ($comments->count() > 0)
-//        {
-//            return response()->json($comments->get());
-//        }
-//        return response()->json(Post::find($id)->comments()->get());
     }
 }

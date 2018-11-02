@@ -1,11 +1,15 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-Vue.use(VueRouter);
+import { Auth } from "./auth";
 
 import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
 import ModificationDetails from './components/mods/modification/ModificationDetails';
 import Login from './components/Login';
+import GameDetails from './components/game/GameDetails';
+import GameIndex from './components/game/GameIndex';
+import Header from './components/game/Header';
+import PostDetails from './components/game/blog/post/PostDetails';
 import CategoryCreate from './components/mods/category/CategoryCreate';
 import ModificationCreate from './components/mods/modification/ModificationCreate';
 import ModificationUpdate from './components/mods/modification/ModificationEdit';
@@ -13,19 +17,27 @@ import ModificationCreateFiles from './components/mods/file/ModificationCreateFi
 import ModificationCreateImages from './components/mods/file/ModificationCreateImages';
 import ModificationEditFiles from './components/mods/file/ModificationEditFiles';
 import ModificationEditImages from './components/mods/file/ModificationEditImages';
+import SearchResults from './components/game/SearchResults';
 import ModificationCreateVideos from './components/mods/video/ModificationCreateVideos';
 import ModificationEditVideos from './components/mods/video/ModificationEditVideos';
 import ModificationCreateRating from './components/mods/rating/CreateRating';
 import ModificationDisplayRatings from './components/mods/rating/DisplayRatings';
 import ModificationEditRating from './components/mods/rating/EditRating';
+import PostForm from './components/game/blog/post/PostForm';
+import GameForm from './components/game/GameForm';
 import ModificationEditSplashImages from './components/mods/file/ModificationEditSplashImages';
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
+import Home from './components/Home';
+import GameGalleryManagement from './components/game/GameGalleryManagement';
+import Register from './components/Register';
 import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
 
-export default new VueRouter({
+Vue.use(VueRouter);
+
+export const router = new VueRouter({
     mode: 'history',
     routes: [
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
@@ -49,12 +61,101 @@ export default new VueRouter({
         {path: '/mods/modifications/:mod/create-rating', component: ModificationCreateRating, name: 'modification_create_rating'},
         {path: '/mods/modifications/:mod/ratings', component: ModificationDisplayRatings, name: 'modification_ratings'},
         {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
-        {path: '/login', component: Login, name: 'login'},
+        {
+            path: '/login',
+            component: Login,
+            name: 'login',
+            meta: {
+                cannotBeLoggedIn: true
+            }
+        },
+        {
+            path: '/register',
+            component: Register,
+            name: 'register',
+            meta: {
+                cannotBeLoggedIn: true
+            }
+        },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
-        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'}
-
+        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
+        {
+            path: '/home',
+            component: Home,
+            name: 'home'
+        },
+        {
+            path: '/game',
+            component: Header,
+            children: [
+                {
+                    path: '',
+                    component: GameIndex,
+                    name: 'game_index'
+                },
+                {
+                    path: 'new',
+                    component: GameForm,
+                    name: 'new_game_form',
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'search/results',
+                    component: SearchResults,
+                    name: 'search_results',
+                },
+                {
+                    path: ':id',
+                    component: GameDetails,
+                    name: 'game_details'
+                },
+                {
+                    path: ':id/gallery/manage',
+                    component: GameGalleryManagement,
+                    name: 'game_gallery_manage',
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: ':id/post/new',
+                    component: PostForm,
+                    name: 'post_form',
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: ':gameId/post/:id',
+                    component: PostDetails,
+                    name: 'post_details'
+                },
+            ]
+        },
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
     }
+});
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!Auth.isLoggedIn()) {
+            next({
+                path: '/login',
+                query: { redirect: to.fullPath }
+            });
+            return;
+        }
+    } if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
+        if (Auth.isLoggedIn()) {
+            next({
+                path: '/home'
+            });
+            return;
+        }
+    }
+    next();
 });
