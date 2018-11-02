@@ -33,7 +33,7 @@ use Illuminate\Database\Eloquent\Model;
 class File extends Model
 {
 
-    protected $appends = ['downloadLink'];
+    protected $appends = ['downloadLink', 'humanReadableFilesize', 'creatorName'];
 
     protected $fillable = ['file_path'];
 
