@@ -24,6 +24,7 @@
             if (this.ratings.length === 0) {
                 axios.get('/api/mods/modifications/' + this.passedMod.id + '/ratings').then(({data}) => {
                     this.ratings = data['ratings'];
+                    this.$emit('complete-loading');
                 });
             }
         },

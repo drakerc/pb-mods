@@ -22,6 +22,7 @@
         created() {
             axios.get('/api/mods/modifications/' + this.modification.id + '/videos').then(({data}) => {
                 this.videos = data;
+                this.$emit('complete-loading');
             });
         },
     }

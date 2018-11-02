@@ -119,7 +119,7 @@
                         this.subcategoriesData = response.data;
                         this.subcategories = response.data.data;
                     });
-            }
+            },
     }}
 </script>
 <style>

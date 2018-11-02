@@ -1,5 +1,7 @@
 <template>
     <div class="cover-container" :style="backgroundImageStyle">
+        <loading :active.sync="isLoading" is-full-page="true"></loading>
+
         <div class="container jumbotron text-white rounded" :style="splashImageStyle">
             <div class="row">
                 <div class="col-md-10 bg-semi-transparent" :style="splashDetailsStyle">
@@ -96,31 +98,31 @@
 
         <div class="container jumbotron rounded text-white bg-semi-transparent-details" :style="descriptionStyle">
             <b-nav justified tabs class="bg-dark navigation-buttons" style="opacity: 0.85">
-                <b-nav-item :active="active === 'description'" @click="active = 'description'">
+                <b-nav-item :active="active === 'description'" @click="setActiveTab('description')">
                     <font-awesome-icon icon="font" />
                     Opis
                 </b-nav-item>
-                <b-nav-item :active="active === 'pictures'" @click="active = 'pictures'">
+                <b-nav-item :active="active === 'pictures'" @click="setActiveTab('pictures')">
                     <font-awesome-icon icon="camera" />
                     Galeria zdjęć
                 </b-nav-item>
-                <b-nav-item :active="active === 'videos'" @click="active = 'videos'">
+                <b-nav-item :active="active === 'videos'" @click="setActiveTab('videos')">
                     <font-awesome-icon icon="video" />
                     Filmy
                 </b-nav-item>
-                <b-nav-item :active="active === 'news'" @click="active = 'news'">
+                <b-nav-item :active="active === 'news'" @click="setActiveTab('news')">
                     <font-awesome-icon icon="newspaper" />
                     Wiadomości
                 </b-nav-item>
-                <b-nav-item :active="active === 'reviews'" @click="active = 'reviews'">
+                <b-nav-item :active="active === 'reviews'" @click="setActiveTab('reviews')">
                     <font-awesome-icon icon="star" />
                     Opinie
                 </b-nav-item>
-                <b-nav-item :active="active === 'files'" @click="active = 'files'" >
+                <b-nav-item :active="active === 'files'" @click="setActiveTab('files')" >
                     <font-awesome-icon icon="file" />
                     Pliki
                 </b-nav-item>
-                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="active = 'authorsMenu'">
+                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="setActiveTab('authorsMenu')">
                     <font-awesome-icon icon="cogs" />
                     Dla autora
                 </b-nav-item>
@@ -132,36 +134,36 @@
                 </div>
 
                 <div v-if="active === 'pictures'">
-                    <modification-gallery v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
+                    <modification-gallery v-on:complete-loading="loadingComplete" v-if="mod.id !== undefined" :modification="mod"></modification-gallery>
                 </div>
 
                 <div v-if="active === 'videos'">
-                    <modification-videos v-if="mod.id !== undefined" :modification="mod"></modification-videos>
+                    <modification-videos v-on:complete-loading="loadingComplete" v-if="mod.id !== undefined" :modification="mod"></modification-videos>
                 </div>
 
                 <div v-if="active === 'news'">
-                    <display-multiple-news :canManageMod="canManageMod" :passedMod="mod"></display-multiple-news>
+                    <display-multiple-news v-on:complete-loading="loadingComplete" :canManageMod="canManageMod" :passedMod="mod"></display-multiple-news>
                 </div>
 
                 <div class="text-dark" v-if="active === 'reviews'">
-                    <b-button block="true" class="p-3 mb-3 add-review-button" size="md" variant="success">
-                        <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+                    <router-link :to="{ name: 'modification_create_rating', params: { mod: mod.id } }">
+                        <b-button block="true" class="p-3 mb-3 add-review-button" size="md" variant="success">
                             <font-awesome-icon icon="plus" />
                             Dodaj swoją opinię
-                        </router-link>
-                    </b-button>
+                        </b-button>
+                    </router-link>
 
-                    <display-ratings :passedMod="mod"></display-ratings>
+                    <display-ratings v-on:complete-loading="loadingComplete" :passedMod="mod"></display-ratings>
                 </div>
 
                 <div class="text-dark" v-if="active === 'files'">
-                    <modification-files :canManageMod="canManageMod" v-if="mod.id !== undefined" :modification="mod"></modification-files>
+                    <modification-files v-on:complete-loading="loadingComplete" :canManageMod="canManageMod" v-if="mod.id !== undefined" :modification="mod"></modification-files>
                 </div>
 
                 <div v-if="active === 'authorsMenu'">
                     <div class="container jumbotron dark-jumbotron">
                         <h3>To menu widoczne jest wyłącznie dla autorów modyfikacji. Z jego poziomu możesz zarządzać wszystkimi elementami swojego moda.</h3>
-                        <modification-author-menu :mod="mod"></modification-author-menu>
+                        <modification-author-menu v-on:complete-loading="loadingComplete" :mod="mod"></modification-author-menu>
                     </div>
                 </div>
             </div>
@@ -179,10 +181,16 @@
     import DisplayMultipleNews from '../news/DisplayMultipleNews';
     import DisplayTimestamps from '../../DisplayTimestamps';
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default {
         components: {
             DisplayRatings, DisplayTimestamps,
-            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews
+            ModificationFiles, ModificationGallery, ModificationAuthorMenu, ModificationVideos, DisplayTotalRating, DisplayMultipleNews,
+            Loading
         },
         mixins: [ routeMixin ],
         props: ['modPassed'],
@@ -193,6 +201,7 @@
                 active: 'description',
                 userId: window.window.user_id,
                 canManageMod: false,
+                isLoading: false,
             }
         },
         computed: {
@@ -242,6 +251,16 @@
                 this.canManageMod = canManageMod;
                 this.$emit('set-mod-link', this.mod.game_id, this.mod.category_id, this.mod.id);
             },
+            loadingComplete() {
+                this.isLoading = false;
+            },
+            setActiveTab(value) {
+                this.active = value;
+                if (value === 'description') {
+                    return;
+                }
+                this.isLoading = true;
+            }
         },
         mounted: function() {
             if (this.modPassed !== undefined) {

@@ -1,5 +1,7 @@
 <template>
     <div :style="backgroundImageStyle">
+        <loading :active.sync="isLoading" is-full-page=true></loading>
+
         <div class="container">
             <div class="jumbotron text-white p-3 p-md-5 rounded bg-dark">
                 <div class="row">
@@ -36,7 +38,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h2>Modyfikacje</h2>
-                        <category-mods :category="category.id"></category-mods>
+                        <category-mods v-on:start-loading="loadingStarted" v-on:complete-loading="loadingComplete" :category="category.id"></category-mods>
                     </div>
                     <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-12">
                         <h2>Podkategorie</h2>
@@ -54,11 +56,17 @@
     import routeMixin from '../../../route-mixin.js';
     import pagination from 'laravel-vue-pagination';
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default {
         mixins: [ routeMixin ],
         data() {
             return {
                 category: [],
+                isLoading: true,
             }
         },
         components: {
@@ -66,6 +74,7 @@
             DisplaySubcategories,
             CategoryMods,
             pagination,
+            Loading
         },
         mounted() {
             if (this.category.length === 0) {
@@ -82,7 +91,7 @@
                     'background-repeat': 'no-repeat',
                     'background-size': '100%',
                 }
-            }
+            },
         },
         methods: {
             assignData({category}) {
@@ -94,6 +103,12 @@
                     .then(response => {
                         this.categories = response.data.categories;
                     });
+            },
+            loadingStarted() {
+                this.isLoading = true;
+            },
+            loadingComplete() {
+                this.isLoading = false;
             }
         }
     }

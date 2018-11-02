@@ -1,5 +1,6 @@
 <template>
     <div>
+        <loading :active.sync="isLoading" is-full-page="true"></loading>
         <div class="text-white" v-if="files.data.length === 0">
             Przykro nam, ale autor modyfikacji nie wrzucił do niej żadnych powiązanych plików. Spróbuj później!
         </div>
@@ -41,6 +42,11 @@
     import ModificationFile  from './ModificationFile.vue';
     import pagination from 'laravel-vue-pagination';
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default {
         props: ['modification', 'canManageMod'],
         data() {
@@ -48,15 +54,18 @@
                 files: '',
                 selectedFiles: [],
                 selectedFilesIds: [],
+                isLoading: false,
             }
         },
         components: {
             ModificationFile,
-            pagination
+            pagination,
+            Loading
         },
         created() {
             axios.get('/api/mods/modifications/' + this.modification.id + '/files').then(({data}) => {
                 this.files = data;
+                this.$emit('complete-loading');
             });
         },
         methods: {
@@ -71,8 +80,10 @@
                 }
             },
             getResults: function (page) {
+                this.isLoading = true;
                 axios.get('/api/mods/modifications/' + this.modification.id + '/files' + '?page=' + page).then(({data}) => {
                     this.files = data;
+                    this.isLoading = false;
                 });
             }
         },

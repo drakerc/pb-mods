@@ -49,6 +49,9 @@
 <script>
     export default {
         props: ['mod'],
+        mounted() {
+            this.$emit('complete-loading');
+        },
         data() {
             return {
                 files_added: true,

@@ -33,14 +33,17 @@
                 if (value !== undefined) {
                     axios.get('/api/mods/category/' + this.category + '/modifications').then(({data}) => {
                         this.mods = data;
+                        this.$emit('complete-loading');
                     });
                 }
             }
         },
         methods: {
             getResults: function (page = 1) {
+                this.$emit('start-loading');
                 axios.get('/api/mods/category/' + this.category + '/modifications' + '?page=' + page).then(({data}) => {
                     this.mods = data;
+                    this.$emit('complete-loading');
                 });
             }
         }

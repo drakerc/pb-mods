@@ -27,6 +27,7 @@
                 this.images = data.map(function (value) {
                     return value.downloadLink;
                 });
+                this.$emit('complete-loading');
             });
         },
     }

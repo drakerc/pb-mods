@@ -25,6 +25,7 @@
                 this.mod = this.passedMod;
                 axios.get('/api/mods/modifications/' + this.passedMod.id + '/news').then(({data}) => {
                     this.news = data['news'];
+                    this.$emit('complete-loading');
                 });
             }
         },
