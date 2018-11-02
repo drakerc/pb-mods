@@ -1,5 +1,8 @@
 <template>
-    <div class="row">
+    <div class="text-white" v-if="ratings.length === 0">
+        <p>Przykro nam, ale nikt jeszcze nie ocenił tej modyfikacji. Możesz jednak dodać swoją opinię jako pierwszy!.</p>
+    </div>
+    <div v-else class="row">
         <display-rating v-for="rating in ratings" :key="rating.id" :rating="rating" :mod="mod"></display-rating>
     </div>
 </template>
@@ -21,6 +24,7 @@
             if (this.ratings.length === 0) {
                 axios.get('/api/mods/modifications/' + this.passedMod.id + '/ratings').then(({data}) => {
                     this.ratings = data['ratings'];
+                    this.$emit('complete-loading');
                 });
             }
         },

@@ -45,6 +45,7 @@
         <div class="form-control">
             <delete-rating :rating="id" :mod="mod"></delete-rating>
             <b-button size="lg" variant="primary" type="submit">
+                <font-awesome-icon icon="save" />
                 Wyślij
             </b-button>
         </div>

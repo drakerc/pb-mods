@@ -55,6 +55,12 @@
                     <datepicker v-model="release_date" format="dd-MM-yyyy" id="release_date" name="release_date"></datepicker>
                 </div>
 
+                <div class="mb-3" v-if="studios !== '' && studios.length > 0">
+                    <label for="development_studio">Studio deweloperskie</label>
+                    <input type="hidden" name="development_studio" :value="development_studio.value">
+                    <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
+                </div>
+
                 <div class="mb-3">
                     <label for="font_color">Kolor czcionki tytułu:</label>
                     <input class="form-control" type="color" id="font_color" name="font_color"
@@ -75,7 +81,9 @@
 
                 <div class="mb-3">
                     <label for="transparency_splash_background">Przezroczystość tła splasha:</label>
-                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                    <p>Obecna wartość: <b>{{ transparency_splash_background }}</b>
+                        (im więcej, tym bardziej widoczny jest element)</p>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.05"
                            id="transparency_splash_background" name="transparency_splash_background"
                            v-model="transparency_splash_background"/>
                 </div>
@@ -94,7 +102,9 @@
 
                 <div class="mb-3">
                     <label for="transparency_description_background">Przezroczystość tła opisu:</label>
-                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                    <p>Obecna wartość: <b>{{ transparency_description_background }}</b>
+                        (im więcej, tym bardziej widoczny jest element)</p>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.05"
                            id="transparency_description_background" name="transparency_description_background"
                            v-model="transparency_description_background"/>
                 </div>
@@ -105,16 +115,12 @@
                     <vue-editor id="description" v-model="description"></vue-editor>
                 </div>
 
-                <!--<div class="form-control">-->
-                <!--<p>Studio deweloperskie</p>-->
-                <!--<input type="hidden" id="development_studio" name="development_studio" :value="development_studio">-->
-                <!--<v-select :v-model="development_studio" :options="development_studios"></v-select>-->
-                <!--</div>-->
-                <!--// TODO: implement dev studios-->
-
-                <div class="row">
+                <div class="row m-1">
                     <div class="col-md-8">
-                        <b-btn size="lg" variant="warning" v-b-modal.delete-mod>Usuń modyfikację</b-btn>
+                        <b-btn size="lg" variant="warning" v-b-modal.delete-mod>
+                            <font-awesome-icon icon="trash" />
+                            Usuń modyfikację
+                        </b-btn>
                     </div>
                     <div class="col-md-4">
                         <ModificationPreviewChanges
@@ -131,6 +137,7 @@
                 </div>
 
                 <b-button size="lg" variant="primary" block=true type="submit">
+                    <font-awesome-icon icon="save" />
                     Zapisz zmiany
                 </b-button>
             </div>
@@ -175,32 +182,49 @@
                 development_status: '',
                 development_status_options: [{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}],
                 csrf_token: window.window.csrf_token,
-                release_date: ''
+                release_date: '',
+                development_studio: '',
+                studios: '',
             };
         },
         methods: {
-            assignData({category, game, auth, mod}) {
+            assignData({category, game, auth, mod, studios}) {
                 this.category = category;
                 this.game = game;
                 this.auth = auth;
                 this.mod = mod;
 
+                this.studios = studios.map(function (value) {
+                    return {
+                        label: value.name,
+                        value: value.id
+                    };
+                });
+
                 this.title = mod.title;
                 this.replaces = mod.replaces;
                 this.version = mod.version;
-                this.font_color = mod.font_color;
-                this.font_color_splash_text = mod.font_color_splash_text;
-                this.color_splash_background = mod.color_splash_background;
-                this.transparency_splash_background = mod.transparency_splash_background;
-                this.font_color_description = mod.font_color_description;
-                this.color_description_background = mod.color_description_background;
-                this.transparency_description_background = mod.transparency_description_background;
+                this.font_color = mod.font_color === null ? '#FFFFFF' : mod.font_color;
+                this.font_color_splash_text = mod.font_color_splash_text === null ? '#FFFFFF' : mod.font_color_splash_text;
+                this.color_splash_background = mod.color_splash_background === null ? '#7c7c7c' : mod.color_splash_background;
+                this.transparency_splash_background = mod.transparency_splash_background === null ? '0.95' : mod.transparency_splash_background;
+                this.font_color_description = mod.font_color_description === null ? '#FFFFFF' : mod.font_color_description;
+                this.color_description_background = mod.color_description_background === null ? '#000000' : mod.color_description_background;
+                this.transparency_description_background = mod.transparency_description_background === null ? '0.9' : mod.transparency_description_background;
                 this.size = this.size_options.find(obj => {
                     return obj.value === mod.size;
                 });
                 this.development_status = this.development_status_options.find(obj => {
                     return obj.value === mod.development_status;
                 });
+
+                if (mod.devStudio !== null) {
+                    this.development_studio = {
+                        label: mod.devStudio.name,
+                        value: mod.devStudio.id,
+                    };
+                }
+
                 this.description = mod.description;
                 this.release_date = mod.release_date === '' ? new Date() : new Date(mod.release_date);
             },

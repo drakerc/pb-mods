@@ -184,7 +184,7 @@ class GameController extends Controller
     /**
      * @param Request $request
      * @param [string] $id
-     * @return \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
      */
     public function uploadImages(Request $request, $id)
     {

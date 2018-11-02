@@ -1,9 +1,9 @@
 <template>
-    <div class="btn-group">
-        <instruction v-for="instruction in instructions" :key="instructions.id" :instruction="instruction" :file="file"></instruction>
-
+    <div>
+        <instruction :canManageMod="canManageMod" v-for="instruction in instructions" :key="instructions.id" :instruction="instruction" :file="file"></instruction>
         <div class="pt-1 mt-1" v-if="instructions.length > 0">
-            <a v-if="instructions.length > 0" :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-sm btn-outline-primary">
+            <a v-if="instructions.length > 0" :href="$route.params['mod'] + '/files/' + file.id + '/download-with-instructions'" class="btn btn-block btn-warning">
+                <font-awesome-icon icon="file-download" />
                 Pobierz plik z instrukcjami
             </a>
         </div>
@@ -15,7 +15,7 @@
 
     export default {
         mixins: [ routeMixin ],
-        props: ['passedModId', 'passedFile'],
+        props: ['passedModId', 'passedFile', 'canManageMod'],
         data() {
             return {
                 instructions: '',

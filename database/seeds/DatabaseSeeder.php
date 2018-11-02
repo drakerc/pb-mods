@@ -23,5 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModificationImageFilesSeeder::class);
         $this->call(ModificationRatingsSeeder::class);
         $this->call(ModificationVideosSeeder::class);
+        $this->call(InstructionSeeder::class);
+        $this->call(DevelopmentStudiosSeeder::class);
     }
 }

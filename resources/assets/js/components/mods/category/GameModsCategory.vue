@@ -14,11 +14,13 @@
                 <p class="card-text">{{ category.description | truncate(100) }}</p>
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                            category.deepSubcategoriesCount }} podkategorii
+                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                            <font-awesome-icon icon="list-ol" />
+                            {{ category.deepSubcategoriesCount }} podkategorii
                         </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                            category.deepModificationsCount}} modyfikacji
+                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                            <font-awesome-icon icon="list-alt" />
+                            {{ category.deepModificationsCount }} modyfikacji
                         </button>
                     </div>
                 </div>

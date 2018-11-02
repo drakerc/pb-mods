@@ -1,6 +1,9 @@
 <template>
     <div>
-        <b-btn @click="show=true" v-b-modal="'delete-video-' + video.id">Usuń film</b-btn>
+        <b-btn @click="show=true" v-b-modal="'delete-video-' + video.id">
+            <font-awesome-icon icon="trash" />
+            Usuń film
+        </b-btn>
 
         <b-modal v-model="show" :id="'delete-video-' + video.id" title="Usuwanie filmu">
             <p class="my-4">Czy jesteś pewien, że chcesz usunąć film {{ video.title }}? Jest to proces nieodwracalny!</p>

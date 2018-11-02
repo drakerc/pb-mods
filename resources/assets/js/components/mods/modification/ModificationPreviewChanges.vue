@@ -1,10 +1,13 @@
 <template>
     <div>
-        <b-modal size="lg" v-model="show" id="preview-mod" title="Podgląd strony" v-if="mod.id !== undefined" >
+        <b-modal size="lg" ok-only="true" v-model="show" id="preview-mod" title="Podgląd strony" v-if="mod.id !== undefined" >
             <modification-details v-if="mod.id !== undefined" :modPassed="mod"></modification-details>
         </b-modal>
 
-        <b-btn size="lg" variant="success" v-b-modal.preview-mod>Podejrzyj stronę modyfikacji</b-btn>
+        <b-btn size="lg" variant="success" v-b-modal.preview-mod>
+            <font-awesome-icon icon="search" />
+            Podejrzyj stronę modyfikacji
+        </b-btn>
     </div>
 </template>
 <script>
@@ -65,3 +68,8 @@
         },
     }
 </script>
+<style>
+    .modal-lg {
+        max-width: 1600px !important;
+    }
+</style>

@@ -31,6 +31,14 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     /**
+     * Selected user's development studios
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function studios() {
+        return $this->belongsToMany('App\DevelopmentStudio', 'user_development_studio');
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array

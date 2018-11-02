@@ -44,6 +44,25 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereVersion($value)
  * @mixin \Eloquent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\File[] $images
+ * @property string|null $font_color_splash_text
+ * @property string|null $color_splash_background
+ * @property float|null $transparency_splash_background
+ * @property string|null $font_color_description
+ * @property string|null $color_description_background
+ * @property float|null $transparency_description_background
+ * @property-read mixed $average_rating
+ * @property-read mixed $background
+ * @property-read mixed $splash
+ * @property-read mixed $thumbnail
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationNews[] $news
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationRating[] $ratings
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ModificationVideo[] $videos
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereColorDescriptionBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereColorSplashBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereFontColorDescription($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereFontColorSplashText($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereTransparencyDescriptionBackground($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modification whereTransparencySplashBackground($value)
  */
 class Modification extends Model
 {
@@ -80,6 +99,11 @@ class Modification extends Model
     public function news()
     {
         return $this->hasMany('App\ModificationNews');
+    }
+
+    public function developmentStudio()
+    {
+        return $this->belongsToMany('App\DevelopmentStudio', 'modification_development_studio');
     }
 
     public function getModificationSizeName()
@@ -126,9 +150,9 @@ class Modification extends Model
     public function getFiles($all = false)
     {
         if ($all) {
-            return ($this->files()->get())->toArray();
+            return $this->files()->paginate(5);
         }
-        return ($this->files()->where('availability', true)->get())->toArray();
+        return $this->files()->where('availability', true)->paginate(2);
     }
 
     public function getVideos()
@@ -158,6 +182,10 @@ class Modification extends Model
     public function getAverageRatingAttribute()
     {
         $ratings = $this->ratings()->get();
+        if ($ratings->count() === 0) {
+            return 0;
+        }
+
         $ratingSum = 0;
         foreach ($ratings as $rating) {
             $ratingSum += $rating->rating;
@@ -172,7 +200,14 @@ class Modification extends Model
             ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
             ->first(['file_path']);
-        return $thumbnail === null ? null : $thumbnail->downloadLink;
+
+        if ($thumbnail === null) {
+            return asset(
+                'storage/no_photo.png'
+            );
+        }
+
+        return $thumbnail->downloadLink;
     }
 
     public function getBackgroundAttribute()
@@ -182,6 +217,7 @@ class Modification extends Model
 //            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
             ->first(['file_path']);
+
         return $image === null ? null : $image->downloadLink;
     }
 
@@ -193,6 +229,34 @@ class Modification extends Model
             ->wherePivot('type', '=', ImageFileModification::TYPE_SPLASH)
             ->first(['file_path']);
         return $image === null ? null : $image->downloadLink;
+    }
+
+    public function getDownloadsCountAttribute()
+    {
+        $sum = 0;
+        $files = $this->files()
+            ->where('availability', true)
+            ->get(['downloads']);
+
+        foreach ($files as $file) {
+            $sum += $file->downloads;
+        }
+
+        return $sum;
+    }
+
+    public function getDevStudioAttribute()
+    {
+        return $this->developmentStudio()->first();
+    }
+
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->creator);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
     }
 
     protected $fillable = [
@@ -214,5 +278,5 @@ class Modification extends Model
         'use_game_background'
     ];
 
-    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash'];
+    protected $appends = ['averageRating', 'thumbnail', 'background', 'splash', 'downloadsCount', 'devStudio', 'creatorName'];
 }

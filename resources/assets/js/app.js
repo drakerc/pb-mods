@@ -15,9 +15,23 @@ import BootstrapVue from 'bootstrap-vue';
 import axios from 'axios';
 import VueYouTubeEmbed from 'vue-youtube-embed';
 
+<<<<<<< HEAD
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+=======
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import {faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faEdit, faTrash,
+    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+
+library.add(faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faClock, faEdit,
+    faSearch, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser, faSave, faMinus);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon)
+>>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
 
 Vue.use(BootstrapVue);
 Vue.use(require('vue-truncate-filter'));
@@ -34,11 +48,26 @@ const app = new Vue({
     router
 });
 
+<<<<<<< HEAD
+=======
+Vue.use(require('vue-truncate-filter'));
+Vue.use(VueYouTubeEmbed);
+
+axios.defaults.headers.common = {
+    'X-Requested-With': 'XMLHttpRequest',
+    'X-CSRF-TOKEN': window.csrf_token
+};
+
+>>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
 axios.interceptors.response.use((response) => { // intercept the global error
     return response
 }, function (error) {
     if (error.response.status === 401) {
         router.push({name: 'login'}) // if user is not logged in, redirect him to login page
     }
+    if (error.response.status === 403) {
+        alert(error.response.data.message);
+    }
+
     return Promise.reject(error)
 });

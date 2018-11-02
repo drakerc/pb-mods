@@ -11,10 +11,17 @@ class ModificationNewsController extends Controller
 {
     public function create(Modification $mod, Request $request)
     {
-//        if (Auth::id() !== $mod->creator) { //TODO: or one of the dev studio members
-//            $request->session()->flash('info', 'Nie masz uprawnień.');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -44,10 +51,17 @@ class ModificationNewsController extends Controller
 
     public function edit(Modification $mod, ModificationNews $news, Request $request)
     {
-//        if (Auth::id() !== $rating->author_id) { //TODO: or admin or dev team member
-//            $request->session()->flash('info', 'Nie masz uprawnień');
-//            return redirect()->route('ModificationView', ['mod' => $mod->id]);
-//        }
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
+            $request->session()->flash('info', 'Nie masz uprawnień');
+            return redirect()->route('ModificationView', ['mod' => $mod->id]);
+        }
 
         if ($request->ajax()) {
             return response()->json([
@@ -77,7 +91,14 @@ class ModificationNewsController extends Controller
 
     public function destroy(Modification $mod, ModificationNews $news, Request $request)
     {
-        if (Auth::id() !== $news->author_id) { //TODO: or admin
+        $canManage = ModificationController::canManageMod($mod);
+        if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }

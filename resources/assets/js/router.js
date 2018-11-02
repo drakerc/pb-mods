@@ -29,11 +29,16 @@ import ModificationEditSplashImages from './components/mods/file/ModificationEdi
 import ModificationEditBackgroundImages from './components/mods/file/ModificationEditBackgroundImages';
 import ModificationCreateNews from './components/mods/news/CreateNews';
 import ModificationCreateInstruction from './components/mods/instruction/Create';
+<<<<<<< HEAD
 import Home from './components/Home';
 import GameGalleryManagement from './components/game/GameGalleryManagement';
 import Register from './components/Register';
 
 Vue.use(VueRouter);
+=======
+import DevStudioMods from './components/mods/modification/DevStudioMods';
+import UserMods from './components/mods/modification/UserMods';
+>>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
 
 export const router = new VueRouter({
     mode: 'history',
@@ -41,6 +46,7 @@ export const router = new VueRouter({
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
         {path: '/mods/:game/category/:category', component: ModsCategory, name: 'mods_category'},
         {path: '/mods/:game/category/:category/create-modification', component: ModificationCreate, name: 'modification_create'},
+        {path: '/mods/modifications/user-mods/:user', component: UserMods, name: 'user_mods'},
         {path: '/mods/modifications/:mod', component: ModificationDetails, name: 'modification_view'},
         {path: '/mods/modifications/:mod/update', component: ModificationUpdate, name: 'modification_update'},
         {path: '/mods/modifications/:mod/create-files', component: ModificationCreateFiles, name: 'modification_create_files'},
@@ -58,6 +64,7 @@ export const router = new VueRouter({
         {path: '/mods/modifications/:mod/create-rating', component: ModificationCreateRating, name: 'modification_create_rating'},
         {path: '/mods/modifications/:mod/ratings', component: ModificationDisplayRatings, name: 'modification_ratings'},
         {path: '/mods/modifications/:mod/ratings/:rating/edit', component: ModificationEditRating, name: 'modification_edit_rating'},
+<<<<<<< HEAD
         {
             path: '/login',
             component: Login,
@@ -130,6 +137,11 @@ export const router = new VueRouter({
                 },
             ]
         },
+=======
+        {path: '/login', component: Login, name: 'login'},
+        {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'}
+>>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
 
     ],
     scrollBehavior (to, from, savedPosition) {
