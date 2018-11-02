@@ -17,7 +17,7 @@ class CreateModificationDevelopmentStudioTable extends Migration
             $table->integer('modification_id')->unsigned()->index();
             $table->foreign('modification_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->integer('development_studio_id')->unsigned()->index();
-            $table->foreign('development_studio_id')->references('id')->on('development_studio')->onDelete('cascade');
+            $table->foreign('development_studio_id')->references('id')->on('development_studios')->onDelete('cascade');
         });
     }
 

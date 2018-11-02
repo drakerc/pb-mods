@@ -1,6 +1,5 @@
 <template>
     <div>
-<<<<<<< HEAD
         <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
             <b-navbar-brand class="navbar-brand" to="/home">{{ current_module_name }}</b-navbar-brand>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
@@ -52,9 +51,18 @@
                         <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
                     </b-navbar-nav>
                 </template>
+                <router-link v-if="userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
+                    <button class="btn btn-success m-3 my-2 my-sm-0">
+                        <font-awesome-icon icon="file" />
+                        Moje modyfikacje
+                    </button>
+                </router-link>
                 <template v-if="!isLogged">
                     <b-navbar-nav :class="$route.path.startsWith('/game') ? '' : 'ml-auto'">
-                        <b-button :to="{name: 'login'}" variant="outline-success" class="my-sm-0 my-2">Logowanie</b-button>
+                        <b-button :to="{name: 'login'}" variant="outline-success" class="my-sm-0 my-2">
+                            <font-awesome-icon icon="user" />
+                            Logowanie
+                        </b-button>
                     </b-navbar-nav>
                 </template>
                 <template v-else>
@@ -66,55 +74,7 @@
                 </template>
             </div>
         </nav>
-=======
-        <header>
-            <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-                <p class="navbar-brand">{{ current_module_name }}</p>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Włącz/wyłącz menu">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
 
-                <div class="collapse navbar-collapse" id="navbar">
-                    <ul v-if="current_module === 'mods'" class="navbar-nav mr-auto">
-                        <li v-if="game" class="nav-item active">
-                            <router-link :to="{name: 'game_mods', params: {game: game}}">
-                                <a class="nav-link">Mody do gry {{ game_title }}</a>
-                            </router-link>
-                        </li>
-                        <li v-if="category" class="nav-item">
-                            <router-link :to="{name: 'mods_category', params: {game: game, category: category}}">
-                                <a class="nav-link">Kategoria: {{ category_title }}</a>
-                            </router-link>
-                        </li>
-                        <li v-if="subcategories && subcategories.length > 0" class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Podkategorie</a>
-                            <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
-                                <display-subcategories :categoryId="category" :subcatData="subcategoriesData" :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
-                            </div>
-                        </li>
-                        <li v-if="mod" class="nav-item active">
-                            <router-link :to="{name: 'modification_view', params: {mod: mod}}">
-                                <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
-                            </router-link>
-                        </li>
-                    </ul>
-                    <router-link v-if="userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
-                        <button class="btn btn-success m-3 my-2 my-sm-0">
-                            <font-awesome-icon icon="file" />
-                            Moje modyfikacje
-                        </button>
-                    </router-link>
-                    <router-link :to="{name: 'login'}">
-                        <button class="btn btn-primary m-3 my-2 my-sm-0">
-                            <font-awesome-icon icon="user" />
-                            Logowanie
-                        </button>
-                    </router-link>
-                </div>
-            </nav>
-        </header>
-
->>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
         <router-view v-on:set-mod-link="setModLink" :key="$route.fullPath"></router-view>
 
         <vue-footer></vue-footer>
@@ -143,17 +103,13 @@
                 mod: null,
                 mod_title: '',
                 subcategories: null,
-<<<<<<< HEAD
                 phrase: '',
                 isLogged: Auth.isLoggedIn(),
                 username: Auth.getUser(),
-                gravatar: Auth.getUserGravatar()
-            }
-=======
+                gravatar: Auth.getUserGravatar(),
                 subcategoriesData: null,
                 userId: window.window.user_id,
             };
->>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
         },
         methods: {
             setModLink: function(game, category = null, mod = null) {
@@ -201,7 +157,7 @@
                 if (this.$route.path.startsWith('/mods')) {
                     this.current_module = 'mods';
                     this.current_module_name = 'Portal modyfikacji';
-                } else if (this.$route.path.startsWith('/teams')) {
+                } else if (this.$route.path.startsWith('/devstudios')) {
                     this.current_module = 'teams';
                     this.current_module_name = 'Portal developmentu';
                 } else if (this.$route.path.startsWith('/game')) {
@@ -214,7 +170,6 @@
             }
         },
         beforeUpdate () {
-<<<<<<< HEAD
             this.setCurrentModule();
         },
         beforeMount() {
@@ -235,17 +190,6 @@
                 this.username = user;
                 this.gravatar = gravatar;
             })
-=======
-            if (this.$route.path.startsWith('/mods')) {
-                this.current_module = 'mods';
-                this.current_module_name = 'Portal modyfikacji';
-            } else if (this.$route.path.startsWith('/devstudios')) {
-                this.current_module = 'devstudios';
-                this.current_module_name = 'Portal developmentu';
-            } else {
-                // bairei if needed
-            }
->>>>>>> b78a67ae2ded27fcb51841d096d04c82b5a32d4d
         }
     }
 </script>

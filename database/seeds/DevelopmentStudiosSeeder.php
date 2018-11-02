@@ -11,7 +11,7 @@ class DevelopmentStudiosSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('development_studio')->insert([
+        DB::table('development_studios')->insert([
             [
                 'id' => 1,
                 'name' => 'Rockstar Games',
