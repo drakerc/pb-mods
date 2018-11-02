@@ -90,7 +90,7 @@ class Category extends Model
 
     public function getModificationsInCategory()
     {
-        $mods = Modification::where(['category_id' => $this->id, 'active' => true])->paginate(10);
+        $mods = Modification::where(['category_id' => $this->id, 'active' => true])->paginate(5);
         $mods->transform(function($mod) {
             $mod->size = $mod->getModificationSizeName();
             $mod->development_status = $mod->getModificationDevStatus();

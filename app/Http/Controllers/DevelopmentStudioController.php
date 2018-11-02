@@ -114,7 +114,7 @@ class DevelopmentStudioController extends Controller
             return response()->json([
                     'status' => false,
                     'message' => 'Tylko POST albo GET.'
-                ]
+                ], 405
             );
         }
 
@@ -150,9 +150,8 @@ class DevelopmentStudioController extends Controller
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
-                    'status' => false,
                     'message' => 'Nie masz uprawnień.'
-                ]
+                ], 403
             );
         }
 
@@ -216,9 +215,8 @@ class DevelopmentStudioController extends Controller
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
-                    'status' => false,
-                    'message' => 'Nie masz uprawnień.'
-                ]
+                'message' => 'Nie masz uprawnień.'
+            ], 403
             );
         }
 
@@ -247,9 +245,8 @@ class DevelopmentStudioController extends Controller
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
-                    'status' => false,
                     'message' => 'Nie masz uprawnień.'
-                ]
+                ], 403
             );
         }
 
@@ -270,9 +267,8 @@ class DevelopmentStudioController extends Controller
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
-                    'status' => false,
                     'message' => 'Nie masz uprawnień.'
-                ]
+                ], 403
             );
         }
 

@@ -9,8 +9,18 @@
                     </div>
                 </div>
             </div>
+            <ul class="nav nav-pills nav-fill border">
+                <li class="nav-item">
+                    <router-link :to="{ name: 'category_create', params: { game: game.id}}">
+                        <a class="nav-link">
+                            <font-awesome-icon icon="list-ol" />
+                            Stwórz nową kategorię
+                        </a>
+                    </router-link>
+                </li>
+            </ul>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <div class="row">
                         <game-mods-category
                                 v-for="category in categories.data"
@@ -19,14 +29,6 @@
                                 :gameid="game.id"
                         ></game-mods-category>
                     </div>
-                </div>
-                <div class="col-md-2 rounded bg-light">
-                    <h2>Menu</h2>
-                    <ol class="list-unstyled">
-                        <router-link :to="{ name: 'category_create', params: { game: game.id}}">
-                            <li>Stwórz nową kategorię</li>
-                        </router-link>
-                    </ol>
                 </div>
             </div>
             <div class="footer" v-if="categories.from !== undefined">

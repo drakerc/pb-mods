@@ -150,9 +150,9 @@ class Modification extends Model
     public function getFiles($all = false)
     {
         if ($all) {
-            return ($this->files()->get())->toArray();
+            return $this->files()->paginate(5);
         }
-        return ($this->files()->where('availability', true)->get())->toArray();
+        return $this->files()->where('availability', true)->paginate(2);
     }
 
     public function getVideos()
@@ -200,7 +200,14 @@ class Modification extends Model
             ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
             ->first(['file_path']);
-        return $thumbnail === null ? null : $thumbnail->downloadLink;
+
+        if ($thumbnail === null) {
+            return asset(
+                'storage/no_photo.png'
+            );
+        }
+
+        return $thumbnail->downloadLink;
     }
 
     public function getBackgroundAttribute()
@@ -210,6 +217,7 @@ class Modification extends Model
 //            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_BACKGROUND)
             ->first(['file_path']);
+
         return $image === null ? null : $image->downloadLink;
     }
 

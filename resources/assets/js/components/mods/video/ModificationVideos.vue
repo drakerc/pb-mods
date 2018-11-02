@@ -1,6 +1,9 @@
 <template>
     <div>
-        <modification-video v-for="video in videos" :key="video.id" :video="video"></modification-video>
+        <div class="text-white" v-if="videos.length === 0">
+            <p>Przykro nam, ale zespół deweloperski modyfikacji nie udostępnił żadnych filmów wideo.</p>
+        </div>
+        <modification-video v-else v-for="video in videos" :key="video.id" :video="video"></modification-video>
     </div>
 </template>
 <script>
@@ -19,6 +22,7 @@
         created() {
             axios.get('/api/mods/modifications/' + this.modification.id + '/videos').then(({data}) => {
                 this.videos = data;
+                this.$emit('complete-loading');
             });
         },
     }

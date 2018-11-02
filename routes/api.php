@@ -13,15 +13,11 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories');
 Route::get('/mods/{game}/get-title', 'GameController@getGameTitleApi');
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory');
 
-Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory');
-//->middleware('auth:api')
+Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory')->middleware('auth:api');
 Route::get('/mods/category/{category}/subcategories', 'CategoryController@getSubcategoriesApi');
 Route::get('/mods/category/{category}/get-title', 'CategoryController@getCategoryTitleApi');
 Route::get('/mods/category/{category}/modifications', 'ModificationController@getModificationsInCategoryApi');
@@ -35,8 +31,8 @@ Route::delete('/mods/modifications/{mod}/delete', 'ModificationController@destro
 Route::get('/mods/modifications/user-mods/{user}', 'ModificationController@getUserMods');
 
 Route::get('/mods/modifications/{mod}/create-files', 'FileController@createModificationFiles')->middleware('auth:api');
-Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificationFiles');
-Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi')->middleware('auth:api');
+Route::get('/mods/modifications/{mod}/edit-files', 'FileController@editModificationFiles')->middleware('auth:api');
+Route::get('/mods/modifications/{mod}/files', 'ModificationController@getFilesApi');
 Route::delete('/mods/modifications/{mod}/files/{file}/delete', 'FileController@destroy')->middleware('auth:api');
 
 Route::get('/mods/modifications/{mod}/files/{file}/instructions', 'FileController@getInstructions');

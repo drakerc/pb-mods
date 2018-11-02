@@ -53,6 +53,7 @@
                     <hr class="mb-4">
 
                     <b-button size="lg" variant="primary" block=true type="submit">
+                        <font-awesome-icon icon="save" />
                         Wyślij
                     </b-button>
                 </form>

@@ -21,6 +21,7 @@
                     <hr class="mb-4">
                     <delete v-if="instruction !== ''" :instruction="instruction" :modId="$route.params.mod" :fileId="fileId"></delete>
                     <b-button block=true size="lg" variant="primary" type="submit">
+                        <font-awesome-icon icon="save" />
                         Wyślij
                     </b-button>
                 </form>

@@ -25,6 +25,8 @@
                 <li>Dodaj newsa</li>
             </router-link>
 
+            <hr>
+
             <router-link :to="{ name: 'modification_update', params: { mod: mod.id } }">
                 <li>Edytuj tą modyfikację</li>
             </router-link>
@@ -47,6 +49,9 @@
 <script>
     export default {
         props: ['mod'],
+        mounted() {
+            this.$emit('complete-loading');
+        },
         data() {
             return {
                 files_added: true,

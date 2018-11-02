@@ -57,6 +57,17 @@ class ModificationRating extends Model
         return $this->belongsTo('App\Modification');
     }
 
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->author_id);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
+    protected $appends = ['creatorName'];
+
     protected $fillable = [
         'title', 'rating', 'rating_usability', 'rating_fun', 'rating_quality', 'description'
     ];

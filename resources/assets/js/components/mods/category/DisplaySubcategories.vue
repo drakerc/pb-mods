@@ -1,37 +1,44 @@
 <template>
     <div>
+        <div class="row" v-if="subcategories.length === 0 && !subcategory">
+            <p>
+                Brak podkategorii. Możesz jednak stworzyć nową podkategorię, korzystając z menu powyżej.
+            </p>
+        </div>
+
         <div class="row" v-if="!subcategory">
             <div v-for="(value, index) in subcategories" class="col-md-4">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
                         <router-link :to="{ name: 'mods_category', params: { game: gameid, category: value.id } }">
-                            <h5 class="card-title">{{ value.title }} ({{ value.deepSubcategoriesCount }}
-                                podkategorie)</h5>
+                            <h5 class="card-title">{{ value.title }}</h5>
                         </router-link>
                         <p v-if="value.description" class="card-text" v-html="$options.filters.truncate(value.description, 200)"></p>
 
-                        <div class="btn-group">
-                            <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                                value.deepSubcategoriesCount }} podkategorii
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline-secondary">{{
-                                value.deepModificationsCount}} modyfikacji
-                            </button>
-                        </div>
+                        <div class="subcategories">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <b-btn variant="outline-primary" block="true" v-if="value.subcategories === undefined && value.subcategoriesCount > 0"
+                                       @click.prevent="getSubcategories(index, value.id)">
+                                    <font-awesome-icon icon="plus" />
+                                    Rozwiń podkategorie
+                                </b-btn>
+                            </div>
 
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="btn-group">
-                                <a href="#" class="btn btn-lg btn-outline-primary"
-                                   v-if="value.subcategories === undefined && value.subcategoriesCount > 0"
-                                   @click="getSubcategories(index, value.id)">
-                                    Rozwiń podkategorie [+]
-                                </a>
+                            <div v-if="value.children" v-for="child in value.children">
+                                <display-subcategories :categories="[child]" :gameid="gameid"
+                                                       :subcategory=true></display-subcategories>
                             </div>
                         </div>
 
-                        <div v-if="value.children" v-for="child in value.children">
-                            <display-subcategories :categories="[child]" :gameid="gameid"
-                                                   :subcategory=true></display-subcategories>
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <font-awesome-icon icon="list-ol" />
+                                {{ value.deepSubcategoriesCount }} podkategorii
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">
+                                <font-awesome-icon icon="list-alt" />
+                                {{ value.deepModificationsCount}} modyfikacji
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -44,9 +51,9 @@
                     <router-link :to="{ name: 'mods_category', params: { game: gameid, category: value.id } }">
                         <p>{{ value.title }} ({{ value.deepSubcategoriesCount }} podkategorie)</p>
                     </router-link>
-                    <a href="#" v-if="value.subcategories === undefined && value.subcategoriesCount > 0"
-                       @click="getSubcategories(index, value.id)">
-                        [+]
+                    <a href="#" title="Rozwiń" v-if="value.subcategories === undefined && value.subcategoriesCount > 0"
+                       @click.prevent="getSubcategories(index, value.id)">
+                        <font-awesome-icon icon="plus" />
                     </a>
                     <div v-if="value.children" v-for="child in value.children">
                         <display-subcategories :categories="[child]" :gameid="gameid"
@@ -65,7 +72,6 @@
     import DisplaySubcategories from './DisplaySubcategories';
     import axios from "axios";
     import pagination from 'laravel-vue-pagination';
-
 
     export default {
         props: ['categories', 'gameid', 'subcategory', 'categoryId', 'subcatData'],
@@ -113,6 +119,12 @@
                         this.subcategoriesData = response.data;
                         this.subcategories = response.data.data;
                     });
-            }
+            },
     }}
 </script>
+<style>
+    .subcategories {
+        margin: 5px;
+        padding: 2px;
+    }
+</style>

@@ -13,6 +13,12 @@ class ModificationRatingController extends Controller
     {
         $canManage = ModificationController::canManageMod($mod);
         if ($canManage === true) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie możesz ocenić swojej modyfikacji!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie możesz ocenić swojej modyfikacji');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
@@ -52,6 +58,12 @@ class ModificationRatingController extends Controller
     public function edit(Modification $mod, ModificationRating $rating, Request $request)
     {
         if (Auth::id() !== $rating->author_id) { //TODO: or admin
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
@@ -92,6 +104,12 @@ class ModificationRatingController extends Controller
     public function destroy(Modification $mod, ModificationRating $rating, Request $request)
     {
         if (Auth::id() !== $rating->author_id) { //TODO: or admin
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }

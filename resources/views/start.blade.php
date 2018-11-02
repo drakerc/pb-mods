@@ -8,6 +8,7 @@
     <script type="text/javascript">
         window.mods_model = "{!! addslashes(isset($model) ? json_encode($model) : []) !!}"
         window.csrf_token = "{{ csrf_token() }}"
+        window.user_id = "{{ Auth::id() }}"
     </script>
 </head>
 <body>
@@ -21,9 +22,9 @@
     </div>
 @endif
 
-{{--@if (!!Session::has('info')!!)--}}
-    <p class="alert">{!! Session::get('info')  !!} </p>
-{{--@endif--}}
+@if (Session::has('info'))
+    <p class="alert">{!! Session::get('info') !!} </p>
+@endif
 <div id="app"></div>
 <script src="{{ asset('js/app.js') }}"></script>
 </body>

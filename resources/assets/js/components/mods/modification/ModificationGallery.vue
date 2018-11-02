@@ -1,7 +1,10 @@
 <template>
     <div>
+        <div class="text-white" v-if="images.length === 0">
+            Przykro nam, ale autor modyfikacji nie stworzył jeszcze galerii zdjęć.
+        </div>
         <gallery :images="images" :index="index" @close="index = null"></gallery>
-        <img class="m-2 border" v-for="(image, imageIndex) in images" :src="image" width="150px" height="150px" :key="imageIndex" @click="index = imageIndex">
+        <img class="m-2 border" v-for="(image, imageIndex) in images" :src="image" width="240px" height="135px" :key="imageIndex" @click="index = imageIndex">
     </div>
 </template>
 <script>
@@ -24,6 +27,7 @@
                 this.images = data.map(function (value) {
                     return value.downloadLink;
                 });
+                this.$emit('complete-loading');
             });
         },
     }

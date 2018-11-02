@@ -1,6 +1,9 @@
 <template>
     <div>
-        <b-btn variant="warning" @click="show=true" v-b-modal="'delete-rating'">Usuń ocenę</b-btn>
+        <b-btn variant="warning" @click="show=true" v-b-modal="'delete-rating'">
+            <font-awesome-icon icon="trash" />
+            Usuń ocenę
+        </b-btn>
 
         <b-modal v-model="show" :id="'delete-rating'" title="Usuwanie oceny">
             <p class="my-4">Czy jesteś pewien, że chcesz usunąć ocenę? Jest to proces nieodwracalny!</p>

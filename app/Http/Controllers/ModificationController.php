@@ -20,10 +20,12 @@ class ModificationController extends Controller
         if ($request->ajax()) {
             return [
                 'mod' => $modification->toArray(),
+                'canManageMod' => self::canManageMod($modification),
             ];
         }
         return [
             'mod' => $modification->toArray(),
+            'canManageMod' => self::canManageMod($modification),
             'path' => $request->getPathInfo()
         ];
     }
@@ -52,17 +54,19 @@ class ModificationController extends Controller
 
     public static function canManageMod($mod)
     {
+        if (Auth::id() === null) {
+            return false;
+        }
         if (Auth::id() === $mod->creator) {
             return true;
         }
 
-        $user = Auth::user();
         $studio = $mod->developmentStudio()->first();
 
         if ($studio !== null) {
             $members = $studio->users()->get();
 
-            if ($members->contains('id', $user->id)) {
+            if ($members->contains('id', Auth::id())) {
                 return true;
             }
         }
@@ -208,6 +212,12 @@ class ModificationController extends Controller
     {
         $canManage = self::canManageMod($mod);
         if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
@@ -276,6 +286,12 @@ class ModificationController extends Controller
     {
         $canManage = self::canManageMod($mod);
         if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }

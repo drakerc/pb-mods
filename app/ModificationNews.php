@@ -30,8 +30,20 @@ class ModificationNews extends Model
     {
         return $this->belongsTo('App\Modification');
     }
+
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->author_id);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
     protected $fillable = [
         'title',
         'description',
     ];
+
+    protected $appends = ['creatorName'];
 }

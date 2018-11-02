@@ -8,15 +8,18 @@
 
                     <modification-create-video v-for="index in files_amount" :key="index" :index="index"></modification-create-video>
                     <b-button block=true size="lg" variant="primary" type="submit">
+                        <font-awesome-icon icon="save" />
                         Wyślij
                     </b-button>
                 </form>
             </div>
             <div class="col-md-2">
-                <b-button size="md" variant="secondary" @click="files_amount++">
+                <b-button size="md" class="m-3" variant="secondary" @click="files_amount++">
+                    <font-awesome-icon icon="plus" />
                     Wybierz więcej filmików
                 </b-button>
-                <b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount--">
+                <b-button size="md" class="m-3" variant="warning" v-if="files_amount > 1" @click="files_amount--">
+                    <font-awesome-icon icon="minus" />
                     Usuń ostatni filmik
                 </b-button>
             </div>

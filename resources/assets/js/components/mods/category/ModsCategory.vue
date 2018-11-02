@@ -1,5 +1,7 @@
 <template>
     <div :style="backgroundImageStyle">
+        <loading :active.sync="isLoading" is-full-page=true></loading>
+
         <div class="container">
             <div class="jumbotron text-white p-3 p-md-5 rounded bg-dark">
                 <div class="row">
@@ -14,29 +16,34 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-10">
-                    <h2>Podkategorie</h2>
-                    <display-subcategories :subcategory=false :categoryId="category.id" :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
-                </div>
-                <div class="col-md-2 rounded bg-light">
-                    <h2>Menu</h2>
-                    <ol class="list-unstyled">
-                        <router-link :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
-                            <li>Stwórz nową kategorię</li>
+            <div class="container jumbotron rounded main-container">
+                <ul class="nav nav-pills nav-fill border">
+                    <li class="nav-item">
+                        <router-link
+                                :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
+                            <a class="nav-link">
+                                <font-awesome-icon icon="list-ol" />
+                                Stwórz nową kategorię</a>
                         </router-link>
+                    </li>
+                    <li class="nav-item">
                         <router-link :to="{ name: 'modification_create', params: { game: $route.params['game'], category: category.id } }">
-                            <li>Stwórz nową modyfikację</li>
+                            <a class="nav-link">
+                                <font-awesome-icon icon="cogs" />
+                                Stwórz nową modyfikację
+                            </a>
                         </router-link>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-10">
-                    <h2>Modyfikacje</h2>
-                    <category-mods :category="category.id"></category-mods>
+                    </li>
+                </ul>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2>Modyfikacje</h2>
+                        <category-mods v-on:start-loading="loadingStarted" v-on:complete-loading="loadingComplete" :category="category.id"></category-mods>
+                    </div>
+                    <div v-if="category.subcategories !== [] && category.subcategories !== undefined" class="col-md-12">
+                        <h2>Podkategorie</h2>
+                        <display-subcategories :subcategory=false :categoryId="category.id" :categories="category.subcategories" :gameid="$route.params['game']"></display-subcategories>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,11 +56,17 @@
     import routeMixin from '../../../route-mixin.js';
     import pagination from 'laravel-vue-pagination';
 
+    // Import component
+    import Loading from 'vue-loading-overlay';
+    // Import stylesheet
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default {
         mixins: [ routeMixin ],
         data() {
             return {
                 category: [],
+                isLoading: true,
             }
         },
         components: {
@@ -61,6 +74,7 @@
             DisplaySubcategories,
             CategoryMods,
             pagination,
+            Loading
         },
         mounted() {
             if (this.category.length === 0) {
@@ -77,7 +91,7 @@
                     'background-repeat': 'no-repeat',
                     'background-size': '100%',
                 }
-            }
+            },
         },
         methods: {
             assignData({category}) {
@@ -89,6 +103,12 @@
                     .then(response => {
                         this.categories = response.data.categories;
                     });
+            },
+            loadingStarted() {
+                this.isLoading = true;
+            },
+            loadingComplete() {
+                this.isLoading = false;
             }
         }
     }
@@ -96,5 +116,8 @@
 <style>
     #category-thumbnail img {
         max-width: 200px;
+    }
+    .main-container {
+        opacity: 0.95;
     }
 </style>

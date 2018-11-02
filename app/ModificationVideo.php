@@ -40,7 +40,16 @@ class ModificationVideo extends Model
         return Youtube::parseVidFromURL($this->url);
     }
 
-    protected $appends = ['youtubeId'];
+    public function getCreatorNameAttribute()
+    {
+        $creator = User::find($this->uploader_id);
+        if ($creator === null) {
+            return 'Nieznany';
+        }
+        return $creator->name;
+    }
+
+    protected $appends = ['youtubeId', 'creatorName'];
 
     protected $fillable = [
         'title', 'url', 'modification_id'

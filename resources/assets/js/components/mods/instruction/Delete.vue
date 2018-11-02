@@ -1,6 +1,9 @@
 <template>
     <div>
-        <b-btn @click="show=true" v-b-modal="'delete-instruction-' + instruction.id">Usuń instrukcję</b-btn>
+        <b-btn @click="show=true" v-b-modal="'delete-instruction-' + instruction.id">
+            <font-awesome-icon icon="trash" />
+            Usuń instrukcję
+        </b-btn>
 
         <b-modal v-model="show" :id="'delete-instruction-' + instruction.id" title="Usuwanie instrukcji">
             <p class="my-4">Czy jesteś pewien, że chcesz usunąć instrukcję {{ instruction.title }}? Jest to proces nieodwracalny!</p>
