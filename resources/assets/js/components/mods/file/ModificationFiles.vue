@@ -4,7 +4,7 @@
             Przykro nam, ale autor modyfikacji nie wrzucił do niej żadnych powiązanych plików. Spróbuj później!
         </div>
 
-        <div class="jumbotron container">
+        <div v-else class="jumbotron container">
             <div class="row">
                 <modification-file :canManageMod="canManageMod" v-if="files.data[0].id !== undefined" v-for="file in files.data" :key="file.id" :file="file" v-on:selectFile="addSelectedFile"></modification-file>
             </div>

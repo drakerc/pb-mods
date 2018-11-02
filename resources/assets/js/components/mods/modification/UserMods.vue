@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="container">
         <h3>Przeglądasz modyfikacje autorstwa użytkownika {{ user.name }}.</h3>
         <div class="row">
             <category-mod v-for="mod in mods" :key="mod.id" :mod="mod"></category-mod>

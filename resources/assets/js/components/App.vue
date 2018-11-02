@@ -121,7 +121,7 @@
 </script>
 <style>
     body {
-        padding-top: 80px;
+        padding-top: 70px;
     }
     @media (max-width: 979px) {
         body {

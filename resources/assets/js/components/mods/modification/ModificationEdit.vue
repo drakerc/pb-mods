@@ -81,7 +81,9 @@
 
                 <div class="mb-3">
                     <label for="transparency_splash_background">Przezroczystość tła splasha:</label>
-                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                    <p>Obecna wartość: <b>{{ transparency_splash_background }}</b>
+                        (im więcej, tym bardziej widoczny jest element)</p>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.05"
                            id="transparency_splash_background" name="transparency_splash_background"
                            v-model="transparency_splash_background"/>
                 </div>
@@ -100,7 +102,9 @@
 
                 <div class="mb-3">
                     <label for="transparency_description_background">Przezroczystość tła opisu:</label>
-                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.1"
+                    <p>Obecna wartość: <b>{{ transparency_description_background }}</b>
+                        (im więcej, tym bardziej widoczny jest element)</p>
+                    <input class="form-control-range" type="range" min="0.1" max="1.0" step="0.05"
                            id="transparency_description_background" name="transparency_description_background"
                            v-model="transparency_description_background"/>
                 </div>
@@ -111,7 +115,7 @@
                     <vue-editor id="description" v-model="description"></vue-editor>
                 </div>
 
-                <div class="row">
+                <div class="row m-1">
                     <div class="col-md-8">
                         <b-btn size="lg" variant="warning" v-b-modal.delete-mod>
                             <font-awesome-icon icon="trash" />
@@ -133,6 +137,7 @@
                 </div>
 
                 <b-button size="lg" variant="primary" block=true type="submit">
+                    <font-awesome-icon icon="save" />
                     Zapisz zmiany
                 </b-button>
             </div>
@@ -200,13 +205,13 @@
                 this.title = mod.title;
                 this.replaces = mod.replaces;
                 this.version = mod.version;
-                this.font_color = mod.font_color;
-                this.font_color_splash_text = mod.font_color_splash_text;
-                this.color_splash_background = mod.color_splash_background;
-                this.transparency_splash_background = mod.transparency_splash_background;
-                this.font_color_description = mod.font_color_description;
-                this.color_description_background = mod.color_description_background;
-                this.transparency_description_background = mod.transparency_description_background;
+                this.font_color = mod.font_color === null ? '#FFFFFF' : mod.font_color;
+                this.font_color_splash_text = mod.font_color_splash_text === null ? '#FFFFFF' : mod.font_color_splash_text;
+                this.color_splash_background = mod.color_splash_background === null ? '#7c7c7c' : mod.color_splash_background;
+                this.transparency_splash_background = mod.transparency_splash_background === null ? '0.95' : mod.transparency_splash_background;
+                this.font_color_description = mod.font_color_description === null ? '#FFFFFF' : mod.font_color_description;
+                this.color_description_background = mod.color_description_background === null ? '#000000' : mod.color_description_background;
+                this.transparency_description_background = mod.transparency_description_background === null ? '0.9' : mod.transparency_description_background;
                 this.size = this.size_options.find(obj => {
                     return obj.value === mod.size;
                 });

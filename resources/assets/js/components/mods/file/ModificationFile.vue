@@ -56,7 +56,7 @@
                             <font-awesome-icon icon="download" />
                             Pobierz ten plik
                         </a>
-                        <file-instructions :passedFile="file" :passedModId="$route.params['mod']"></file-instructions>
+                        <file-instructions :canManageMod="canManageMod" :passedFile="file" :passedModId="$route.params['mod']"></file-instructions>
 
                         <div class="row pt-1 mt-1">
                             <div class="col-md-12">

@@ -19,10 +19,11 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faEdit, faTrash,
-    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser } from '@fortawesome/free-solid-svg-icons'
+    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faEdit, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser);
+library.add(faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faClock, faEdit,
+    faSearch, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser, faSave, faMinus);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

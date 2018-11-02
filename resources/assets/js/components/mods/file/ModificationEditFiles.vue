@@ -14,6 +14,7 @@
                     </div>
 
                     <b-button block=true size="lg" variant="primary" type="submit">
+                        <font-awesome-icon icon="save" />
                         Wyślij
                     </b-button>
                 </form>

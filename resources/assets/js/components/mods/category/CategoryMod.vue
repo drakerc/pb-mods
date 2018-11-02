@@ -1,33 +1,40 @@
 <template>
     <div class="col-md-4">
-        <div class="card mb-4 box-shadow">
+        <div class="card mod-card mb-4 box-shadow">
             <div class="text-center">
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">
                     <img class="card-img-top" :src="modThumbnail">
                 </router-link>
             </div>
 
-            <div class="card-body">
+            <div class="card-body d-flex flex-column">
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">
                     <h5 class="card-title">{{ mod.title }}</h5>
                 </router-link>
-                <b><p class="card-text" v-html="$options.filters.truncate(mod.description, 150)"></p></b>
-                <p class="card-text secondary-info">
-                    <b>Data wydania:</b> {{ mod.release_date }}
-                </p>
-                <p class="card-text secondary-info">
-                    <b>Autor:</b> {{ mod.creatorName }}
-                </p>
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                <b><p class="card-text main-info" v-html="$options.filters.truncate(mod.description, 150)"></p></b>
+                <div class="mt-auto ">
+                    <p class="secondary-info">
+                        <b>Autor:</b> {{ mod.creatorName }}
+                    </p>
+                    <p class="secondary-info" v-if="mod.devStudio">
+                        <b>Studio deweloperskie:</b> {{ mod.devStudio.name }}
+                    </p>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <font-awesome-icon icon="download" />
                             {{ mod.downloadsCount }} <b>pobrań</b>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">
+                        </div>
+                        <div class="col-md-6">
                             <font-awesome-icon icon="code-branch" />
                             <b>Wersja:</b> {{ mod.version }}
-                        </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9" v-if="mod.release_date">
+                            <font-awesome-icon icon="clock" />
+                            <b>Wydano:</b> {{ mod.release_date }}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,7 +57,15 @@
         width: 100%
     }
 
+    .mod-card {
+        min-height: 500px;
+    }
+
+    .main-info {
+        font-size: 11pt;
+    }
+
     .secondary-info {
-        font-size: 9pt;
+        font-size: 9pt !important;
     }
 </style>

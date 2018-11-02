@@ -9,7 +9,7 @@
             <p class="my-4" v-html="instruction.description"></p>
             <div slot="modal-footer" class="w-100">
                 <router-link :to="{ name: 'modification_edit_instruction', params: { mod: $route.params['mod'], file: file.id, instruction: instruction.id } }">
-                    <b-btn size="sm" variant="warning" @click="print">
+                    <b-btn v-if="canManageMod" size="sm" variant="warning" @click="print">
                         Edytuj
                     </b-btn>
                 </router-link>
@@ -22,7 +22,7 @@
 </template>
 <script>
     export default {
-        props: ['file', 'instruction'],
+        props: ['file', 'instruction', 'canManageMod'],
 
         data() {
             return {

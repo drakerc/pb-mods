@@ -202,7 +202,6 @@
                     'background-repeat': 'no-repeat',
                     'background-color': 'black',
                     'background-size': 'cover',
-                    // 'width': '65%',
                     'margin': 'auto',
                     'opacity': '0.95',
                 }
@@ -228,6 +227,7 @@
                     'background-repeat': 'no-repeat',
                     'height': '100%',
                     'background-size': 'cover',
+                    'background-color': '#464646' // if no image is specified
                 }
             },
             fontTitle() {
