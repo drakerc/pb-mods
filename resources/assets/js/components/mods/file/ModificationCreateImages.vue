@@ -17,11 +17,11 @@
                 </form>
             </div>
             <div class="col-md-2">
-                <b-button size="md" variant="secondary" @click="files_amount++">
+                <b-button size="md" class="m-3" variant="secondary" @click="files_amount++">
                     <font-awesome-icon icon="plus" />
                     Dodaj więcej obrazków
                 </b-button>
-                <b-button size="md" variant="warning" v-if="files_amount > 1" @click="files_amount--">
+                <b-button size="md" class="m-3" variant="warning" v-if="files_amount > 1" @click="files_amount--">
                     <font-awesome-icon icon="minus" />
                     Usuń ostatni obrazek
                 </b-button>

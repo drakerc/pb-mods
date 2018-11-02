@@ -212,6 +212,12 @@ class ModificationController extends Controller
     {
         $canManage = self::canManageMod($mod);
         if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }
@@ -280,6 +286,12 @@ class ModificationController extends Controller
     {
         $canManage = self::canManageMod($mod);
         if ($canManage === false) {
+            if ($request->ajax()) {
+                return response()->json([
+                    'message' => 'Nie masz uprawnień!',
+                ], 403);
+            }
+
             $request->session()->flash('info', 'Nie masz uprawnień');
             return redirect()->route('ModificationView', ['mod' => $mod->id]);
         }

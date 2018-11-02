@@ -54,5 +54,9 @@ axios.interceptors.response.use((response) => { // intercept the global error
     if (error.response.status === 401) {
         router.push({name: 'login'}) // if user is not logged in, redirect him to login page
     }
+    if (error.response.status === 403) {
+        alert(error.response.data.message);
+    }
+
     return Promise.reject(error)
 });
