@@ -66,7 +66,6 @@
                 if (err) {
                     console.error(err);
                 } else {
-                    // console.log(data);
                     this.games = data.games;
                     this.posts = data.posts;
                 }

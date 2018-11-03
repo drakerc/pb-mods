@@ -73,7 +73,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->post_category_id = $request->post_category_id;
+
+        $post->save();
+
+        return response()->json($post);
     }
 
     /**

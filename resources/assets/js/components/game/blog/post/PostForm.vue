@@ -1,5 +1,6 @@
 <template>
-    <div class="col-sm-10 offset-sm-1">
+    <div v-if="loading">Loading...</div>
+    <div v-else class="col-sm-10 offset-sm-1">
         <b-form @submit.prevent="onSubmit">
             <b-form-group label="Title:" description="Your post's title">
                 <b-form-input v-model="post.title" class="col-sm-6"/>
@@ -16,19 +17,32 @@
 </template>
 
 <script>
+    import axios from 'axios'
     import {VueEditor} from 'vue2-editor';
 
-    const fetchPostCategories = (callback) => {
+    const fetchPostCategories = (postId, callback) => {
         axios.get(`/api/post-category`).then((response) => {
-            callback(null, response.data);
+            if (postId) {
+                axios.get(`/api/post/${postId}`).then(postResponse => {
+                    callback(null, {
+                        categories: response.data,
+                        post: postResponse.data
+                    });
+                });
+            } else {
+                callback(null, {
+                    categories: response.data
+                });
+            }
         }).catch(err => callback(err, err.response.data));
     };
 
     export default {
-        name: "PostForm",
+        name: "NewPostForm",
         components: {
             VueEditor
         },
+        props: ['editMode'],
         computed: {
             isValid() {
                 return this.post.body && this.post.gameId && this.post.postCategoryId;
@@ -43,12 +57,18 @@
                     postCategoryId: null
                 },
                 postCategories: [
-                    {value: null, text: 'Please select from one of the categories below:', disabled: true, selected: true}
-                ]
+                    {
+                        value: null,
+                        text: 'Please select from one of the categories below:',
+                        disabled: true,
+                        selected: true
+                    }
+                ],
+                loading: true
             }
         },
         beforeRouteEnter(to, from, next) {
-            fetchPostCategories((err, data) => {
+            fetchPostCategories(to.params.postId, (err, data) => {
                 next(vm => vm.setData(err, data));
             });
         },
@@ -61,21 +81,41 @@
                 if (err) {
                     console.error(err);
                 } else {
-                    data.forEach(postCategory => {
+                    data.categories.forEach(postCategory => {
                         this.postCategories.push({
                             value: postCategory.id,
                             text: postCategory.name
                         });
                     });
+                    if (data.post) {
+                        this.post.title = data.post.title;
+                        this.post.body = data.post.body;
+                        this.post.postCategoryId = data.post.post_category_id;
+                        console.log(this.post.body);
+                    }
+                    this.loading = false;
                 }
             },
             onSubmit() {
-                axios.post(`/api/post`, {
-                    game_id: this.post.gameId,
-                    body: this.post.body,
-                    title: this.post.title,
-                    post_category_id: this.post.postCategoryId
+                let method = 'POST';
+                let url = '/api/post';
+                if (this.editMode) {
+                    method = 'PUT';
+                    const postId = this.$route.params.postId;
+                    url = `/api/post/${postId}`;
+                }
+                console.log(this.post.body);
+                axios({
+                    method,
+                    url,
+                    data: {
+                        game_id: this.post.gameId,
+                        body: this.post.body,
+                        title: this.post.title,
+                        post_category_id: this.post.postCategoryId
+                    }
                 }).then(response => {
+                    console.log(response);
                     this.$router.push({
                         name: 'post_details',
                         params: {
@@ -83,7 +123,7 @@
                             id: response.data.id
                         }
                     });
-                });
+                }).catch(err => console.error(err));
             }
         }
     }

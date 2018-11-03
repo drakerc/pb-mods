@@ -95,7 +95,7 @@ export const router = new VueRouter({
                 },
                 {
                     path: 'new',
-                    component: GameForm,
+                    component: NewGameForm,
                     name: 'new_game_form',
                     meta: {
                         requiresAuth: true
@@ -122,9 +122,20 @@ export const router = new VueRouter({
                 {
                     path: ':id/post/new',
                     component: PostForm,
-                    name: 'post_form',
+                    name: 'new_post_form',
                     meta: {
                         requiresAuth: true
+                    }
+                },
+                {
+                    path: ':id/post/:postId/edit',
+                    component: PostForm,
+                    name: 'edit_post_form',
+                    meta: {
+                        requiresAuth: true
+                    },
+                    props: {
+                        editMode: true
                     }
                 },
                 {

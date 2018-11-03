@@ -77,7 +77,12 @@ Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideos
 Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy')->middleware('auth:api');
 
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
-Route::resource('post','PostController');
+Route::group(['middleware' => 'auth:api'], function() {
+   Route::put('/post/{id}', 'PostController@update');
+});
+Route::resource('post','PostController')->except([
+    'update'
+]);
 
 Route::group(['middleware' => 'auth:api'], function () {
    Route::post('comment', 'CommentController@store');
