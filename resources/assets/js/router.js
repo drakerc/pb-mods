@@ -95,7 +95,7 @@ export const router = new VueRouter({
                 },
                 {
                     path: 'new',
-                    component: NewGameForm,
+                    component: GameForm,
                     name: 'new_game_form',
                     meta: {
                         requiresAuth: true

@@ -8,6 +8,7 @@
             <br>
             <em>Posted at {{post.created_at}}</em>
         </b-jumbotron>
+        <b-button :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" variant="success">Edit post</b-button>
         <p v-html="post.body" class="col-sm-10 my-2"></p>
 
         <p>Comments:</p>
