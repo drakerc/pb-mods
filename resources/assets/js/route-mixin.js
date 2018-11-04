@@ -4,7 +4,11 @@ function getData(to) {
     return new Promise((resolve) => {
         let serverData = JSON.parse(window.window.mods_model) || {};
         if (!serverData.path || to.path !== serverData.path) {
-            axios.get(`/api${to.path}`).then(({ data }) => {
+            axios.get(`/api${to.path}`, {
+                headers: {
+                    'authorization': 'Bearer ' + window.localStorage.getItem('token')
+                }
+            }).then(({ data }) => {
                 resolve(data);
             });
         } else {

@@ -31,13 +31,14 @@
 <script>
     import DisplayTotalRating from "./DisplayTotalRating";
     import DisplayTimestamps from '../../DisplayTimestamps';
+    import { Auth } from "../../../auth";
 
     export default {
         components: {DisplayTotalRating, DisplayTimestamps},
         props: ['rating', 'mod'],
         data() {
             return {
-                userId: window.window.user_id,
+                userId: Auth.getId(),
             }
         },
     }

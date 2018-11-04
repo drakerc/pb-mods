@@ -1,7 +1,7 @@
 <template>
     <div>
         <ol class="list-unstyled">
-            <router-link :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
+            <router-link dusk="author-add-files" :to="{ name: 'modification_create_files', params: { mod: mod.id } }">
                 <li>Dodaj plik/i</li>
             </router-link>
 

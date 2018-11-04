@@ -52,12 +52,6 @@
                             <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
                         </b-navbar-nav>
                     </template>
-                    <router-link v-if="userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
-                        <button class="btn btn-success m-3 my-2 my-sm-0">
-                            <font-awesome-icon icon="file" />
-                            Moje modyfikacje
-                        </button>
-                    </router-link>
                     <template v-if="!isLogged">
                         <b-navbar-nav :class="$route.path.startsWith('/game') ? '' : 'ml-auto'">
                             <b-button :to="{name: 'login'}" variant="outline-success" class="my-sm-0 my-2">
@@ -68,11 +62,25 @@
                     </template>
                     <template v-else>
                         <b-navbar-nav :class="['mr-2', 'ml-2', $route.path.startsWith('/game') ? '' : 'ml-auto']">
+                            <router-link v-if="current_module === 'mods'" :to="{name: 'user_mods', params: {user: userId} }">
+                                <b-btn class="mr-2" variant="success">
+                                    <font-awesome-icon icon="file" />
+                                    Moje modyfikacje
+                                </b-btn>
+                            </router-link>
                             <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
                             <b-img rounded="circle" :src="`${gravatar}&s=40`" class="mr-1"></b-img>
-                            <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
+                            <b-btn id="logout-button" variant="outline-warning" @click="logout">Logout</b-btn>
                         </b-navbar-nav>
                     </template>
+                    <form
+                            style="display: none;"
+                            action="/logout"
+                            method="POST"
+                            id="logout"
+                    >
+                        <input type="hidden" name="_token" :value="csrf_token"/>
+                    </form>
                 </div>
             </nav>
         </header>
@@ -110,7 +118,8 @@
                 username: Auth.getUser(),
                 gravatar: Auth.getUserGravatar(),
                 subcategoriesData: null,
-                userId: window.window.user_id,
+                userId: Auth.getId(),
+                csrf_token: window.window.csrf_token
             };
         },
         methods: {
@@ -153,7 +162,8 @@
             },
             logout() {
                 Auth.logout();
-                this.$router.push({'name': 'login', query: {redirect: this.$route.fullPath}});
+                document.getElementById('logout').submit();
+                // this.$router.push({'name': 'login', query: {redirect: this.$route.fullPath}});
             },
             setCurrentModule() {
                 if (this.$route.path.startsWith('/mods')) {

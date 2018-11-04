@@ -1,11 +1,14 @@
 <template>
     <div class="my-2 col-sm-5 mx-auto">
-        <b-form @submit.prevent="onSubmit" @reset.prevent="onReset">
+        <b-form ref="form" @submit.prevent="onSubmit" @reset.prevent="onReset" method="POST" action="/login">
+            <input type="hidden" name="_token" :value="csrf_token">
+
             <b-form-group
                           label="Email:"
                           label-for="email-input">
                 <b-form-input v-model="email"
                               id="email-input"
+                              name="email"
                               type="email"
                               required
                               placeholder="email@example.com">
@@ -14,6 +17,7 @@
             <b-form-group label="Password:"
                           label-for="password-input">
                 <b-form-input id="password-input"
+                              name="password"
                               type="password"
                               v-model="password"
                               required>
@@ -53,7 +57,7 @@
                     password: this.password
                 }).then(response => {
                     Auth.login(response.data.access_token, response.data.username, response.data.gravatar);
-                    this.$router.push(this.redirect ? this.redirect: '/home');
+                    this.$refs.form.submit();
                 }).catch(err => {
                     console.error(err)
                 });
