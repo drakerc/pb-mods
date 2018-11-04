@@ -50,13 +50,24 @@ export const Auth = {
     },
 
     getUserGravatar() {
+        let gravatar = window.localStorage.getItem('gravatar');
+        if (gravatar) {
+            return gravatar;
+        }
+        console.log('dupa');
         let userData = window.localStorage.getItem('user-data');
         if (userData) {
-            return JSON.parse(userData).gravatar;
+            gravatar = JSON.parse(userData).gravatar;
+            window.localStorage.setItem('gravatar', gravatar);
+            return gravatar;
         }
-        userData = this.getUserData();
-        if (userData) {
-            return userData['gravatar']
+        const token = window.localStorage.getItem('token');
+        if (token) {
+            axios.get('/api/auth/user').then((response) => {
+                gravatar = response.data['gravatar'];
+                window.localStorage.setItem('gravatar', gravatar);
+                EventBus.$emit('gravatar-received', gravatar);
+            });
         }
         return null;
     },

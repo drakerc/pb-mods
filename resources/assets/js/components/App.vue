@@ -33,7 +33,10 @@
                     </ul>
                     <template v-if="current_module === 'game'">
                         <b-navbar-nav>
-                            <b-nav-item to="/game" exact>Games</b-nav-item>
+                            <b-nav-item to="/game" exact>
+                                <font-awesome-icon icon="gamepad"/>
+                                Games
+                            </b-nav-item>
                         </b-navbar-nav>
                         <b-navbar-nav class="ml-auto">
                             <b-nav-form @submit.prevent="onSearchSubmit">
@@ -48,16 +51,13 @@
                     </template>
                     <template v-else-if="current_module === 'none'">
                         <b-navbar-nav>
-                            <b-nav-item to="/game">Games</b-nav-item>
+                            <b-nav-item to="/game">
+                                <font-awesome-icon icon="gamepad"/>
+                                Games
+                            </b-nav-item>
                             <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
                         </b-navbar-nav>
                     </template>
-                    <router-link v-if="userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
-                        <button class="btn btn-success m-3 my-2 my-sm-0">
-                            <font-awesome-icon icon="file" />
-                            Moje modyfikacje
-                        </button>
-                    </router-link>
                     <template v-if="!isLogged">
                         <b-navbar-nav :class="$route.path.startsWith('/game') ? '' : 'ml-auto'">
                             <b-button :to="{name: 'login'}" variant="outline-success" class="my-sm-0 my-2">
@@ -69,8 +69,25 @@
                     <template v-else>
                         <b-navbar-nav :class="['mr-2', 'ml-2', $route.path.startsWith('/game') ? '' : 'ml-auto']">
                             <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
-                            <b-img rounded="circle" :src="`${gravatar}&s=40`" class="mr-1"></b-img>
-                            <b-btn variant="outline-warning" @click="logout">Logout</b-btn>
+                            <b-dropdown variant="link" size="sm">
+                                <template slot="button-content">
+                                    <b-img v-if="gravatar" rounded="circle" :src="`${gravatar}&s=30`" class="mr-1"></b-img>
+                                </template>
+                                <b-dd-item>
+                                    <font-awesome-icon icon="user"/>
+                                    Mój Profil
+                                </b-dd-item>
+                                <b-dd-item v-if="userId !== undefined && userId !== null && userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
+                                    <font-awesome-icon icon="file" />
+                                    Moje modyfikacje
+                                </b-dd-item>
+                                <b-dd-divider></b-dd-divider>
+                                <b-dropdown-item-button @click="logout">
+                                    <font-awesome-icon icon="door-closed"/>
+                                    Logout
+                                </b-dropdown-item-button>
+                            </b-dropdown>
+
                         </b-navbar-nav>
                     </template>
                 </div>
@@ -108,7 +125,7 @@
                 phrase: '',
                 isLogged: Auth.isLoggedIn(),
                 username: Auth.getUser(),
-                gravatar: Auth.getUserGravatar(),
+                gravatar: null,
                 subcategoriesData: null,
                 userId: window.window.user_id,
             };
@@ -176,9 +193,13 @@
         },
         beforeMount() {
             this.setCurrentModule();
+            if (Auth.isLoggedIn()) {
+                this.username = Auth.getUser();
+                this.gravatar = Auth.getUserGravatar();
+                this.userId = Auth.getId(); // TODO ???
+            }
         },
         beforeRouteUpdate() {
-            console.log('update');
             this.setCurrentModule();
         },
         mounted() {
@@ -191,7 +212,11 @@
                 this.isLogged = true;
                 this.username = user;
                 this.gravatar = gravatar;
-            })
+            });
+            EventBus.$on('gravatar-received', gravatar => {
+                console.log(`gravatar: ${gravatar}`);
+                this.gravatar = gravatar;
+            });
         }
     }
 </script>

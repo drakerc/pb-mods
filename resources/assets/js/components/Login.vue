@@ -19,7 +19,10 @@
                               required>
                 </b-form-input>
             </b-form-group>
-            <b-button type="submit" variant="primary">Submit</b-button>
+            <b-button type="submit" variant="primary">
+                <font-awesome-icon icon="key"/>
+                Log in
+            </b-button>
             <b-button type="reset" variant="warning">Reset</b-button>
         </b-form>
         <div class="my-1">
