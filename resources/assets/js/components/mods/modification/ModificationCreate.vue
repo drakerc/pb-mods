@@ -21,13 +21,13 @@
             <div class="mb-3">
                 <input type="hidden" name="size" :value="size.value">
                 <label for="size">Wielkość modyfikacji</label>
-                <multiselect id="size" track-by="value" label="label" v-model="size" :options="[{label: 'Niewielka, pojedyńcza modyfikacja', value: 0}, {label: 'Średniej wielkości modyfikacja', value: 1}, {label: 'Duża, kompletna modyfikacja', value: 2}]"></multiselect>
+                <multiselect class="size-multiselect" id="size" track-by="value" label="label" v-model="size" :options="[{label: 'Niewielka, pojedyńcza modyfikacja', value: 0}, {label: 'Średniej wielkości modyfikacja', value: 1}, {label: 'Duża, kompletna modyfikacja', value: 2}]"></multiselect>
             </div>
 
             <div class="mb-3">
                 <input type="hidden" name="development_status" :value="development_status.value">
                 <label for="development_status">Status produkcji</label>
-                <multiselect id="development_status" track-by="value" label="label" v-model="development_status" :options="[{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}]"></multiselect>
+                <multiselect id="development_status" class="development-status-multiselect" track-by="value" label="label" v-model="development_status" :options="[{label: 'Nierozpoczęty', value: 0}, {label: 'W trakcie tworzenia', value: 1}, {label: 'W trakcie testów', value: 2}, {label: 'Wydany', value: 3}, {label: 'Wstrzymany', value: 4}]"></multiselect>
             </div>
 
             <div class="mb-3">
@@ -48,7 +48,7 @@
             <div class="mb-3" v-if="studios !== '' && studios.length > 0">
                 <label for="development_studio">Studio deweloperskie</label>
                 <input type="hidden" name="development_studio" :value="development_studio.value">
-                <multiselect id="development_studio" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
+                <multiselect id="development_studio" class="development-studio-multiselect" track-by="value" label="label" v-model="development_studio" :options="studios"></multiselect>
             </div>
 
             <div class="mb-3">

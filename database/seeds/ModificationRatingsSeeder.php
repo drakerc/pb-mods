@@ -23,6 +23,7 @@ class ModificationRatingsSeeder extends Seeder
                 'rating_fun' => 5,
                 'description' => 'Najlepsza modyfikacja w jaką grałem!',
                 'author_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 2,
@@ -34,6 +35,7 @@ class ModificationRatingsSeeder extends Seeder
                 'rating_fun' => 4,
                 'description' => 'Bardzo podobała mi się ta modyfikacja, aczkolwiek jakość tekstur była niska.',
                 'author_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 3,
@@ -45,6 +47,7 @@ class ModificationRatingsSeeder extends Seeder
                 'rating_fun' => 1,
                 'description' => 'Nie psuj sobie gry pobierając to coś. Szkoda tracić czasu!',
                 'author_id' => 2,
+                'created_at' => now(),
             ],
         ]);
     }

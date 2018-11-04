@@ -68,6 +68,12 @@
                     </template>
                     <template v-else>
                         <b-navbar-nav :class="['mr-2', 'ml-2', $route.path.startsWith('/game') ? '' : 'ml-auto']">
+                            <router-link v-if="current_module === 'mods'" :to="{name: 'user_mods', params: {user: userId} }">
+                                <b-btn class="mr-2" variant="success">
+                                    <font-awesome-icon icon="file" />
+                                    Moje modyfikacje
+                                </b-btn>
+                            </router-link>
                             <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
                             <b-dropdown variant="link" size="sm">
                                 <template slot="button-content">
@@ -87,9 +93,16 @@
                                     Logout
                                 </b-dropdown-item-button>
                             </b-dropdown>
-
                         </b-navbar-nav>
                     </template>
+                    <form
+                            style="display: none;"
+                            action="/logout"
+                            method="POST"
+                            id="logout"
+                    >
+                        <input type="hidden" name="_token" :value="csrf_token"/>
+                    </form>
                 </div>
             </nav>
         </header>
@@ -127,7 +140,8 @@
                 username: Auth.getUser(),
                 gravatar: null,
                 subcategoriesData: null,
-                userId: window.window.user_id,
+                userId: Auth.getId(),
+                csrf_token: window.window.csrf_token
             };
         },
         methods: {
@@ -170,7 +184,8 @@
             },
             logout() {
                 Auth.logout();
-                this.$router.push({'name': 'login', query: {redirect: this.$route.fullPath}});
+                document.getElementById('logout').submit();
+                // this.$router.push({'name': 'login', query: {redirect: this.$route.fullPath}});
             },
             setCurrentModule() {
                 if (this.$route.path.startsWith('/mods')) {

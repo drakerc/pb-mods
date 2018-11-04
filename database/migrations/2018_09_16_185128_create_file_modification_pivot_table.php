@@ -20,7 +20,7 @@ class CreateFileModificationPivotTable extends Migration
             $table->foreign('modification_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->primary(['file_id', 'modification_id']);
             $table->string('title');
-            $table->string('description');
+            $table->longText('description');
         });
     }
 

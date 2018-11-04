@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-4">
+    <div :id="'mod-card-' + mod.id" class="col-md-4">
         <div class="card mod-card mb-4 box-shadow">
             <div class="text-center">
                 <router-link :to="{ name: 'modification_view', params: { mod: mod.id } }">

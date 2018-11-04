@@ -21,14 +21,14 @@
                     <li class="nav-item">
                         <router-link
                                 :to="{ name: 'category_create', params: { game: $route.params['game'], category: category.id } }">
-                            <a class="nav-link">
+                            <a class="nav-link" id="create-new-category">
                                 <font-awesome-icon icon="list-ol" />
                                 Stwórz nową kategorię</a>
                         </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link :to="{ name: 'modification_create', params: { game: $route.params['game'], category: category.id } }">
-                            <a class="nav-link">
+                            <a class="nav-link" id="create-new-mod">
                                 <font-awesome-icon icon="cogs" />
                                 Stwórz nową modyfikację
                             </a>

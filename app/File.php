@@ -55,7 +55,7 @@ class File extends Model
     public function getHumanReadableFilesizeAttribute($decimals = 1)
     {
         if ($this->file_size == 0)
-            return "0.00 B";
+            return "0 B";
 
         $s = array('B', 'KB', 'MB', 'GB', 'TB', 'PB');
         $e = floor(log($this->file_size, 1024));
