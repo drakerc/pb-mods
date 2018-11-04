@@ -21,6 +21,7 @@ class ModificationFilesSeeder extends Seeder
                 'downloads' => 0,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 2,
@@ -30,6 +31,7 @@ class ModificationFilesSeeder extends Seeder
                 'downloads' => 100,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 3,
@@ -39,6 +41,7 @@ class ModificationFilesSeeder extends Seeder
                 'downloads' => 55,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
         ]);
 

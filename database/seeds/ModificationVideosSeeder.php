@@ -20,6 +20,7 @@ class ModificationVideosSeeder extends Seeder
                 'url' => 'https://www.youtube.com/watch?v=JsaSUiswXCw',
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 2,
@@ -28,6 +29,7 @@ class ModificationVideosSeeder extends Seeder
                 'url' => 'https://www.youtube.com/watch?v=iHikK_mU20c',
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 3,
@@ -36,6 +38,7 @@ class ModificationVideosSeeder extends Seeder
                 'url' => 'https://www.youtube.com/watch?v=ypSodkZALoA',
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
         ]);
     }

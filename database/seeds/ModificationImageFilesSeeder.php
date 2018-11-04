@@ -21,6 +21,7 @@ class ModificationImageFilesSeeder extends Seeder
                 'downloads' => 0,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 5,
@@ -30,6 +31,7 @@ class ModificationImageFilesSeeder extends Seeder
                 'downloads' => 0,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 6,
@@ -39,6 +41,7 @@ class ModificationImageFilesSeeder extends Seeder
                 'downloads' => 0,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
             [
                 'id' => 7,
@@ -48,6 +51,7 @@ class ModificationImageFilesSeeder extends Seeder
                 'downloads' => 0,
                 'availability' => 1,
                 'uploader_id' => 1,
+                'created_at' => now(),
             ],
         ]);
 

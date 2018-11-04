@@ -25,6 +25,7 @@ class ModificationsSeeder extends Seeder
                 'game_id' => 1,
                 'category_id' => 8,
                 'active' => true,
+                'created_at' => now(),
             ],
             [
                 'id' => 2,
@@ -38,6 +39,7 @@ class ModificationsSeeder extends Seeder
                 'game_id' => 1,
                 'category_id' => 7,
                 'active' => true,
+                'created_at' => now(),
             ],
             [
                 'id' => 3,
@@ -51,6 +53,7 @@ class ModificationsSeeder extends Seeder
                 'game_id' => 2,
                 'category_id' => 2,
                 'active' => true,
+                'created_at' => now(),
             ],
             [
                 'id' => 4,
@@ -64,6 +67,7 @@ class ModificationsSeeder extends Seeder
                 'game_id' => 2,
                 'category_id' => 2,
                 'active' => false,
+                'created_at' => now(),
             ],
         ]);
     }

@@ -18,7 +18,7 @@
                 updated_at_date: '',
             }
         },
-        mounted() {
+        updated() {
             this.created_at_date = new Date(this.created_at).toLocaleDateString('pl-PL');
             this.updated_at_date = new Date(this.updated_at).toLocaleDateString('pl-PL');
         },
