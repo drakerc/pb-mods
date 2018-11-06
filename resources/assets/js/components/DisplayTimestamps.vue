@@ -18,9 +18,29 @@
                 updated_at_date: '',
             }
         },
-        updated() {
-            this.created_at_date = new Date(this.created_at).toLocaleDateString('pl-PL');
-            this.updated_at_date = new Date(this.updated_at).toLocaleDateString('pl-PL');
+        watch: {
+            created_at: function (value) {
+                if (value !== undefined) {
+                    this.created_at_date = new Date(this.created_at).toLocaleDateString('pl-PL');
+                }
+            },
+            updated_at: function (value) {
+                if (value !== undefined) {
+                    this.updated_at_date = new Date(this.updated_at).toLocaleDateString('pl-PL');
+                }
+            },
+        },
+        mounted() {
+            if (this.created_at !== undefined && this.created_at !== null) {
+                this.created_at_date = new Date(this.created_at).toLocaleDateString('pl-PL');
+            } else {
+                this.created_at_date = 'Nieznana';
+            }
+            if (this.updated_at !== undefined && this.updated_at !== null) {
+                this.updated_at_date = new Date(this.updated_at).toLocaleDateString('pl-PL');
+            } else {
+                this.updated_at_date = 'Nieznana';
+            }
         },
     }
 </script>

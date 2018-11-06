@@ -89,7 +89,8 @@
                 return {
                     'background-image': `url("${this.category.background}")`,
                     'background-repeat': 'no-repeat',
-                    'background-size': '100%',
+                    'height': '100%',
+                    'background-size': 'cover',
                 }
             },
         },
