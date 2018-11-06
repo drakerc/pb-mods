@@ -3,7 +3,21 @@
         <div v-if="game.logo">
             <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
         </div>
-        <h2>{{game.title}}</h2>
+
+        <div class="row">
+            <div class="col-md-10">
+                <h2>{{game.title}}</h2>
+            </div>
+            <div class="col-md-2">
+                <router-link :to="{name: 'game_mods', params: {game: game.id} }">
+                    <b-btn class="mr-2" size="lg" variant="success">
+                        <font-awesome-icon icon="cogs" />
+                        Modifications
+                    </b-btn>
+                </router-link>
+            </div>
+        </div>
+
         <div v-if="game.categories">
             <strong v-for="category in game.categories" :key="category.id">{{category.title}} </strong>
         </div>

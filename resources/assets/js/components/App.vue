@@ -11,17 +11,12 @@
                     <ul v-if="current_module === 'mods'" class="navbar-nav mr-auto">
                         <li v-if="game" class="nav-item active">
                             <router-link :to="{name: 'game_mods', params: {game: game}}">
-                                <a class="nav-link">Mody do gry {{ game_title }} > </a>
+                                <a class="nav-link">Mody do gry {{ game_title }}</a>
                             </router-link>
                         </li>
                         <li v-if="category" class="nav-item">
                             <router-link :to="{name: 'mods_category', params: {game: game, category: category}}">
-                                <a class="nav-link">Kategoria: {{ category_title }} > </a>
-                            </router-link>
-                        </li>
-                        <li v-if="mod" class="nav-item">
-                            <router-link :to="{name: 'modification_view', params: {mod: mod}}">
-                                <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
+                                <a class="nav-link">Kategoria: {{ category_title }}</a>
                             </router-link>
                         </li>
                         <li v-if="subcategories && subcategories.length > 0" class="nav-item dropdown">
@@ -29,6 +24,11 @@
                             <div v-on:click.stop class="dropdown-menu" aria-labelledby="dropdown01">
                                 <display-subcategories :subcategory=true v-if="subcategories && subcategories !== []" :categories="subcategories" :gameid="game"></display-subcategories>
                             </div>
+                        </li>
+                        <li v-if="mod" class="nav-item">
+                            <router-link :to="{name: 'modification_view', params: {mod: mod}}">
+                                <a class="nav-link">Modyfikacja: {{ mod_title }}</a>
+                            </router-link>
                         </li>
                     </ul>
                     <template v-if="current_module === 'game'">

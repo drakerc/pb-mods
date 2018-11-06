@@ -2,6 +2,7 @@
 
 namespace Tests\Browser;
 
+use App\User;
 use Tests\DuskTestCase;
 use Laravel\Dusk\Browser;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -29,11 +30,6 @@ class UserTest extends DuskTestCase
         });
     }
 
-    /**
-     * A Dusk test example.
-     *
-     * @return void
-     */
     public function testLogin()
     {
         $this->login('gallanonim@anonim.com', 'anonim');
@@ -67,6 +63,13 @@ class UserTest extends DuskTestCase
         $this->browse(function (Browser $browser) use ($nick) {
             $browser->assertSee('Welcome, ' . $nick . '!');
         });
+
+        $this->deleteTestUser($email);
     }
 
+    private function deleteTestUser($email)
+    {
+        $user = User::where('email', '=', $email)->first();
+        $user->delete();
+    }
 }
