@@ -28,7 +28,8 @@ class Game extends Model
         'title',
         'description',
         'logo_id',
-        'background_id'
+        'background_id',
+        'variant'
     ];
 
     public function developmentStudio()

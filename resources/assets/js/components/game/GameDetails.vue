@@ -24,8 +24,9 @@
                     <b-tab title="Info" class="my-2">
                         <b-row>
                             <b-col sm="8">
-                                <p>Description:</p>
-                                <em v-html="game.description"></em>
+                                <b-card :bg-variant="game.variant" :text-variant="textVariant" header="Description:">
+                                    <em v-html="game.description"></em>
+                                </b-card>
                             </b-col>
 
                             <b-col>
@@ -151,6 +152,9 @@
             setData(err, data) {
                 if (err) {
                     console.error(err);
+                    this.$router.push({
+                        'name': 'game_index'
+                    })
                 } else {
                     this.game = data;
                     this.images = data.files.map(file => {
