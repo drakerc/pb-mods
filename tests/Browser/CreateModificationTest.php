@@ -131,5 +131,12 @@ class CreateModificationTest extends DuskTestCase
                 ->assertSeeIn('@file-downloads', '0')
                 ->assertSeeIn('@file-description', $data['description']);
         });
+        $this->deleteTestMod();
+    }
+
+    private function deleteTestMod()
+    {
+        $lastMod = Modification::where('creator', '=', 1)->latest()->first();
+        $lastMod->delete();
     }
 }
