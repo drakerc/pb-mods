@@ -40,6 +40,10 @@ Vue.use(VueRouter);
 export const router = new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '',
+            redirect: '/home'
+        },
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
         {path: '/mods/:game/category/:category', component: ModsCategory, name: 'mods_category'},
         {path: '/mods/:game/category/:category/create-modification', component: ModificationCreate, name: 'modification_create'},

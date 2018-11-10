@@ -1,6 +1,6 @@
 <template>
-    <div>
-        <b-col sm="9" class="mx-auto">
+    <div class="container my-2">
+        <b-col sm="10" class="mx-auto">
             <h1>Hello!</h1>
             <div class="row">
                 <b-col sm="9">

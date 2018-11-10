@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container my-2 col-sm-9 mx-auto">
         <b-card class="my-2">
             <div>
                 <b-form @submit.prevent="onUploadNewImages">

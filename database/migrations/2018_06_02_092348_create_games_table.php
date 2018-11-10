@@ -18,12 +18,14 @@ class CreateGamesTable extends Migration
             $table->string('title');
             $table->timestamps();
             $table->text('description');
+            $table->text('variant')->nullable();
             $table->integer('logo_id')->unsigned()->nullable();
-            // TODO: Błażej reszta
+            $table->integer('background_id')->unsigned()->nullable();
         });
 
         Schema::table('games', function (Blueprint $table) {
-            $table->foreign('logo_id')->references('id')->on('files');
+            $table->foreign('logo_id')->references('id')->on('files')->onDelete('set null');
+            $table->foreign('background_id')->references('id')->on('files')-> onDelete('set null');
         });
     }
 

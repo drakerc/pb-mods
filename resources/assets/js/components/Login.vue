@@ -3,6 +3,9 @@
         <b-form ref="form" @submit.prevent="onSubmit" @reset.prevent="onReset" method="POST" action="/login">
             <input type="hidden" name="_token" :value="csrf_token">
 
+            <b-alert variant="danger" :show="error">
+                Niepoprawne dane logowania, upewnij się, że adres email oraz hasło są poprawne.
+            </b-alert>
             <b-form-group
                           label="Email:"
                           label-for="email-input">
@@ -11,23 +14,25 @@
                               name="email"
                               type="email"
                               required
+                              :state="error ? false : null"
                               placeholder="email@example.com">
                 </b-form-input>
             </b-form-group>
-            <b-form-group label="Password:"
+            <b-form-group label="Hasło:"
                           label-for="password-input">
                 <b-form-input id="password-input"
                               name="password"
                               type="password"
                               v-model="password"
+                              :state="error ? false: null"
                               required>
                 </b-form-input>
             </b-form-group>
             <b-button type="submit" variant="primary">
                 <font-awesome-icon icon="key"/>
-                Log in
+                Zaloguj się
             </b-button>
-            <b-button type="reset" variant="warning">Reset</b-button>
+            <b-button type="reset" variant="warning">Zresetuj</b-button>
         </b-form>
         <div class="my-1">
             <b-row>
@@ -50,11 +55,13 @@
                 csrf_token: window.window.csrf_token,
                 email: '',
                 password: '',
-                redirect: this.$route.query.redirect? this.$route.query.redirect : null
+                redirect: this.$route.query.redirect? this.$route.query.redirect : null,
+                error: false
             }
         },
         methods: {
             onSubmit() {
+                this.error = false;
                 axios.post('/api/auth/login', {
                     email: this.email,
                     password: this.password
@@ -62,12 +69,16 @@
                     Auth.login(response.data.access_token, response.data.username, response.data.gravatar);
                     this.$refs.form.submit();
                 }).catch(err => {
-                    console.error(err)
+                    this.error = true;
+                    this.email = '';
+                    this.password = '';
+                    console.error(err);
                 });
             },
             onReset() {
                 this.email = '';
                 this.password = '';
+                this.error = false;
             }
         }
     }

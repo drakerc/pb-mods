@@ -1,53 +1,64 @@
 <template>
-    <div class="my-2" v-if="post.title">
-        <b-jumbotron bg-variant="dark" text-variant="white" header-level="4">
-            <template slot="header">
-                {{post.title}}
-            </template>
-            <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
-            <br>
-            <em>Posted at {{post.created_at}}</em>
-        </b-jumbotron>
-        <b-button :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" variant="success">Edit post</b-button>
-        <p v-html="post.body" class="col-sm-10 my-2"></p>
-
-        <p>Comments:</p>
-        <div v-if="post.comments !== undefined && post.comments.length > 0">
-            <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
-                <b-card :id="index">
-                    <b-row class="col-sm-12">
-                        <b-col sm="0" class="mr-1 mb-2">
-                            <b-img :src="`${comment.author.gravatar}&s=50`" rounded></b-img>
-                        </b-col>
-                        <b-col>
-                            <b-row>
-                                <em>#{{index + 1}} {{comment.author.name}} on {{comment.created_at}}</em>
-                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">Delete</b-link>
-                            </b-row>
-                            <!--<b-row></b-row>-->
-                        </b-col>
-                    </b-row>
-                    <p v-html="comment.body"></p>
-                </b-card>
-            </div>
+    <div :style="backgroundImage">
+        <div class="container col-sm-9 mx-auto" v-if="post.title">
+            <b-jumbotron :bg-variant="post.game.variant" :text-variant="textVariant" header-level="5" class="mb-4">
+                <template slot="header">
+                    {{post.title}}
+                </template>
+                <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
+                <br>
+                <em>Posted at {{post.created_at}}</em>
+                <br>
+                <b-button v-if="Auth.isLoggedIn()" :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" class="mt-4" variant="success">Edit post</b-button>
+            </b-jumbotron>
+            <b-card :bg-variant="post.game.variant" :text-variant="textVariant" class="my-4">
+                <p v-html="post.body" class="my-2"></p>
+            </b-card>
+            <b-card class="my-2":bg-variant="post.game.variant" :text-variant="textVariant">
+                <p>Comments:</p>
+                <template v-if="post.comments !== undefined && post.comments.length > 0">
+                    <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
+                        <b-card :id="index" :bg-variant="post.game.variant" >
+                            <template slot="header">
+                                <b-row class="col-sm-12">
+                                    <b-col sm="0" class="mr-1 mb-1">
+                                        <b-img :src="`${comment.author.gravatar}&s=50`" thumbnail rounded></b-img>
+                                    </b-col>
+                                    <b-col>
+                                        <b-row class="my-3">
+                                            <em>#{{index + 1}} {{comment.author.name}} on {{comment.created_at}}</em>
+                                            <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">
+                                                Delete
+                                            </b-link>
+                                        </b-row>
+                                        <!--<b-row></b-row>-->
+                                    </b-col>
+                                </b-row>
+                            </template>
+                            <p v-html="comment.body"></p>
+                        </b-card>
+                    </div>
+                </template>
+                <template v-else><p>No comments found.</p></template>
+                <template v-if="!isLoggedIn">
+                    <p>Please <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">log in</b-link> to add comments.</p>
+                </template>
+                <template v-else>
+                    <b-button @click="showForm" v-if="!formVisible" class="my-1" :variant="post.game.variant === 'secondary' ? 'light' : 'secondary'">Add comment</b-button>
+                    <template v-if="formVisible">
+                        <b-card no-body :bg-variant="post.game.variant" :text-variant="textVariant" class="my-2 col-sm-10 mx-auto">
+                            <b-form @submit="onSubmit" class="my-2">
+                                <b-form-group label="Comment:">
+                                    <vue-editor v-model="comment.body" class="bg-white text-dark"></vue-editor>
+                                </b-form-group>
+                                <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
+                                <b-button @click="hideForm" variant="warning">Cancel</b-button>
+                            </b-form>
+                        </b-card>
+                    </template>
+                </template>
+            </b-card>
         </div>
-        <div v-else><p>No comments found.</p></div>
-        <template v-if="!isLoggedIn">
-            <p>Please <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">log in</b-link> to add comments.</p>
-        </template>
-        <template v-else>
-            <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
-            <div v-if="formVisible" class="my-2">
-                <b-form @submit="onSubmit" class="col-sm-10">
-                    <b-form-group label="Comment:">
-                        <vue-editor v-model="comment.body"></vue-editor>
-                    </b-form-group>
-                    <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
-                    <b-button @click="hideForm" variant="default">Cancel</b-button>
-                </b-form>
-            </div>
-        </template>
-
     </div>
 </template>
 
@@ -72,7 +83,8 @@
                     gameId: null,
                     postId: null,
                     body: null,
-                }
+                },
+                Auth
             }
         },
         components: {
@@ -81,6 +93,33 @@
         computed: {
             isLoggedIn() {
                 return Auth.isLoggedIn();
+            },
+            backgroundImage() {
+                if (this.post.game && this.post.game.background) {
+                    return {
+                        'background-image': `url("${this.post.game.background.downloadLink}")`,
+                        'background-repeat': 'no-repeat',
+                        'background-attachment': 'fixed',
+                        'height': '100%',
+                        'background-size': 'cover',
+                    };
+                }
+            },
+            textVariant() {
+                if (this.post.game.variant) {
+                    switch(this.post.game.variant) {
+                        case 'primary':
+                        case 'secondary':
+                        case 'success':
+                        case 'info':
+                        case 'warning':
+                        case 'danger':
+                        case 'dark':
+                            return 'white';
+                        default:
+                            return null;
+                    }
+                }
             }
         },
         beforeMount() {
@@ -96,6 +135,12 @@
             setData(err, data) {
                 if (err) {
                     console.error(err);
+                    this.$router.push({
+                        name: 'game_details',
+                        params: {
+                            id: this.$route.params.gameId
+                        }
+                    })
                 } else {
                     this.post = data;
                 }

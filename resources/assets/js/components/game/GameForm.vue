@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container my-2 col-sm-9 mx-auto">
         <b-form @submit.prevent="onSubmit">
             <b-form-group label="Title:" description="Your game's title">
                 <b-form-input v-model="game.title" class="col-sm-6"/>
