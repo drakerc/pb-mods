@@ -85,3 +85,8 @@ Route::get('/home', function() {
 //});
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create')->middleware('auth');
 Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth')->name('create-mod');
+
+// DEV-STUDIOS
+Route::get('/dev-studios/{id}', function($id) {
+   return view('game.start');
+});

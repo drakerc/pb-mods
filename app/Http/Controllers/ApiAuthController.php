@@ -6,6 +6,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ApiAuthController extends Controller
 {
@@ -100,6 +101,8 @@ class ApiAuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json($request->user());
+        $user = $request->user();
+        $user->studios = $user->studios()->get();
+        return response()->json($user);
     }
 }

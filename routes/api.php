@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
+// AUTH
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -76,6 +77,7 @@ Route::get('/mods/modifications/{mod}/edit-videos', 'ModificationVideoController
 Route::get('/mods/modifications/{mod}/videos', 'ModificationController@getVideosApi');
 Route::delete('/mods/modifications/{mod}/videos/{video}/delete', 'ModificationVideoController@destroy')->middleware('auth:api');
 
+// POST
 Route::get('/post/{id}/comments', 'CommentController@getForPostId');
 Route::group(['middleware' => 'auth:api'], function() {
    Route::put('/post/{id}', 'PostController@update');
@@ -84,6 +86,7 @@ Route::resource('post','PostController')->except([
     'update'
 ]);
 
+// COMMENT
 Route::group(['middleware' => 'auth:api'], function () {
    Route::post('comment', 'CommentController@store');
    Route::delete('comment/{id}', 'CommentController@destroy');
@@ -93,6 +96,7 @@ Route::resource('comment', 'CommentController')->except([
     'store', 'destroy'
 ]);
 
+// GAME
 Route::get('game/search', 'GameController@searchByPhraseInTitleOrDescription');
 Route::group(['middleware' => 'auth:api'], function () {
     Route::post('game', 'GameController@store');
@@ -103,15 +107,19 @@ Route::resource('game', 'GameController')->except([
     'store'
 ]);
 
+// POST-CATEGORY
 Route::resource('post-category', 'PostCategoryController');
 
+// USER
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');
 
+// GAME CATEGORIES
 Route::get('game-categories', 'CategoryController@getGameCategories');
 
 // DEV STUDIOS
 Route::get('/devstudios', 'DevelopmentStudioController@index')->name('DevStudiosIndex');
 Route::get('/devstudios/user-studios/{user}', 'DevelopmentStudioController@userStudios');
+Route::get('/devstudios/find/{id}', 'DevelopmentStudioController@findById');
 Route::get('/devstudios/{studio}', 'DevelopmentStudioController@details')->name('DevStudiosDetails');
 Route::get('/devstudios/{studio}/mods', 'DevelopmentStudioController@mods');
 Route::get('/devstudios/{studio}/games', 'DevelopmentStudioController@games');

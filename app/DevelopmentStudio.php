@@ -30,6 +30,11 @@ class DevelopmentStudio extends Model
         return $this->belongsToMany('App\Modification', 'modification_development_studio');
     }
 
+    public function jobOffers()
+    {
+        return $this->hasMany('App\JobOffer', 'development_studio_id');
+    }
+
     public function getSpecializationTextAttribute()
     {
         if ($this->specialization === 0) {

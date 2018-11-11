@@ -73,7 +73,13 @@ export const Auth = {
     },
 
     logout() {
-        window.localStorage.clear();
-        EventBus.$emit('logged-out');
+        return axios.get('/api/auth/logout', {
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            }
+        }).then((response) => {
+            window.localStorage.clear();
+            EventBus.$emit('logged-out');
+        }).catch(err => console.error(err));
     }
 };

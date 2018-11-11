@@ -34,6 +34,7 @@ import GameGalleryManagement from './components/game/GameGalleryManagement';
 import Register from './components/Register';
 import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
+import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
 
 Vue.use(VueRouter);
 
@@ -82,6 +83,11 @@ export const router = new VueRouter({
             }
         },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {
+            path: '/dev-studios/:id',
+            component: DevelopmentStudiosDetails,
+            name: 'dev_studio_details'
+        },
         {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
         {
             path: '/home',

@@ -34,6 +34,10 @@
                                     <div slot="header">
                                         Info:
                                     </div>
+                                        <p>Developed by:</p>
+                                        <p v-for="developmentStudio in game.development_studio" :key="developmentStudio.id">
+                                            <b-link :to="{name:'dev_studio_details', params:{id: developmentStudio.id}}" :class="textVariant">{{developmentStudio.name}}</b-link>
+                                        </p>
                                     <router-link :to="{name: 'game_mods', params: {game: game.id} }">
                                         <b-btn class="mr-2" size="lg" variant="success">
                                             <font-awesome-icon icon="cogs" />

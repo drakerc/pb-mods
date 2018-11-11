@@ -34,7 +34,7 @@ class Game extends Model
 
     public function developmentStudio()
     {
-        return $this->belongsToMany('App\DevelopmentStudio');
+        return $this->belongsToMany('App\DevelopmentStudio', 'game_development_studio');
     }
 
     public function getModificationCategories()

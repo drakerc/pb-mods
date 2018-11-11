@@ -278,6 +278,17 @@ class DevelopmentStudioController extends Controller
         ]);
     }
 
+    /**
+     * Find Development Studio by its id
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function findById(Request $request, $id)
+    {
+        return response()->json(DevelopmentStudio::with(['games.logo', 'modifications', 'jobOffers'])->findOrFail($id));
+    }
+
     private function validation(Request $request)
     {
         return $request->validate([
