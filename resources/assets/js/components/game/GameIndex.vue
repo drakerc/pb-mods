@@ -16,7 +16,7 @@
                 <b-col sm="3">
                     <p>Latest game updates:</p>
                     <b-card v-for="post in posts" :key="post.id" class="my-2 small">
-                        <b-link slot="header" :to="`/game/${post.game_id}/post/${post.id}`">{{post.title}}</b-link>
+                        <b-link slot="header" :to="`/game/post/${post.id}`">{{post.title}}</b-link>
                         <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
                         <truncate clamp="Show more" :length="90" less="Show Less" type="html" :text="post.body" action-class="text-primary"/>
                     </b-card>

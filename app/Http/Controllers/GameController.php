@@ -49,8 +49,6 @@ class GameController extends Controller
             'variant' => 'required|string'
         ]);
 
-        Log::info($request->variant);
-
         $game = new Game([
             'title' => $request->title,
             'description' => $request->description,
@@ -169,7 +167,7 @@ class GameController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteImages(Request $request, $id) {
-        Log::info($request);
+
         $request->validate([
            'images' => 'required|array|min:1'
         ]);
@@ -179,10 +177,8 @@ class GameController extends Controller
         $deleted = [];
         foreach ($request->images as $image_id)
         {
-            Log::info($image_id);
 
             $file = File::findOrFail($image_id);
-            Log::info($file);
 
             if ($file)
             {
@@ -209,12 +205,10 @@ class GameController extends Controller
         $game = Game::findOrFail($id);
         $user = $request->user();
 
-        Log::info($request->images);
         foreach ($request->images as $key => $requestFile)
         {
             $file = new File();
-            Log::info($key);
-            Log::info($requestFile->getClientOriginalName());
+
             $imageName = Str::uuid()->toString() . '-' . $game->id . '-' . $key . $requestFile->getClientOriginalName();
             $file->file_path = $requestFile->storeAs('game/files', $imageName, ['disk' => 'public']);
             $file->file_type = $requestFile->getMimeType();

@@ -18,7 +18,7 @@ class CreatePostsTable extends Migration
             $table->integer('game_id');
             $table->string('title');
             $table->integer('post_category_id');
-            $table->text('body');
+            $table->mediumText('body');
             $table->timestamps();
         });
 

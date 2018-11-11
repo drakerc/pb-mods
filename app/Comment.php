@@ -38,4 +38,9 @@ class Comment extends Model
         return $this-> belongsTo('App\User', 'author_id');
     }
 
+    public function post()
+    {
+        return $this->belongsTo('App\Post', 'post_id');
+    }
+
 }

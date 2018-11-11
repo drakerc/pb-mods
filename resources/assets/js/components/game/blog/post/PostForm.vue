@@ -91,7 +91,6 @@
                         this.post.title = data.post.title;
                         this.post.body = data.post.body;
                         this.post.postCategoryId = data.post.post_category_id;
-                        console.log(this.post.body);
                     }
                     this.loading = false;
                 }
@@ -104,7 +103,6 @@
                     const postId = this.$route.params.postId;
                     url = `/api/post/${postId}`;
                 }
-                console.log(this.post.body);
                 axios({
                     method,
                     url,

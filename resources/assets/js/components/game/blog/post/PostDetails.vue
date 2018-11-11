@@ -80,7 +80,6 @@
                 post: {},
                 formVisible: false,
                 comment: {
-                    gameId: null,
                     postId: null,
                     body: null,
                 },
@@ -123,7 +122,6 @@
             }
         },
         beforeMount() {
-            this.comment.gameId = this.$route.params.gameId;
             this.comment.postId = this.$route.params.id;
         },
         beforeRouteEnter(to, from, next) {
@@ -155,7 +153,6 @@
             onSubmit() {
                 axios.post(`/api/comment`, {
                     post_id: this.comment.postId,
-                    game_id: this.comment.gameId,
                     body: this.comment.body,
                 }).then(() => {
                     this.$router.push({

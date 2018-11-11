@@ -132,7 +132,7 @@ export const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':id/post/:postId/edit',
+                    path: 'post/:postId/edit',
                     component: PostForm,
                     name: 'edit_post_form',
                     meta: {
@@ -143,7 +143,7 @@ export const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':gameId/post/:id',
+                    path: 'post/:id',
                     component: PostDetails,
                     name: 'post_details'
                 },

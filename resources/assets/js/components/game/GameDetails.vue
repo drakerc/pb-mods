@@ -20,8 +20,8 @@
                 <em>Added on {{game.created_at}}</em>
             </b-jumbotron>
             <b-card no-body :bg-variant="game.variant" :text-variant="textVariant">
-                <b-tabs pills card>
-                    <b-tab title="Info" class="my-2">
+                <b-tabs pills card :nav-wrapper-class="navWrapperClass">
+                    <b-tab title="Info" class="my-2" :title-link-class="titleLinkClass">
                         <b-row>
                             <b-col sm="8">
                                 <b-card :bg-variant="game.variant" :text-variant="textVariant" header="Description:">
@@ -45,14 +45,14 @@
                             </b-col>
                         </b-row>
                     </b-tab>
-                    <b-tab title="Blog" class="my-2">
+                    <b-tab title="Blog" class="my-2" :title-link-class="titleLinkClass">
                         <!--TODO: if user is authenticated and is in development team-->
-                        <b-link v-if="Auth.isLoggedIn()" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-link>
+                        <b-btn v-if="Auth.isLoggedIn()" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-btn>
                         <div v-if="game.posts !== undefined && game.posts.length > 0">
                             <p>Posts:</p>
                             <b-card v-for="post in game.posts" :key="post.id" class="my-2" :bg-variant="game.variant" :text-variant="textVariant">
                                 <template slot="header">
-                                    <b-link :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
+                                    <b-link :to="{name: 'post_details', params: {id: post.id}}">{{post.title}}</b-link>
                                 </template>
                                 <p slot="header"><em>Posted at: {{post.created_at}}</em></p>
                                 <p class="card-text" v-html="post.body"></p>
@@ -62,7 +62,7 @@
                             <p>No posts available.</p>
                         </div>
                     </b-tab>
-                    <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0">
+                    <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0" :title-link-class="titleLinkClass">
                         <b-col>
                             <b-row>
                                 <gallery :images="images" :index="index" @close="index = null"></gallery>
@@ -138,7 +138,18 @@
                             return null;
                     }
                 }
+            },
+            navWrapperClass() {
+                if (!! this.game.variant && this.game.variant === 'primary') {
+                    return ['reversed'];
+                }
+            },
+            titleLinkClass() {
+                if (!! this.game.variant && this.game.variant !== 'default' && this.game.variant !== 'light'){
+                    return ['link-text-light'];
+                }
             }
+
         },
         beforeRouteEnter(to, from, next) {
             fetch(to.params.id, (err, data) => {
@@ -166,7 +177,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     img#game-logo {
         max-height: 100px;
         max-width: 150px;
@@ -188,5 +199,15 @@
     }
     .jumbotron {
 
+    }
+    .reversed {
+        /*color: #007bff;*/
+        background-color: rgba(0, 0, 0, 0.125);
+    }
+    .link-text-muted {
+        color: #6c757d;
+    }
+    .link-text-light {
+        color: #fff;
     }
 </style>
