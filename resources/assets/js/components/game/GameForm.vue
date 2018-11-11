@@ -15,6 +15,11 @@
                 <b-form-select multiple :options="gameCategories" v-model="game.gameCategoryIds" class="col-sm-6"></b-form-select>
             </b-form-group>
 
+            <errors-alert v-if="invalid && !! errors.development_studios" :errors="errors.development_studios"></errors-alert>
+            <b-form-group label="Development studios:">
+                <b-form-select multiple :options="developmentStudios" v-model="game.developmentStudios" class="col-sm-6"></b-form-select>
+            </b-form-group>
+
             <errors-alert v-if="invalid && !! errors.logo_file" :errors="errors.logo_file"></errors-alert>
             <b-form-group label="Game logo:">
                 <b-form-file accept="image/*" v-model="logoFile" placeholder="Choose an image file" class="col-sm-6"></b-form-file>
@@ -64,7 +69,12 @@
 
     const fetchGameCategories = (callback) => {
         axios.get(`/api/game-categories`).then((response) => {
-            callback(null, response.data);
+            axios.get('/api/devstudios/all').then((userStudiosResponse) => {
+                callback(null, {
+                    categories: response.data,
+                    studios: userStudiosResponse.data
+                });
+            }).catch(err => callback(err, err.response.data));
         }).catch(err => callback(err, err.response.data));
     };
 
@@ -86,14 +96,14 @@
                     description: null,
                     gameCategoryIds: [],
                     variant: null,
+                    developmentStudios: []
                 },
                 logoFile: null,
                 backgroundFile: null,
-                gameCategories: [
-                    {value: null, text: 'Please select one (or more) categories from below:', disabled: true, selected: true}
-                ],
+                gameCategories: [],
                 invalid: false,
-                errors: null
+                errors: null,
+                developmentStudios: []
             }
         },
         beforeRouteEnter(to, from, next) {
@@ -106,10 +116,16 @@
                 if (err) {
                     console.error(err);
                 } else {
-                    data.forEach(gameCategory => {
+                    data.categories.forEach(gameCategory => {
                         this.gameCategories.push({
                             value: gameCategory.id,
                             text: gameCategory.title
+                        });
+                    });
+                    data.studios.forEach(studio => {
+                        this.developmentStudios.push({
+                            value: studio.id,
+                            text: studio.name
                         });
                     });
                 }
@@ -122,6 +138,7 @@
                 formData.append('title', this.game.title);
                 formData.append('game_category_ids', this.game.gameCategoryIds);
                 formData.append('variant', this.game.variant);
+                formData.append('development_studios', this.game.developmentStudios);
                 if (this.logoFile) {
                     formData.append('logo_file', this.logoFile);
                 }

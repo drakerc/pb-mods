@@ -46,7 +46,8 @@ class GameController extends Controller
             'game_category_ids' => 'required', //TODO: make it check arrays from FormData?
             'logo_file' => 'required|image|max:1000',
             'background_file' => 'required|image',
-            'variant' => 'required|string'
+            'variant' => 'required|string',
+            'development_studios' => 'required'
         ]);
 
         $game = new Game([
@@ -86,6 +87,12 @@ class GameController extends Controller
         foreach ($game_categories as $category)
         {
             $game->categories()->attach($category);
+        }
+
+        $development_studios = explode(',', $request->development_studios);
+        foreach ($development_studios as $studio)
+        {
+            $game->developmentStudio()->attach($studio);
         }
 
         return response()->json($game);

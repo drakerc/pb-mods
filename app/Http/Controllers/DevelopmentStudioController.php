@@ -289,6 +289,11 @@ class DevelopmentStudioController extends Controller
         return response()->json(DevelopmentStudio::with(['games.logo', 'modifications', 'jobOffers'])->findOrFail($id));
     }
 
+    public function listAll(Request $request)
+    {
+        return response()->json(DevelopmentStudio::all());
+    }
+
     private function validation(Request $request)
     {
         return $request->validate([

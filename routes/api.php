@@ -118,6 +118,7 @@ Route::get('game-categories', 'CategoryController@getGameCategories');
 
 // DEV STUDIOS
 Route::get('/devstudios', 'DevelopmentStudioController@index')->name('DevStudiosIndex');
+Route::get('/devstudios/all', 'DevelopmentStudioController@listAll');
 Route::get('/devstudios/user-studios/{user}', 'DevelopmentStudioController@userStudios');
 Route::get('/devstudios/find/{id}', 'DevelopmentStudioController@findById');
 Route::get('/devstudios/{studio}', 'DevelopmentStudioController@details')->name('DevStudiosDetails');

@@ -28,12 +28,10 @@
                         <b-card>
                             <div @click="showGameDetailsPage(game.id)" class="my-0">
                                 <b-row>
-                                    <b-col v-if="game.logo" sm="2">
+                                    <div v-if="game.logo">
                                         <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
-                                    </b-col>
-                                    <b-col>
-                                        <h3 class="mt-4 game-title">{{game.title}}</h3>
-                                    </b-col>
+                                    </div>
+                                    <h3 class="mt-4 ml-4 game-title">{{game.title}}</h3>
                                 </b-row>
                             </div>
                         </b-card>
