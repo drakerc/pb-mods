@@ -61,13 +61,13 @@
         },
         computed: {
             emailValid() {
-                return this.email && this.email.length > 3;
+                return this.email && this.email.length > 4;
             },
             usernameValid() {
-                return this.username && this.username.length > 3;
+                return this.username && this.username.length > 5;
             },
             passwordValid() {
-                return this.password && this.password.length > 3;
+                return this.password && this.password.length > 5;
             },
             passwordConfirmValid() {
                 return this.passwordConfirm && this.passwordConfirm === this.password;

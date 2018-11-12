@@ -36,6 +36,7 @@ import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
 import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
 import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
+import MyProfile from './components/user/MyProfile';
 
 Vue.use(VueRouter);
 
@@ -161,6 +162,15 @@ export const router = new VueRouter({
                 },
             ]
         },
+        {
+            path: '/my-profile',
+            component: MyProfile,
+            name: 'my_profile',
+            meta: {
+                requiresAuth: true
+            },
+            props: true
+        }
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }

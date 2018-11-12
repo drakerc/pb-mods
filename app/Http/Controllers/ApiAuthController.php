@@ -22,9 +22,9 @@ class ApiAuthController extends Controller
     public function signup(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|string|email|unique:users',
-            'password' => 'required|string|confirmed'
+            'name' => 'required|string|min:6|unique:users',
+            'email' => 'required|string|email|min:5|unique:users',
+            'password' => 'required|string|min:6|confirmed'
         ]);
 
         $user = new User([
@@ -103,6 +103,61 @@ class ApiAuthController extends Controller
     {
         $user = $request->user();
         $user->studios = $user->studios()->get();
+        $user->comments = $user->comments()->get();
         return response()->json($user);
+    }
+
+    public function updateUserData(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:6|unique:users',
+            'password' => 'required|string'
+        ]);
+        $user = $request->user();
+
+        $credentials = [
+            'email' => $user->email,
+            'password' => $request->password
+        ];
+
+        if(Auth::guard('web')->attempt($credentials)) {
+            $user->name = $request->name;
+
+            $user->save();
+
+            return response()->json([
+                'message' => 'User updated successfully.'
+            ],200);
+        }
+        return response()->json([
+            'message' => 'Incorrect password was given.'
+        ], 400);
+    }
+
+    public function updateUserPassword(Request $request)
+    {
+        $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+            'old_password' => 'required|string'
+        ]);
+        $user = $request->user();
+
+        $credentials = [
+            'email' => $user->email,
+            'password' => $request->old_password
+        ];
+
+        if(Auth::guard('web')->attempt($credentials)) {
+            $user->password = bcrypt($request->password);
+
+            $user->save();
+
+            return response()->json([
+                'message' => 'User updated successfully.'
+            ],200);
+        }
+        return response()->json([
+            'message' => 'Incorrect password was given.'
+        ], 400);
     }
 }

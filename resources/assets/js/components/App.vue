@@ -86,7 +86,7 @@
                                 <template slot="button-content">
                                     <b-img v-if="gravatar" rounded="circle" :src="`${gravatar}&s=30`" class="mr-1"></b-img>
                                 </template>
-                                <b-dd-item>
+                                <b-dd-item :to="{name: 'my_profile'}">
                                     <font-awesome-icon icon="user"/>
                                     Mój Profil
                                 </b-dd-item>
@@ -238,6 +238,9 @@
             EventBus.$on('gravatar-received', gravatar => {
                 console.log(`gravatar: ${gravatar}`);
                 this.gravatar = gravatar;
+            });
+            EventBus.$on('user-updated', (user) => {
+                this.username = user;
             });
         }
     }

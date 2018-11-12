@@ -25,6 +25,9 @@ Route::group(['prefix' => 'auth'], function () {
     Route::group(['middleware' => 'auth:api'], function () {
         Route::get('logout', 'ApiAuthController@logout');
         Route::get('user', 'ApiAuthController@user');
+        Route::post('update-user-data', 'ApiAuthController@updateUserData');
+        Route::post('update-user-password', 'ApiAuthController@updateUserPassword');
+
     });
 });
 

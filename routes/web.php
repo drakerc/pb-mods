@@ -95,3 +95,8 @@ Route::get('/dev-studios/{id}', function($id) {
 Route::get('/job-offers{any}', function () {
     return view('game.start');
 })->where('any', '.*');
+
+// USER
+Route::get('/my-profile', function() {
+    return view('game.start');
+})->where('any', '.*');
