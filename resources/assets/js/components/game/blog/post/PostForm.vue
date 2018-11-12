@@ -1,18 +1,20 @@
 <template>
-    <div v-if="loading">Loading...</div>
-    <div v-else class="col-sm-10 offset-sm-1">
-        <b-form @submit.prevent="onSubmit">
-            <b-form-group label="Title:" description="Your post's title">
-                <b-form-input v-model="post.title" class="col-sm-6"/>
-            </b-form-group>
-            <b-form-group label="Post Category">
-                <b-form-select :options="postCategories" v-model="post.postCategoryId" class="col-sm-6"></b-form-select>
-            </b-form-group>
-            <b-form-group label="Body:">
-                <vue-editor v-model="post.body"></vue-editor>
-            </b-form-group>
-            <b-button type="submit" variant="primary" :disabled="!isValid">Submit</b-button>
-        </b-form>
+    <div class="container my-2 col-sm-9 mx-auto">
+        <div v-if="loading">Loading...</div>
+        <div v-else class="col-sm-10 offset-sm-1">
+            <b-form @submit.prevent="onSubmit">
+                <b-form-group label="Title:" description="Your post's title">
+                    <b-form-input v-model="post.title" class="col-sm-6"/>
+                </b-form-group>
+                <b-form-group label="Post Category">
+                    <b-form-select :options="postCategories" v-model="post.postCategoryId" class="col-sm-6"></b-form-select>
+                </b-form-group>
+                <b-form-group label="Body:">
+                    <vue-editor v-model="post.body"></vue-editor>
+                </b-form-group>
+                <b-button type="submit" variant="primary" :disabled="!isValid">Submit</b-button>
+            </b-form>
+        </div>
     </div>
 </template>
 

@@ -90,3 +90,8 @@ Route::post('/mods/create-modification', 'ModificationController@create')->middl
 Route::get('/dev-studios/{id}', function($id) {
    return view('game.start');
 });
+
+// JOB OFFERS
+Route::get('/job-offers{any}', function () {
+    return view('game.start');
+})->where('any', '.*');

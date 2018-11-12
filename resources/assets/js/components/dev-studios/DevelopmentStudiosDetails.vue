@@ -51,9 +51,9 @@
                     <div v-for="offer in studio.job_offers" :key="offer.id" class="my-2">
                         <b-card>
                             <template slot="header">
-                                <b-link :to="{name: 'job_offer', params:{id: offer.id}}">{{offer.title}}</b-link>
+                                <b-link :to="{name: 'job_offer_details', params:{id: offer.id}}">{{offer.title}}</b-link>
                             </template>
-                            <p v-html="offer.body"></p>
+                            <truncate clamp="Show more" :length="100" less="Show Less" type="html" :text="offer.body" action-class="text-primary"/>
                         </b-card>
                     </div>
                 </b-tab>
@@ -64,6 +64,7 @@
 
 <script>
     import axios from 'axios';
+    import truncate from 'vue-truncate-collapsed';
 
     const fetch = (id, callback) => {
         axios.get(`/api/devstudios/find/${id}`).then((response) => {
@@ -78,6 +79,9 @@
                 studio: {},
             }
         },
+        components: {
+            truncate
+        },
         beforeRouteEnter(to, from, next) {
             fetch(to.params.id, (err, data) => {
                 next(vm => vm.setData(err, data));
@@ -89,7 +93,7 @@
                     console.error(err);
                     this.$router.push({
                         name: 'home'
-                    })
+                    });
                 } else {
                     this.studio = data;
                 }

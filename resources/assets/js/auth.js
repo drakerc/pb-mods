@@ -80,6 +80,14 @@ export const Auth = {
         }).then((response) => {
             window.localStorage.clear();
             EventBus.$emit('logged-out');
-        }).catch(err => console.error(err));
+        }).catch(err => {
+            console.error(err);
+            if (err.response.status === 401) {
+                // assumming that token is invalid
+                window.localStorage.clear();
+            }
+        });
     }
 };
+
+export default Auth;

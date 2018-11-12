@@ -35,6 +35,7 @@ import Register from './components/Register';
 import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
 import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
+import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
 
 Vue.use(VueRouter);
 
@@ -93,6 +94,11 @@ export const router = new VueRouter({
             path: '/home',
             component: Home,
             name: 'home'
+        },
+        {
+            path: '/job-offers/:id',
+            component: JobOfferDetails,
+            name: 'job_offer_details'
         },
         {
             path: '/game',

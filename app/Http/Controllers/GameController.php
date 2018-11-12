@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\Game;
+use App\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -151,11 +152,20 @@ class GameController extends Controller
     public function searchByPhraseInTitleOrDescription(Request $request)
     {
         $phrase = $request->phrase;
+
         $games = Game::where('title', 'like', '%' . $phrase . '%')
             ->orWhere('description', 'like', '%' . $phrase . '%')
-            ->get(['id', 'title']);
+            ->with('logo')
+            ->get(['id', 'title', 'logo_id']);
 
-        return response()->json($games);
+        $posts = Post::where('title', 'like', '%' . $phrase . '%')
+            ->orWhere('body', 'like', '%' . $phrase . '%')
+            ->get(['id', 'title', 'body']);
+
+        return response()->json([
+            'games' => $games,
+            'posts' => $posts
+        ]);
     }
 
     public function indexWeb()

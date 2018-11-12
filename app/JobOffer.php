@@ -11,13 +11,19 @@ class JobOffer extends Model
         'development_studio_id',
         'title',
         'body',
+        'email',
         'valid_until'
     ];
 
-    public function isValid()
+    public function getIsValidAttribute()
     {
         $now = Carbon::now();
         return $this->valid_until > $now;
+    }
+
+    public function developmentStudio()
+    {
+        return $this->belongsTo('App\DevelopmentStudio', 'development_studio_id');
     }
 
 }

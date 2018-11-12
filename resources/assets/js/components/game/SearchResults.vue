@@ -5,12 +5,30 @@
             <div v-else>
                 <p>Results for <em>"{{phrase}}"</em>:</p>
                 <div v-if="games.length > 0">
+                    <p>Games:</p>
                     <b-list-group>
-                        <b-list-group-item v-for="game in games" :key="game.id" :to="{name: 'game_details', params: {id: game.id}}">{{game.title}}</b-list-group-item>
+                        <b-list-group-item v-for="game in games" :key="game.id" :to="{name: 'game_details', params: {id: game.id}}">
+                            <b-row>
+                                <div v-if="game.logo">
+                                    <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
+                                </div>
+                                <h2 class="mx-auto mt-4">{{game.title}}</h2>
+                            </b-row>
+                        </b-list-group-item>
                     </b-list-group>
+                    <br><br><br>
                 </div>
-                <div v-else>
-                    <p class="lead">No results found.</p>
+                <div v-if="posts.length > 0">
+                    <p>Posts:</p>
+                    <b-card v-for="post in posts" :key="post.id">
+                        <template slot="header">
+                            <b-link :to="{name: 'post_details', params:{id: post.id}}">{{post.title}}</b-link>
+                        </template>
+                        <p v-html="post.body"/>
+                    </b-card>
+                </div>
+                <div v-if="games.length === 0 && posts.length === 0">
+                    <h5>Brak rezultatów.</h5>
                 </div>
             </div>
         </div>
@@ -36,6 +54,7 @@
         data() {
             return {
                 games: [],
+                posts: [],
                 phrase: this.$route.query.phrase,
                 loading: true
             }
@@ -55,7 +74,8 @@
                     if (err) {
                         console.error(err);
                     } else {
-                        this.games = data;
+                        this.games = data.games;
+                        this.posts = data.posts;
                     }
                 });
             }
@@ -64,5 +84,8 @@
 </script>
 
 <style scoped>
-
+    img#game-logo {
+        max-height: 100px;
+        max-width: 150px;
+    }
 </style>

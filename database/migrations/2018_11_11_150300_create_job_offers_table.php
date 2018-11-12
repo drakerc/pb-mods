@@ -18,6 +18,7 @@ class CreateJobOffersTable extends Migration
             $table->integer('development_studio_id')->unsigned();
             $table->string('title');
             $table->text('body');
+            $table->string('email');
             $table->date('valid_until');
             $table->timestamps();
         });

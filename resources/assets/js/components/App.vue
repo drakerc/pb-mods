@@ -55,7 +55,14 @@
                                 <font-awesome-icon icon="gamepad"/>
                                 Games
                             </b-nav-item>
-                            <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
+                            <b-nav-item to="/mods/1"> <!-- TODO -->
+                                <font-awesome-icon icon="cogs"/>
+                                Mods
+                            </b-nav-item>
+                            <b-nav-item to="/dev-studios/1/mods"> <!-- TODO -->
+                                <font-awesome-icon icon="desktop"/>
+                                Development Studios
+                            </b-nav-item>
                         </b-navbar-nav>
                     </template>
                     <template v-if="!isLogged">
@@ -88,7 +95,7 @@
                                     Moje modyfikacje
                                 </b-dd-item>
                                 <b-dd-divider></b-dd-divider>
-                                <b-dropdown-item-button @click="logout">
+                                <b-dropdown-item-button @click="logout" style="cursor: pointer;">
                                     <font-awesome-icon icon="door-closed"/>
                                     Logout
                                 </b-dropdown-item-button>
@@ -191,7 +198,7 @@
                 if (this.$route.path.startsWith('/mods')) {
                     this.current_module = 'mods';
                     this.current_module_name = 'Portal modyfikacji';
-                } else if (this.$route.path.startsWith('/devstudios')) {
+                } else if (this.$route.path.startsWith('/dev-studios') || this.$route.path.startsWith('/devstudios')) {
                     this.current_module = 'teams';
                     this.current_module_name = 'Portal developmentu';
                 } else if (this.$route.path.startsWith('/game')) {
@@ -199,7 +206,7 @@
                     this.current_module_name = 'Portal gier';
                 } else {
                     this.current_module = 'none';
-                    this.current_module_name = null;
+                    this.current_module_name = 'Portal gier i modyfikacji';
                 }
             }
         },

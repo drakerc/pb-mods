@@ -4,7 +4,12 @@
             <input type="hidden" name="_token" :value="csrf_token">
 
             <b-alert variant="danger" :show="error">
-                Niepoprawne dane logowania, upewnij się, że adres email oraz hasło są poprawne.
+                <p v-if="statusCode === 400 || statusCode === 401">
+                    Niepoprawne dane logowania, upewnij się, że adres email oraz hasło są poprawne.
+                </p>
+                <p v-else-if="statusCode === 500">
+                    Nieokreślony błąd po stronie serwera, spróbuj ponownie później
+                </p>
             </b-alert>
             <b-form-group
                           label="Email:"
@@ -56,7 +61,8 @@
                 email: '',
                 password: '',
                 redirect: this.$route.query.redirect? this.$route.query.redirect : null,
-                error: false
+                error: false,
+                statusCode: 0,
             }
         },
         methods: {
@@ -70,6 +76,7 @@
                     this.$refs.form.submit();
                 }).catch(err => {
                     this.error = true;
+                    this.statusCode = err.response.status;
                     this.email = '';
                     this.password = '';
                     console.error(err);

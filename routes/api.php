@@ -131,3 +131,11 @@ Route::post('/devstudios/{studio}/members/add', 'DevelopmentStudioController@add
 Route::delete('/devstudios/{studio}/members/delete', 'DevelopmentStudioController@deleteMember')->middleware('auth:api');
 Route::get('/devstudios/create', 'DevelopmentStudioController@create')->middleware('auth:api');
 Route::post('/devstudios/create', 'DevelopmentStudioController@create')->middleware('auth:api');
+
+// JOB OFFERS
+Route::resource('job-offer', 'JobOfferController')->except([
+    'store'
+]);
+Route::group(['middleware' => 'auth:api'], function () {
+   Route::post('job-offer', 'JobOfferController@store');
+});
