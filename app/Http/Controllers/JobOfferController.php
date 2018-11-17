@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DevelopmentStudio;
 use App\JobOffer;
+use App\Mail\JobOfferSent;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class JobOfferController extends Controller
 {
@@ -92,5 +95,33 @@ class JobOfferController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Sends email about applying for a job offer
+     * @param $id
+     * @param Request $request
+     */
+    public function emailApply(Request $request, $id)
+    {
+        $job_offer = JobOffer::with('developmentStudio')->findOrFail($id);
+        $development_studio = $job_offer->developmentStudio;
+        $user = $request->user();
+        $result = $development_studio->users()->where('user_id', '=', $user->id)->get();
+        Log::info($result);
+        if (sizeof($result) > 0) {
+            Log::warning('Result is not null');
+            return response()->json([
+                'message' => 'You cannot send a job offer if you already are in this studio!'
+            ], 400);
+        }
+
+        Mail::to(env('MAIL_TO_ADDRESS', $job_offer->email))
+            // if MAIL_TO_ADDRESS env value is set, all emails will be sent there
+            ->send(new JobOfferSent($user, $development_studio, $job_offer, $request->file));
+
+        return response()->json([
+            'message' => 'email sent successfully!'
+        ]);
     }
 }

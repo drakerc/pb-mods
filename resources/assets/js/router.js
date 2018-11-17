@@ -37,6 +37,7 @@ import UserMods from './components/mods/modification/UserMods';
 import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
 import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
 import MyProfile from './components/user/MyProfile';
+import JobOfferForm from './components/dev-studios/job-offers/JobOfferForm';
 
 Vue.use(VueRouter);
 
@@ -99,7 +100,16 @@ export const router = new VueRouter({
         {
             path: '/job-offers/:id',
             component: JobOfferDetails,
-            name: 'job_offer_details'
+            name: 'job_offer_details',
+            props: true
+        },
+        {
+            path: '/job-offers/:id/apply',
+            component: JobOfferForm,
+            name: 'job_offer_form',
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/game',

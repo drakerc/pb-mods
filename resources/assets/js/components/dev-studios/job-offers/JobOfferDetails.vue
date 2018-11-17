@@ -4,6 +4,9 @@
             Wczytywanie...
         </template>
         <template v-if="!loading">
+            <b-alert :show="emailSent" variant="success">
+                Email został wysłany pomyślnie, dziękujemy za złożenie aplikacji!
+            </b-alert>
             <b-jumbotron header-level="4" header-tag="h4">
                 <template slot="header">
                     {{offer.title}}
@@ -22,11 +25,12 @@
                 <p v-html="offer.body"></p>
             </b-card>
             <b-row v-if="Auth.isLoggedIn()">
-                <b-btn :href="`mailto:${offer.email}?Subject=Job Offer (${offer.title})`" class="my-2 mx-auto" variant="info">
+                <b-btn :to="{name: 'job_offer_form', params:{id: offer.id}}" class="my-2 mx-auto" variant="info">
                     <font-awesome-icon icon="envelope"/>
                     Zaaplikuj!
                 </b-btn>
             </b-row>
+            <p v-else><b-link :to="{name: 'login', query:{redirectTo: $route.fullPath}}">Zaloguj się</b-link>, by złożyć aplikację!</p>
         </template>
     </div>
 </template>
@@ -44,6 +48,7 @@
 
     export default {
         name: "JobOfferDetails",
+        props: ['emailSent'],
         data() {
             return {
                 offer: {},

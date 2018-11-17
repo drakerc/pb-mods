@@ -141,4 +141,5 @@ Route::resource('job-offer', 'JobOfferController')->except([
 ]);
 Route::group(['middleware' => 'auth:api'], function () {
    Route::post('job-offer', 'JobOfferController@store');
+   Route::post('job-offer/{id}/apply', 'JobOfferController@emailApply');
 });
