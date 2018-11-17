@@ -3,7 +3,8 @@ import {Auth} from "./auth";
 
 function getData(to) {
     return new Promise((resolve) => {
-        let serverData = JSON.parse(window.window.mods_model) || {};
+        let serverData = window.window.mods_model === undefined ? {} : JSON.parse(window.window.mods_model);
+
         if (!serverData.path || to.path !== serverData.path) {
             axios.get(`/api${to.path}`, {
                 headers: {

@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\File;
 use App\Game;
+use App\Post;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class GameController extends Controller
 {
@@ -43,34 +45,55 @@ class GameController extends Controller
             'title' => 'required|max:255',
             'description' => 'required',
             'game_category_ids' => 'required', //TODO: make it check arrays from FormData?
-            'logoFile' => 'required|image|max:1000'
+            'logo_file' => 'required|image|max:1000',
+            'background_file' => 'required|image',
+            'variant' => 'required|string',
+            'development_studios' => 'required'
         ]);
 
         $game = new Game([
-           'title' => $request->title,
-           'description' => $request->description
+            'title' => $request->title,
+            'description' => $request->description,
+            'variant' => $request->variant
         ]);
 
         $user = $request->user();
 
-        $imageName = Carbon::now()->timestamp . $request->logoFile->getClientOriginalName();
+        $image_file_name = Str::uuid()->toString() . $request->logo_file->getClientOriginalName();
 
+        $logo_image_file = new File();
+        $logo_image_file->file_path = $request->logo_file->storeAs('game/logo', $image_file_name, ['disk' => 'public']);
+        $logo_image_file->file_type = $request->logo_file->getMimeType();
+        $logo_image_file->file_size = $request->logo_file->getSize();
+        $logo_image_file->uploader_id = $user->id;
 
-        $imageFile = new File();
-        $imageFile->file_path = $request->logoFile->storeAs('game/logo', $imageName, ['disk' => 'public']);
-        $imageFile->file_type = $request->logoFile->getMimeType();
-        $imageFile->file_size = $request->logoFile->getSize();
-        $imageFile->uploader_id = $user->id;
+        $logo_image_file->save();
 
-        $imageFile->save();
+        $background_image_name = Str::uuid()->toString() . $request->background_file->getClientOriginalName();
 
-        $game->logo_id = $imageFile->id;
+        $background_image_file = new File();
+        $background_image_file->file_path = $request->background_file->storeAs('game/background', $background_image_name, ['disk' => 'public']);
+        $background_image_file->file_type = $request->background_file->getMimeType();
+        $background_image_file->file_size = $request->background_file->getSize();
+        $background_image_file->uploader_id = $user->id;
+
+        $background_image_file->save();
+
+        $game->background()->associate($background_image_file);
+        $game->logo()->associate($logo_image_file);
+
         $game->save();
 
         $game_categories = explode(',', $request->game_category_ids);
         foreach ($game_categories as $category)
         {
             $game->categories()->attach($category);
+        }
+
+        $development_studios = explode(',', $request->development_studios);
+        foreach ($development_studios as $studio)
+        {
+            $game->developmentStudio()->attach($studio);
         }
 
         return response()->json($game);
@@ -84,11 +107,8 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $game = Game::with(['posts', 'logo', 'categories', 'files'])->FindOrFail($id);
+        $game = Game::with(['posts', 'logo', 'categories', 'files', 'background', 'developmentStudio'])->FindOrFail($id);
         return response()->json($game);
-//        return response()->json([
-//           'game' => $game
-//        ]);
     }
 
     /**
@@ -132,11 +152,20 @@ class GameController extends Controller
     public function searchByPhraseInTitleOrDescription(Request $request)
     {
         $phrase = $request->phrase;
+
         $games = Game::where('title', 'like', '%' . $phrase . '%')
             ->orWhere('description', 'like', '%' . $phrase . '%')
-            ->get(['id', 'title']);
+            ->with('logo')
+            ->get(['id', 'title', 'logo_id']);
 
-        return response()->json($games);
+        $posts = Post::where('title', 'like', '%' . $phrase . '%')
+            ->orWhere('body', 'like', '%' . $phrase . '%')
+            ->get(['id', 'title', 'body']);
+
+        return response()->json([
+            'games' => $games,
+            'posts' => $posts
+        ]);
     }
 
     public function indexWeb()
@@ -155,7 +184,7 @@ class GameController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function deleteImages(Request $request, $id) {
-        Log::info($request);
+
         $request->validate([
            'images' => 'required|array|min:1'
         ]);
@@ -165,10 +194,8 @@ class GameController extends Controller
         $deleted = [];
         foreach ($request->images as $image_id)
         {
-            Log::info($image_id);
 
             $file = File::findOrFail($image_id);
-            Log::info($file);
 
             if ($file)
             {
@@ -195,13 +222,11 @@ class GameController extends Controller
         $game = Game::findOrFail($id);
         $user = $request->user();
 
-        Log::info($request->images);
         foreach ($request->images as $key => $requestFile)
         {
             $file = new File();
-            Log::info($key);
-            Log::info($requestFile->getClientOriginalName());
-            $imageName = Carbon::now()->timestamp . '-' . $game->id . '-' . $key . $requestFile->getClientOriginalName();
+
+            $imageName = Str::uuid()->toString() . '-' . $game->id . '-' . $key . $requestFile->getClientOriginalName();
             $file->file_path = $requestFile->storeAs('game/files', $imageName, ['disk' => 'public']);
             $file->file_type = $requestFile->getMimeType();
             $file->file_size = $requestFile->getSize();

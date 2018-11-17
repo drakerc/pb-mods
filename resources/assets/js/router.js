@@ -34,12 +34,19 @@ import GameGalleryManagement from './components/game/GameGalleryManagement';
 import Register from './components/Register';
 import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
+import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
+import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
+import MyProfile from './components/user/MyProfile';
 
 Vue.use(VueRouter);
 
 export const router = new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '',
+            redirect: '/home'
+        },
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
         {path: '/mods/:game/category/:category', component: ModsCategory, name: 'mods_category'},
         {path: '/mods/:game/category/:category/create-modification', component: ModificationCreate, name: 'modification_create'},
@@ -78,11 +85,21 @@ export const router = new VueRouter({
             }
         },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {
+            path: '/dev-studios/:id',
+            component: DevelopmentStudiosDetails,
+            name: 'dev_studio_details'
+        },
         {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
         {
             path: '/home',
             component: Home,
             name: 'home'
+        },
+        {
+            path: '/job-offers/:id',
+            component: JobOfferDetails,
+            name: 'job_offer_details'
         },
         {
             path: '/game',
@@ -128,7 +145,7 @@ export const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':id/post/:postId/edit',
+                    path: 'post/:postId/edit',
                     component: PostForm,
                     name: 'edit_post_form',
                     meta: {
@@ -139,12 +156,21 @@ export const router = new VueRouter({
                     }
                 },
                 {
-                    path: ':gameId/post/:id',
+                    path: 'post/:id',
                     component: PostDetails,
                     name: 'post_details'
                 },
             ]
         },
+        {
+            path: '/my-profile',
+            component: MyProfile,
+            name: 'my_profile',
+            meta: {
+                requiresAuth: true
+            },
+            props: true
+        }
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }

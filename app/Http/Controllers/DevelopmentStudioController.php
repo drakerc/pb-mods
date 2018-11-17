@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\DevelopmentStudio;
 use App\Modification;
 use App\User;
+use Carbon\Carbon;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -276,6 +278,24 @@ class DevelopmentStudioController extends Controller
         return response()->json([
             'status' => true
         ]);
+    }
+
+    /**
+     * Find Development Studio by its id
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    public function findById(Request $request, $id)
+    {
+        return response()->json(DevelopmentStudio::with(['games.logo', 'modifications', 'jobOffers' => function($query) {
+            $query->whereDate('valid_until', '>=', Carbon::now());
+        }])->findOrFail($id));
+    }
+
+    public function listAll(Request $request)
+    {
+        return response()->json(DevelopmentStudio::all());
     }
 
     private function validation(Request $request)

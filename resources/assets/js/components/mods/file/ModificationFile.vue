@@ -1,18 +1,18 @@
 <template>
     <div class="col-md-6">
-        <div class="card mb-6 box-shadow">
+        <div class="card file-card mb-6 box-shadow">
             <div class="text-center">
-                <h3 class="mod-info-value">{{ file.pivot.title }}</h3>
+                <h3 dusk="file-title" class="mod-info-value">{{ file.pivot.title }}</h3>
             </div>
 
             <div class="card-body">
-                <p class="card-text"><span v-html="file.pivot.description"></span></p>
+                <p class="card-text"><span dusk="file-description" v-html="file.pivot.description"></span></p>
                 <div>
                     <div class="row">
                         <div class="col-md-6">
                             Rozmiar:
                         </div>
-                        <div class="col-md-6 mod-info-value">
+                        <div dusk="file-size" class="col-md-6 mod-info-value">
                             {{ file.humanReadableFilesize }}
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                         <div class="col-md-6">
                             Rozszerzenie:
                         </div>
-                        <div class="col-md-6 mod-info-value">
+                        <div dusk="file-extension" class="col-md-6 mod-info-value">
                             {{ file.file_type }}
                         </div>
                     </div>
@@ -28,7 +28,7 @@
                         <div class="col-md-6">
                             Ilość pobrań:
                         </div>
-                        <div class="col-md-6 mod-info-value">
+                        <div dusk="file-downloads" class="col-md-6 mod-info-value">
                             {{ file.downloads }}
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                         <div class="col-md-6">
                             Wrzucił:
                         </div>
-                        <div class="col-md-6 mod-info-value">
+                        <div dusk="file-uploader" class="col-md-6 mod-info-value">
                             {{ file.creatorName }}
                         </div>
                     </div>

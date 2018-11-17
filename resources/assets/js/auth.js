@@ -18,11 +18,7 @@ export const Auth = {
     },
 
     getUser() {
-        const token = window.localStorage.getItem('token');
-        if (token) {
-            axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-            return window.localStorage.getItem('user');
-        }
+        return window.localStorage.getItem('user');
     },
 
     getId() {
@@ -33,36 +29,50 @@ export const Auth = {
         return null;
     },
 
-    getUserData() {
-        const userData = window.localStorage.getItem('user-data');
+    getUserGravatar() {
+        let gravatar = window.localStorage.getItem('gravatar');
+        if (gravatar) {
+            return gravatar;
+        }
+        console.log('dupa');
+        let userData = window.localStorage.getItem('user-data');
         if (userData) {
-            return userData;
+            gravatar = JSON.parse(userData).gravatar;
+            window.localStorage.setItem('gravatar', gravatar);
+            return gravatar;
         }
         const token = window.localStorage.getItem('token');
         if (token) {
             axios.get('/api/auth/user').then((response) => {
-                window.localStorage.setItem('user-data', JSON.stringify(response.data));
-                console.log(response.data);
-                return response.data;
+                gravatar = response.data['gravatar'];
+                window.localStorage.setItem('gravatar', gravatar);
+                EventBus.$emit('gravatar-received', gravatar);
             });
         }
         return null;
     },
 
-    getUserGravatar() {
-        let userData = window.localStorage.getItem('user-data');
-        if (userData) {
-            return JSON.parse(userData).gravatar;
-        }
-        userData = this.getUserData();
-        if (userData) {
-            return userData['gravatar']
-        }
-        return null;
+    logout() {
+        return axios.get('/api/auth/logout', {
+            headers: {
+                'Authorization': 'Bearer ' + window.localStorage.getItem('token')
+            }
+        }).then((response) => {
+            window.localStorage.clear();
+            EventBus.$emit('logged-out');
+        }).catch(err => {
+            console.error(err);
+            if (err.response.status === 401) {
+                // assumming that token is invalid
+                window.localStorage.clear();
+            }
+        });
     },
 
-    logout() {
-        window.localStorage.clear();
-        EventBus.$emit('logged-out');
+    updateUser(user) {
+        window.localStorage.setItem('user', user);
+        EventBus.$emit('user-updated', user);
     }
 };
+
+export default Auth;

@@ -13,12 +13,12 @@
 
 Auth::routes();
 
-//Route::get('/home', 'HomeController@index')->name('home');
+//Route::get('/', 'HomeController@index')->name('home');
 Route::get('/', 'HomeController@index')->name('home');
 
 Route::post('/mods/create-category', 'CategoryController@createCategory')->name('CreateCategory')->middleware('auth');
 Route::get('/mods/{game}', 'CategoryController@getGameModsCategories')->name('GameModsCategories');
-Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory')->middleware('auth')->middleware('auth');
+Route::get('/mods/{game}/create-category/{category?}', 'CategoryController@createCategory')->middleware('auth');
 
 Route::get('/mods/{game}/category/{category}', 'CategoryController@getCategory')->name('ModCategory');
 
@@ -84,4 +84,19 @@ Route::get('/home', function() {
 //    Voyager::routes();
 //});
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create')->middleware('auth');
-Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth');
+Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth')->name('create-mod');
+
+// DEV-STUDIOS
+Route::get('/dev-studios/{id}', function($id) {
+   return view('game.start');
+});
+
+// JOB OFFERS
+Route::get('/job-offers{any}', function () {
+    return view('game.start');
+})->where('any', '.*');
+
+// USER
+Route::get('/my-profile', function() {
+    return view('game.start');
+})->where('any', '.*');

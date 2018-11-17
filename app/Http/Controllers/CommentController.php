@@ -38,14 +38,12 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info($request->game_id);
         $user = $request->user();
-        Log::info($user);
 
         $comment = new Comment(
             [
                 'post_id' => $request->post_id,
-                'game_id' => $request->game_id,
+//                'game_id' => $request->game_id,
                 'body' => $request->body,
                 'author_id' => $user->id
             ]

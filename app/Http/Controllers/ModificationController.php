@@ -54,10 +54,16 @@ class ModificationController extends Controller
 
     public static function canManageMod($mod)
     {
-        if (Auth::id() === null) {
+        if (Auth::id() === null && Auth('api')->user() === null) {
             return false;
         }
-        if (Auth::id() === $mod->creator) {
+        $user = Auth::user();
+
+        if ($user === null) {
+            $user = Auth('api')->user();
+        }
+
+        if ($user->id === $mod->creator) {
             return true;
         }
 
@@ -66,7 +72,7 @@ class ModificationController extends Controller
         if ($studio !== null) {
             $members = $studio->users()->get();
 
-            if ($members->contains('id', Auth::id())) {
+            if ($members->contains('id', $user->id)) {
                 return true;
             }
         }
@@ -193,7 +199,7 @@ class ModificationController extends Controller
                 'replaces' => $request->replaces,
                 'version' => $request->version,
             ]);
-        $modification->release_date = $request->release_date === '' ? null
+        $modification->release_date = $request->release_date === null ? null
             : \DateTime::createFromFormat('d-m-Y', $request->release_date)->format('Y-m-d');
         $modification->creator = Auth::id();
         $modification->game_id = $request->gameid;

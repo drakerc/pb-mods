@@ -16,14 +16,16 @@ import axios from 'axios';
 import VueYouTubeEmbed from 'vue-youtube-embed';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faEdit, faTrash,
-    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave } from '@fortawesome/free-solid-svg-icons';
+    faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave, faGamepad,
+    faDoorClosed, faDoorOpen, faKey, faAngleUp, faAngleDown, faEnvelope, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 
 library.add(faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDownload, faClock, faEdit,
-    faSearch, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser, faSave, faMinus);
+    faSearch, faTrash, faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faUser, faSave, faMinus, faGamepad,
+    faDoorClosed, faDoorOpen, faKey, faAngleUp, faAngleDown, faEnvelope, faDesktop);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 

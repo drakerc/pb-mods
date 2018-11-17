@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container my-2 col-sm-9 mx-auto">
         <b-card class="my-2">
             <div>
                 <b-form @submit.prevent="onUploadNewImages">
@@ -10,7 +10,7 @@
                 </b-form>
             </div>
         </b-card>
-        <b-card>
+        <b-card v-if="game.files !== undefined && game.files.length > 0">
             <p>Delete existing images:</p>
             <b-row>
                 <b-col sm="1">

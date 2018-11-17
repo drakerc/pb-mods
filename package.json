@@ -30,6 +30,7 @@
     "i": "^0.3.6",
     "jwt-decode": "^2.2.0",
     "laravel-vue-pagination": "^2.1.0",
+    "moment": "^2.22.2",
     "vue-gallery": "^1.4.0",
     "vue-loading-overlay": "^3.1.0",
     "vue-multiselect": "^2.1.0",

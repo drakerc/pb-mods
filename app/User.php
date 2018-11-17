@@ -38,6 +38,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\DevelopmentStudio', 'user_development_studio');
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Comment', 'author_id');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

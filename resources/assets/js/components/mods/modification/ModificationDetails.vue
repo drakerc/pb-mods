@@ -8,12 +8,12 @@
                     <div class="row">
                         <div class="col-md-12">
                             <display-total-rating class="float-right" :rating="mod.averageRating"></display-total-rating>
-                            <h1 class="display-4 font-italic text-center" :style="fontTitle">{{ mod.title }}</h1>
+                            <h1 class="display-4 font-italic text-center" :style="fontTitle" dusk="title">{{ mod.title }}</h1>
                             <div class="row">
                                 <div class="col-md-4">
                                     Status produkcji:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="development_status">
                                     {{ mod.development_status }}
                                 </div>
                             </div>
@@ -22,7 +22,7 @@
                                 <div class="col-md-4">
                                     Wielkość:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="size">
                                     {{ mod.size }}
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                 <div class="col-md-4">
                                     Zamienia:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="replaces">
                                     {{ mod.replaces }}
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                 <div class="col-md-4">
                                     Wersja:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="version">
                                     {{ mod.version }}
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                 <div class="col-md-4">
                                     Studio developerskie:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="development_studio">
                                     <router-link :to="{ name: 'dev_studio_mods', params: { studio: mod.devStudio.id } }">
                                         {{ mod.devStudio.name}}
                                     </router-link>
@@ -60,7 +60,7 @@
                                 <div class="col-md-4">
                                     Data wydania:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="release_date">
                                     {{ mod.release_date }}
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                                 <div class="col-md-4">
                                     Autor:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="creator_name">
                                     <router-link :to="{ name: 'user_mods', params: { user: mod.creator } }">
                                         {{ mod.creatorName }}
                                     </router-link>
@@ -80,13 +80,13 @@
                                 <div class="col-md-4">
                                     Ilość pobrań:
                                 </div>
-                                <div class="col-md-8 mod-info-value">
+                                <div class="col-md-8 mod-info-value" dusk="downloads_count">
                                     {{ mod.downloadsCount }}
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-6" dusk="timestamps">
                                     <display-timestamps :created_at="mod.created_at" :updated_at="mod.updated_at"></display-timestamps>
                                 </div>
                             </div>
@@ -118,11 +118,11 @@
                     <font-awesome-icon icon="star" />
                     Opinie
                 </b-nav-item>
-                <b-nav-item :active="active === 'files'" @click="setActiveTab('files')" >
+                <b-nav-item dusk="files-button" :active="active === 'files'" @click="setActiveTab('files')" >
                     <font-awesome-icon icon="file" />
                     Pliki
                 </b-nav-item>
-                <b-nav-item v-if="canManageMod" :active="active === 'authorsMenu'" @click="setActiveTab('authorsMenu')">
+                <b-nav-item dusk="author-button" v-if="canManageMod" :active="active === 'authorsMenu'" @click="setActiveTab('authorsMenu')">
                     <font-awesome-icon icon="cogs" />
                     Dla autora
                 </b-nav-item>
@@ -130,7 +130,7 @@
 
             <div class="container mod-item">
                 <div v-if="active === 'description'">
-                    <div v-html="mod.description"></div>
+                    <div v-html="mod.description" dusk="description"></div>
                 </div>
 
                 <div v-if="active === 'pictures'">
@@ -180,6 +180,7 @@
     import DisplayRatings from "../rating/DisplayRatings";
     import DisplayMultipleNews from '../news/DisplayMultipleNews';
     import DisplayTimestamps from '../../DisplayTimestamps';
+    import { Auth } from "../../../auth";
 
     // Import component
     import Loading from 'vue-loading-overlay';
@@ -199,7 +200,7 @@
             return {
                 mod: [],
                 active: 'description',
-                userId: window.window.user_id,
+                userId: Auth.getId(),
                 canManageMod: false,
                 isLoading: false,
             }

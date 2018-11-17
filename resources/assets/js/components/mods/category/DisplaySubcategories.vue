@@ -9,6 +9,12 @@
         <div class="row" v-if="!subcategory">
             <div v-for="(value, index) in subcategories" class="col-md-4">
                 <div class="card mb-4 box-shadow">
+                    <div class="text-center">
+                        <router-link v-if="value.thumbnail !== null" :to="{ name: 'mods_category', params: { game: gameid, category: value.id } }">
+                            <img class="card-img-top" :src="'/storage/' + value.thumbnail">
+                        </router-link>
+                    </div>
+
                     <div class="card-body">
                         <router-link :to="{ name: 'mods_category', params: { game: gameid, category: value.id } }">
                             <h5 class="card-title">{{ value.title }}</h5>

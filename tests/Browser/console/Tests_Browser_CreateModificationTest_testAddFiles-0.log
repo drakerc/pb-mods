@@ -1,0 +1,146 @@
+[
+    {
+        "level": "WARNING",
+        "message": "http:\/\/localhost:42069\/js\/app.js 61513:46 \"[vue-router] missing param for named route \\\"category_create\\\": Expected \\\"game\\\" to be defined\"",
+        "source": "console-api",
+        "timestamp": 1541516882214
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/mods\/undefined - Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "source": "network",
+        "timestamp": 1541516884111
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CUserMods> at resources\/assets\/js\/components\/mods\/modification\/UserMods.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516884628
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CUserMods> at resources\/assets\/js\/components\/mods\/modification\/UserMods.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516894306
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Error in render: \\\"TypeError: Cannot read property 'id' of undefined\\\"\\n\\nfound in\\n\\n---> \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n       \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n         \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516897822
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 8706:12 TypeError: Cannot read property 'id' of undefined\n    at Proxy.render (http:\/\/localhost:42069\/js\/app.js:70357:77)\n    at VueComponent.Vue._render (http:\/\/localhost:42069\/js\/app.js:11510:22)\n    at VueComponent.updateComponent (http:\/\/localhost:42069\/js\/app.js:9754:21)\n    at Watcher.get (http:\/\/localhost:42069\/js\/app.js:10108:25)\n    at new Watcher (http:\/\/localhost:42069\/js\/app.js:10097:12)\n    at mountComponent (http:\/\/localhost:42069\/js\/app.js:9761:3)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:15506:10)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:17905:16)\n    at init (http:\/\/localhost:42069\/js\/app.js:11103:13)\n    at createComponent (http:\/\/localhost:42069\/js\/app.js:12574:9)",
+        "source": "console-api",
+        "timestamp": 1541516897822
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516897822
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516897823
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516898109
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516898147
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/mods\/modifications\/null - Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "source": "network",
+        "timestamp": 1541516902012
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"block\\\". Expected Boolean, got String.\"",
+        "source": "console-api",
+        "timestamp": 1541516902938
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"block\\\". Expected Boolean, got String.\"",
+        "source": "console-api",
+        "timestamp": 1541516903036
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Error in render: \\\"TypeError: Cannot read property 'id' of undefined\\\"\\n\\nfound in\\n\\n---> \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n       \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n         \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516920056
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 8706:12 TypeError: Cannot read property 'id' of undefined\n    at Proxy.render (http:\/\/localhost:42069\/js\/app.js:70357:77)\n    at VueComponent.Vue._render (http:\/\/localhost:42069\/js\/app.js:11510:22)\n    at VueComponent.updateComponent (http:\/\/localhost:42069\/js\/app.js:9754:21)\n    at Watcher.get (http:\/\/localhost:42069\/js\/app.js:10108:25)\n    at new Watcher (http:\/\/localhost:42069\/js\/app.js:10097:12)\n    at mountComponent (http:\/\/localhost:42069\/js\/app.js:9761:3)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:15506:10)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:17905:16)\n    at init (http:\/\/localhost:42069\/js\/app.js:11103:13)\n    at createComponent (http:\/\/localhost:42069\/js\/app.js:12574:9)",
+        "source": "console-api",
+        "timestamp": 1541516920061
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516920103
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516920166
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/mods\/modifications\/null - Failed to load resource: the server responded with a status of 404 (Not Found)",
+        "source": "network",
+        "timestamp": 1541516923189
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516923588
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Error in render: \\\"TypeError: Cannot read property 'length' of undefined\\\"\\n\\nfound in\\n\\n---> \\u003CModificationFiles> at resources\/assets\/js\/components\/mods\/file\/ModificationFiles.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516923595
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 8706:12 TypeError: Cannot read property 'length' of undefined\n    at Proxy.render (http:\/\/localhost:42069\/js\/app.js:67786:22)\n    at VueComponent.Vue._render (http:\/\/localhost:42069\/js\/app.js:11510:22)\n    at VueComponent.updateComponent (http:\/\/localhost:42069\/js\/app.js:9754:21)\n    at Watcher.get (http:\/\/localhost:42069\/js\/app.js:10108:25)\n    at new Watcher (http:\/\/localhost:42069\/js\/app.js:10097:12)\n    at mountComponent (http:\/\/localhost:42069\/js\/app.js:9761:3)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:15506:10)\n    at VueComponent.Vue.$mount (http:\/\/localhost:42069\/js\/app.js:17905:16)\n    at init (http:\/\/localhost:42069\/js\/app.js:11103:13)\n    at createComponent (http:\/\/localhost:42069\/js\/app.js:12574:9)",
+        "source": "console-api",
+        "timestamp": 1541516923597
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n         \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n           \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516925453
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"isFullPage\\\". Expected Boolean, got String.\\n\\nfound in\\n\\n---> \\u003CVueLoading> at Component.vue\\n       \\u003CModificationFiles> at resources\/assets\/js\/components\/mods\/file\/ModificationFiles.vue\\n         \\u003CModificationDetails> at resources\/assets\/js\/components\/mods\/modification\/ModificationDetails.vue\\n           \\u003CApp> at resources\/assets\/js\/components\/App.vue\\n             \\u003CRoot>\"",
+        "source": "console-api",
+        "timestamp": 1541516925468
+    },
+    {
+        "level": "SEVERE",
+        "message": "http:\/\/localhost:42069\/js\/app.js 7558:14 \"[Vue warn]: Invalid prop: type check failed for prop \\\"block\\\". Expected Boolean, got String.\"",
+        "source": "console-api",
+        "timestamp": 1541516925478
+    }
+]
