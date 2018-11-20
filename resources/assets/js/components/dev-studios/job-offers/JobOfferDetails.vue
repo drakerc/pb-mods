@@ -27,13 +27,13 @@
             <b-card>
                 <p v-html="offer.body"></p>
             </b-card>
-            <b-row v-if="!isMember">
+            <b-row v-if="!isMember && Auth.isLoggedIn()">
                 <b-btn :to="{name: 'job_offer_form', params:{id: offer.id}}" class="my-2 mx-auto" variant="info">
                     <font-awesome-icon icon="envelope"/>
                     Zaaplikuj!
                 </b-btn>
             </b-row>
-            <p v-else-if="!Auth.isLoggedIn()"><b-link :to="{name: 'login', query:{redirectTo: $route.fullPath}}">Zaloguj się</b-link>, by złożyć aplikację!</p>
+            <p v-else-if="!Auth.isLoggedIn()" class="my-2"><b-link :to="{name: 'login', query:{redirectTo: $route.fullPath}}">Zaloguj się</b-link>, by złożyć aplikację!</p>
         </template>
     </div>
 </template>
