@@ -7,6 +7,9 @@
             <b-alert :show="emailSent" variant="success">
                 Email został wysłany pomyślnie, dziękujemy za złożenie aplikacji!
             </b-alert>
+            <b-alert :show="!!error" variant="danger">
+                {{error}}
+            </b-alert>
             <b-jumbotron header-level="4" header-tag="h4">
                 <template slot="header">
                     {{offer.title}}
@@ -24,13 +27,13 @@
             <b-card>
                 <p v-html="offer.body"></p>
             </b-card>
-            <b-row v-if="Auth.isLoggedIn()">
+            <b-row v-if="!isMember">
                 <b-btn :to="{name: 'job_offer_form', params:{id: offer.id}}" class="my-2 mx-auto" variant="info">
                     <font-awesome-icon icon="envelope"/>
                     Zaaplikuj!
                 </b-btn>
             </b-row>
-            <p v-else><b-link :to="{name: 'login', query:{redirectTo: $route.fullPath}}">Zaloguj się</b-link>, by złożyć aplikację!</p>
+            <p v-else-if="!Auth.isLoggedIn()"><b-link :to="{name: 'login', query:{redirectTo: $route.fullPath}}">Zaloguj się</b-link>, by złożyć aplikację!</p>
         </template>
     </div>
 </template>
@@ -38,7 +41,7 @@
 <script>
     import axios from 'axios';
     import moment from 'moment';
-    import Auth from '../../../auth.js';
+    import Auth from "../../../auth";
 
     const fetch = (id, callback) => {
         axios.get(`/api/job-offer/${id}`).then((response) => {
@@ -48,12 +51,17 @@
 
     export default {
         name: "JobOfferDetails",
-        props: ['emailSent'],
+        props: ['emailSent', 'error'],
         data() {
             return {
                 offer: {},
                 Auth,
                 loading: true
+            }
+        },
+        asyncComputed: {
+            isMember() {
+                return Auth.isMember(this.offer.development_studio_id);
             }
         },
         beforeRouteEnter(to, from, next) {

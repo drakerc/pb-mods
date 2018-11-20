@@ -42,7 +42,33 @@ class JobOfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'development_studio_id' => 'required',
+            'title' => 'required|min:3|max:64',
+            'body' => 'required|min:3',
+            'email' => 'required|min:5',
+            'valid_until' => 'required|date'
+        ]);
+
+        $user = $request->user();
+        $development_studio = DevelopmentStudio::findOrFail($request->development_studio_id);
+        $result = $development_studio->users()->where('user_id', '=', $user)->get();
+        if (sizeof($result) > 0 || $development_studio->owner_id === $user->id) {
+            $job_offer = new JobOffer([
+                'development_studio_id' => $request->development_studio_id,
+                'title' => $request->title,
+                'body' => $request->body,
+                'email' => $request->email,
+                'valid_until' => $request->valid_until
+            ]);
+
+            $job_offer->save();
+            return response()->json($job_offer, 200);
+        }
+
+        return response()->json([
+            'message' => 'Not authorized'
+        ], 401);
     }
 
     /**

@@ -34,6 +34,7 @@
 
 <script>
     import axios from 'axios';
+    import Auth from '../../../auth';
 
     const fetch = (id, callback) => {
         axios.get(`/api/job-offer/${id}`).then((response) => {
@@ -66,8 +67,20 @@
                         name: 'home'
                     });
                 } else {
-                    this.offer = data;
-                    // this.loading = false;
+                    Auth.isMember(data.development_studio.id).then(isMember => {
+                        if (isMember) {
+                            this.$router.push({
+                                name: 'job_offer_details',
+                                params: {
+                                    id: this.$route.params.id,
+                                    error: 'Nie możesz złożyć prośby, jeśli już jesteś członkiem tego zespołu!'
+                                }
+                            });
+                        } else {
+                            this.offer = data;
+                        }
+                    });
+
                 }
             },
             onSubmit() {

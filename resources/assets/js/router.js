@@ -37,7 +37,8 @@ import UserMods from './components/mods/modification/UserMods';
 import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
 import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
 import MyProfile from './components/user/MyProfile';
-import JobOfferForm from './components/dev-studios/job-offers/JobOfferForm';
+import JobOfferApplyForm from './components/dev-studios/job-offers/JobOfferApplyForm';
+import NewJobOfferForm from './components/dev-studios/job-offers/NewJobOfferForm';
 
 Vue.use(VueRouter);
 
@@ -98,6 +99,15 @@ export const router = new VueRouter({
             name: 'home'
         },
         {
+            path: '/job-offers/new',
+            component: NewJobOfferForm,
+            name: 'new_job_offer',
+            props: true,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: '/job-offers/:id',
             component: JobOfferDetails,
             name: 'job_offer_details',
@@ -105,7 +115,7 @@ export const router = new VueRouter({
         },
         {
             path: '/job-offers/:id/apply',
-            component: JobOfferForm,
+            component: JobOfferApplyForm,
             name: 'job_offer_form',
             meta: {
                 requiresAuth: true

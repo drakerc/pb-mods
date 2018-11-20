@@ -72,6 +72,16 @@ export const Auth = {
     updateUser(user) {
         window.localStorage.setItem('user', user);
         EventBus.$emit('user-updated', user);
+    },
+
+    async isMember(studioId) {
+        if (!this.isLoggedIn()) {
+            return false;
+        }
+        const id = this.getId();
+        let response = await axios.get(`/api/devstudios/user-studios/${id}`);
+        let filteredStudios = response.data.studios.filter(studio => studio.id === studioId);
+        return filteredStudios.length === 1;
     }
 };
 

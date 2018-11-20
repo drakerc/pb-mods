@@ -47,7 +47,8 @@
                         </b-card>
                     </div>
                 </b-tab>
-                <b-tab title="Ogłoszenia">
+                <b-tab title="Ogłoszenia" v-if="(studio.job_offers !== undefined && studio.job_offers.length > 0) || isMember">
+                    <b-btn v-if="isMember" :to="{name: 'new_job_offer', params: {selectedStudio: studio.id}}">Utworz nową ofertę</b-btn>
                     <div v-for="offer in studio.job_offers" :key="offer.id" class="my-2">
                         <b-card>
                             <template slot="header">
@@ -65,6 +66,7 @@
 <script>
     import axios from 'axios';
     import truncate from 'vue-truncate-collapsed';
+    import Auth from "../../auth";
 
     const fetch = (id, callback) => {
         axios.get(`/api/devstudios/find/${id}`).then((response) => {
@@ -77,6 +79,11 @@
         data() {
             return {
                 studio: {},
+            }
+        },
+        asyncComputed: {
+            isMember() {
+                return Auth.isMember(this.studio.id);
             }
         },
         components: {

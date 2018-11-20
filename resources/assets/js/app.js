@@ -19,6 +19,7 @@ import {faDownload, faCodeBranch, faListOl, faListAlt, faPlus, faBook, faFileDow
     faFont, faCamera, faVideo, faNewspaper, faStar, faFile, faCogs, faMinus, faClock, faUser, faSearch, faSave, faGamepad,
     faDoorClosed, faDoorOpen, faKey, faAngleUp, faAngleDown, faEnvelope, faDesktop } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import AsyncComputed from 'vue-async-computed';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
@@ -32,6 +33,7 @@ Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(BootstrapVue);
 Vue.use(require('vue-truncate-filter'));
 Vue.use(VueYouTubeEmbed);
+Vue.use(AsyncComputed);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
