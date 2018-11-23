@@ -24,7 +24,7 @@ export const Auth = {
     getId() {
         const token = window.localStorage.getItem('token');
         if (token) {
-            return jwt_decode(window.localStorage.getItem('token')).sub;
+            return parseInt(jwt_decode(window.localStorage.getItem('token')).sub);
         }
         return null;
     },
@@ -82,7 +82,15 @@ export const Auth = {
         let response = await axios.get(`/api/devstudios/user-studios/${id}`);
         let filteredStudios = response.data.studios.filter(studio => studio.id === studioId);
         return filteredStudios.length === 1;
-    }
+    },
+
+    async isOwner(studioId) {
+        let response = await axios.get(`/api/devstudios/${studioId}`);
+        console.log(response.data);
+        console.log(Auth.getId());
+        console.log(response.data.studio.owner_id);
+        return response.data.studio.owner_id === Auth.getId();
+    },
 };
 
 export default Auth;

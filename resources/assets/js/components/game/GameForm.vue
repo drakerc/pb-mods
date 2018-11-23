@@ -69,7 +69,7 @@
 
     const fetchGameCategories = (callback) => {
         axios.get(`/api/game-categories`).then((response) => {
-            axios.get('/api/devstudios/all').then((userStudiosResponse) => {
+            axios.get('/api/devstudios/my-studios').then((userStudiosResponse) => {
                 callback(null, {
                     categories: response.data,
                     studios: userStudiosResponse.data

@@ -51,7 +51,7 @@
                     </b-tab>
                     <b-tab title="Blog" class="my-2" :title-link-class="titleLinkClass">
                         <!--TODO: if user is authenticated and is in development team-->
-                        <b-btn v-if="Auth.isLoggedIn()" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-btn>
+                        <b-btn v-if="Auth.isLoggedIn() && isMember" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-btn>
                         <div v-if="game.posts !== undefined && game.posts.length > 0">
                             <p>Posts:</p>
                             <b-card v-for="post in game.posts" :key="post.id" class="my-2" :bg-variant="game.variant" :text-variant="textVariant">
@@ -109,11 +109,24 @@
                 game: {},
                 images: [],
                 index: null,
+                isMember: false,
                 Auth
             }
         },
         components: {
             'gallery': VueGallery
+        },
+        watch: {
+            game: {
+                handler(game) {
+                    game.development_studio.forEach(async studio => {
+                        let value = await Auth.isMember(studio.id).then(val => val);
+                        if (value === true) {
+                            this.isMember = true;
+                        }
+                    });
+                }
+            }
         },
         computed: {
             backgroundImage() {

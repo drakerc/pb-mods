@@ -1,10 +1,14 @@
 <template>
     <div class="container my-2">
         <b-col sm="11" class="mx-auto">
-            <h1>Hello!</h1>
+            <h1>Witaj!</h1>
+            <b-button v-if="Auth.isLoggedIn()" :to="{name:'new_game_form'}" variant="success" class="mb-2">
+                <font-awesome-icon icon="plus"/>
+                Utwórz nową grę
+            </b-button>
             <b-row>
                 <b-col sm="8">
-                    <p>Latest game releases:</p>
+                    <p>Najnowsze wpisy o grach:</p>
                     <b-card v-for="game in games" :key="game.id" class="my-2">
                         <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
                         <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
@@ -15,7 +19,7 @@
                 </b-col>
                 <b-col sm="4">
                     <div>
-                        <p>Latest game updates:</p>
+                        <p>Ostatnie wpisy:</p>
                         <b-card v-for="post in posts" :key="post.id" class="my-2 small">
                             <b-link slot="header" :to="`/game/post/${post.id}`">{{post.title}}</b-link>
                             <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
@@ -23,7 +27,7 @@
                         </b-card>
                     </div>
                     <br><br>
-                    <p>Recently added job offers:</p>
+                    <p>Najnowsze oferty współpracy:</p>
                     <b-card v-for="offer in offers" :key="offer.id" class="my-2 small" no-body>
                         <template slot="header">
                             <b-row>
@@ -33,7 +37,6 @@
                     </b-card>
                 </b-col>
             </b-row>
-            <b-button v-if="Auth.isLoggedIn()" :to="{name:'new_game_form'}" variant="success">Create a new game entry</b-button>
         </b-col>
     </div>
 </template>

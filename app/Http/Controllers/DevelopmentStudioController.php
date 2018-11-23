@@ -293,9 +293,10 @@ class DevelopmentStudioController extends Controller
         }])->findOrFail($id));
     }
 
-    public function listAll(Request $request)
+    public function myStudios(Request $request)
     {
-        return response()->json(DevelopmentStudio::all());
+        $user = $request->user();
+        return response()->json($user->studios()->get());
     }
 
     private function validation(Request $request)

@@ -7,7 +7,7 @@
             <template slot="header">
                 <b-row>
                     <div class="mx-auto">
-                        <b-img :src="user.gravatar"></b-img>
+                        <b-img :src="`${user.gravatar}&s=100`"></b-img>
                     </div>
                 </b-row>
                 <b-row>

@@ -15,10 +15,13 @@
                         </b-col>
                         <b-col sm="1"></b-col>
                         <b-col sm="4">
+                            <template v-if="studio.id && isOwner">
+                                <b-btn :to="{name:'dev_studio_management', params: {id: studio.id}}" class="mb-2">Zarządzaj</b-btn>
+                            </template>
                             <b-card header="Kontakt:">
                                 <b-link :href="studio.website">Strona internetowa studia</b-link>
                                 <br>
-                                <b-link :href="`email-to:${studio.email}`">Email</b-link>
+                                <b-link :href="`mailto:${studio.email}`">Email</b-link>
                             </b-card>
                         </b-col>
                     </b-row>
@@ -79,11 +82,19 @@
         data() {
             return {
                 studio: {},
+                isOwner: false
             }
         },
         asyncComputed: {
             isMember() {
                 return Auth.isMember(this.studio.id);
+            }
+        },
+        watch: {
+            studio: {
+                handler(studio) {
+                    this.isOwner = Auth.getId() === studio.owner_id;
+                }
             }
         },
         components: {

@@ -87,9 +87,9 @@ Route::get('/mods/{game}/category/{category}/create-modification', 'Modification
 Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth')->name('create-mod');
 
 // DEV-STUDIOS
-Route::get('/dev-studios/{id}', function($id) {
+Route::get('/dev-studios{any}', function($id) {
    return view('game.start');
-});
+})->where('any', '.*');
 
 // JOB OFFERS
 Route::get('/job-offers{any}', function () {

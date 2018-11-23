@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Auth } from "./auth";
+import axios from 'axios';
 
 import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
@@ -39,6 +40,9 @@ import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails
 import MyProfile from './components/user/MyProfile';
 import JobOfferApplyForm from './components/dev-studios/job-offers/JobOfferApplyForm';
 import NewJobOfferForm from './components/dev-studios/job-offers/NewJobOfferForm';
+import DevelopmentStudioCreateForm from './components/dev-studios/DevelopmentStudioCreateForm';
+import DevelopmentStudioManagement from './components/dev-studios/DevelopmentStudioManagement';
+import MyDevelopmentStudios from './components/dev-studios/MyDevelopmentStudios';
 
 Vue.use(VueRouter);
 
@@ -88,11 +92,36 @@ export const router = new VueRouter({
         },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
         {
+            path: '/dev-studios/my-studios',
+            component: MyDevelopmentStudios,
+            name: 'my_development_studios',
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
             path: '/dev-studios/:id',
             component: DevelopmentStudiosDetails,
             name: 'dev_studio_details'
         },
         {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
+        {
+            path: '/dev-studios/new',
+            component: DevelopmentStudioCreateForm,
+            name: 'new_dev_studio',
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/dev-studios/:id/manage',
+            component: DevelopmentStudioManagement,
+            name: 'dev_studio_management',
+            meta: {
+                requiresAuth: true,
+                ownerOnly: true
+            }
+        },
         {
             path: '/home',
             component: Home,
@@ -197,20 +226,29 @@ export const router = new VueRouter({
     }
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!Auth.isLoggedIn()) {
             next({
                 path: '/login',
-                query: { redirect: to.fullPath }
+                query: {redirect: to.fullPath}
             });
             return;
         }
-    } if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
+    }
+    if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
         if (Auth.isLoggedIn()) {
             next({
                 path: '/home'
             });
+            return;
+        }
+    }
+    if (to.matched.some(record => record.meta.ownerOnly)) {
+        let isOwner = await Auth.isOwner(to.params.id).then(value => value);
+        console.log(isOwner);
+        if (!isOwner) {
+            next(false);
             return;
         }
     }

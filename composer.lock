@@ -1,7 +1,7 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
     "content-hash": "4cc0cc5a0cdffb6c1c930f901ec9409b",
@@ -107,24 +107,25 @@
         },
         {
             "name": "backpack/base",
-            "version": "0.9.12",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/Base.git",
-                "reference": "60b849fae038d045c622cdfff2e407be917df31e"
+                "reference": "ac520996e592fbed8f8ad1b61f7681ed8677cf6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/Base/zipball/60b849fae038d045c622cdfff2e407be917df31e",
-                "reference": "60b849fae038d045c622cdfff2e407be917df31e",
+                "url": "https://api.github.com/repos/Laravel-Backpack/Base/zipball/ac520996e592fbed8f8ad1b61f7681ed8677cf6b",
+                "reference": "ac520996e592fbed8f8ad1b61f7681ed8677cf6b",
                 "shasum": ""
             },
             "require": {
                 "almasaeed2010/adminlte": "2.4.*",
                 "creativeorange/gravatar": "~1.0",
                 "jenssegers/date": "^3.2",
-                "laravel/framework": "5.5.*|5.6.*|5.7.*",
-                "prologue/alerts": "^0.4.1"
+                "laravel/framework": "5.6.*|5.7.*",
+                "prologue/alerts": "^0.4.1",
+                "tightenco/parental": "0.5"
             },
             "require-dev": {
                 "backpack/generators": "^1.1",
@@ -167,24 +168,24 @@
                 "backpack",
                 "base"
             ],
-            "time": "2018-10-26T07:07:56+00:00"
+            "time": "2018-11-22T20:37:26+00:00"
         },
         {
             "name": "backpack/crud",
-            "version": "3.4.39",
+            "version": "3.5.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/CRUD.git",
-                "reference": "63c64ddbf331a7308bd65af22e1a60b504540e49"
+                "reference": "d84ca2367c00257d3c0489288d7b306d4587b355"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/63c64ddbf331a7308bd65af22e1a60b504540e49",
-                "reference": "63c64ddbf331a7308bd65af22e1a60b504540e49",
+                "url": "https://api.github.com/repos/Laravel-Backpack/CRUD/zipball/d84ca2367c00257d3c0489288d7b306d4587b355",
+                "reference": "d84ca2367c00257d3c0489288d7b306d4587b355",
                 "shasum": ""
             },
             "require": {
-                "backpack/base": "^0.9.0",
+                "backpack/base": "^1.0.0",
                 "doctrine/dbal": "^2.5",
                 "guzzlehttp/guzzle": "^6.3",
                 "intervention/image": "^2.3",
@@ -242,7 +243,7 @@
                 "read",
                 "update"
             ],
-            "time": "2018-11-09T16:58:32+00:00"
+            "time": "2018-11-23T13:23:06+00:00"
         },
         {
             "name": "barryvdh/elfinder-flysystem-driver",
@@ -905,16 +906,16 @@
         },
         {
             "name": "cossou/jasperphp",
-            "version": "2.7.0",
+            "version": "2.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cossou/JasperPHP.git",
-                "reference": "afda44a9a6a8602966e982709db80408f36e0b6d"
+                "reference": "d24bc69aaaf55beb2a76a0db2a572e81f6baee09"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cossou/JasperPHP/zipball/afda44a9a6a8602966e982709db80408f36e0b6d",
-                "reference": "afda44a9a6a8602966e982709db80408f36e0b6d",
+                "url": "https://api.github.com/repos/cossou/JasperPHP/zipball/d24bc69aaaf55beb2a76a0db2a572e81f6baee09",
+                "reference": "d24bc69aaaf55beb2a76a0db2a572e81f6baee09",
                 "shasum": ""
             },
             "type": "library",
@@ -942,7 +943,7 @@
                 "pdf",
                 "reports"
             ],
-            "time": "2018-06-14T10:32:13+00:00"
+            "time": "2018-11-16T11:45:31+00:00"
         },
         {
             "name": "creativeorange/gravatar",
@@ -1990,33 +1991,34 @@
         },
         {
             "name": "jakub-onderka/php-console-highlighter",
-            "version": "v0.3.2",
+            "version": "v0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/JakubOnderka/PHP-Console-Highlighter.git",
-                "reference": "7daa75df45242c8d5b75a22c00a201e7954e4fb5"
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Highlighter/zipball/7daa75df45242c8d5b75a22c00a201e7954e4fb5",
-                "reference": "7daa75df45242c8d5b75a22c00a201e7954e4fb5",
+                "url": "https://api.github.com/repos/JakubOnderka/PHP-Console-Highlighter/zipball/9f7a229a69d52506914b4bc61bfdb199d90c5547",
+                "reference": "9f7a229a69d52506914b4bc61bfdb199d90c5547",
                 "shasum": ""
             },
             "require": {
-                "jakub-onderka/php-console-color": "~0.1",
-                "php": ">=5.3.0"
+                "ext-tokenizer": "*",
+                "jakub-onderka/php-console-color": "~0.2",
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "jakub-onderka/php-code-style": "~1.0",
-                "jakub-onderka/php-parallel-lint": "~0.5",
+                "jakub-onderka/php-parallel-lint": "~1.0",
                 "jakub-onderka/php-var-dump-check": "~0.1",
                 "phpunit/phpunit": "~4.0",
                 "squizlabs/php_codesniffer": "~1.5"
             },
             "type": "library",
             "autoload": {
-                "psr-0": {
-                    "JakubOnderka\\PhpConsoleHighlighter": "src/"
+                "psr-4": {
+                    "JakubOnderka\\PhpConsoleHighlighter\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2030,7 +2032,8 @@
                     "homepage": "http://www.acci.cz/"
                 }
             ],
-            "time": "2015-04-20T18:58:01+00:00"
+            "description": "Highlight PHP code in terminal",
+            "time": "2018-09-29T18:48:56+00:00"
         },
         {
             "name": "jenssegers/date",
@@ -2436,16 +2439,16 @@
         },
         {
             "name": "lcobucci/jwt",
-            "version": "3.2.4",
+            "version": "3.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lcobucci/jwt.git",
-                "reference": "c9704b751315d21735dc98d78d4f37bd73596da7"
+                "reference": "82be04b4753f8b7693b62852b7eab30f97524f9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/c9704b751315d21735dc98d78d4f37bd73596da7",
-                "reference": "c9704b751315d21735dc98d78d4f37bd73596da7",
+                "url": "https://api.github.com/repos/lcobucci/jwt/zipball/82be04b4753f8b7693b62852b7eab30f97524f9b",
+                "reference": "82be04b4753f8b7693b62852b7eab30f97524f9b",
                 "shasum": ""
             },
             "require": {
@@ -2482,7 +2485,7 @@
                 {
                     "name": "Luís Otávio Cobucci Oblonczyk",
                     "email": "lcobucci@gmail.com",
-                    "role": "developer"
+                    "role": "Developer"
                 }
             ],
             "description": "A simple library to work with JSON Web Token and JSON Web Signature",
@@ -2490,7 +2493,7 @@
                 "JWS",
                 "jwt"
             ],
-            "time": "2018-08-03T11:23:50+00:00"
+            "time": "2018-11-11T12:22:26+00:00"
         },
         {
             "name": "league/event",
@@ -2675,16 +2678,16 @@
         },
         {
             "name": "league/oauth2-server",
-            "version": "7.2.0",
+            "version": "7.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/oauth2-server.git",
-                "reference": "8184f771d43ea7305ddbb893d0daf6f0352ec5fd"
+                "reference": "b71f382cd76e3f6905dfc53ef8148b3eebe1fd41"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/8184f771d43ea7305ddbb893d0daf6f0352ec5fd",
-                "reference": "8184f771d43ea7305ddbb893d0daf6f0352ec5fd",
+                "url": "https://api.github.com/repos/thephpleague/oauth2-server/zipball/b71f382cd76e3f6905dfc53ef8148b3eebe1fd41",
+                "reference": "b71f382cd76e3f6905dfc53ef8148b3eebe1fd41",
                 "shasum": ""
             },
             "require": {
@@ -2704,6 +2707,7 @@
                 "phpstan/phpstan-phpunit": "^0.9.4",
                 "phpstan/phpstan-strict-rules": "^0.9.0",
                 "phpunit/phpunit": "^6.3 || ^7.0",
+                "roave/security-advisories": "dev-master",
                 "zendframework/zend-diactoros": "^1.3.2"
             },
             "type": "library",
@@ -2721,6 +2725,12 @@
                     "name": "Alex Bilbie",
                     "email": "hello@alexbilbie.com",
                     "homepage": "http://www.alexbilbie.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Andy Millington",
+                    "email": "andrew@noexceptions.io",
+                    "homepage": "https://www.noexceptions.io",
                     "role": "Developer"
                 }
             ],
@@ -2741,7 +2751,7 @@
                 "secure",
                 "server"
             ],
-            "time": "2018-06-23T16:57:59+00:00"
+            "time": "2018-11-21T21:42:43+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -3269,16 +3279,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -3312,7 +3322,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "psr/simple-cache",
@@ -4712,6 +4722,46 @@
             "time": "2018-10-02T16:36:10+00:00"
         },
         {
+            "name": "tightenco/parental",
+            "version": "v0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tightenco/parental.git",
+                "reference": "7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tightenco/parental/zipball/7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6",
+                "reference": "7e0f8abecccbbc160b7af099cc1b1ded75d6c2f6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "~5.6.0|~5.7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.7.*",
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tightenco\\Parental\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Caleb Porzio",
+                    "email": "calebporzio@gmail.com"
+                }
+            ],
+            "description": "A simple eloquent trait that allows relationships to be accessed through child models.",
+            "time": "2018-09-06T13:02:30+00:00"
+        },
+        {
             "name": "tijsverkoyen/css-to-inline-styles",
             "version": "2.2.1",
             "source": {
@@ -4983,20 +5033,20 @@
     "packages-dev": [
         {
             "name": "backpack/generators",
-            "version": "1.2.4",
+            "version": "1.2.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Laravel-Backpack/Generators.git",
-                "reference": "a2a743fea10320be0d810df5e0e79834eca055e4"
+                "reference": "cb6d3ebbc469a7d2ced7e37964de459db8ba021f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/a2a743fea10320be0d810df5e0e79834eca055e4",
-                "reference": "a2a743fea10320be0d810df5e0e79834eca055e4",
+                "url": "https://api.github.com/repos/Laravel-Backpack/Generators/zipball/cb6d3ebbc469a7d2ced7e37964de459db8ba021f",
+                "reference": "cb6d3ebbc469a7d2ced7e37964de459db8ba021f",
                 "shasum": ""
             },
             "require": {
-                "backpack/base": "^0.9.0"
+                "backpack/base": "0.9.*|1.0.*"
             },
             "require-dev": {
                 "phpunit/phpunit": "4.*",
@@ -5039,7 +5089,7 @@
                 "request",
                 "view"
             ],
-            "time": "2018-08-27T05:25:21+00:00"
+            "time": "2018-11-22T21:14:13+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -5541,26 +5591,27 @@
         },
         {
             "name": "nunomaduro/collision",
-            "version": "v2.1.0",
+            "version": "v2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nunomaduro/collision.git",
-                "reference": "1149ad9f36f61b121ae61f5f6de820fc77b51e6b"
+                "reference": "b5feb0c0d92978ec7169232ce5d70d6da6b29f63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/1149ad9f36f61b121ae61f5f6de820fc77b51e6b",
-                "reference": "1149ad9f36f61b121ae61f5f6de820fc77b51e6b",
+                "url": "https://api.github.com/repos/nunomaduro/collision/zipball/b5feb0c0d92978ec7169232ce5d70d6da6b29f63",
+                "reference": "b5feb0c0d92978ec7169232ce5d70d6da6b29f63",
                 "shasum": ""
             },
             "require": {
                 "filp/whoops": "^2.1.4",
-                "jakub-onderka/php-console-highlighter": "0.3.*",
+                "jakub-onderka/php-console-highlighter": "0.3.*|0.4.*",
                 "php": "^7.1",
                 "symfony/console": "~2.8|~3.3|~4.0"
             },
             "require-dev": {
                 "laravel/framework": "5.7.*",
+                "nunomaduro/larastan": "^0.3.0",
                 "phpstan/phpstan": "^0.10",
                 "phpunit/phpunit": "~7.3"
             },
@@ -5600,7 +5651,7 @@
                 "php",
                 "symfony"
             ],
-            "time": "2018-10-03T20:01:54+00:00"
+            "time": "2018-11-21T21:40:54+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -6173,16 +6224,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "7.4.3",
+            "version": "7.4.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "c151651fb6ed264038d486ea262e243af72e5e64"
+                "reference": "b1be2c8530c4c29c3519a052c9fb6cee55053bbd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/c151651fb6ed264038d486ea262e243af72e5e64",
-                "reference": "c151651fb6ed264038d486ea262e243af72e5e64",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b1be2c8530c4c29c3519a052c9fb6cee55053bbd",
+                "reference": "b1be2c8530c4c29c3519a052c9fb6cee55053bbd",
                 "shasum": ""
             },
             "require": {
@@ -6253,7 +6304,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2018-10-23T05:57:41+00:00"
+            "time": "2018-11-14T16:52:02+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

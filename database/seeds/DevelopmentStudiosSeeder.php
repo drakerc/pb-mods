@@ -78,6 +78,10 @@ class DevelopmentStudiosSeeder extends Seeder
                 'development_studio_id' => 1,
             ],
             [
+                'user_id' => 2,
+                'development_studio_id' => 2,
+            ],
+            [
                 'user_id' => 1,
                 'development_studio_id' => 2
             ],

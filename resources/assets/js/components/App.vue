@@ -35,7 +35,7 @@
                         <b-navbar-nav>
                             <b-nav-item to="/game" exact>
                                 <font-awesome-icon icon="gamepad"/>
-                                Games
+                                Gry
                             </b-nav-item>
                         </b-navbar-nav>
                         <b-navbar-nav class="ml-auto">
@@ -44,7 +44,7 @@
                                 <b-button size="sm" class="mr-sm-2" type="submit"
                                           :disabled="phrase.length===0" @submit.prevent="onSubmit"
                                 >
-                                    Search
+                                    Szukaj
                                 </b-button>
                             </b-nav-form>
                         </b-navbar-nav>
@@ -53,15 +53,15 @@
                         <b-navbar-nav>
                             <b-nav-item to="/game">
                                 <font-awesome-icon icon="gamepad"/>
-                                Games
+                                Gry
                             </b-nav-item>
                             <b-nav-item to="/mods/1"> <!-- TODO -->
                                 <font-awesome-icon icon="cogs"/>
-                                Mods
+                                Modyfikacje do gier
                             </b-nav-item>
                             <b-nav-item to="/dev-studios/1/mods"> <!-- TODO -->
                                 <font-awesome-icon icon="desktop"/>
-                                Development Studios
+                                Studia developerskie
                             </b-nav-item>
                         </b-navbar-nav>
                     </template>
@@ -90,6 +90,10 @@
                                     <font-awesome-icon icon="user"/>
                                     Mój Profil
                                 </b-dd-item>
+                                <b-dd-item :to="{name: 'my_development_studios'}">
+                                    <font-awesome-icon icon="hands-helping"/>
+                                    Moje studia developerskie
+                                </b-dd-item>
                                 <b-dd-item v-if="userId !== undefined && userId !== null && userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
                                     <font-awesome-icon icon="file" />
                                     Moje modyfikacje
@@ -97,7 +101,7 @@
                                 <b-dd-divider></b-dd-divider>
                                 <b-dropdown-item-button @click="logout" style="cursor: pointer;">
                                     <font-awesome-icon icon="door-closed"/>
-                                    Logout
+                                    Wyloguj się
                                 </b-dropdown-item-button>
                             </b-dropdown>
                         </b-navbar-nav>
