@@ -8,10 +8,12 @@
                 <p>Zgłaszasz chęć współpracy ze studiem {{offer.development_studio.name}}</p>
 
                 <!--<errors-alert v-if="invalid && !! errors.logo_file" :errors="errors.logo_file"></errors-alert>-->
-                <b-form-group label="Twoja aplikacja:">
-                    <b-form-file accept="application/pdf" v-model="file" placeholder="Wybierz plik ze swoją aplikacją (np. CV) w formacie PDF" class="col-sm-6"></b-form-file>
-                    <div class="mt-3">Wybrano: {{file && file.name}}</div>
+                <b-form-group label="Twoja aplikacja:" description="Wybierz plik ze swoją aplikacją (np. CV) w formacie PDF">
+                    <b-form-file accept="application/pdf" v-model="file" class="col-sm-6"></b-form-file>
+                    <div class="mt-3" v-if="file">Wybrano: {{file && file.name}}</div>
+
                 </b-form-group>
+
 
                 <b-form-group>
                     <b-form-checkbox id="checkbox"

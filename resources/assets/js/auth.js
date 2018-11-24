@@ -86,9 +86,6 @@ export const Auth = {
 
     async isOwner(studioId) {
         let response = await axios.get(`/api/devstudios/${studioId}`);
-        console.log(response.data);
-        console.log(Auth.getId());
-        console.log(response.data.studio.owner_id);
         return response.data.studio.owner_id === Auth.getId();
     },
 };

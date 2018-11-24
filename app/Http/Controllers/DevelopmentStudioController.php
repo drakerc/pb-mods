@@ -136,6 +136,9 @@ class DevelopmentStudioController extends Controller
         $developmentStudio->owner_id = $ownerId;
         $developmentStudio->save();
 
+        $user = $request->user();
+        $developmentStudio->users()->attach($user);
+
         return redirect()->route('DevStudiosDetails', ['studio' => $developmentStudio->id]);
     }
 
@@ -305,8 +308,8 @@ class DevelopmentStudioController extends Controller
             'name' => 'required|string|max:100',
             'address' => 'string|max:500',
             'description' => 'string|max:1000',
-            'website' => 'url',
-            'email' => 'email',
+            'website' => 'required|url',
+            'email' => 'required|email',
             'commercial' => 'boolean|required',
             'specialization' => 'integer|required|in:0,1,2'
         ]);

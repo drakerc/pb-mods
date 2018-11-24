@@ -27,6 +27,7 @@
                     </b-row>
                 </b-tab>
                 <b-tab title="Gry">
+                    <b-btn :to="{name:'new_game_form'}" v-if="isMember" class="my-2">Utwórz nową grę</b-btn>
                     <div v-for="game in studio.games" :key="game.id" class="my-2" style="cursor: pointer">
                         <b-card>
                             <div @click="showGameDetailsPage(game.id)" class="my-0">
@@ -51,7 +52,7 @@
                     </div>
                 </b-tab>
                 <b-tab title="Ogłoszenia" v-if="(studio.job_offers !== undefined && studio.job_offers.length > 0) || isMember">
-                    <b-btn v-if="isMember" :to="{name: 'new_job_offer', params: {selectedStudio: studio.id}}">Utworz nową ofertę</b-btn>
+                    <b-btn v-if="isMember" :to="{name: 'new_job_offer', params: {selectedStudio: studio.id}}" class="my-2">Utworz nową ofertę</b-btn>
                     <div v-for="offer in studio.job_offers" :key="offer.id" class="my-2">
                         <b-card>
                             <template slot="header">
@@ -82,18 +83,15 @@
         data() {
             return {
                 studio: {},
-                isOwner: false
-            }
-        },
-        asyncComputed: {
-            isMember() {
-                return Auth.isMember(this.studio.id);
+                isOwner: false,
+                isMember: false
             }
         },
         watch: {
             studio: {
                 handler(studio) {
                     this.isOwner = Auth.getId() === studio.owner_id;
+                    this.isMember = Auth.isMember(this.studio.id);
                 }
             }
         },

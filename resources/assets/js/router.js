@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import { Auth } from "./auth";
-import axios from 'axios';
 
 import ModsCategory from './components/mods/category/ModsCategory.vue';
 import GameModsCategories from './components/GameModsCategories.vue';
@@ -42,7 +41,7 @@ import JobOfferApplyForm from './components/dev-studios/job-offers/JobOfferApply
 import NewJobOfferForm from './components/dev-studios/job-offers/NewJobOfferForm';
 import DevelopmentStudioCreateForm from './components/dev-studios/DevelopmentStudioCreateForm';
 import DevelopmentStudioManagement from './components/dev-studios/DevelopmentStudioManagement';
-import MyDevelopmentStudios from './components/dev-studios/MyDevelopmentStudios';
+import MyDevelopmentStudios from './components/user/MyDevelopmentStudios';
 
 Vue.use(VueRouter);
 
@@ -100,12 +99,6 @@ export const router = new VueRouter({
             }
         },
         {
-            path: '/dev-studios/:id',
-            component: DevelopmentStudiosDetails,
-            name: 'dev_studio_details'
-        },
-        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
-        {
             path: '/dev-studios/new',
             component: DevelopmentStudioCreateForm,
             name: 'new_dev_studio',
@@ -113,6 +106,12 @@ export const router = new VueRouter({
                 requiresAuth: true
             }
         },
+        {
+            path: '/dev-studios/:id',
+            component: DevelopmentStudiosDetails,
+            name: 'dev_studio_details'
+        },
+        {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
         {
             path: '/dev-studios/:id/manage',
             component: DevelopmentStudioManagement,

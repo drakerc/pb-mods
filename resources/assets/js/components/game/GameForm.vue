@@ -158,6 +158,7 @@
                     });
                 }).catch(err => {
                     console.error(err);
+                    this.game = {};
                     this.invalid = true;
                     this.errors = err.response.data.errors;
                 });

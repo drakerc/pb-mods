@@ -18,7 +18,9 @@
             </b-col>
         </template>
         <template v-else>
-            <p>Obecnie nie współpracujesz z żadnym ze studiów. Może <b-link :to="{name: 'new_dev_studio'}">utwórz nowy</b-link>?</p>
+            <b-row>
+                <p class="mx-auto">Obecnie nie współpracujesz z żadnym ze studiów. Może <b-link :to="{name: 'new_dev_studio'}">utwórz nowy</b-link>?</p>
+            </b-row>
         </template>
     </div>
 </template>
