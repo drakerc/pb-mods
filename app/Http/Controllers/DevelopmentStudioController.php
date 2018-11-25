@@ -22,7 +22,7 @@ class DevelopmentStudioController extends Controller
      */
     public function index(Request $request)
     {
-        $studios = DevelopmentStudio::where('1 = 1');
+        $studios = DevelopmentStudio::paginate(10);
 
         $filters = $request->get('filters');
 
@@ -35,11 +35,14 @@ class DevelopmentStudioController extends Controller
         if ($request->ajax()) {
             return response()->json(
                 [
-                    'studios' => $studios->paginate(10),
+                    'studios' => $studios,
                     'auth' => Auth::check()
                 ]);
         }
-        return false;
+        return response()->json(
+            [
+                'message' => 'Invalid request.'
+            ], 400);
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use App\DevelopmentStudio;
+use App\User;
 use Illuminate\Database\Seeder;
 
 class DevelopmentStudiosSeeder extends Seeder

@@ -42,6 +42,7 @@ import NewJobOfferForm from './components/dev-studios/job-offers/NewJobOfferForm
 import DevelopmentStudioCreateForm from './components/dev-studios/DevelopmentStudioCreateForm';
 import DevelopmentStudioManagement from './components/dev-studios/DevelopmentStudioManagement';
 import MyDevelopmentStudios from './components/user/MyDevelopmentStudios';
+import DevelopmentStudiosIndex from './components/dev-studios/DevelopmentStudiosIndex';
 
 Vue.use(VueRouter);
 
@@ -97,6 +98,11 @@ export const router = new VueRouter({
             meta: {
                 requiresAuth: true
             }
+        },
+        {
+            path: '/dev-studios/index',
+            component: DevelopmentStudiosIndex,
+            name: 'dev_studios_index'
         },
         {
             path: '/dev-studios/new',

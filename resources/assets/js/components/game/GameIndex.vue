@@ -9,13 +9,18 @@
             <b-row>
                 <b-col sm="8">
                     <p>Najnowsze wpisy o grach:</p>
-                    <b-card v-for="game in games" :key="game.id" class="my-2">
-                        <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
-                        <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                        <p class="card-text small" v-html="game.description">
-                            <!--{{game.description | truncate(200)}}-->
-                        </p>
-                    </b-card>
+                    <template v-if="games">
+                        <b-card v-for="game in games.data" :key="game.id" class="my-2">
+                            <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
+                            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
+                            <p class="card-text small" v-html="game.description">
+                                <!--{{game.description | truncate(200)}}-->
+                            </p>
+                        </b-card>
+                        <b-row>
+                            <paginate class="mx-auto" :data="games" @pagination-change-page="getResults"></paginate>
+                        </b-row>
+                    </template>
                 </b-col>
                 <b-col sm="4">
                     <div>
@@ -45,6 +50,7 @@
     import axios from 'axios';
     import truncate from 'vue-truncate-collapsed';
     import { Auth } from '../../auth';
+    import paginate from 'laravel-vue-pagination';
 
     const fetchData = (callback) => {
         axios.get(`/api/game`).then((response) => {
@@ -65,14 +71,15 @@
         name: "GameIndex",
         data() {
             return {
-                games: [],
+                games: null,
                 posts: [],
                 offers: [],
                 Auth
             }
         },
         components: {
-            truncate
+            truncate,
+            paginate
         },
         beforeRouteEnter(to, from, next) {
             fetchData((err, data) => {
@@ -88,10 +95,17 @@
                     this.posts = data.posts;
                     this.offers = data.offers;
                 }
+            },
+            getResults(page) {
+                axios.get(`/api/game`, {
+                    params: {
+                        page
+                    }
+                })
+                    .then(response => this.games = response.data)
+                    .catch(err => console.error(err));
             }
         }
-
-
     }
 </script>
 

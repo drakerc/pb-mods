@@ -91,7 +91,7 @@
             studio: {
                 handler(studio) {
                     this.isOwner = Auth.getId() === studio.owner_id;
-                    this.isMember = Auth.isMember(this.studio.id);
+                    Auth.isMember(studio.id).then(result => this.isMember = result);
                 }
             }
         },

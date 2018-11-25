@@ -54,7 +54,7 @@ class Game extends Model
 
     public function posts()
     {
-        return $this->hasMany('App\Post', 'game_id', 'id')->orderBy('created_at', 'desc');
+        return $this->hasMany('App\Post', 'game_id', 'id');
     }
 
     public function background()
@@ -64,7 +64,7 @@ class Game extends Model
 
     public function getPosts($value)
     {
-        return $value->posts();
+        return $value->posts()->orderBy('created_at', 'desc');
     }
 
     public function files()

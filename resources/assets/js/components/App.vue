@@ -59,7 +59,7 @@
                                 <font-awesome-icon icon="cogs"/>
                                 Modyfikacje do gier
                             </b-nav-item>
-                            <b-nav-item to="/dev-studios/1/mods"> <!-- TODO -->
+                            <b-nav-item :to="{name: 'dev_studios_index'}">
                                 <font-awesome-icon icon="desktop"/>
                                 Studia developerskie
                             </b-nav-item>

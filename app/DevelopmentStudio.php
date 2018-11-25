@@ -59,7 +59,15 @@ class DevelopmentStudio extends Model
     }
 
     protected $fillable = [
-        'title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization'
+        'title',
+        'name',
+        'address',
+        'description',
+        'website',
+        'email',
+        'commercial',
+        'specialization',
+        'owner_id'
     ];
 
     protected $appends = ['specializationText', 'ownerName'];
