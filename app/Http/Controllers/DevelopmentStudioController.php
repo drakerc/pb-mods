@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DevelopmentStudio;
-use App\Modification;
 use App\User;
 use Carbon\Carbon;
-use Doctrine\DBAL\Query\QueryBuilder;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,20 +21,22 @@ class DevelopmentStudioController extends Controller
      */
     public function index(Request $request)
     {
-        $studios = DevelopmentStudio::paginate(10);
+        $studios = DB::table('development_studios');
 
-        $filters = $request->get('filters');
+        $filters = json_decode($request->filters, true);
 
         if ($filters !== null) {
             foreach ($filters as $key => $value) {
-                $studios->where($key, $value);
+                if ($value !== null) {
+                    $studios->where($key, $value);
+                }
             }
         }
 
         if ($request->ajax()) {
             return response()->json(
                 [
-                    'studios' => $studios,
+                    'studios' => $studios->paginate(5),
                     'auth' => Auth::check()
                 ]);
         }
@@ -271,7 +272,7 @@ class DevelopmentStudioController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function deleteMember(DevelopmentStudio $studio, User $user, Request $request)
+    public function deleteMember(DevelopmentStudio $studio, Request $request)
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
@@ -280,10 +281,12 @@ class DevelopmentStudioController extends Controller
             );
         }
 
-        $studio->users()->detach($user->id);
-        return response()->json([
-            'status' => true
+        $request->validate([
+           'user_id' => 'required|integer'
         ]);
+
+        $studio->users()->detach($request->user_id);
+        return response()->json($studio->users()->get());
     }
 
     /**
@@ -294,7 +297,7 @@ class DevelopmentStudioController extends Controller
      */
     public function findById(Request $request, $id)
     {
-        return response()->json(DevelopmentStudio::with(['games.logo', 'modifications', 'jobOffers' => function($query) {
+        return response()->json(DevelopmentStudio::with(['games.logo', 'users', 'modifications', 'jobOffers' => function($query) {
             $query->whereDate('valid_until', '>=', Carbon::now());
         }])->findOrFail($id));
     }

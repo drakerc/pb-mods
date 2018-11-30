@@ -1,15 +1,13 @@
 <template>
     <div class="container my-2 col-sm-9 mx-auto">
-        <!--<b-alert :show="invalid && !! errors" variant="danger">-->
-            <!--<p>There are errors, please make sure to review them all.</p>-->
-        <!--</b-alert>-->
+
         <b-col sm="12" class="mx-auto">
             <b-form @submit.prevent="onSubmit">
                 <p>Zgłaszasz chęć współpracy ze studiem {{offer.development_studio.name}}</p>
 
                 <!--<errors-alert v-if="invalid && !! errors.logo_file" :errors="errors.logo_file"></errors-alert>-->
                 <b-form-group label="Twoja aplikacja:" description="Wybierz plik ze swoją aplikacją (np. CV) w formacie PDF">
-                    <b-form-file accept="application/pdf" v-model="file" class="col-sm-6"></b-form-file>
+                    <b-form-file accept="application/pdf" v-model="file" class="col-sm-7"></b-form-file>
                     <div class="mt-3" v-if="file">Wybrano: {{file && file.name}}</div>
 
                 </b-form-group>
@@ -25,11 +23,10 @@
                 <b-button type="submit" variant="primary" :disabled="!file || !agreement">Wyślij</b-button>
             </b-form>
         </b-col>
-        <b-modal v-model="submitting" hide-footer hide-header-close centered variant="sm">
-            <b-col>
-                <p>Please wait...</p>
-                <
-            </b-col>
+        <b-modal v-model="submitting" hide-footer hide-header centered variant="sm">
+            <div class="loading-bar">
+                <loading :active.sync="submitting" :can-cancel="false" :is-full-page="false" loader="dots"></loading>
+            </div>
         </b-modal>
     </div>
 </template>
@@ -37,6 +34,8 @@
 <script>
     import axios from 'axios';
     import Auth from '../../../auth';
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
 
     const fetch = (id, callback) => {
         axios.get(`/api/job-offer/${id}`).then((response) => {
@@ -53,8 +52,10 @@
                 file: null,
                 agreement: false,
                 submitting: false,
-                progressValue: 0
             }
+        },
+        components: {
+            Loading
         },
         beforeRouteEnter(to, from, next) {
             fetch(to.params.id, (err, data) => {
@@ -86,17 +87,14 @@
                 }
             },
             onSubmit() {
-                this.progressValue = 0;
                 this.submitting = true;
                 const formData = new FormData();
                 formData.append('file', this.file);
-                this.progressValue = 50;
                 axios.post(`/api/job-offer/${this.offer.id}/apply`, formData, {
                     headers: {
                         'Content-type': 'multipart/form-data'
                     }
                 }).then(response => {
-                    this.progressValue = 100;
                     this.$router.push({
                         name: 'job_offer_details',
                         params: {
@@ -108,12 +106,14 @@
                     console.error(err);
                     this.submitting = false;
                 });
-                this.progressValue = 75;
             }
         }
     }
 </script>
 
 <style scoped>
-
+    .loading-bar {
+        display: block;
+        height: 80px;
+    }
 </style>

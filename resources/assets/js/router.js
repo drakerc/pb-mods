@@ -102,7 +102,8 @@ export const router = new VueRouter({
         {
             path: '/dev-studios/index',
             component: DevelopmentStudiosIndex,
-            name: 'dev_studios_index'
+            name: 'dev_studios_index',
+            props: true
         },
         {
             path: '/dev-studios/new',
@@ -250,10 +251,12 @@ router.beforeEach(async (to, from, next) => {
         }
     }
     if (to.matched.some(record => record.meta.ownerOnly)) {
-        let isOwner = await Auth.isOwner(to.params.id).then(value => value);
+        let isOwner = await Auth.isOwner(to.params.id);
         console.log(isOwner);
         if (!isOwner) {
-            next(false);
+            next({
+                path: '/home'
+            });
             return;
         }
     }
