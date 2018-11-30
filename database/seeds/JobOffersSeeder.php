@@ -88,7 +88,7 @@ class JobOffersSeeder extends Seeder
                 'updated_at' => Carbon::now()->subMinutes(3),
                 'title' => 'Concept Art Designer',
                 'email' => 'example@example.com',
-                'body' => '<div><p>Poszukujemy rysownika concept-artów do naszej nowej gry.</p><p>Wymagana znajomość języków C++/C# oraz narzędzi Adobe Illustrator, bądź podobnych.</p> <br><br><br><br><p>Więcej szczegółów pod adresem email <a href="emailto:example@example.com">example@example.com</a></p><br><br<p>Do zobaczenia,</p><p><em>Edmumd McMillen</em></p></div>',
+                'body' => '<div><p>Poszukujemy rysownika concept-artów do naszej nowej gry.</p><p>Wymagana znajomość języków C++/C# oraz narzędzi Adobe Illustrator, bądź podobnych.</p> <br><br><br><br><p>Więcej szczegółów pod adresem email <a href="emailto:example@example.com">example@example.com</a></p><br><br<p>Do zobaczenia,</p><p><em>Edmund McMillen</em></p></div>',
                 'valid_until' => Carbon::now()->addMonth(),
                 'development_studio_id' => 3
             ],

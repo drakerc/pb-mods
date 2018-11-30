@@ -39,15 +39,15 @@
             </b-button>
             <b-button type="reset" variant="warning">Zresetuj</b-button>
         </b-form>
-        <div class="my-1">
+        <b-col class="my-2">
             <b-row>
                 <em>Nie masz konta?</em>
             </b-row>
             <b-row>
                 <b-link to="/register"> Kliknij tu</b-link>
-                <em>, by się zarejstrować!</em>
+                <em>, by się zarejestrować!</em>
             </b-row>
-        </div>
+        </b-col>
     </div>
 </template>
 <script>
@@ -91,47 +91,47 @@
     }
 </script>
 <style>
-    #login form {
-        padding-top: 40px;
-    }
+    /*#login form {*/
+        /*padding-top: 40px;*/
+    /*}*/
 
-    @media (min-width: 744px) {
-        #login form {
-            padding-top: 80px;
-        }
-    }
+    /*@media (min-width: 744px) {*/
+        /*#login form {*/
+            /*padding-top: 80px;*/
+        /*}*/
+    /*}*/
 
-    #login .form-control {
-        margin-bottom: 1em;
-    }
+    /*#login .form-control {*/
+        /*margin-bottom: 1em;*/
+    /*}*/
 
-    #login input[type=email],
-    #login input[type=password],
-    #login button,
-    #login label {
-        width: 100%;
-        font-size: 19px !important;
-        line-height: 24px;
-        color: #484848;
-        font-weight: 300;
-        -webkit-appearance: none;
-    }
+    /*#login input[type=email],*/
+    /*#login input[type=password],*/
+    /*#login button,*/
+    /*#login label {*/
+        /*width: 100%;*/
+        /*font-size: 19px !important;*/
+        /*line-height: 24px;*/
+        /*color: #484848;*/
+        /*font-weight: 300;*/
+        /*-webkit-appearance: none;*/
+    /*}*/
 
-    #login input {
-        background-color: transparent;
-        padding: 11px;
-        border: 1px solid #dbdbdb;
-        border-radius: 2px;
-        box-sizing:border-box
-    }
+    /*#login input {*/
+        /*background-color: transparent;*/
+        /*padding: 11px;*/
+        /*border: 1px solid #dbdbdb;*/
+        /*border-radius: 2px;*/
+        /*box-sizing:border-box*/
+    /*}*/
 
-    #login button {
-        background-color: #4fc08d;
-        color: #ffffff;
-        cursor: pointer;
-        border: #4fc08d;
-        border-radius: 4px;
-        padding-top: 12px;
-        padding-bottom: 12px;
-    }
+    /*#login button {*/
+        /*background-color: #4fc08d;*/
+        /*color: #ffffff;*/
+        /*cursor: pointer;*/
+        /*border: #4fc08d;*/
+        /*border-radius: 4px;*/
+        /*padding-top: 12px;*/
+        /*padding-bottom: 12px;*/
+    /*}*/
 </style>

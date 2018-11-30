@@ -1,6 +1,6 @@
 <template>
-    <b-alert variant="danger" show>
-        <ul>
+    <b-alert variant="danger" show class="col-sm-6">
+        <ul class="mx-auto">
             <li v-for="(error, index) in errors" :key="index">
                 {{error}}
             </li>

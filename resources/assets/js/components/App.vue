@@ -81,7 +81,7 @@
                                     Moje modyfikacje
                                 </b-btn>
                             </router-link>
-                            <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
+                            <b-nav-text class="mr-2">Witaj, {{username}}!</b-nav-text>
                             <b-dropdown variant="link" size="sm">
                                 <template slot="button-content">
                                     <b-img v-if="gravatar" rounded="circle" :src="`${gravatar}&s=30`" class="mr-1"></b-img>

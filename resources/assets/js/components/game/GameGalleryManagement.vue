@@ -3,15 +3,15 @@
         <b-card class="my-2">
             <div>
                 <b-form @submit.prevent="onUploadNewImages">
-                    <b-form-group label="Upload new images:">
-                        <b-form-file accept="image/*" v-model="newImages" :multiple="true" placeholder="Select multiple images to upload to your gallery..."></b-form-file>
+                    <b-form-group label="Wczytaj nowe zdjęcia:">
+                        <b-form-file accept="image/*" v-model="newImages" :multiple="true" placeholder="Wybierz kilka zdjęć w celu wypełnienia galerii..."></b-form-file>
                     </b-form-group>
-                    <b-button type="submit" size="sm" variant="primary" :disabled="newImages.length === 0">Upload</b-button>
+                    <b-button type="submit" size="sm" variant="primary" :disabled="newImages.length === 0">Wyślij</b-button>
                 </b-form>
             </div>
         </b-card>
         <b-card v-if="game.files !== undefined && game.files.length > 0">
-            <p>Delete existing images:</p>
+            <p>Usuń zdjęcia z galerii:</p>
             <b-row>
                 <b-col sm="1">
 
@@ -28,7 +28,7 @@
                         </b-row>
                     </b-form-checkbox-group>
 
-                    <b-button type="submit" size="sm" variant="danger">Delete</b-button>
+                    <b-button type="submit" size="sm" variant="danger">Usuń</b-button>
                 </b-form>
             </b-row>
 

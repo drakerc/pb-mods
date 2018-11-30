@@ -3,20 +3,20 @@
         <div v-if="loading">
             Loading...
         </div>
-        <template v-else-if="studios.length > 0">
+        <div v-else-if="studios.length > 0">
             <b-col>
                 <b-row>
-                    <p>Studia, z którymi współpracujesz:</p>
+                    <p class="mx-auto">Studia, z którymi współpracujesz:</p>
                 </b-row>
                 <b-row>
-                    <b-list-group>
+                    <b-list-group class="mx-auto">
                         <b-list-group-item class="my-1" v-for="studio in studios" :key="studio.id" :to="{name: 'dev_studio_details', params: {id: studio.id}}">
                             <h4 class="mx-auto mt-4">{{studio.name}}</h4>
                         </b-list-group-item>
                     </b-list-group>
                 </b-row>
             </b-col>
-        </template>
+        </div>
         <template v-else>
             <b-row>
                 <p class="mx-auto">Obecnie nie współpracujesz z żadnym ze studiów. Może <b-link :to="{name: 'new_dev_studio'}">utwórz nowy</b-link>?</p>

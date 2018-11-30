@@ -4,38 +4,38 @@
             <p>There are errors, please make sure to review them all.</p>
         </b-alert>
         <b-form @submit.prevent="onSubmit">
-
+            <h3>Utwórz nowy wpis o grze:</h3>
             <errors-alert v-if="invalid && !! errors.title" :errors="errors.title"></errors-alert>
-            <b-form-group label="Title:" description="Your game's title">
-                <b-form-input v-model="game.title" class="col-sm-6"/>
+            <b-form-group label="Tytuł:" description="Tytuł twojej gry.">
+                <b-form-input v-model="game.title" class="col-sm-6"></b-form-input>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.game_category_ids" :errors="errors.game_category_ids"></errors-alert>
-            <b-form-group label="Game category:">
+            <b-form-group label="Gatunek:">
                 <b-form-select multiple :options="gameCategories" v-model="game.gameCategoryIds" class="col-sm-6"></b-form-select>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.development_studios" :errors="errors.development_studios"></errors-alert>
-            <b-form-group label="Development studios:">
+            <b-form-group label="Studia deweloperskie:">
                 <b-form-select multiple :options="developmentStudios" v-model="game.developmentStudios" class="col-sm-6"></b-form-select>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.logo_file" :errors="errors.logo_file"></errors-alert>
-            <b-form-group label="Game logo:">
-                <b-form-file accept="image/*" v-model="logoFile" placeholder="Choose an image file" class="col-sm-6"></b-form-file>
-                <div class="mt-3">Selected file: {{logoFile && logoFile.name}}</div>
+            <b-form-group label="Logo gry:">
+                <b-form-file accept="image/*" v-model="logoFile" placeholder="Wybierz swoje logo gry" class="col-sm-6"></b-form-file>
+                <div class="mt-3">Wybrano: {{logoFile && logoFile.name}}</div>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.background_file" :errors="errors.background_file"></errors-alert>
-            <b-form-group label="Game background image:" description="Minimal recommended resolution 1920x1080">
+            <b-form-group label="Tło:" description="Tło, które widoczne będzie w szczegółach gry, oraz na blogu. (Zalecana rozdzielczość: 1920x1080)">
                 <b-form-file accept="image/*" v-model="backgroundFile"
-                             placeholder="Choose an background image file" class="col-sm-6">
+                             placeholder="Wybierz swoje tło" class="col-sm-6">
                 </b-form-file>
                 <div class="mt-3">Selected file: {{backgroundFile && backgroundFile.name}}</div>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.variant" :errors="errors.variant"></errors-alert>
-            <b-form-group label="Theme variant:">
+            <b-form-group label="Kolor schematu:">
                 <b-row>
                     <b-col>
                         <b-form-select v-model="game.variant" required class="col-sm-6">
@@ -49,13 +49,13 @@
                             <option value="light"><div class="text-light">Light</div></option>
                             <option value="dark"><div class="text-dark">Dark</div></option>
                         </b-form-select>
-                        <b-button :variant="game.variant" class="ml-2">Example</b-button>
+                        <b-button :variant="game.variant" class="ml-2">Przykładowy komponent</b-button>
                     </b-col>
                 </b-row>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.description" :errors="errors.description"></errors-alert>
-            <b-form-group label="Description:">
+            <b-form-group label="Opis gry:">
                 <vue-editor v-model="game.description"></vue-editor>
             </b-form-group>
             <b-button type="submit" variant="primary" :disabled="!isValid">Submit</b-button>

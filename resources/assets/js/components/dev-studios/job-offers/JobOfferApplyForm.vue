@@ -18,7 +18,7 @@
                 <b-form-group>
                     <b-form-checkbox id="checkbox"
                                      v-model="agreement">
-                        (*) Wyrażam zgodę na przetwarzanie moich danych w celu rekrutacyjnych.
+                        (*) Wyrażam zgodę na przetwarzanie moich danych w celach rekrutacyjnych.
                     </b-form-checkbox>
                 </b-form-group>
 
@@ -28,7 +28,7 @@
         <b-modal v-model="submitting" hide-footer hide-header-close centered variant="sm">
             <b-col>
                 <p>Please wait...</p>
-                <b-progress :value="progressValue" :max="100" animated></b-progress>
+                <
             </b-col>
         </b-modal>
     </div>

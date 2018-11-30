@@ -109,7 +109,6 @@
             onSubmit() {
                 this.invalid = false;
                 this.errors = null;
-                this.offer = {};
                 axios.post(`/api/job-offer`, {
                     title: this.offer.title,
                     development_studio_id: this.offer.developmentStudioId,
@@ -124,6 +123,13 @@
                        }
                    });
                 }).catch(err => {
+                    this.offer =  {
+                        title: null,
+                        developmentStudioId: null,
+                        email: null,
+                        body: null,
+                        validUntil: null
+                    };
                     console.error(err);
                     this.invalid = true;
                     this.errors = err.response.data.errors;
