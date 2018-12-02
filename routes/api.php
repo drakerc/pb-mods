@@ -115,6 +115,7 @@ Route::resource('post-category', 'PostCategoryController');
 
 // USER
 Route::get('/userinfo', 'Auth\LoginController@getUserInfoApi');
+Route::get('/users/find', 'UsersController@findUserByName');
 
 // GAME CATEGORIES
 Route::get('game-categories', 'CategoryController@getGameCategories');

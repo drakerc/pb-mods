@@ -44,7 +44,7 @@
                     <b-form-group label="Opis:" description="Twój opis studia (cel, założenia...)">
                         <vue-editor v-model="studio.description" required></vue-editor>
                     </b-form-group>
-                    <b-button type="submit" variant="primary" :disabled="!isValid">Submit</b-button>
+                    <b-button type="submit" variant="primary" :disabled="!isValid">Wyślij</b-button>
                 </b-form>
             </b-col>
         </b-row>

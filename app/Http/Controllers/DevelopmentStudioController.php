@@ -250,7 +250,7 @@ class DevelopmentStudioController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function addMember(DevelopmentStudio $studio, User $user, Request $request)
+    public function addMember(DevelopmentStudio $studio, Request $request)
     {
         if (Auth::id() !== $studio->owner_id) {
             return response()->json([
@@ -259,10 +259,8 @@ class DevelopmentStudioController extends Controller
             );
         }
 
-        $studio->users()->attach($user->id);
-        return response()->json([
-            'status' => true
-        ]);
+        $studio->users()->attach(User::findOrFail($request->user));
+        return response()->json($studio->users()->get());
     }
 
     /**
