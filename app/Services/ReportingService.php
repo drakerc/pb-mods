@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Instruction;
 use App\Modification;
 use App\File;
+use App\User;
 use JasperPHP\JasperPHP;
 
 /**
@@ -35,15 +36,15 @@ class ReportingService
         $jsonContent = json_encode([
             'description' => $instruction->description,
             'download_link' => '<u><a href="' . route('ModificationView', ['mod' => $mod->id]) . '">dostępnej pod tym linkiem</a></u>',
-            'author' => $instruction->author_id,
+            'author' => User::whereId($instruction->author_id)->first()->name,
             'game' => $mod->getGameTitle(),
             'file' => $modFile->pivot->title,
             'mod' => $mod->title,
             'replaces' => $mod->replaces,
             'title' => $instruction->title,
             'version' => $mod->version,
-            'date_created' => $file->created_at,
-            'date_updated' => $file->updated_at,
+            'date_created' => $file->created_at ? $file->created_at->format('Y-m-d') : $file->updated_at->format('Y-m-d'),
+            'date_updated' => $file->updated_at->format('Y-m-d'),
             'downloads' => $file->downloads,
         ]);
         $dataFilePath = storage_path( 'app/jasper/' . $instruction->id . '_in.json');
