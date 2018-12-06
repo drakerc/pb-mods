@@ -20,7 +20,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property integer $category_id
  * @property string $font_color
  * @property integer $development_studio
- * @property bool $use_game_background
  * @property bool $active
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -275,7 +274,6 @@ class Modification extends Model
         'color_description_background',
         'transparency_description_background',
         'development_studio',
-        'use_game_background'
     ];
 
     protected $appends = ['averageRating', 'thumbnail', 'background', 'splash', 'downloadsCount', 'devStudio', 'creatorName'];
