@@ -23,7 +23,6 @@ use Backpack\CRUD\CrudTrait;
  * @property int|null $category_id
  * @property string|null $font_color
  * @property int|null $development_studio
- * @property int $use_game_background
  * @property int $active
  * @property string|null $font_color_splash_text
  * @property string|null $color_splash_background
@@ -72,8 +71,7 @@ class Modification extends Model
     // protected $guarded = ['id'];
     protected $fillable = [
         'title', 'description', 'development_status', 'size', 'replaces', 'version',
-        'creator', 'release_date', 'game_id', 'category_id', 'font_color', 'development_studio',
-        'use_game_background', 'active',
+        'creator', 'release_date', 'game_id', 'category_id', 'font_color', 'development_studio', 'active',
         'font_color_splash_text', 'color_splash_background', 'transparency_splash_background',
         'font_color_description', 'color_description_background', 'transparency_description_background'
     ];

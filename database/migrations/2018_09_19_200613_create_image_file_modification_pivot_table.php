@@ -19,7 +19,6 @@ class CreateImageFileModificationPivotTable extends Migration
             $table->integer('modification_id')->unsigned()->index();
             $table->foreign('modification_id')->references('id')->on('modifications')->onDelete('cascade');
             $table->primary(['file_id', 'modification_id']);
-            $table->boolean('active')->default(true);
             $table->integer('type'); // 0 - mod background, 1 - thumbnail, 2 - splash image in a container, 3 - image gallery
         });
     }

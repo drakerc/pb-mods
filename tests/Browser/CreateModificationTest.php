@@ -75,7 +75,6 @@ class CreateModificationTest extends DuskTestCase
                 ->assertSeeIn('@size', 'Niewielka, pojedyńcza modyfikacja')
                 ->assertSeeIn('@replaces', $data['replaces'])
                 ->assertSeeIn('@version', $data['version'])
-//                ->assertSeeIn('@release_date', $data['title'])
                 ->assertSeeIn('@creator_name', 'gallanonim')
                 ->assertSeeIn('@downloads_count', 0)
                 ->assertSeeIn('@timestamps', 'Stworzono dnia: ' . date('j.m.Y'))
