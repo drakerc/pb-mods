@@ -88,6 +88,21 @@ export const Auth = {
         let response = await axios.get(`/api/devstudios/${studioId}`);
         return response.data.studio.owner_id === Auth.getId();
     },
+
+    async isDeveloper(gameId) {
+        if (!this.isLoggedIn()) {
+            return false;
+        }
+        let isDeveloper = false;
+        let response = await axios.get(`/api/game/${gameId}`);
+        for (let studio of response.data.development_studio) {
+            if (await this.isMember(studio.id)) {
+                isDeveloper = true;
+                break;
+            }
+        }
+        return isDeveloper;
+    }
 };
 
 export default Auth;

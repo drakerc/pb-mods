@@ -71,4 +71,9 @@ class Game extends Model
     {
         return $this->belongsToMany('App\File', 'file_game');
     }
+
+    public function videos()
+    {
+        return $this->hasMany('App\GameVideo');
+    }
 }

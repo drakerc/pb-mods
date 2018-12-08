@@ -188,7 +188,8 @@ export const router = new VueRouter({
                     component: GameGalleryManagement,
                     name: 'game_gallery_manage',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        developerOnly: true
                     }
                 },
                 {
@@ -196,7 +197,8 @@ export const router = new VueRouter({
                     component: PostForm,
                     name: 'new_post_form',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        developerOnly: true
                     }
                 },
                 {
@@ -204,7 +206,8 @@ export const router = new VueRouter({
                     component: PostForm,
                     name: 'edit_post_form',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        developerOnly: true
                     },
                     props: {
                         editMode: true
@@ -244,6 +247,16 @@ router.beforeEach(async (to, from, next) => {
     }
     if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
         if (Auth.isLoggedIn()) {
+            next({
+                path: '/home'
+            });
+            return;
+        }
+    }
+    if (to.matched.some(record => record.meta.developerOnly)) {
+        let isDeveloper = await Auth.isDeveloper(to.params.id);
+        console.log(isDeveloper);
+        if (!isDeveloper) {
             next({
                 path: '/home'
             });

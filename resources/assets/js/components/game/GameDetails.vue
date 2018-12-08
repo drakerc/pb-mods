@@ -69,20 +69,24 @@
                     <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0" :title-link-class="titleLinkClass">
                         <b-col>
                             <b-row>
-                                <gallery :images="images" :index="index" @close="index = null"></gallery>
+                                <gallery :images="images"
+                                         :index="index"
+                                         :options="{youTubeVideoIdProperty: 'youtube', youTubePlayerVars: undefined, youTubeClickToPlay: true}"
+                                         @close="index = null"></gallery>
                                 <div
                                         class="image"
                                         v-for="(image, imageIndex) in images"
                                         :key="imageIndex"
                                         @click="index = imageIndex"
-                                        :style="{ backgroundImage: 'url(' + image + ')', width: '300px', height: '200px' }"
+                                        :style="{ backgroundImage: 'url(' + image.poster + ')', width: '300px', height: '200px' }"
+
                                 ></div>
                             </b-row>
                         </b-col>
                     </b-tab>
                 </b-tabs>
             </b-card>
-            <b-row class="my-2" v-if="Auth.isLoggedIn()">
+            <b-row class="my-2" v-if="isMember">
                 <b-col>
                     <b-button size="sm" variant="primary" :to="{name:'game_gallery_manage', params: {id: game.id}}">Edit gallery</b-button>
                 </b-col>
@@ -185,9 +189,24 @@
                     })
                 } else {
                     this.game = data;
-                    this.images = data.files.map(file => {
-                        return file.downloadLink;
+                    this.images = data.files.map((file, index) => {
+                        return {
+                            title: `${this.game.title} - Image #${index}`,
+                            type: file.file_type,
+                            href: file.downloadLink,
+                            poster: file.downloadLink
+                        }
                     });
+                    this.images.push(...data.videos.map(video => {
+                        return {
+                            title: video.title,
+                            type: 'text/html',
+                            href: video.url,
+                            poster: video.poster,
+                            youtube: video.youtube
+                        }
+                    }));
+                    console.log(this.images);
                 }
             }
         }

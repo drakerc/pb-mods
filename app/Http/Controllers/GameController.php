@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DevelopmentStudio;
 use App\File;
 use App\Game;
+use App\GameVideo;
 use App\Post;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -93,7 +96,13 @@ class GameController extends Controller
         $development_studios = explode(',', $request->development_studios);
         foreach ($development_studios as $studio)
         {
-            $game->developmentStudio()->attach($studio);
+            $development_studio = DevelopmentStudio::findOrFail($studio);
+            if(!$development_studio->users()->get()->contains($user)) {
+                return response()->json([
+                    'message' => 'Not allowed to post game with one of the studios: ' . $development_studio->name
+                ], 401);
+            }
+            $game->developmentStudio()->attach($development_studio);
         }
 
         return response()->json($game);
@@ -107,7 +116,7 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $game = Game::with(['posts', 'logo', 'categories', 'files', 'background', 'developmentStudio'])->FindOrFail($id);
+        $game = Game::with(['posts', 'logo', 'categories', 'files', 'background', 'developmentStudio', 'videos'])->FindOrFail($id);
         return response()->json($game);
     }
 
@@ -190,6 +199,12 @@ class GameController extends Controller
         ]);
 
         $game = Game::findOrFail($id);
+        $user = $request->user();
+        if (!$this->isDeveloper($game, $user)) {
+            return response()->json([
+                'Message' => 'Unauthorized to delete images'
+            ], 401);
+        }
 
         $deleted = [];
         foreach ($request->images as $image_id)
@@ -222,6 +237,13 @@ class GameController extends Controller
         $game = Game::findOrFail($id);
         $user = $request->user();
 
+        if (!$this->isDeveloper($game, $user)) {
+            return response()->json([
+                'Message' => 'Unauthorized to upload images'
+            ], 401);
+        }
+
+        $files = [];
         foreach ($request->images as $key => $requestFile)
         {
             $file = new File();
@@ -234,6 +256,97 @@ class GameController extends Controller
 
             $file->save();
             $game->files()->attach($file->id);
+            array_push($files, $file);
         }
+
+        return response()->json($files);
+    }
+
+    /**
+     * Associates given youtube video link with game's gallery
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function uploadVideo(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|min:4',
+            'url' => 'required|url'
+        ]);
+
+        $game = Game::findOrFail($id);
+        $user = $request->user();
+
+        if (!$this->isDeveloper($game, $user)) {
+            return response()->json([
+                'Message' => 'Unauthorized to upload images'
+            ], 401);
+        }
+
+        $video = new GameVideo([
+            'title' => $request->title,
+            'url' => $request->url,
+            'game_id' => $game->id
+        ]);
+
+        Log::info($video);
+
+        $video->save();
+
+        return response()->json($video);
+    }
+
+    /**
+     * Removes association of game's gallery with given video id
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteVideo(Request $request, $id)
+    {
+        $request->validate([
+            'videos' => 'required|array',
+        ]);
+
+        $game = Game::findOrFail($id);
+        $user = $request->user();
+
+        if (!$this->isDeveloper($game, $user)) {
+            return response()->json([
+                'Message' => 'Unauthorized to upload images'
+            ], 401);
+        }
+
+        foreach ($request->videos as $video_id) {
+            $video = GameVideo::find($video_id);
+            if ($video !== null)
+            {
+                $video->delete();
+            }
+        }
+
+        return response()->json([
+            'message' => 'Videos deleted.'
+        ]);
+    }
+
+
+    /**
+     * Checks, if given user belongs to any of game's development studios
+     * @param Game $game
+     * @param User $user
+     * @return bool
+     */
+    private function isDeveloper(Game $game, User $user)
+    {
+        foreach ($game->developmentStudio()->get() as $studio)
+        {
+            if ($studio->users()->get()->contains($user))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

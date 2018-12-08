@@ -105,6 +105,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('game', 'GameController@store');
     Route::post('game/{id}/gallery/upload', 'GameController@uploadImages');
     Route::post('game/{id}/gallery/delete', 'GameController@deleteImages');
+    Route::post('game/{id}/gallery/video/upload', 'GameController@uploadVideo');
+    Route::post('game/{id}/gallery/video/delete', 'GameController@deleteVideo');
 });
 Route::resource('game', 'GameController')->except([
     'store'

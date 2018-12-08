@@ -146,5 +146,12 @@ class GamesSeeder extends Seeder
                 'file_id' => 13
             ]
         ]);
+
+        // Game -> video table
+        DB::table('game_videos')->insert([
+            'title' => 'Fallout 3 #1',
+            'game_id' => 3,
+            'url' => "https://www.youtube.com/watch?v=iYZpR51XgW0"
+        ]);
     }
 }

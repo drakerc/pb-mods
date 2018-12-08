@@ -295,7 +295,7 @@ class DevelopmentStudioController extends Controller
      */
     public function findById(Request $request, $id)
     {
-        return response()->json(DevelopmentStudio::with(['games.logo', 'users', 'modifications', 'jobOffers' => function($query) {
+        return response()->json(DevelopmentStudio::with(['games.logo', 'users', 'modifications:id,title,description', 'jobOffers' => function($query) {
             $query->whereDate('valid_until', '>=', Carbon::now());
         }])->findOrFail($id));
     }
