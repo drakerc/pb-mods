@@ -77,13 +77,14 @@ class Category extends Model
     public function getDeepModificationsCountAttribute($parentId = null, $count = 0)
     {
         if ($parentId === null) {
+            $count += Modification::where(['category_id' => $this->id, 'active' => true])->count();
             $parentId = $this->id;
         }
         $subcats = Category::where(['parent' => $parentId, 'active' => true])->get();
 
         foreach ($subcats as $cat) {
             $count += Modification::where(['category_id' => $cat->id, 'active' => true])->count();
-            $count = $this->getDeepSubcategoriesCountAttribute($cat->id, $count);
+            $count = $this->getDeepModificationsCountAttribute($cat->id, $count);
         }
         return $count;
     }

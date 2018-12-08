@@ -28,7 +28,6 @@ class CreateModificationsTable extends Migration
             $table->integer('category_id')->unsigned()->nullable();
             $table->string('font_color')->nullable();
             $table->integer('development_studio')->unsigned()->nullable();
-            $table->boolean('use_game_background')->default(true);
             $table->boolean('active')->default(true); // there's no risk for mods, so they'll be active after creation
         });
 
@@ -37,7 +36,6 @@ class CreateModificationsTable extends Migration
             $table->foreign('game_id')->references('id')->on('games');
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('creator')->references('id')->on('users');
-//            $table->foreign('development_studio')->references('id')->on('development_studios'); // not yet created
         });
     }
 

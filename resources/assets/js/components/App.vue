@@ -10,8 +10,13 @@
                 <div class="collapse navbar-collapse" id="navbar">
                     <ul v-if="current_module === 'mods'" class="navbar-nav mr-auto">
                         <li v-if="game" class="nav-item active">
+                            <router-link :to="{name: 'game_details', params: {id: game}}">
+                                <a class="nav-link">Gra: {{ game_title }}</a>
+                            </router-link>
+                        </li>
+                        <li v-if="game" class="nav-item active">
                             <router-link :to="{name: 'game_mods', params: {game: game}}">
-                                <a class="nav-link">Mody do gry {{ game_title }}</a>
+                                <a class="nav-link">Modyfikacje</a>
                             </router-link>
                         </li>
                         <li v-if="category" class="nav-item">
