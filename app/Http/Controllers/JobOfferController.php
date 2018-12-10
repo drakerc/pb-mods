@@ -20,7 +20,7 @@ class JobOfferController extends Controller
     public function index()
     {
         $job_offers = JobOffer::with(['developmentStudio'])->whereDate('valid_until', '>=', Carbon::now())
-            ->orderBy('created_at', 'desc')->get();
+            ->orderBy('created_at', 'desc')->limit(10)->get();
         return response()->json($job_offers);
     }
 

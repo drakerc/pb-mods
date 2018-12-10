@@ -31,14 +31,14 @@
                 <b-form-file accept="image/*" v-model="backgroundFile"
                              placeholder="Wybierz swoje tło" class="col-sm-6">
                 </b-form-file>
-                <div class="mt-3">Selected file: {{backgroundFile && backgroundFile.name}}</div>
+                <div class="mt-3">Wybrano: {{backgroundFile && backgroundFile.name}}</div>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.variant" :errors="errors.variant"></errors-alert>
             <b-form-group label="Kolor schematu:">
                 <b-row>
                     <b-col>
-                        <b-form-select v-model="game.variant" required class="col-sm-6">
+                        <b-form-select v-model="game.variant" required class="col-sm-4">
                             <option value="default" selected>Default</option>
                             <option value="primary"><div class="text-primary">Primary</div></option>
                             <option value="secondary"><div class="text-secondary">Secondary</div></option>

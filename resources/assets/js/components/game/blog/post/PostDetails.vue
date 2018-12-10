@@ -7,56 +7,60 @@
                 </template>
                 <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
                 <br>
-                <em>Posted at {{post.created_at}}</em>
+                <em>Dodano: {{post.created_at}}</em>
                 <br>
-                <b-button v-if="Auth.isLoggedIn()" :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" class="mt-4" variant="success">Edit post</b-button>
+                <b-button v-if="Auth.isLoggedIn()" :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" class="mt-4" variant="success">Edytuj post</b-button>
             </b-jumbotron>
             <b-card :bg-variant="post.game.variant" :text-variant="textVariant" class="my-4">
-                <p v-html="post.body" class="my-2"></p>
+                <b-col>
+                    <p v-html="post.body" class="my-2"></p>
+                </b-col>
             </b-card>
             <b-card class="my-2":bg-variant="post.game.variant" :text-variant="textVariant">
-                <p>Comments:</p>
-                <template v-if="post.comments !== undefined && post.comments.length > 0">
-                    <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
-                        <b-card :id="index" :bg-variant="post.game.variant" >
-                            <template slot="header">
-                                <b-row class="col-sm-12">
-                                    <b-col sm="0" class="mr-1 mb-1">
-                                        <b-img :src="`${comment.author.gravatar}&s=50`" thumbnail rounded></b-img>
-                                    </b-col>
-                                    <b-col>
-                                        <b-row class="my-3">
-                                            <em>#{{index + 1}} {{comment.author.name}} on {{comment.created_at}}</em>
-                                            <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">
-                                                Delete
-                                            </b-link>
-                                        </b-row>
-                                        <!--<b-row></b-row>-->
-                                    </b-col>
-                                </b-row>
-                            </template>
-                            <p v-html="comment.body"></p>
-                        </b-card>
-                    </div>
-                </template>
-                <template v-else><p>No comments found.</p></template>
-                <template v-if="!isLoggedIn">
-                    <p>Please <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">log in</b-link> to add comments.</p>
-                </template>
-                <template v-else>
-                    <b-button @click="showForm" v-if="!formVisible" class="my-1" :variant="post.game.variant === 'secondary' ? 'light' : 'secondary'">Add comment</b-button>
-                    <template v-if="formVisible">
-                        <b-card no-body :bg-variant="post.game.variant" :text-variant="textVariant" class="my-2 col-sm-10 mx-auto">
-                            <b-form @submit="onSubmit" class="my-2">
-                                <b-form-group label="Comment:">
-                                    <vue-editor v-model="comment.body" class="bg-white text-dark"></vue-editor>
-                                </b-form-group>
-                                <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
-                                <b-button @click="hideForm" variant="warning">Cancel</b-button>
-                            </b-form>
-                        </b-card>
+                <b-col>
+                    <p>Komentarze:</p>
+                    <template v-if="post.comments !== undefined && post.comments.length > 0">
+                        <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
+                            <b-card :id="index" :bg-variant="post.game.variant" >
+                                <template slot="header">
+                                    <b-row class="col-sm-12">
+                                        <b-col sm="0" class="mr-1 mb-1">
+                                            <b-img :src="`${comment.author.gravatar}&s=50`" thumbnail rounded></b-img>
+                                        </b-col>
+                                        <b-col>
+                                            <b-row class="my-3">
+                                                <em>#{{index + 1}} {{comment.author.name}} - {{comment.created_at}}</em>
+                                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">
+                                                    Usuń
+                                                </b-link>
+                                            </b-row>
+                                            <!--<b-row></b-row>-->
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                                <p v-html="comment.body"></p>
+                            </b-card>
+                        </div>
                     </template>
-                </template>
+                    <template v-else><p>Brak komentarzy.</p></template>
+                    <template v-if="!isLoggedIn">
+                        <p>Proszę <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">zalogować się</b-link>, aby móc zakomentować post.</p>
+                    </template>
+                    <template v-else>
+                        <b-button @click="showForm" v-if="!formVisible" class="my-1" :variant="post.game.variant === 'secondary' ? 'light' : 'secondary'">Dodaj komentarz</b-button>
+                        <template v-if="formVisible">
+                            <b-card no-body :bg-variant="post.game.variant" :text-variant="textVariant" class="my-2 col-sm-10 mx-auto">
+                                <b-form @submit="onSubmit" class="my-2">
+                                    <b-form-group label="Comment:">
+                                        <vue-editor v-model="comment.body" class="bg-white text-dark"></vue-editor>
+                                    </b-form-group>
+                                    <b-button type="submit" variant="primary" :disabled="!comment.body">Wyślij</b-button>
+                                    <b-button @click="hideForm" variant="warning">Anuluj</b-button>
+                                </b-form>
+                            </b-card>
+                        </template>
+                    </template>
+                </b-col>
             </b-card>
         </div>
     </div>
