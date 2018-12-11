@@ -30,7 +30,7 @@
                                         <b-col>
                                             <b-row class="my-3">
                                                 <em>#{{index + 1}} {{comment.author.name}} - {{comment.created_at}}</em>
-                                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">
+                                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="selectComment(comment)">
                                                     Usuń
                                                 </b-link>
                                             </b-row>
@@ -62,6 +62,20 @@
                     </template>
                 </b-col>
             </b-card>
+            <b-modal v-if="selectedCommentToDelete !== null" v-model="showModal" hide-header centered variant="sm">
+                <p>Czy na pewno chcesz usunąć komentarz autorstwa {{selectedCommentToDelete.author.name}}? tej
+                    operacji nie można cofnąć!</p>
+                <p>Treść komentarza:</p>
+                <p v-html="selectedCommentToDelete.body"></p>
+                <template slot="modal-footer">
+                    <b-col>
+                        <b-row>
+                            <b-btn @click="onCancelModal" variant="warning" class="mr-auto">Anuluj</b-btn>
+                            <b-btn @click="onCommentDelete" variant="danger" class="ml-auto">Potwierdź</b-btn>
+                        </b-row>
+                    </b-col>
+                </template>
+            </b-modal>
         </div>
     </div>
 </template>
@@ -87,7 +101,9 @@
                     postId: null,
                     body: null,
                 },
-                Auth
+                Auth,
+                showModal: false,
+                selectedCommentToDelete: null
             }
         },
         components: {
@@ -168,16 +184,22 @@
                     });
                 });
             },
-            onDelete(comment) {
-                if (this.isAuthor(comment.author.id)){
-                    let confirm = window.confirm("Are you sure you want to delete this comment? This cannot be undone!"); // TODO
-                    if (confirm) {
-                        axios.delete(`/api/comment/${comment.id}`).then(() => {
-                            fetchPost(this.post.id, (err, data) => {
-                                this.setData(err, data);
-                            });
+            selectComment(comment) {
+                this.selectedCommentToDelete = comment;
+                this.showModal = true;
+            },
+            onCancelModal() {
+              this.selectedCommentToDelete = null;
+              this.showModal = false;
+            },
+            onCommentDelete() {
+                if (this.isAuthor(this.selectedCommentToDelete.author.id)){
+                    axios.delete(`/api/comment/${this.selectedCommentToDelete.id}`).then(() => {
+                        fetchPost(this.post.id, (err, data) => {
+                            this.setData(err, data);
+                            this.onCancelModal();
                         });
-                    }
+                    });
                 } else {
                     console.log("You're not allowed to delete this message");
                 }
