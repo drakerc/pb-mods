@@ -82,7 +82,7 @@ class Modification extends Model
 
     public function images()
     {
-        return $this->belongsToMany('App\File', 'image_file_modification', 'modification_id', 'file_id')->withPivot('active', 'type');
+        return $this->belongsToMany('App\File', 'image_file_modification', 'modification_id', 'file_id')->withPivot( 'type');
     }
 
     public function videos()
@@ -171,7 +171,7 @@ class Modification extends Model
 
         $images = $this->images()
             ->where('availability', true)
-            ->wherePivot('active', '=', true)
+//            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY)
             ->get();
         // TODO: check if we can pass something to wherePivot as array instead of using 2x wherePivot
@@ -195,8 +195,6 @@ class Modification extends Model
     public function getThumbnailAttribute()
     {
         $thumbnail = $this->images()
-            ->where('availability', true)
-            ->wherePivot('active', '=', true)
             ->wherePivot('type', '=', ImageFileModification::TYPE_GALLERY) // or thumbnail?
             ->first(['file_path']);
 

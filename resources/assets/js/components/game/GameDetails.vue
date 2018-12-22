@@ -1,80 +1,97 @@
 <template>
-    <div>
-        <div v-if="game.logo">
-            <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
-        </div>
+    <div :style="backgroundImage">
+        <div class="container my-2 col-sm-9 mx-auto">
+            <b-jumbotron :bg-variant="game.variant" :text-variant="textVariant">
+                <div v-if="game.logo">
+                    <b-img :src="game.logo.downloadLink" id="game-logo"></b-img>
+                </div>
 
-        <div class="row">
-            <div class="col-md-10">
-                <h2>{{game.title}}</h2>
-            </div>
-            <div class="col-md-2">
-                <router-link :to="{name: 'game_mods', params: {game: game.id} }">
-                    <b-btn class="mr-2" size="lg" variant="success">
-                        <font-awesome-icon icon="cogs" />
-                        Modifications
-                    </b-btn>
-                </router-link>
-            </div>
-        </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <h2>{{game.title}}</h2>
+                    </div>
+                    <div class="col-md-2">
+                    </div>
+                </div>
 
-        <div v-if="game.categories">
-            <strong v-for="category in game.categories" :key="category.id">{{category.title}} </strong>
-        </div>
-        <em>Added on {{game.created_at}}</em>
-        <b-card no-body>
-            <b-tabs card>
-                <b-tab title="Info" class="my-2">
-                    <b-row>
-                        <b-col sm="8">
-                            <p>Description:</p>
-                            <em v-html="game.description"></em>
-                        </b-col>
+                <div v-if="game.categories">
+                    <strong v-for="category in game.categories" :key="category.id">{{category.title}} </strong>
+                </div>
+                <em>Added on {{game.created_at}}</em>
+            </b-jumbotron>
+            <b-card no-body :bg-variant="game.variant" :text-variant="textVariant">
+                <b-tabs pills card :nav-wrapper-class="navWrapperClass">
+                    <b-tab title="Info" class="my-2" :title-link-class="titleLinkClass">
+                        <b-row>
+                            <b-col sm="8">
+                                <b-card :bg-variant="game.variant" :text-variant="textVariant" header="Description:">
+                                    <em v-html="game.description"></em>
+                                </b-card>
+                            </b-col>
 
-                        <b-col>
-                            <b-card>
-                                <div slot="header">
-                                    Info:
-                                </div>
-                                <br><br><br><br><br><br><br>
+                            <b-col>
+                                <b-card :bg-variant="game.variant" :text-variant="textVariant">
+                                    <div slot="header">
+                                        Info:
+                                    </div>
+                                        <p>Developed by:</p>
+                                        <p v-for="developmentStudio in game.development_studio" :key="developmentStudio.id">
+                                            <b-link :to="{name:'dev_studio_details', params:{id: developmentStudio.id}}" :class="textVariant">{{developmentStudio.name}}</b-link>
+                                        </p>
+                                    <router-link :to="{name: 'game_mods', params: {game: game.id} }">
+                                        <b-btn class="mr-2" size="lg" variant="success">
+                                            <font-awesome-icon icon="cogs" />
+                                            Modifications
+                                        </b-btn>
+                                    </router-link>
+                                    <br><br><br><br><br><br><br>
+                                </b-card>
+                            </b-col>
+                        </b-row>
+                    </b-tab>
+                    <b-tab title="Blog" class="my-2" :title-link-class="titleLinkClass">
+                        <!--TODO: if user is authenticated and is in development team-->
+                        <b-btn v-if="Auth.isLoggedIn() && isMember" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-btn>
+                        <div v-if="game.posts !== undefined && game.posts.length > 0">
+                            <p>Posts:</p>
+                            <b-card v-for="post in game.posts" :key="post.id" class="my-2" :bg-variant="game.variant" :text-variant="textVariant">
+                                <template slot="header">
+                                    <b-link :to="{name: 'post_details', params: {id: post.id}}">{{post.title}}</b-link>
+                                </template>
+                                <p slot="header"><em>Posted at: {{post.created_at}}</em></p>
+                                <p class="card-text" v-html="post.body"></p>
                             </b-card>
+                        </div>
+                        <div v-else>
+                            <p>No posts available.</p>
+                        </div>
+                    </b-tab>
+                    <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0" :title-link-class="titleLinkClass">
+                        <b-col>
+                            <b-row>
+                                <gallery :images="images"
+                                         :index="index"
+                                         :options="{youTubeVideoIdProperty: 'youtube', youTubePlayerVars: undefined, youTubeClickToPlay: true}"
+                                         @close="index = null"></gallery>
+                                <div
+                                        class="image"
+                                        v-for="(image, imageIndex) in images"
+                                        :key="imageIndex"
+                                        @click="index = imageIndex"
+                                        :style="{ backgroundImage: 'url(' + image.poster + ')', width: '300px', height: '200px' }"
+
+                                ></div>
+                            </b-row>
                         </b-col>
-                    </b-row>
-                </b-tab>
-                <b-tab title="Blog" class="my-2">
-                    <!--TODO: if user is authenticated and is in development team-->
-                    <b-link v-if="Auth.isLoggedIn()" :to="{name: 'post_form', params:{id: game.id}}">Create a new post</b-link>
-                    <div v-if="game.posts !== undefined && game.posts.length > 0">
-                        <p>Posts:</p>
-                        <b-card v-for="post in game.posts" :key="post.id" class="my-2">
-                            <template slot="header">
-                                <b-link :to="{name: 'post_details', params: {gameId: game.id, id: post.id}}">{{post.title}}</b-link>
-                            </template>
-                            <p slot="header"><em>Posted at: {{post.created_at}}</em></p>
-                            <p class="card-text" v-html="post.body"></p>
-                        </b-card>
-                    </div>
-                    <div v-else>
-                        <p>No posts available.</p>
-                    </div>
-                </b-tab>
-                <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0">
-                        <gallery :images="images" :index="index" @close="index = null"></gallery>
-                        <div
-                                class="image"
-                                v-for="(image, imageIndex) in images"
-                                :key="imageIndex"
-                                @click="index = imageIndex"
-                                :style="{ backgroundImage: 'url(' + image + ')', width: '300px', height: '200px' }"
-                        ></div>
-                </b-tab>
-            </b-tabs>
-        </b-card>
-        <b-row class="my-2" v-if="Auth.isLoggedIn()">
-            <b-col>
-                <b-button size="sm" variant="primary" :to="{name:'game_gallery_manage', params: {id: game.id}}">Edit gallery</b-button>
-            </b-col>
-        </b-row>
+                    </b-tab>
+                </b-tabs>
+            </b-card>
+            <b-row class="my-2" v-if="isMember">
+                <b-col>
+                    <b-button size="sm" variant="primary" :to="{name:'game_gallery_manage', params: {id: game.id}}">Edit gallery</b-button>
+                </b-col>
+            </b-row>
+        </div>
     </div>
 </template>
 
@@ -96,11 +113,64 @@
                 game: {},
                 images: [],
                 index: null,
+                isMember: false,
                 Auth
             }
         },
         components: {
             'gallery': VueGallery
+        },
+        watch: {
+            game: {
+                handler(game) {
+                    game.development_studio.forEach(async studio => {
+                        let value = await Auth.isMember(studio.id).then(val => val);
+                        if (value === true) {
+                            this.isMember = true;
+                        }
+                    });
+                }
+            }
+        },
+        computed: {
+            backgroundImage() {
+                if (this.game.background) {
+                    return {
+                        'background-image': `url("${this.game.background.downloadLink}")`,
+                        'background-repeat': 'no-repeat',
+                        'background-attachment': 'fixed',
+                        'height': '100%',
+                        'background-size': 'cover',
+                    };
+                }
+            },
+            textVariant() {
+                if (this.game.variant) {
+                    switch(this.game.variant) {
+                        case 'primary':
+                        case 'secondary':
+                        case 'success':
+                        case 'info':
+                        case 'warning':
+                        case 'danger':
+                        case 'dark':
+                            return 'white';
+                        default:
+                            return null;
+                    }
+                }
+            },
+            navWrapperClass() {
+                if (!! this.game.variant && this.game.variant === 'primary') {
+                    return ['reversed'];
+                }
+            },
+            titleLinkClass() {
+                if (!! this.game.variant && this.game.variant !== 'default' && this.game.variant !== 'light'){
+                    return ['link-text-light'];
+                }
+            }
+
         },
         beforeRouteEnter(to, from, next) {
             fetch(to.params.id, (err, data) => {
@@ -114,18 +184,36 @@
             setData(err, data) {
                 if (err) {
                     console.error(err);
+                    this.$router.push({
+                        'name': 'game_index'
+                    })
                 } else {
                     this.game = data;
-                    this.images = data.files.map(file => {
-                        return file.downloadLink;
+                    this.images = data.files.map((file, index) => {
+                        return {
+                            title: `${this.game.title} - Image #${index}`,
+                            type: file.file_type,
+                            href: file.downloadLink,
+                            poster: file.downloadLink
+                        }
                     });
+                    this.images.push(...data.videos.map(video => {
+                        return {
+                            title: video.title,
+                            type: 'text/html',
+                            href: video.url,
+                            poster: video.poster,
+                            youtube: video.youtube
+                        }
+                    }));
+                    console.log(this.images);
                 }
             }
         }
     }
 </script>
 
-<style scoped>
+<style>
     img#game-logo {
         max-height: 100px;
         max-width: 150px;
@@ -144,5 +232,18 @@
     img.slide-content {
         max-height: 800px;
         max-width: 600px;
+    }
+    .jumbotron {
+
+    }
+    .reversed {
+        /*color: #007bff;*/
+        background-color: rgba(0, 0, 0, 0.125);
+    }
+    .link-text-muted {
+        color: #6c757d;
+    }
+    .link-text-light {
+        color: #fff;
     }
 </style>

@@ -30,6 +30,11 @@ class DevelopmentStudio extends Model
         return $this->belongsToMany('App\Modification', 'modification_development_studio');
     }
 
+    public function jobOffers()
+    {
+        return $this->hasMany('App\JobOffer', 'development_studio_id');
+    }
+
     public function getSpecializationTextAttribute()
     {
         if ($this->specialization === 0) {
@@ -54,7 +59,15 @@ class DevelopmentStudio extends Model
     }
 
     protected $fillable = [
-        'title', 'name', 'address', 'description', 'website', 'email', 'commercial', 'specialization'
+        'title',
+        'name',
+        'address',
+        'description',
+        'website',
+        'email',
+        'commercial',
+        'specialization',
+        'owner_id'
     ];
 
     protected $appends = ['specializationText', 'ownerName'];

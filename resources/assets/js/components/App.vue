@@ -38,7 +38,10 @@
                     </ul>
                     <template v-if="current_module === 'game'">
                         <b-navbar-nav>
-                            <b-nav-item to="/game" exact>Games</b-nav-item>
+                            <b-nav-item to="/game" exact>
+                                <font-awesome-icon icon="gamepad"/>
+                                Gry
+                            </b-nav-item>
                         </b-navbar-nav>
                         <b-navbar-nav class="ml-auto">
                             <b-nav-form @submit.prevent="onSearchSubmit">
@@ -46,15 +49,25 @@
                                 <b-button size="sm" class="mr-sm-2" type="submit"
                                           :disabled="phrase.length===0" @submit.prevent="onSubmit"
                                 >
-                                    Search
+                                    Szukaj
                                 </b-button>
                             </b-nav-form>
                         </b-navbar-nav>
                     </template>
                     <template v-else-if="current_module === 'none'">
                         <b-navbar-nav>
-                            <b-nav-item to="/game">Games</b-nav-item>
-                            <!--<b-nav-item to="/mods/1">Mods</b-nav-item>-->
+                            <b-nav-item to="/game">
+                                <font-awesome-icon icon="gamepad"/>
+                                Gry
+                            </b-nav-item>
+                            <b-nav-item to="/mods/1"> <!-- TODO -->
+                                <font-awesome-icon icon="cogs"/>
+                                Modyfikacje do gier
+                            </b-nav-item>
+                            <b-nav-item :to="{name: 'dev_studios_index'}">
+                                <font-awesome-icon icon="desktop"/>
+                                Studia developerskie
+                            </b-nav-item>
                         </b-navbar-nav>
                     </template>
                     <template v-if="!isLogged">
@@ -73,9 +86,29 @@
                                     Moje modyfikacje
                                 </b-btn>
                             </router-link>
-                            <b-nav-text class="mr-2">Welcome, {{username}}!</b-nav-text>
-                            <b-img rounded="circle" :src="`${gravatar}&s=40`" class="mr-1"></b-img>
-                            <b-btn id="logout-button" variant="outline-warning" @click="logout">Logout</b-btn>
+                            <b-nav-text class="mr-2">Witaj, {{username}}!</b-nav-text>
+                            <b-dropdown variant="link" size="sm">
+                                <template slot="button-content">
+                                    <b-img v-if="gravatar" rounded="circle" :src="`${gravatar}&s=30`" class="mr-1"></b-img>
+                                </template>
+                                <b-dd-item :to="{name: 'my_profile'}">
+                                    <font-awesome-icon icon="user"/>
+                                    Mój Profil
+                                </b-dd-item>
+                                <b-dd-item :to="{name: 'my_development_studios'}">
+                                    <font-awesome-icon icon="hands-helping"/>
+                                    Moje studia developerskie
+                                </b-dd-item>
+                                <b-dd-item v-if="userId !== undefined && userId !== null && userId !== ''" :to="{name: 'user_mods', params: {user: userId} }">
+                                    <font-awesome-icon icon="file" />
+                                    Moje modyfikacje
+                                </b-dd-item>
+                                <b-dd-divider></b-dd-divider>
+                                <b-dropdown-item-button @click="logout" style="cursor: pointer;">
+                                    <font-awesome-icon icon="door-closed"/>
+                                    Wyloguj się
+                                </b-dropdown-item-button>
+                            </b-dropdown>
                         </b-navbar-nav>
                     </template>
                     <form
@@ -121,7 +154,7 @@
                 phrase: '',
                 isLogged: Auth.isLoggedIn(),
                 username: Auth.getUser(),
-                gravatar: Auth.getUserGravatar(),
+                gravatar: null,
                 subcategoriesData: null,
                 userId: Auth.getId(),
                 csrf_token: window.window.csrf_token
@@ -174,7 +207,7 @@
                 if (this.$route.path.startsWith('/mods')) {
                     this.current_module = 'mods';
                     this.current_module_name = 'Portal modyfikacji';
-                } else if (this.$route.path.startsWith('/devstudios')) {
+                } else if (this.$route.path.startsWith('/dev-studios') || this.$route.path.startsWith('/devstudios')) {
                     this.current_module = 'teams';
                     this.current_module_name = 'Portal developmentu';
                 } else if (this.$route.path.startsWith('/game')) {
@@ -182,7 +215,7 @@
                     this.current_module_name = 'Portal gier';
                 } else {
                     this.current_module = 'none';
-                    this.current_module_name = null;
+                    this.current_module_name = 'Portal gier i modyfikacji';
                 }
             }
         },
@@ -191,9 +224,13 @@
         },
         beforeMount() {
             this.setCurrentModule();
+            if (Auth.isLoggedIn()) {
+                this.username = Auth.getUser();
+                this.gravatar = Auth.getUserGravatar();
+                this.userId = Auth.getId(); // TODO ???
+            }
         },
         beforeRouteUpdate() {
-            console.log('update');
             this.setCurrentModule();
         },
         mounted() {
@@ -206,7 +243,14 @@
                 this.isLogged = true;
                 this.username = user;
                 this.gravatar = gravatar;
-            })
+            });
+            EventBus.$on('gravatar-received', gravatar => {
+                console.log(`gravatar: ${gravatar}`);
+                this.gravatar = gravatar;
+            });
+            EventBus.$on('user-updated', (user) => {
+                this.username = user;
+            });
         }
     }
 </script>

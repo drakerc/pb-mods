@@ -1,52 +1,82 @@
 <template>
-    <div class="my-2" v-if="post.title">
-        <b-jumbotron bg-variant="dark" text-variant="white" header-level="4">
-            <template slot="header">
-                {{post.title}}
-            </template>
-            <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
-            <br>
-            <em>Posted at {{post.created_at}}</em>
-        </b-jumbotron>
-        <p v-html="post.body" class="col-sm-10 my-2"></p>
-
-        <p>Comments:</p>
-        <div v-if="post.comments !== undefined && post.comments.length > 0">
-            <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
-                <b-card :id="index">
-                    <b-row class="col-sm-12">
-                        <b-col sm="0" class="mr-1 mb-2">
-                            <b-img :src="`${comment.author.gravatar}&s=50`" rounded></b-img>
-                        </b-col>
-                        <b-col>
-                            <b-row>
-                                <em>#{{index + 1}} {{comment.author.name}} on {{comment.created_at}}</em>
-                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="onDelete(comment)">Delete</b-link>
-                            </b-row>
-                            <!--<b-row></b-row>-->
-                        </b-col>
-                    </b-row>
-                    <p v-html="comment.body"></p>
-                </b-card>
-            </div>
+    <div :style="backgroundImage">
+        <div class="container col-sm-9 mx-auto" v-if="post.title">
+            <b-jumbotron :bg-variant="post.game.variant" :text-variant="textVariant" header-level="5" class="mb-4">
+                <template slot="header">
+                    {{post.title}}
+                </template>
+                <b-link :to="{name: 'game_details', params: {id: post.game_id}}" class="mr-1">{{post.game.title}} </b-link>
+                <br>
+                <em>Dodano: {{post.created_at}}</em>
+                <br>
+                <b-button v-if="Auth.isLoggedIn()" :to="{name: 'edit_post_form', params: {id: post.game_id, postId: post.id}}" class="mt-4" variant="success">Edytuj post</b-button>
+            </b-jumbotron>
+            <b-card :bg-variant="post.game.variant" :text-variant="textVariant" class="my-4">
+                <b-col>
+                    <p v-html="post.body" class="my-2"></p>
+                </b-col>
+            </b-card>
+            <b-card class="my-2":bg-variant="post.game.variant" :text-variant="textVariant">
+                <b-col>
+                    <p>Komentarze:</p>
+                    <template v-if="post.comments !== undefined && post.comments.length > 0">
+                        <div v-for="(comment, index) in post.comments" :key="comment.id" class="my-2">
+                            <b-card :id="index" :bg-variant="post.game.variant" >
+                                <template slot="header">
+                                    <b-row class="col-sm-12">
+                                        <b-col sm="0" class="mr-1 mb-1">
+                                            <b-img :src="`${comment.author.gravatar}&s=50`" thumbnail rounded></b-img>
+                                        </b-col>
+                                        <b-col>
+                                            <b-row class="my-3">
+                                                <em>#{{index + 1}} {{comment.author.name}} - {{comment.created_at}}</em>
+                                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="selectComment(comment)">
+                                                    Usuń
+                                                </b-link>
+                                            </b-row>
+                                            <!--<b-row></b-row>-->
+                                        </b-col>
+                                    </b-row>
+                                </template>
+                                <p v-html="comment.body"></p>
+                            </b-card>
+                        </div>
+                    </template>
+                    <template v-else><p>Brak komentarzy.</p></template>
+                    <template v-if="!isLoggedIn">
+                        <p>Proszę <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">zalogować się</b-link>, aby móc zakomentować post.</p>
+                    </template>
+                    <template v-else>
+                        <b-button @click="showForm" v-if="!formVisible" class="my-1" :variant="post.game.variant === 'secondary' ? 'light' : 'secondary'">Dodaj komentarz</b-button>
+                        <template v-if="formVisible">
+                            <b-card no-body :bg-variant="post.game.variant" :text-variant="textVariant" class="my-2 col-sm-10 mx-auto">
+                                <b-form @submit="onSubmit" class="my-2">
+                                    <b-form-group label="Comment:">
+                                        <vue-editor v-model="comment.body" class="bg-white text-dark"></vue-editor>
+                                    </b-form-group>
+                                    <b-button type="submit" variant="primary" :disabled="!comment.body">Wyślij</b-button>
+                                    <b-button @click="hideForm" variant="warning">Anuluj</b-button>
+                                </b-form>
+                            </b-card>
+                        </template>
+                    </template>
+                </b-col>
+            </b-card>
+            <b-modal v-if="selectedCommentToDelete !== null" v-model="showModal" hide-header centered variant="sm">
+                <p>Czy na pewno chcesz usunąć komentarz autorstwa {{selectedCommentToDelete.author.name}}? tej
+                    operacji nie można cofnąć!</p>
+                <p>Treść komentarza:</p>
+                <p v-html="selectedCommentToDelete.body"></p>
+                <template slot="modal-footer">
+                    <b-col>
+                        <b-row>
+                            <b-btn @click="onCancelModal" variant="warning" class="mr-auto">Anuluj</b-btn>
+                            <b-btn @click="onCommentDelete" variant="danger" class="ml-auto">Potwierdź</b-btn>
+                        </b-row>
+                    </b-col>
+                </template>
+            </b-modal>
         </div>
-        <div v-else><p>No comments found.</p></div>
-        <template v-if="!isLoggedIn">
-            <p>Please <b-link :to="{name: 'login', query:{redirect: $route.fullPath}}">log in</b-link> to add comments.</p>
-        </template>
-        <template v-else>
-            <b-button @click="showForm" v-if="!formVisible" >Add comment</b-button>
-            <div v-if="formVisible" class="my-2">
-                <b-form @submit="onSubmit" class="col-sm-10">
-                    <b-form-group label="Comment:">
-                        <vue-editor v-model="comment.body"></vue-editor>
-                    </b-form-group>
-                    <b-button type="submit" variant="primary" :disabled="!comment.body">Submit</b-button>
-                    <b-button @click="hideForm" variant="default">Cancel</b-button>
-                </b-form>
-            </div>
-        </template>
-
     </div>
 </template>
 
@@ -68,10 +98,12 @@
                 post: {},
                 formVisible: false,
                 comment: {
-                    gameId: null,
                     postId: null,
                     body: null,
-                }
+                },
+                Auth,
+                showModal: false,
+                selectedCommentToDelete: null
             }
         },
         components: {
@@ -80,10 +112,36 @@
         computed: {
             isLoggedIn() {
                 return Auth.isLoggedIn();
+            },
+            backgroundImage() {
+                if (this.post.game && this.post.game.background) {
+                    return {
+                        'background-image': `url("${this.post.game.background.downloadLink}")`,
+                        'background-repeat': 'no-repeat',
+                        'background-attachment': 'fixed',
+                        'height': '100%',
+                        'background-size': 'cover',
+                    };
+                }
+            },
+            textVariant() {
+                if (this.post.game.variant) {
+                    switch(this.post.game.variant) {
+                        case 'primary':
+                        case 'secondary':
+                        case 'success':
+                        case 'info':
+                        case 'warning':
+                        case 'danger':
+                        case 'dark':
+                            return 'white';
+                        default:
+                            return null;
+                    }
+                }
             }
         },
         beforeMount() {
-            this.comment.gameId = this.$route.params.gameId;
             this.comment.postId = this.$route.params.id;
         },
         beforeRouteEnter(to, from, next) {
@@ -95,6 +153,12 @@
             setData(err, data) {
                 if (err) {
                     console.error(err);
+                    this.$router.push({
+                        name: 'game_details',
+                        params: {
+                            id: this.$route.params.gameId
+                        }
+                    })
                 } else {
                     this.post = data;
                 }
@@ -109,7 +173,6 @@
             onSubmit() {
                 axios.post(`/api/comment`, {
                     post_id: this.comment.postId,
-                    game_id: this.comment.gameId,
                     body: this.comment.body,
                 }).then(() => {
                     this.$router.push({
@@ -121,16 +184,22 @@
                     });
                 });
             },
-            onDelete(comment) {
-                if (this.isAuthor(comment.author.id)){
-                    let confirm = window.confirm("Are you sure you want to delete this comment? This cannot be undone!"); // TODO
-                    if (confirm) {
-                        axios.delete(`/api/comment/${comment.id}`).then(() => {
-                            fetchPost(this.post.id, (err, data) => {
-                                this.setData(err, data);
-                            });
+            selectComment(comment) {
+                this.selectedCommentToDelete = comment;
+                this.showModal = true;
+            },
+            onCancelModal() {
+              this.selectedCommentToDelete = null;
+              this.showModal = false;
+            },
+            onCommentDelete() {
+                if (this.isAuthor(this.selectedCommentToDelete.author.id)){
+                    axios.delete(`/api/comment/${this.selectedCommentToDelete.id}`).then(() => {
+                        fetchPost(this.post.id, (err, data) => {
+                            this.setData(err, data);
+                            this.onCancelModal();
                         });
-                    }
+                    });
                 } else {
                     console.log("You're not allowed to delete this message");
                 }

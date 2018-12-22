@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')->get();
+        $posts = Post::orderBy('created_at', 'desc')->take(5)->get();
         return response()->json($posts);
     }
 
@@ -50,7 +50,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        return response()->json(Post::with(['comments', 'files', 'game:id,title'])->findOrFail($id));
+        return response()->json(Post::with(['comments', 'files', 'game:id,title,variant,background_id', 'game.background'])->findOrFail($id));
     }
 
     /**
@@ -73,7 +73,14 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->title = $request->title;
+        $post->body = $request->body;
+        $post->post_category_id = $request->post_category_id;
+
+        $post->save();
+
+        return response()->json($post);
     }
 
     /**

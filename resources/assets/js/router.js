@@ -34,12 +34,25 @@ import GameGalleryManagement from './components/game/GameGalleryManagement';
 import Register from './components/Register';
 import DevStudioMods from './components/mods/modification/DevStudioMods';
 import UserMods from './components/mods/modification/UserMods';
+import DevelopmentStudiosDetails from './components/dev-studios/DevelopmentStudiosDetails';
+import JobOfferDetails from './components/dev-studios/job-offers/JobOfferDetails';
+import MyProfile from './components/user/MyProfile';
+import JobOfferApplyForm from './components/dev-studios/job-offers/JobOfferApplyForm';
+import NewJobOfferForm from './components/dev-studios/job-offers/NewJobOfferForm';
+import DevelopmentStudioCreateForm from './components/dev-studios/DevelopmentStudioCreateForm';
+import DevelopmentStudioManagement from './components/dev-studios/DevelopmentStudioManagement';
+import MyDevelopmentStudios from './components/user/MyDevelopmentStudios';
+import DevelopmentStudiosIndex from './components/dev-studios/DevelopmentStudiosIndex';
 
 Vue.use(VueRouter);
 
 export const router = new VueRouter({
     mode: 'history',
     routes: [
+        {
+            path: '',
+            redirect: '/home'
+        },
         {path: '/mods/:game', component: GameModsCategories, name: 'game_mods'},
         {path: '/mods/:game/category/:category', component: ModsCategory, name: 'mods_category'},
         {path: '/mods/:game/category/:category/create-modification', component: ModificationCreate, name: 'modification_create'},
@@ -78,11 +91,70 @@ export const router = new VueRouter({
             }
         },
         {path: '/mods/:game/create-category/:category?', component: CategoryCreate, name: 'category_create'},
+        {
+            path: '/dev-studios/my-studios',
+            component: MyDevelopmentStudios,
+            name: 'my_development_studios',
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/dev-studios/index',
+            component: DevelopmentStudiosIndex,
+            name: 'dev_studios_index',
+            props: true
+        },
+        {
+            path: '/dev-studios/new',
+            component: DevelopmentStudioCreateForm,
+            name: 'new_dev_studio',
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/dev-studios/:id',
+            component: DevelopmentStudiosDetails,
+            name: 'dev_studio_details'
+        },
         {path: '/dev-studios/:studio/mods', component: DevStudioMods, name: 'dev_studio_mods'},
+        {
+            path: '/dev-studios/:id/manage',
+            component: DevelopmentStudioManagement,
+            name: 'dev_studio_management',
+            meta: {
+                requiresAuth: true,
+                ownerOnly: true
+            }
+        },
         {
             path: '/home',
             component: Home,
             name: 'home'
+        },
+        {
+            path: '/job-offers/new',
+            component: NewJobOfferForm,
+            name: 'new_job_offer',
+            props: true,
+            meta: {
+                requiresAuth: true
+            }
+        },
+        {
+            path: '/job-offers/:id',
+            component: JobOfferDetails,
+            name: 'job_offer_details',
+            props: true
+        },
+        {
+            path: '/job-offers/:id/apply',
+            component: JobOfferApplyForm,
+            name: 'job_offer_form',
+            meta: {
+                requiresAuth: true
+            }
         },
         {
             path: '/game',
@@ -116,41 +188,85 @@ export const router = new VueRouter({
                     component: GameGalleryManagement,
                     name: 'game_gallery_manage',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        developerOnly: true
                     }
                 },
                 {
                     path: ':id/post/new',
                     component: PostForm,
-                    name: 'post_form',
+                    name: 'new_post_form',
                     meta: {
-                        requiresAuth: true
+                        requiresAuth: true,
+                        developerOnly: true
                     }
                 },
                 {
-                    path: ':gameId/post/:id',
+                    path: 'post/:postId/edit',
+                    component: PostForm,
+                    name: 'edit_post_form',
+                    meta: {
+                        requiresAuth: true,
+                        developerOnly: true
+                    },
+                    props: {
+                        editMode: true
+                    }
+                },
+                {
+                    path: 'post/:id',
                     component: PostDetails,
                     name: 'post_details'
                 },
             ]
         },
+        {
+            path: '/my-profile',
+            component: MyProfile,
+            name: 'my_profile',
+            meta: {
+                requiresAuth: true
+            },
+            props: true
+        }
     ],
     scrollBehavior (to, from, savedPosition) {
         return { x: 0, y: 0 }
     }
 });
 
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!Auth.isLoggedIn()) {
             next({
                 path: '/login',
-                query: { redirect: to.fullPath }
+                query: {redirect: to.fullPath}
             });
             return;
         }
-    } if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
+    }
+    if (to.matched.some(record => record.meta.cannotBeLoggedIn)) {
         if (Auth.isLoggedIn()) {
+            next({
+                path: '/home'
+            });
+            return;
+        }
+    }
+    if (to.matched.some(record => record.meta.developerOnly)) {
+        let isDeveloper = await Auth.isDeveloper(to.params.id);
+        console.log(isDeveloper);
+        if (!isDeveloper) {
+            next({
+                path: '/home'
+            });
+            return;
+        }
+    }
+    if (to.matched.some(record => record.meta.ownerOnly)) {
+        let isOwner = await Auth.isOwner(to.params.id);
+        console.log(isOwner);
+        if (!isOwner) {
             next({
                 path: '/home'
             });

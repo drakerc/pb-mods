@@ -85,3 +85,18 @@ Route::get('/home', function() {
 //});
 Route::get('/mods/{game}/category/{category}/create-modification', 'ModificationController@create')->middleware('auth');
 Route::post('/mods/create-modification', 'ModificationController@create')->middleware('auth')->name('create-mod');
+
+// DEV-STUDIOS
+Route::get('/dev-studios{any}', function($id) {
+   return view('game.start');
+})->where('any', '.*');
+
+// JOB OFFERS
+Route::get('/job-offers{any}', function () {
+    return view('game.start');
+})->where('any', '.*');
+
+// USER
+Route::get('/my-profile', function() {
+    return view('game.start');
+})->where('any', '.*');

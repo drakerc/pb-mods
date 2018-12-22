@@ -1,28 +1,47 @@
 <template>
-    <div>
-        <b-col sm="9" class="mx-auto">
-            <h1>Hello!</h1>
-            <div class="row">
-                <b-col sm="9">
-                    <p>Latest game releases:</p>
-                    <b-card v-for="game in games" :key="game.id" class="my-2">
-                        <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
-                        <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                        <p class="card-text small" v-html="game.description">
-                            <!--{{game.description | truncate(200)}}-->
-                        </p>
+    <div class="container my-2">
+        <b-col sm="11" class="mx-auto">
+            <h1>Witaj!</h1>
+            <b-button v-if="Auth.isLoggedIn()" :to="{name:'new_game_form'}" variant="success" class="mb-2">
+                <font-awesome-icon icon="plus"/>
+                Utwórz nową grę
+            </b-button>
+            <b-row>
+                <b-col sm="8">
+                    <p>Najnowsze wpisy o grach:</p>
+                    <template v-if="games">
+                        <b-card v-for="game in games.data" :key="game.id" class="my-2">
+                            <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
+                            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
+                            <p class="card-text small" v-html="game.description">
+                                <!--{{game.description | truncate(200)}}-->
+                            </p>
+                        </b-card>
+                        <b-row>
+                            <paginate class="mx-auto" :data="games" @pagination-change-page="getResults"></paginate>
+                        </b-row>
+                    </template>
+                </b-col>
+                <b-col sm="4">
+                    <div>
+                        <p>Ostatnie wpisy:</p>
+                        <b-card v-for="post in posts" :key="post.id" class="my-2 small">
+                            <b-link slot="header" :to="`/game/post/${post.id}`">{{post.title}}</b-link>
+                            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
+                            <truncate clamp="Show more" :length="50" less="Show Less" type="html" :text="post.body" action-class="text-primary"/>
+                        </b-card>
+                    </div>
+                    <br><br>
+                    <p>Najnowsze oferty współpracy:</p>
+                    <b-card v-for="offer in offers" :key="offer.id" class="my-2 small" no-body>
+                        <template slot="header">
+                            <b-row>
+                                <b-link :to="{name: 'job_offer_details', params:{id: offer.id}}" class="mr-1">{{offer.title}} w {{offer.development_studio.name}}</b-link>
+                            </b-row>
+                        </template>
                     </b-card>
                 </b-col>
-                <b-col sm="3">
-                    <p>Latest game updates:</p>
-                    <b-card v-for="post in posts" :key="post.id" class="my-2 small">
-                        <b-link slot="header" :to="`/game/${post.game_id}/post/${post.id}`">{{post.title}}</b-link>
-                        <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                        <truncate clamp="Show more" :length="90" less="Show Less" type="html" :text="post.body" action-class="text-primary"/>
-                    </b-card>
-                </b-col>
-            </div>
-            <b-button v-if="Auth.isLoggedIn()" :to="{name:'new_game_form'}" variant="success">Create a new game entry</b-button>
+            </b-row>
         </b-col>
     </div>
 </template>
@@ -31,13 +50,17 @@
     import axios from 'axios';
     import truncate from 'vue-truncate-collapsed';
     import { Auth } from '../../auth';
+    import paginate from 'laravel-vue-pagination';
 
     const fetchData = (callback) => {
         axios.get(`/api/game`).then((response) => {
             axios.get('/api/post').then((postResponse => {
-                callback(null, {
-                    games: response.data,
-                    posts: postResponse.data
+                axios.get('/api/job-offer').then(jobOffersResponse => {
+                    callback(null, {
+                        games: response.data,
+                        posts: postResponse.data,
+                        offers: jobOffersResponse.data
+                    });
                 });
             }));
         }).catch(err => callback(err, err.response.data));
@@ -48,13 +71,15 @@
         name: "GameIndex",
         data() {
             return {
-                games: [],
+                games: null,
                 posts: [],
+                offers: [],
                 Auth
             }
         },
         components: {
-            truncate
+            truncate,
+            paginate
         },
         beforeRouteEnter(to, from, next) {
             fetchData((err, data) => {
@@ -66,14 +91,21 @@
                 if (err) {
                     console.error(err);
                 } else {
-                    // console.log(data);
                     this.games = data.games;
                     this.posts = data.posts;
+                    this.offers = data.offers;
                 }
+            },
+            getResults(page) {
+                axios.get(`/api/game`, {
+                    params: {
+                        page
+                    }
+                })
+                    .then(response => this.games = response.data)
+                    .catch(err => console.error(err));
             }
         }
-
-
     }
 </script>
 
