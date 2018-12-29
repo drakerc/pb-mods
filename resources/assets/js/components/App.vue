@@ -60,10 +60,6 @@
                                 <font-awesome-icon icon="gamepad"/>
                                 Gry
                             </b-nav-item>
-                            <b-nav-item to="/mods/1"> <!-- TODO -->
-                                <font-awesome-icon icon="cogs"/>
-                                Modyfikacje do gier
-                            </b-nav-item>
                             <b-nav-item :to="{name: 'dev_studios_index'}">
                                 <font-awesome-icon icon="desktop"/>
                                 Studia developerskie
