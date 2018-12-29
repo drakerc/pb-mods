@@ -1,5 +1,5 @@
 <template>
-    <div :style="backgroundImage">
+    <div :style="backgroundImage" :class="textVariant">
         <div class="container my-2 col-sm-9 mx-auto">
             <b-jumbotron :bg-variant="game.variant" :text-variant="textVariant">
                 <div v-if="game.logo">
@@ -17,58 +17,73 @@
                 <div v-if="game.categories">
                     <strong v-for="category in game.categories" :key="category.id">{{category.title}} </strong>
                 </div>
-                <em>Added on {{game.created_at}}</em>
+                <em>Dodano: {{game.created_at}}</em>
             </b-jumbotron>
             <b-card no-body :bg-variant="game.variant" :text-variant="textVariant">
                 <b-tabs pills card :nav-wrapper-class="navWrapperClass">
                     <b-tab title="Info" class="my-2" :title-link-class="titleLinkClass">
-                        <b-row>
-                            <b-col sm="8">
-                                <b-card :bg-variant="game.variant" :text-variant="textVariant" header="Description:">
-                                    <em v-html="game.description"></em>
-                                </b-card>
-                            </b-col>
+                        <b-col>
+                            <b-row>
+                                <b-col sm="8">
+                                    <b-card :bg-variant="game.variant" :text-variant="textVariant" header="Opis:">
+                                        <em v-html="game.description"></em>
+                                    </b-card>
+                                </b-col>
 
-                            <b-col>
-                                <b-card :bg-variant="game.variant" :text-variant="textVariant">
-                                    <div slot="header">
-                                        Info:
-                                    </div>
-                                        <p>Developed by:</p>
+                                <b-col>
+                                    <b-card :bg-variant="game.variant" :text-variant="textVariant">
+                                        <div slot="header">
+                                            Informacje:
+                                        </div>
+                                        <p>Twórcy:</p>
                                         <p v-for="developmentStudio in game.development_studio" :key="developmentStudio.id">
                                             <b-link :to="{name:'dev_studio_details', params:{id: developmentStudio.id}}" :class="textVariant">{{developmentStudio.name}}</b-link>
                                         </p>
-                                    <router-link :to="{name: 'game_mods', params: {game: game.id} }">
-                                        <b-btn class="mr-2" size="lg" variant="success">
-                                            <font-awesome-icon icon="cogs" />
-                                            Modifications
-                                        </b-btn>
-                                    </router-link>
-                                    <br><br><br><br><br><br><br>
-                                </b-card>
-                            </b-col>
-                        </b-row>
+                                        <router-link :to="{name: 'game_mods', params: {game: game.id} }">
+                                            <b-btn class="mr-2" size="lg" :variant="buttonVariant">
+                                                <font-awesome-icon icon="cogs" />
+                                                Modyfikacje
+                                            </b-btn>
+                                        </router-link>
+                                        <br><br><br><br><br><br><br>
+                                    </b-card>
+                                </b-col>
+                            </b-row>
+                        </b-col>
                     </b-tab>
                     <b-tab title="Blog" class="my-2" :title-link-class="titleLinkClass">
-                        <!--TODO: if user is authenticated and is in development team-->
-                        <b-btn v-if="Auth.isLoggedIn() && isMember" :to="{name: 'new_post_form', params:{id: game.id}}">Create a new post</b-btn>
-                        <div v-if="game.posts !== undefined && game.posts.length > 0">
-                            <p>Posts:</p>
-                            <b-card v-for="post in game.posts" :key="post.id" class="my-2" :bg-variant="game.variant" :text-variant="textVariant">
-                                <template slot="header">
-                                    <b-link :to="{name: 'post_details', params: {id: post.id}}">{{post.title}}</b-link>
-                                </template>
-                                <p slot="header"><em>Posted at: {{post.created_at}}</em></p>
-                                <p class="card-text" v-html="post.body"></p>
-                            </b-card>
-                        </div>
-                        <div v-else>
-                            <p>No posts available.</p>
-                        </div>
-                    </b-tab>
-                    <b-tab title="Gallery" v-if="game.files !== undefined && game.files.length > 0" :title-link-class="titleLinkClass">
                         <b-col>
-                            <b-row>
+                            <!--TODO: if user is authenticated and is in development team-->
+                            <b-btn v-if="Auth.isLoggedIn() && isMember"
+                                   class="mb-2"
+                                   :to="{name: 'new_post_form', params:{id: game.id}}"
+                                   :variant="buttonVariant"
+                            >
+                                Utwórz nowy post:
+                            </b-btn>
+                            <div v-if="game.posts !== undefined && game.posts.length > 0">
+                                <p>Ostatnie aktualizacje bloga:</p>
+                                <b-card v-for="post in game.posts" :key="post.id" class="my-2" :bg-variant="game.variant" :text-variant="textVariant">
+                                    <template slot="header">
+                                        <b-link :to="{name: 'post_details', params: {id: post.id}}">{{post.title}}</b-link>
+                                    </template>
+                                    <p slot="header"><em>Dodano: {{post.created_at}}</em></p>
+                                    <p class="card-text" v-html="post.body"></p>
+                                </b-card>
+                            </div>
+                            <div v-else>
+                                <p>Brak postów.</p>
+                            </div>
+                        </b-col>
+                    </b-tab>
+                    <b-tab title="Galeria" :title-link-class="titleLinkClass">
+                        <b-col>
+                            <b-row class="mb-2" v-if="isMember">
+                                <b-col>
+                                    <b-button size="sm" :variant="buttonVariant" :to="{name:'game_gallery_manage', params: {id: game.id}}">Edytuj galerię</b-button>
+                                </b-col>
+                            </b-row>
+                            <b-row v-if="game.files !== undefined && game.files.length > 0">
                                 <gallery :images="images"
                                          :index="index"
                                          :options="{youTubeVideoIdProperty: 'youtube', youTubePlayerVars: undefined, youTubeClickToPlay: true}"
@@ -86,11 +101,6 @@
                     </b-tab>
                 </b-tabs>
             </b-card>
-            <b-row class="my-2" v-if="isMember">
-                <b-col>
-                    <b-button size="sm" variant="primary" :to="{name:'game_gallery_manage', params: {id: game.id}}">Edit gallery</b-button>
-                </b-col>
-            </b-row>
         </div>
     </div>
 </template>
@@ -154,11 +164,22 @@
                         case 'warning':
                         case 'danger':
                         case 'dark':
-                            return 'white';
+                            return 'text-white';
                         default:
                             return null;
                     }
                 }
+            },
+            buttonVariant() {
+              if (this.game.variant) {
+                  switch (this.game.variant) {
+                      case 'primary':
+                          return 'secondary';
+                      default:
+                          return 'primary';
+                  }
+              }
+              return null;
             },
             navWrapperClass() {
                 if (!! this.game.variant && this.game.variant === 'primary') {
@@ -169,6 +190,12 @@
                 if (!! this.game.variant && this.game.variant !== 'default' && this.game.variant !== 'light'){
                     return ['link-text-light'];
                 }
+            },
+            linkClass() {
+                if (this.game.variant === 'primary') {
+                    return ['text-light'];
+                }
+                return null;
             }
 
         },
@@ -191,7 +218,7 @@
                     this.game = data;
                     this.images = data.files.map((file, index) => {
                         return {
-                            title: `${this.game.title} - Image #${index}`,
+                            title: `${this.game.title} - Zdjęcie nr ${index}`,
                             type: file.file_type,
                             href: file.downloadLink,
                             poster: file.downloadLink

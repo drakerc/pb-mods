@@ -1,7 +1,7 @@
 <template>
     <div class="container my-2 col-sm-9 mx-auto">
         <b-alert :show="invalid && !! errors" variant="danger">
-            <p>There are errors, please make sure to review them all.</p>
+            <p>Podczas przetwarzania żądania pojawiły się błędy, upewnij się czy wprowadzono prawidłowe dane.</p>
         </b-alert>
         <b-form @submit.prevent="onSubmit">
             <h3>Utwórz nowy wpis o grze:</h3>
@@ -58,7 +58,7 @@
             <b-form-group label="Opis gry:">
                 <vue-editor v-model="game.description"></vue-editor>
             </b-form-group>
-            <b-button type="submit" variant="primary" :disabled="!isValid">Submit</b-button>
+            <b-button type="submit" variant="primary" v-if="isValid">Submit</b-button>
         </b-form>
     </div>
 </template>

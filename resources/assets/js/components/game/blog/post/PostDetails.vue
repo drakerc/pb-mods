@@ -30,7 +30,7 @@
                                         <b-col>
                                             <b-row class="my-3">
                                                 <em>#{{index + 1}} {{comment.author.name}} - {{comment.created_at}}</em>
-                                                <b-link v-if="isAuthor(comment.author.id)" class="ml-auto text-danger" @click="selectComment(comment)">
+                                                <b-link v-if="isAuthor(comment.author.id) || isMember" class="ml-auto" :class="deleteVariant" @click="selectComment(comment)">
                                                     Usuń
                                                 </b-link>
                                             </b-row>
@@ -103,11 +103,22 @@
                 },
                 Auth,
                 showModal: false,
-                selectedCommentToDelete: null
+                selectedCommentToDelete: null,
+                isMember: false,
             }
         },
         components: {
             VueEditor
+        },
+        watch: {
+            post(post) {
+                post.game.development_studio.forEach(async studio => {
+                    let value = await Auth.isMember(studio.id).then(val => val);
+                    if (value === true) {
+                        this.isMember = true;
+                    }
+                });
+            }
         },
         computed: {
             isLoggedIn() {
@@ -137,6 +148,16 @@
                             return 'white';
                         default:
                             return null;
+                    }
+                }
+            },
+            deleteVariant() {
+                if (this.post.game.variant) {
+                    switch (this.post.game.variant) {
+                        case 'danger':
+                            return 'text-warning';
+                        default:
+                            return 'text-danger';
                     }
                 }
             }
@@ -193,7 +214,7 @@
               this.showModal = false;
             },
             onCommentDelete() {
-                if (this.isAuthor(this.selectedCommentToDelete.author.id)){
+                if (this.isAuthor(this.selectedCommentToDelete.author.id) || this.isMember){
                     axios.delete(`/api/comment/${this.selectedCommentToDelete.id}`).then(() => {
                         fetchPost(this.post.id, (err, data) => {
                             this.setData(err, data);
@@ -209,7 +230,8 @@
                     const id = parseInt(Auth.getId());
                     return authorId === id;
                 }
-                return false;
+                return this.isMember;
+
             }
         }
     }

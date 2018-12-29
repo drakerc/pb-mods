@@ -12,10 +12,7 @@
                     <template v-if="games">
                         <b-card v-for="game in games.data" :key="game.id" class="my-2">
                             <b-link slot="header" :to="`/game/${game.id}`">#{{game.id}} - {{game.title}}</b-link>
-                            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
-                            <p class="card-text small" v-html="game.description">
-                                <!--{{game.description | truncate(200)}}-->
-                            </p>
+                            <p class="card-text small" v-html="game.description"></p>
                         </b-card>
                         <b-row>
                             <paginate class="mx-auto" :data="games" @pagination-change-page="getResults"></paginate>
@@ -24,10 +21,9 @@
                 </b-col>
                 <b-col sm="4">
                     <div>
-                        <p>Ostatnie wpisy:</p>
+                        <p>Ostatnie wpisy na blogach:</p>
                         <b-card v-for="post in posts" :key="post.id" class="my-2 small">
                             <b-link slot="header" :to="`/game/post/${post.id}`">{{post.title}}</b-link>
-                            <!--<b-link class="h3" :to="`/game/${game.id}`"></b-link>-->
                             <truncate clamp="Show more" :length="50" less="Show Less" type="html" :text="post.body" action-class="text-primary"/>
                         </b-card>
                     </div>

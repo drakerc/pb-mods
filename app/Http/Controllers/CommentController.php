@@ -101,9 +101,21 @@ class CommentController extends Controller
 
         if($comment->author_id != $user->id)
         {
-            return response()->json([
-               'message' => 'Not allowed to perform this action'
-            ], 401);
+            $is_member = false;
+            $game = $comment->post->game()->first();
+            Log::info($game);
+            foreach ($game->developmentStudio()->get() as $studio)
+            {
+                if ($studio->users()->get()->contains($user)) {
+                    $is_member = true;
+                    break;
+                }
+            }
+            if (!$is_member) {
+                return response()->json([
+                    'message' => 'Not allowed to perform this action'
+                ], 401);
+            }
         }
 
         $comment->delete();
