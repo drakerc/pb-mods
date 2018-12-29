@@ -1,5 +1,5 @@
 <template>
-    <div v-if="news.id !== undefined" class="jumbotron container dark-jumbotron">
+    <div v-if="news.id !== undefined && show" class="jumbotron container dark-jumbotron">
         <div class="row">
             <div class="col-md-8">
                 <h1 class="font-italic">{{ news.title }}</h1>
@@ -19,7 +19,7 @@
                             Edytuj
                         </b-btn>
                     </router-link>
-                    <delete-news :news="news" :mod="mod"></delete-news>
+                    <delete-news :news="news" :mod="mod" v-on:delete-news="deleteNews"></delete-news>
                 </div>
                 <div v-html="news.description"></div>
             </div>
@@ -34,6 +34,16 @@
     export default {
         components: {DeleteNews, DisplayTimestamps},
         props: ['news', 'mod', 'canManageMod'],
+        data() {
+            return {
+                show: true,
+            };
+        },
+        methods: {
+            deleteNews: function () {
+                this.show = false;
+            }
+        },
     }
 </script>
 <style>
