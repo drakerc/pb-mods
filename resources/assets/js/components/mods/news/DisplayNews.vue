@@ -19,7 +19,7 @@
                             Edytuj
                         </b-btn>
                     </router-link>
-                    <delete-news :news="news"></delete-news>
+                    <delete-news :news="news" :mod="mod"></delete-news>
                 </div>
                 <div v-html="news.description"></div>
             </div>
