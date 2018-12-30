@@ -30,11 +30,12 @@
         },
         methods: {
             deleteNews: function () {
-                axios.delete('/api/mods/modifications/' + this.mod.id + '/news/' + this.news.id + '/delete').then(response => {
+                axios.delete('/api/mods/modifications/' + this.mod.id + '/edit-news/' + this.news.id + '/delete').then(response => {
                     if (response.data.status === true) {
                         alert('Pomyślnie usunięto newsa!');
-                        this.$router.push({ name: 'modification_view', params: { mod: this.mod.id } });
+                        // this.$router.push({ name: 'modification_view', params: { mod: this.mod.id } });
                         this.show = false;
+                        this.$emit('delete-news');
                     } else {
                         alert('Nie udało się usunąć pliku. Może nie masz uprawnień?')
                     }

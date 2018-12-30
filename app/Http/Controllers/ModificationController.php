@@ -205,12 +205,13 @@ class ModificationController extends Controller
         $modification->game_id = $request->gameid;
         $modification->category_id = $request->categoryid;
 
+        $modification->save();
+
         $studio = $request->development_studio;
         if ($studio !== null) {
             $modification->developmentStudio()->attach($request->development_studio);
         }
 
-        $modification->save();
         return redirect()->route('ModificationView', ['mod' => $modification->id]);
     }
 

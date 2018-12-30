@@ -54,7 +54,7 @@
         methods: {
             assignData({auth, mod, files}) {
                 this.auth = auth;
-                this.files = files;
+                this.files = files.data;
                 this.mod = mod;
             },
             deleteFile: function (id) {
