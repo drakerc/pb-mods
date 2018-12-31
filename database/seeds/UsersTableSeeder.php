@@ -19,13 +19,15 @@ class UsersTableSeeder extends Seeder
                     'id' => 1,
                     'name' => 'gallanonim',
                     'email' => 'gallanonim@anonim.com',
-                    'password' => Hash::make('anonim')
+                    'password' => Hash::make('anonim'),
+                    'is_admin' => true,
                 ],
                 [
                     'id' => 2,
                     'name' => 'anonymous_user',
                     'email' => 'anonymous@asdasd.com',
-                    'password' => Hash::make('somerandompassword')
+                    'password' => Hash::make('somerandompassword'),
+                    'is_admin' => false,
                 ]
             ]
         );
