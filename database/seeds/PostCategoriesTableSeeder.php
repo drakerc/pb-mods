@@ -13,10 +13,10 @@ class PostCategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('post_categories')->insert([
-            ['name' => 'Changelog'],
-            ['name' => 'Updates'],
-            ['name' => 'Guide'],
-            ['name' => 'Other']
+            ['name' => 'Poprawki'],
+            ['name' => 'Aktualizacje'],
+            ['name' => 'Poradniki'],
+            ['name' => 'Inne']
         ]);
     }
 }

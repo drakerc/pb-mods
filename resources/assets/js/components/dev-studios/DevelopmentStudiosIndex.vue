@@ -10,8 +10,8 @@
                         <b-form-select v-model="filters.specialization" class="col-sm-6">
                             <option :value="null">(brak filtrowania)</option>
                             <option :value="0">Brak specjalizacji</option>
-                            <option :value="1">Produkcja gier</option>
-                            <option :value="2">Modyfikacje</option>
+                            <option :value="1">Modyfikacje</option>
+                            <option :value="2">Produkcja gier</option>
                         </b-form-select>
                     </b-form-group>
                     <b-form-group>

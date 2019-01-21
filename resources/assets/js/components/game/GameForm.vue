@@ -11,12 +11,12 @@
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.game_category_ids" :errors="errors.game_category_ids"></errors-alert>
-            <b-form-group label="Gatunek:">
+            <b-form-group label="Gatunek:" description="Gatunki gier, które najdokładniej opisują twój produkt (minimum 1)">
                 <b-form-select multiple :options="gameCategories" v-model="game.gameCategoryIds" class="col-sm-6"></b-form-select>
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.development_studios" :errors="errors.development_studios"></errors-alert>
-            <b-form-group label="Studia deweloperskie:">
+            <b-form-group label="Studia deweloperskie:" description="Grupy, które zajmują się tworzeniem gry (minimum 1)">
                 <b-form-select multiple :options="developmentStudios" v-model="game.developmentStudios" class="col-sm-6"></b-form-select>
             </b-form-group>
 
@@ -35,7 +35,7 @@
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.variant" :errors="errors.variant"></errors-alert>
-            <b-form-group label="Kolor schematu:">
+            <b-form-group label="Kolor schematu:" description="Predefiniowany kolor komponentów strony">
                 <b-row>
                     <b-col>
                         <b-form-select v-model="game.variant" required class="col-sm-4">
@@ -55,10 +55,10 @@
             </b-form-group>
 
             <errors-alert v-if="invalid && !! errors.description" :errors="errors.description"></errors-alert>
-            <b-form-group label="Opis gry:">
+            <b-form-group label="Opis gry:" description="Powiedz światu, dlaczego to właśnie twój tytuł zasługuje na uwagę!">
                 <vue-editor v-model="game.description"></vue-editor>
             </b-form-group>
-            <b-button type="submit" variant="primary" v-if="isValid">Submit</b-button>
+            <b-button type="submit" variant="primary" v-if="isValid">Wyślij</b-button>
         </b-form>
     </div>
 </template>
