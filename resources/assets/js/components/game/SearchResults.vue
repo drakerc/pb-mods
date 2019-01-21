@@ -1,11 +1,11 @@
 <template>
     <div class="container my-2 col-sm-9 mx-auto">
         <div class="col-sm-7 mx-auto">
-            <em v-if="loading" class="lead">Please wait...</em>
+            <em v-if="loading" class="lead">Proszę czekać...</em>
             <div v-else>
-                <p>Results for <em>"{{phrase}}"</em>:</p>
+                <p>Wyniki dla frazy <em>"{{phrase}}"</em>:</p>
                 <div v-if="games.length > 0">
-                    <p>Games:</p>
+                    <p>Gry:</p>
                     <b-list-group>
                         <b-list-group-item v-for="game in games" :key="game.id" :to="{name: 'game_details', params: {id: game.id}}">
                             <b-row>
@@ -19,7 +19,7 @@
                     <br><br><br>
                 </div>
                 <div v-if="posts.length > 0">
-                    <p>Posts:</p>
+                    <p>Posty:</p>
                     <b-card v-for="post in posts" :key="post.id">
                         <template slot="header">
                             <b-link :to="{name: 'post_details', params:{id: post.id}}">{{post.title}}</b-link>

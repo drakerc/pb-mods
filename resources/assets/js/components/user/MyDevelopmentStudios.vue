@@ -15,6 +15,9 @@
                         </b-list-group-item>
                     </b-list-group>
                 </b-row>
+                <b-row>
+                    <b-link :to="{name: 'new_dev_studio'}">Utwórz nowe studio!</b-link>
+                </b-row>
             </b-col>
         </div>
         <template v-else>
